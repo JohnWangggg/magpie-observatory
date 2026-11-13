@@ -183,7 +183,12 @@ The hero header has a view picker instead of a wall of tabs. Press **V** (or
 click it), type to filter by name / eyebrow / group, press Enter to switch, or
 hit **随机一个** for a random view. The 21 views are grouped into
 `实时` / `用量` / `结构` / `趣味`, and the hero accent follows the group.
-**Esc** closes the picker.
+**G** starts or stops an 8-second auto tour, **R** picks a random view, **?**
+opens the shortcut sheet, and **Esc** closes the picker.
+
+| View picker | Keyboard shortcuts |
+| --- | --- |
+| ![view menu](docs/view-menu.png) | ![shortcuts](docs/help.png) |
 
 ## Styles and themes
 

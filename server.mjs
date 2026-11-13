@@ -16,7 +16,7 @@ const DEFAULT_PORT = 3488;
 const MAGPIE_URL = (process.env.MAGPIE_URL || "http://127.0.0.1:3425").replace(/\/+$/, "");
 const MAGPIE_KEY = (process.env.MAGPIE_KEY || "").trim();
 const PERIODS = new Set(["today", "week", "month", "all"]);
-const VERSION = "0.14.2";
+const VERSION = "0.15.0";
 
 const TYPES = {
   ".html": "text/html; charset=utf-8",
@@ -88,6 +88,25 @@ function slimTrace(body) {
   };
 }
 
+// The request ledger has more fields than the dashboard reads (URLs, byte
+// counts, response ids, stream details). Keep the fields the UI maps and drop
+// the rest before the 80-row page crosses the wire.
+function slimRequests(body) {
+  if (!body || !Array.isArray(body.rows)) return body;
+  return {
+    ...body,
+    rows: body.rows.map(r => ({
+      id: r.id, route_id: r.route_id, t: r.t, time: r.time,
+      agent: r.agent, agentName: r.agentName,
+      session: r.session, native_session: r.native_session,
+      provider: r.provider, served: r.served, model: r.model,
+      status: r.status, in: r.in, out: r.out, cache_read: r.cache_read,
+      cost: r.cost, ttft_ms: r.ttft_ms, first_text_ms: r.first_text_ms,
+      decode_ms: r.decode_ms, decode_out: r.decode_out, ms: r.ms
+    }))
+  };
+}
+
 // Quota history is a long point series; the burn-down needs the recent slope,
 // not every point ever kept. Keep the last 40 points per line and drop lines
 // that cannot draw.
@@ -135,6 +154,7 @@ export async function snapshot(period = "today") {
     try {
       data[name] = name === "quotaHistory" ? await quotaHistory()
         : name === "trace" ? slimTrace(await magpieGet(endpoint))
+        : name === "requests" ? slimRequests(await magpieGet(endpoint))
         : await magpieGet(endpoint);
     }
     catch (err) { errors[name] = err?.message || String(err); }

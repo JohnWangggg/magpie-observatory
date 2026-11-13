@@ -381,14 +381,20 @@
   /* --------------------------------------------------------------- live --- */
   async function fetchLive(period) {
     const q = period ? ("?period=" + encodeURIComponent(period)) : "";
-    const res = await fetch("api/snapshot" + q, { cache: "no-store" });
-    if (!res.ok) throw new Error("snapshot " + res.status);
-    const body = await res.json();
-    if (!body || body.ok === false) throw new Error((body && body.error) || "magpie unavailable");
-    const data = body.data || body;
-    data.gateway = body.gateway || data.gateway;
-    data.period = body.period || data.period;
-    return normalizeLive(data);
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 8000);
+    try {
+      const res = await fetch("api/snapshot" + q, { cache: "no-store", signal: ctrl.signal });
+      if (!res.ok) throw new Error("snapshot " + res.status);
+      const body = await res.json();
+      if (!body || body.ok === false) throw new Error((body && body.error) || "magpie unavailable");
+      const data = body.data || body;
+      data.gateway = body.gateway || data.gateway;
+      data.period = body.period || data.period;
+      return normalizeLive(data);
+    } finally {
+      clearTimeout(timer);
+    }
   }
 
   function normalizeLive(raw) {

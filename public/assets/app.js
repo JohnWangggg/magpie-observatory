@@ -30,7 +30,9 @@
     lastTick: Date.now(),
     timers: [],
     liveTimer: null,
-    liveBusy: false
+    liveBusy: false,
+    tour: false,
+    tourTimer: null
   };
 
   const STATUS_TEXT = { streaming: "运行中", queued: "排队", done: "完成", error: "失败" };
@@ -155,6 +157,7 @@
     const styleMenu = $("#style-menu"), settings = $("#settings-menu");
     if (styleMenu) styleMenu.hidden = true;
     if (settings) settings.hidden = true;
+    if (state.tour) stopTour(true);
     menu.hidden = false;
     picker.setAttribute("aria-expanded", "true");
     const search = $("#view-search");
@@ -189,8 +192,61 @@
     const pool = VIEW_META.filter(v => v.id !== state.heroMode);
     if (!pool.length) return;
     const pick = pool[Math.floor(Math.random() * pool.length)];
+    if (state.tour) stopTour(true);
     setHeroMode(pick.id);
     closeViewMenu();
+  }
+
+  function updateTourUi() {
+    const b = $("#vm-tour");
+    if (b) {
+      b.classList.toggle("active", state.tour);
+      b.innerHTML = `<svg><use href="#i-${state.tour ? "pause" : "play"}"/></svg>${state.tour ? "停止巡游" : "巡游"}`;
+    }
+    const picker = $("#view-picker");
+    if (picker) picker.classList.toggle("touring", state.tour);
+  }
+
+  function stopTour(silent) {
+    state.tour = false;
+    clearInterval(state.tourTimer);
+    state.tourTimer = null;
+    updateTourUi();
+    if (!silent) toast("巡游已停止");
+  }
+
+  function startTour() {
+    if (state.tour) { stopTour(); return; }
+    state.tour = true;
+    updateTourUi();
+    clearInterval(state.tourTimer);
+    state.tourTimer = setInterval(() => {
+      if (document.hidden || state.paused) return;
+      const idx = VIEW_META.findIndex(v => v.id === state.heroMode);
+      const next = VIEW_META[(idx + 1) % VIEW_META.length].id;
+      setHeroMode(next);
+    }, 8000);
+    toast("巡游开始 · 每 8 秒切换视图");
+  }
+
+  function openHelp() {
+    const help = $("#help-menu");
+    if (!help) return;
+    closeViewMenu();
+    $("#style-menu").hidden = true;
+    $("#settings-menu").hidden = true;
+    help.hidden = false;
+  }
+
+  function closeHelp() {
+    const help = $("#help-menu");
+    if (help) help.hidden = true;
+  }
+
+  function toggleHelp() {
+    const help = $("#help-menu");
+    if (!help) return;
+    if (help.hidden) openHelp(); else closeHelp();
   }
 
   /* ------------------------------------------------------------- derive --- */
@@ -1721,11 +1777,14 @@
       if (!settings.hidden && !e.target.closest("#settings-menu") && !e.target.closest("#settings-toggle")) settings.hidden = true;
       const viewMenu = $("#view-menu");
       if (viewMenu && !viewMenu.hidden && !e.target.closest("#view-menu") && !e.target.closest("#view-picker")) closeViewMenu();
+      const help = $("#help-menu");
+      if (help && !help.hidden && !e.target.closest("#help-menu") && !e.target.closest("#vm-help")) closeHelp();
     });
     document.addEventListener("keydown", e => {
       if (e.key === "Escape") {
         $("#style-menu").hidden = true;
         $("#settings-menu").hidden = true;
+        closeHelp();
         if (!$("#view-menu").hidden) closeViewMenu(true);
       }
     });
@@ -1780,7 +1839,7 @@
     });
     $("#view-menu").addEventListener("click", e => {
       const b = e.target.closest("button[data-hero]");
-      if (b) { setHeroMode(b.dataset.hero); closeViewMenu(); }
+      if (b) { if (state.tour) stopTour(true); setHeroMode(b.dataset.hero); closeViewMenu(); }
     });
     $("#view-menu-close").addEventListener("click", () => closeViewMenu(true));
     $("#view-search").addEventListener("input", e => filterViewMenu(e.target.value));
@@ -1808,6 +1867,10 @@
       items[next].focus();
     });
     $("#vm-random").addEventListener("click", randomView);
+    $("#vm-tour").addEventListener("click", () => { if (state.tour) { stopTour(); } else { startTour(); } closeViewMenu(); });
+    $("#vm-help").addEventListener("click", () => { closeViewMenu(); openHelp(); });
+    $("#help-close").addEventListener("click", closeHelp);
+    $("#help-menu").addEventListener("click", e => { if (e.target === e.currentTarget) closeHelp(); });
     $("#view-menu").addEventListener("keydown", e => {
       if (e.key !== "Tab") return;
       const items = $$("#view-menu button, #view-menu input").filter(el => !el.hidden && el.offsetParent !== null);
@@ -1937,6 +2000,9 @@
       if (e.key === " ") { e.preventDefault(); $("#demo-toggle").click(); }
       if (e.key.toLowerCase() === "t") { e.preventDefault(); $("#theme-toggle").click(); }
       if (e.key.toLowerCase() === "v" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); toggleViewMenu(); }
+      if (e.key.toLowerCase() === "r" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); randomView(); }
+      if (e.key.toLowerCase() === "g" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); if (state.tour) stopTour(); else { closeViewMenu(); startTour(); } }
+      if (e.key === "?") { e.preventDefault(); toggleHelp(); }
     });
 
     document.addEventListener("visibilitychange", () => { if (!document.hidden) ensureFlightLoop(); });
@@ -2076,7 +2142,7 @@
 
   /* ------------------------------------------------------------------ init --- */
   function init() {
-    try { console.info("%c Magpie Observatory v0.14.2 · twenty-one views · 4 styles · layout settings", "color:#8b7cf6;font-weight:bold"); } catch (_) {}
+    try { console.info("%c Magpie Observatory v0.15.0 · twenty-one views · 4 styles · layout settings", "color:#8b7cf6;font-weight:bold"); } catch (_) {}
     try {
       const hostTheme = new URLSearchParams(location.search).get("hostTheme");
       if (hostTheme === "light" || hostTheme === "dark") {

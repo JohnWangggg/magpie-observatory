@@ -71,7 +71,7 @@
       <button class="nav-item" id="theme-toggle" title="明暗模式"><svg class="icon-moon"><use href="#i-moon"/></svg><svg class="icon-sun"><use href="#i-sun"/></svg><span>明暗</span></button>
       <button class="nav-item" id="style-toggle" title="界面风格"><svg><use href="#i-palette"/></svg><span>风格</span></button>
       <button class="nav-item" id="settings-toggle" title="布局与动效"><svg><use href="#i-settings"/></svg><span>设置</span></button>
-      <div class="rail-version">v0.14.2 <i></i> plugin</div>
+      <div class="rail-version">v0.15.0 <i></i> plugin</div>
     </div>
   </aside>
 
@@ -331,7 +331,28 @@
   <label class="vm-search"><svg><use href="#i-search"/></svg><input id="view-search" type="search" placeholder="搜索视图 / 分组 / 关键词" autocomplete="off"></label>
   <div class="vm-groups" id="vm-groups"></div>
   <div class="vm-none" id="vm-none" hidden>没有匹配的视图</div>
-  <div class="vm-foot"><button class="vm-random" id="vm-random" type="button"><svg><use href="#i-refresh"/></svg>随机一个</button><span>V 打开 · Esc 关闭</span></div>
+  <div class="vm-foot">
+    <div class="vm-foot-actions">
+      <button class="vm-random" id="vm-random" type="button"><svg><use href="#i-refresh"/></svg>随机一个</button>
+      <button class="vm-tour" id="vm-tour" type="button"><svg><use href="#i-play"/></svg>巡游</button>
+      <button class="vm-help" id="vm-help" type="button"><svg><use href="#i-pulse"/></svg>快捷键</button>
+    </div>
+    <span>V 打开 · Esc 关闭</span>
+  </div>
+</div>
+<div class="help-menu" id="help-menu" hidden role="dialog" aria-label="快捷键">
+  <div class="hm-head"><div><b>快捷键</b><small>KEYBOARD</small></div><button class="hm-close" id="help-close" type="button" aria-label="关闭"><svg><use href="#i-x"/></svg></button></div>
+  <div class="hm-grid">
+    <kbd>V</kbd><span>切换视图</span>
+    <kbd>R</kbd><span>随机视图</span>
+    <kbd>/</kbd><span>搜索请求</span>
+    <kbd>Space</kbd><span>暂停 / 继续</span>
+    <kbd>T</kbd><span>明暗模式</span>
+    <kbd>G</kbd><span>巡游模式</span>
+    <kbd>?</kbd><span>打开 / 关闭帮助</span>
+    <kbd>Esc</kbd><span>关闭弹层</span>
+  </div>
+  <p>巡游按钮在视图菜单底部：每 8 秒自动切换一个视图。</p>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 <script src="assets/data.js"></script>
