@@ -163,24 +163,27 @@ provider → account → model → agent
 | 延迟蜂群 / 山脊 | ✅ v0.8.0 | `#view-swarm` |
 | 成本树图 | ✅ v0.8.0 | `#view-treemap` |
 | Agent → Provider → 模型流向 | ✅ v0.8.0 | `#view-sankey` |
+| 漏斗（calls → 首字 → 成功） | ✅ v0.9.0 | `#view-funnel` |
+| 延迟热力（time × bucket） | ✅ v0.9.0 | `#view-latency` |
+| 星图 / Orrery | ✅ v0.9.0 | `#view-orrery` |
 
 仍未实现、值得继续做的：
 
-- **漏斗**（calls → timed → done → success）——成本低，适合放在 KPI 旁；
-- **bullet / 预算阈值**——额度视图的轻量版，适合卡片；
-- **延迟热力（time × bucket）**——需要客户端维护一个请求延迟环形缓冲；
-- **星图 / Orrery**——品牌最贴，但数据映射偏叙事；
+- **bullet / 预算阈值**——额度视图的轻量卡片版；
+- **Marimekko / 马赛克**——provider × 模型的成本结构；
+- **Chord / 力导向网络**——Agent ↔ Provider 关系，但可读性/布局稳定性一般；
 - **火焰图 / streamgraph / horizon**——等 Magpie 开放 span 嵌套或
   `usage?by=provider` 的堆叠序列。
 
 ## 8. 推荐路线
 
-1. **额度燃尽 + 配速**：服务端加 `/quotas/history`，前端加一张“额度燃尽”卡，
-   或在雷达视图右侧把 quota rings 换成 burn-down。
-2. **会话瀑布**：新增第六个 hero 模式或会话详情抽屉。
-3. **延迟蜂群**：放在请求表上方，作为“为什么慢”的一眼解释。
-4. **成本树图**：作为模型环图的展开态。
-5. **未来**：如果 Magpie 开放 span/tool 调用或 `usage?by=provider` 的堆叠序列，
+已完成：额度燃尽、会话瀑布、延迟蜂群、成本树图、流向、漏斗、延迟热力、星图。
+
+下一步按性价比：
+
+1. **bullet / 预算阈值**：额度视图的轻量卡片版，适合放在 KPI 旁；
+2. **Marimekko**：provider × 模型的成本结构，补足树图的另一种读法；
+3. **未来**：如果 Magpie 开放 span/tool 调用或 `usage?by=provider` 的堆叠序列，
    再上火焰图、streamgraph、horizon。
 
 ---

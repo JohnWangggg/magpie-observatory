@@ -16,7 +16,7 @@ Observatory turns that stream into something you can *watch*:
 - **Live routing** — Agent → Magpie → Provider/Account, with a filled magpie
   carrying the request out and a mirrored outlined magpie bringing the answer
   back. Failed attempts stay visible as “rerouted”.
-- **Ten views** — `Route`, `Radar`, `Loom`, `Rhythm`, `Rings`, `Quota`, `Waterfall`, `Swarm`, `Treemap`, `Sankey`.
+- **Thirteen views** — `Route`, `Radar`, `Loom`, `Rhythm`, `Rings`, `Quota`, `Waterfall`, `Swarm`, `Treemap`, `Sankey`, `Funnel`, `Latency`, `Orrery`.
 - **Four style packs** — `Control`, `Pixel`, `Paper`, `Neon`; each with a light
   and dark variant. Light/dark and style are independent.
 - **Layout settings** — Auto / One screen / Comfort, density Compact / Standard /
@@ -89,7 +89,7 @@ MAGPIE_URL=http://127.0.0.1:3425 MAGPIE_KEY=... node preview.mjs
 
 The preview is for development only; the plugin uses the same service internally.
 
-## The ten views
+## The thirteen views
 
 | Route · two-way magpies | Radar · provider ring and quotas |
 | --- | --- |
@@ -110,6 +110,12 @@ The preview is for development only; the plugin uses the same service internally
 | Treemap · cost by provider and model | Sankey · agent → provider → model flow |
 | --- | --- |
 | ![treemap](docs/mode-treemap.png) | ![sankey](docs/mode-sankey.png) |
+
+| Funnel · requests to success | Latency · time × bucket |
+| --- | --- |
+| ![funnel](docs/mode-funnel.png) | ![latency](docs/mode-latency.png) |
+
+![Orrery · providers, quotas and sessions in orbit](docs/mode-orrery.png)
 
 - **Route**: the default. Magpies fly the whole `Agent → Magpie → Provider`
   path; failures remain visible.
@@ -132,6 +138,12 @@ The preview is for development only; the plugin uses the same service internally
   its models.
 - **Sankey**: agent → provider → model flow; link width = tokens, provider
   colours, hover highlights the whole route.
+- **Funnel**: calls → uncanceled → first token → success, with drop-off counts,
+  success/error rate and an amber reroute chip.
+- **Latency**: a time × latency-bucket heatmap that accumulates while the page
+  is open, with P50/P90 and the hottest bucket.
+- **Orrery**: providers as planets on elliptical orbits; planet size = active
+  sessions, the arc = quota used, moons = active sessions.
 
 ## Styles and themes
 

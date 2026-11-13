@@ -14,7 +14,7 @@ Magpie 已经知道每个请求走的是哪个 provider、账号和模型。Obse
 
 - **实时路由**：Agent → Magpie → Provider/Account；实心喜鹊带请求飞出去，
   镜像描边喜鹊带回答飞回来；失败改道保留“已改道”标记。
-- **十种视图**：`路由` / `雷达` / `织机` / `节奏` / `年轮` / `额度` / `瀑布` / `蜂群` / `成本` / `流向`。
+- **十三种视图**：`路由` / `雷达` / `织机` / `节奏` / `年轮` / `额度` / `瀑布` / `蜂群` / `成本` / `流向` / `漏斗` / `热力` / `星图`。
 - **四套风格**：`控制室` / `像素` / `纸感` / `霓虹`，每套都有明暗两版；
   明暗和风格互相独立。
 - **布局设置**：自动 / 一屏 / 舒展；密度 紧凑 / 标准 / 宽松；动效 全部 / 轻柔 / 关闭。
@@ -80,7 +80,7 @@ MAGPIE_URL=http://127.0.0.1:3425 MAGPIE_KEY=... node preview.mjs
 
 预览只用于开发；插件内部使用同一个服务。
 
-## 十种视图
+## 十三种视图
 
 | 路由 · 双向喜鹊 | 雷达 · Provider 环与额度 |
 | --- | --- |
@@ -102,6 +102,12 @@ MAGPIE_URL=http://127.0.0.1:3425 MAGPIE_KEY=... node preview.mjs
 | --- | --- |
 | ![treemap](docs/mode-treemap.png) | ![sankey](docs/mode-sankey.png) |
 
+| 漏斗 · 请求到成功 | 热力 · 时间 × 延迟 |
+| --- | --- |
+| ![funnel](docs/mode-funnel.png) | ![latency](docs/mode-latency.png) |
+
+![星图 · Provider、额度与会话在轨道上](docs/mode-orrery.png)
+
 - **路由**：默认视图。喜鹊沿整条 `Agent → Magpie → Provider` 路径飞行，
   失败尝试仍然留在画面上。
 - **雷达**：Provider 在环上，外圈是额度；左边是 In-flight 会话，右边是
@@ -121,6 +127,11 @@ MAGPIE_URL=http://127.0.0.1:3425 MAGPIE_KEY=... node preview.mjs
 - **成本**：Provider → 模型的 Token 面积树图；点击 Provider 下钻到模型。
 - **流向**：Agent → Provider → 模型三列流向；带宽 = Token，颜色 = Provider，
   悬停高亮整条路由。
+- **漏斗**：发出 → 未取消 → 首字 → 成功，带流失量、成功率/错误率和改道 chip。
+- **热力**：时间 × 延迟区间的热力图，页面打开期间持续累积；侧栏是 P50/P90
+  和最热区间。
+- **星图**：Provider 作为行星分布在椭圆轨道上；行星大小 = 活跃会话，
+  外圈弧 = 额度使用，卫星 = 活跃会话。
 
 ## 风格与明暗
 

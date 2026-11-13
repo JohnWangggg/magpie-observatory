@@ -342,6 +342,7 @@
       gateway: "127.0.0.1:3425",
       kpis: {
         requests: 1284, requestsDelta: 12.4,
+        calls: 1284, canceled: 7, errors: 3, retried: 12, timed: 1200,
         tokens: totalTokens, tokensDelta: 8.1,
         cost: +totalCost.toFixed(2), costDelta: -3.2,
         cache: 88.6, cacheDelta: 2.2,
@@ -562,6 +563,11 @@
       gateway: raw.gateway || "127.0.0.1:3425",
       kpis: {
         requests: totals.calls || 0,
+        calls: totals.calls || 0,
+        canceled: totals.canceled || 0,
+        errors: totals.errors || 0,
+        retried: totals.retried || 0,
+        timed: totals.timed || 0,
         requestsDelta: 0,
         tokens: totalTokens,
         tokensDelta: 0,

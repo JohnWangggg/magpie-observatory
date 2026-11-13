@@ -11,6 +11,9 @@
 <link rel="stylesheet" href="assets/views/swarm.css">
 <link rel="stylesheet" href="assets/views/treemap.css">
 <link rel="stylesheet" href="assets/views/sankey.css">
+<link rel="stylesheet" href="assets/views/funnel.css">
+<link rel="stylesheet" href="assets/views/latency.css">
+<link rel="stylesheet" href="assets/views/orrery.css">
 </head>
 <body>
 <svg class="sprite" aria-hidden="true">
@@ -60,7 +63,7 @@
       <button class="nav-item" id="theme-toggle" title="明暗模式"><svg class="icon-moon"><use href="#i-moon"/></svg><svg class="icon-sun"><use href="#i-sun"/></svg><span>明暗</span></button>
       <button class="nav-item" id="style-toggle" title="界面风格"><svg><use href="#i-palette"/></svg><span>风格</span></button>
       <button class="nav-item" id="settings-toggle" title="布局与动效"><svg><use href="#i-settings"/></svg><span>设置</span></button>
-      <div class="rail-version">v0.8.0 <i></i> plugin</div>
+      <div class="rail-version">v0.9.0 <i></i> plugin</div>
     </div>
   </aside>
 
@@ -108,6 +111,9 @@
               <button data-hero="swarm">蜂群</button>
               <button data-hero="treemap">成本</button>
               <button data-hero="sankey">流向</button>
+              <button data-hero="funnel">漏斗</button>
+              <button data-hero="latency">热力</button>
+              <button data-hero="orrery">星图</button>
             </div>
             <div class="hero-stat"><b id="hero-requests">0</b><span>请求</span></div>
             <div class="hero-stat warn"><b id="hero-fallbacks">0</b><span>改道</span></div>
@@ -143,6 +149,9 @@
           <div class="stage-view" id="view-swarm" hidden></div>
           <div class="stage-view" id="view-treemap" hidden></div>
           <div class="stage-view" id="view-sankey" hidden></div>
+          <div class="stage-view" id="view-funnel" hidden></div>
+          <div class="stage-view" id="view-latency" hidden></div>
+          <div class="stage-view" id="view-orrery" hidden></div>
         </div>
         <div class="decision-strip">
           <div class="decision-icon"><svg><use href="#i-zap"/></svg></div>
@@ -317,6 +326,9 @@
 <script src="assets/views/swarm.js"></script>
 <script src="assets/views/treemap.js"></script>
 <script src="assets/views/sankey.js"></script>
+<script src="assets/views/funnel.js"></script>
+<script src="assets/views/latency.js"></script>
+<script src="assets/views/orrery.js"></script>
 <script src="assets/app.js"></script>
 </body>
 </html>

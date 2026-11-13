@@ -169,24 +169,29 @@ Shipped from this list as hero views:
 | Latency beeswarm / ridgeline | ✅ v0.8.0 | `#view-swarm` |
 | Cost treemap | ✅ v0.8.0 | `#view-treemap` |
 | Agent → provider → model flow | ✅ v0.8.0 | `#view-sankey` |
+| Funnel (calls → first token → success) | ✅ v0.9.0 | `#view-funnel` |
+| Latency heatmap (time × bucket) | ✅ v0.9.0 | `#view-latency` |
+| Orrery / constellation | ✅ v0.9.0 | `#view-orrery` |
 
 Still open and worth doing:
 
-- **Funnel** (calls → timed → done → success): cheap, fits beside the KPI row;
 - **Bullet / budget threshold**: a lightweight card version of the quota view;
-- **Latency heatmap (time × bucket)**: needs a client-side request ring buffer;
-- **Orrery / constellation**: strongest brand fit, weaker data fidelity;
+- **Marimekko / mosaic**: provider × model cost structure;
+- **Chord / force-directed network**: agent ↔ provider relations, but readability
+  and layout stability are weaker;
 - **Flame graph / streamgraph / horizon**: blocked until Magpie exposes span
   nesting or stacked `usage?by=provider` series.
 
 ## 8. Recommended order
 
-1. **Quota burn-down + pace**: add `/quotas/history` to the service, add a
-   burn-down card (or replace the radar's quota rings with it).
-2. **Session waterfall**: a sixth hero mode or a session detail drawer.
-3. **Latency beeswarm**: above the request ledger, as a one-glance "why slow".
-4. **Cost treemap**: an expand state of the model donut.
-5. **Later**: flame graphs, streamgraphs and horizon charts once Magpie exposes
+Done: quota burn-down, session waterfall, latency beeswarm, cost treemap, Sankey,
+funnel, latency heatmap, orrery.
+
+Next by value:
+
+1. **Bullet / budget threshold**: a lightweight card beside the KPI row;
+2. **Marimekko**: another reading of the provider × model cost structure;
+3. **Later**: flame graphs, streamgraphs and horizon charts once Magpie exposes
    span/tool nesting or stacked `usage?by=provider` series.
 
 ---

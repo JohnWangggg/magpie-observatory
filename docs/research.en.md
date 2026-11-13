@@ -472,7 +472,7 @@ Other formats worth borrowing:
 | Cards / scoring | Cache hit, reroute, TPS combo | Chips: combo × multiplier |
 | Swarm / orbit | Subagents, parallel sessions | Bees: one bee per subagent |
 
-This prototype implements ten views over the same data (more candidates in
+This prototype implements thirteen views over the same data (more candidates in
 [`visual-forms.en.md`](visual-forms.en.md)):
 
 - **Route**: two-way magpies along Agent → magpie → Provider.
@@ -495,6 +495,12 @@ This prototype implements ten views over the same data (more candidates in
 - **Treemap**: provider → model area by tokens; click a provider to drill in.
 - **Sankey**: agent → provider → model alluvial; link width = tokens; hover
   highlights the whole route.
+- **Funnel**: calls → uncanceled → first token → success, with drop-off counts,
+  success rate and reroutes.
+- **Latency**: a time × latency-bucket heatmap that accumulates snapshots while
+  the page is open, with P50/P90 and the hottest bucket.
+- **Orrery**: providers as planets on elliptical orbits; planet size = active
+  sessions, the arc = quota used, moons = active sessions.
 
 Later, **Factory** (queued/streaming parcels) and **Chips** (combo × multiplier)
 can be added, but not all on one screen; mode switching preserves the

@@ -1,0 +1,353 @@
+/* ==========================================================================
+   Magpie Observatory — 延迟热力 (latency heatmap) view module.
+   Design tokens only; every class is prefixed `lat-`.
+   ========================================================================== */
+
+.lat-root {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 248px;
+  gap: 14px;
+  min-height: 0;
+  color: var(--fg);
+  --lat-anim: .48s;
+  --lat-axis-h: 17px;
+  --lat-gap: 3px;
+  --lat-label: 74px;
+  --lat-col-min: 12px;
+}
+.lat-root[data-motion="soft"] { --lat-anim: .3s; }
+.lat-root[data-motion="off"] { --lat-anim: 0s; }
+
+.lat-main {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 8px;
+  min-width: 0;
+  min-height: 0;
+}
+
+/* ------------------------------------------------------------- caption --- */
+.lat-cap-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  min-width: 0;
+}
+.lat-cap {
+  font: 500 9.5px/1.4 var(--mono);
+  letter-spacing: .04em;
+  color: var(--muted);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.lat-cap b { color: var(--fg-2); font-weight: 600; }
+.lat-cap-side {
+  flex: none;
+  font: 500 9px/1.4 var(--mono);
+  color: var(--faint);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------------------------------------------------------------- grid --- */
+.lat-body {
+  display: grid;
+  grid-template-columns: var(--lat-label) minmax(0, 1fr);
+  gap: 9px;
+  min-height: 0;
+  min-width: 0;
+}
+.lat-ys {
+  display: grid;
+  grid-template-rows: var(--lat-axis-h) repeat(7, minmax(14px, 1fr));
+  row-gap: var(--lat-gap);
+  min-height: 0;
+}
+.lat-ys-pad { min-height: 0; }
+.lat-ylab {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 2px;
+  font: 500 9px/1 var(--mono);
+  color: var(--faint);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  transition: color .16s ease;
+}
+.lat-ylab.is-hot { color: var(--fg-2); }
+
+.lat-scroll {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+}
+.lat-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--lat-cols, 1), minmax(var(--lat-col-min), 1fr));
+  grid-template-rows: var(--lat-axis-h) repeat(7, minmax(14px, 1fr));
+  column-gap: var(--lat-gap);
+  row-gap: var(--lat-gap);
+  /* Fill the stage: the fr rows then hand every bucket the same height. */
+  min-height: 100%;
+}
+.lat-tick {
+  align-self: end;
+  justify-self: center;
+  padding-bottom: 2px;
+  font: 500 8.5px/1 var(--mono);
+  color: var(--faint);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+}
+.lat-tick.is-first { justify-self: start; }
+.lat-tick.is-last { justify-self: end; }
+
+/* --------------------------------------------------------------- cells --- */
+.lat-lv {
+  position: relative;
+  border-radius: 3px;
+  background: var(--card-3);
+}
+.lat-lv::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--lat-c, var(--accent));
+  opacity: var(--lat-o, 0);
+}
+.lat-cell {
+  display: block;
+  min-height: 14px;
+  min-width: 0;
+  box-shadow: inset 0 0 0 1px transparent;
+  transition: box-shadow .16s ease;
+}
+.lat-cell.is-hot { box-shadow: inset 0 0 0 1px var(--line-2); }
+.lat-cell.is-hover { box-shadow: inset 0 0 0 1px var(--fg-2); }
+
+/* Five count steps, --card-3 → --accent → --cyan; 0 is an empty cell.
+   The step variables live on any [data-lv] element, so the grid cells, the
+   legend swatches and the distribution bars share one scale. */
+.lat-root [data-lv="0"] { --lat-o: 0; }
+.lat-root [data-lv="1"] { --lat-o: .16; }
+.lat-root [data-lv="2"] { --lat-o: .38; }
+.lat-root [data-lv="3"] { --lat-o: .6; }
+.lat-root [data-lv="4"] { --lat-o: .82; }
+.lat-root [data-lv="5"] { --lat-o: .92; --lat-c: var(--cyan); }
+.lat-root .lat-lv[data-lv="0"] { background: var(--card-2); }
+.lat-root .lat-lv[data-lv="0"]::after { content: none; }
+
+/* ---------------------------------------------------------- empty state --- */
+.lat-empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-align: center;
+  background: var(--card);
+}
+.lat-empty[hidden] { display: none; }
+.lat-empty b { font-size: 12px; font-weight: 600; color: var(--fg-2); }
+.lat-empty span { font: 500 9.5px/1.5 var(--mono); color: var(--muted); max-width: 320px; }
+
+/* --------------------------------------------------------------- aside --- */
+.lat-side {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  min-width: 0;
+  min-height: 0;
+  padding-left: 14px;
+  border-left: 1px solid var(--line);
+  overflow: hidden;
+}
+.lat-side-title {
+  font: 600 9.5px/1 var(--mono);
+  letter-spacing: .13em;
+  color: var(--faint);
+}
+.lat-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+}
+.lat-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  padding: 7px 8px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--card-2);
+}
+.lat-stat-wide { grid-column: span 2; }
+.lat-stat span {
+  font: 500 8.5px/1 var(--mono);
+  letter-spacing: .06em;
+  color: var(--muted);
+}
+.lat-stat b {
+  font: 600 13px/1 var(--mono);
+  color: var(--fg);
+  font-variant-numeric: tabular-nums;
+}
+.lat-stat-wide b { font-size: 12px; }
+.lat-stat small {
+  font: 500 8.5px/1.2 var(--mono);
+  color: var(--faint);
+}
+
+/* --------------------------------------------------------- distribution --- */
+.lat-dist {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 0;
+  overflow: hidden;
+}
+.lat-dist-row {
+  display: grid;
+  grid-template-columns: var(--lat-label) minmax(0, 1fr) 30px;
+  align-items: center;
+  gap: 7px;
+}
+.lat-dist-lab {
+  font: 500 9px/1 var(--mono);
+  color: var(--faint);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.lat-dist-row.is-hot .lat-dist-lab { color: var(--fg-2); }
+.lat-dist-bar {
+  position: relative;
+  display: block;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--card-2);
+  overflow: hidden;
+}
+.lat-dist-bar > b {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--lat-c, var(--accent));
+  opacity: var(--lat-o, 0);
+}
+.lat-dist-n {
+  font: 600 9px/1 var(--mono);
+  color: var(--fg-2);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* -------------------------------------------------------------- legend --- */
+.lat-legend {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 5px 8px;
+  padding-top: 2px;
+}
+.lat-legend-title {
+  grid-column: span 2;
+  font: 500 8.5px/1 var(--mono);
+  letter-spacing: .06em;
+  color: var(--muted);
+}
+.lat-legend-scale { display: flex; gap: 3px; }
+.lat-legend-scale .lat-lv { width: 15px; height: 9px; }
+.lat-legend-cap {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font: 500 8.5px/1 var(--mono);
+  color: var(--faint);
+}
+.lat-legend-cap .lat-lv { width: 15px; height: 9px; flex: none; }
+.lat-note {
+  margin: 0;
+  font: 500 9px/1.55 var(--mono);
+  color: var(--muted);
+}
+
+/* ------------------------------------------------------------- tooltip --- */
+.lat-tip {
+  position: absolute;
+  z-index: 9;
+  pointer-events: none;
+  transform: translate(-50%, -118%);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 148px;
+  padding: 7px 9px;
+  border: 1px solid var(--line-2);
+  border-radius: 8px;
+  background: var(--card-3);
+  box-shadow: var(--shadow);
+}
+.lat-tip[hidden] { display: none; }
+.lat-tip b { font: 600 10px/1.2 var(--mono); color: var(--fg); }
+.lat-tip span { font: 500 9px/1.4 var(--mono); color: var(--muted); }
+.lat-tip span b { color: var(--fg-2); }
+
+/* ------------------------------------------------------------ entrance --- */
+@keyframes lat-cell-in { from { opacity: 0; transform: translateY(8px) scaleY(.55); } }
+@keyframes lat-cell-new { 0% { filter: brightness(2.1); opacity: .5; } 100% { filter: none; opacity: 1; } }
+
+.lat-root.lat-enter .lat-cell {
+  animation: lat-cell-in var(--lat-anim) cubic-bezier(.22, .8, .28, 1) both;
+  animation-delay: calc(var(--i, 0) * 16ms);
+}
+.lat-root:not([data-motion="off"]) .lat-cell[data-new="1"] {
+  animation: lat-cell-new .45s ease-out;
+}
+@media (prefers-reduced-motion: reduce) {
+  .lat-root { --lat-anim: 0s; }
+  .lat-root .lat-cell[data-new="1"] { animation: none; }
+}
+
+/* ---------------------------------------------------------- responsive --- */
+@media (max-width: 980px) {
+  .lat-root {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) min(36vh, 210px);
+    gap: 10px;
+    --lat-label: 62px;
+  }
+  .lat-side {
+    padding-left: 0;
+    padding-top: 10px;
+    border-left: 0;
+    border-top: 1px solid var(--line);
+    overflow: auto;
+  }
+  .lat-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .lat-stat-wide { grid-column: span 4; }
+  .lat-dist { flex: none; }
+  .lat-legend { grid-template-columns: auto auto auto auto; justify-content: start; }
+  .lat-legend-title { grid-column: auto; }
+}
+@media (max-width: 680px) {
+  .lat-root { --lat-label: 54px; }
+  .lat-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lat-stat-wide { grid-column: span 2; }
+  .lat-dist { display: none; }
+  .lat-legend-cap { display: none; }
+  .lat-note { display: none; }
+  .lat-cell { min-height: 12px; }
+}
