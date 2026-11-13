@@ -1,0 +1,15 @@
+node_modules/
+.DS_Store
+*.log
+__pycache__/
+.venv/
+.env
+.env.*
+!.env.example
+*.local
+coverage/
+dist/
+.vscode/
+.idea/
+docs/qa-*.png
+docs/shot-*.png

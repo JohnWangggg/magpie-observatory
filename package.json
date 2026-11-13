@@ -1,0 +1,120 @@
+{
+  "name": "magpie-observatory",
+  "version": "0.6.0",
+  "description": "A monitoring cockpit for Magpie: live routing with two-way magpies, quotas, usage, 4 views, 4 style packs and layout settings.",
+  "type": "module",
+  "main": "./index.mjs",
+  "exports": "./index.mjs",
+  "files": [
+    "index.mjs",
+    "server.mjs",
+    "public",
+    "page",
+    "README.md",
+    "README.zh-CN.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "preview": "node preview.mjs",
+    "check": "node --check index.mjs && node --check server.mjs && node --check preview.mjs && node --check public/assets/app.js && node --check public/assets/data.js",
+    "publish:github": "bash scripts/publish-github.sh"
+  },
+  "keywords": [
+    "magpie",
+    "magpie-plugin",
+    "magpie-page",
+    "magpie-observatory",
+    "observatory",
+    "dashboard",
+    "monitoring",
+    "observability",
+    "telemetry",
+    "routing",
+    "failover",
+    "usage",
+    "token-usage",
+    "quota",
+    "quotas",
+    "cost-tracking",
+    "heatmap",
+    "radar",
+    "visualization",
+    "llm",
+    "llm-gateway",
+    "ai-gateway",
+    "gateway",
+    "claude-code",
+    "codex",
+    "gemini-cli",
+    "opencode",
+    "cursor",
+    "copilot",
+    "anthropic",
+    "openai",
+    "google",
+    "deepseek",
+    "moonshot",
+    "openrouter"
+  ],
+  "topics": [
+    "magpie-plugin",
+    "magpie-page",
+    "magpie",
+    "magpie-observatory",
+    "observatory",
+    "dashboard",
+    "monitoring",
+    "observability",
+    "llm-gateway",
+    "ai-gateway",
+    "quota",
+    "usage",
+    "token-usage",
+    "cost-tracking",
+    "routing",
+    "claude-code",
+    "codex",
+    "gemini-cli",
+    "opencode"
+  ],
+  "author": "JohnWangggg (https://github.com/JohnWangggg)",
+  "license": "MIT",
+  "homepage": "https://github.com/JohnWangggg/magpie-observatory#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JohnWangggg/magpie-observatory.git"
+  },
+  "bugs": {
+    "url": "https://github.com/JohnWangggg/magpie-observatory/issues"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "magpie": {
+    "name": "Magpie Observatory",
+    "icon": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0Ij4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYmciIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMTcxMzI5Ii8+CiAgICAgIDxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzA4MDcwZCIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYWNjZW50IiB4MT0iMCIgeTE9IjEiIHgyPSIxIiB5Mj0iMCI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzhiN2NmNiIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiM1NmQ0ZGQiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSI2NCIgaGVpZ2h0PSI2NCIgcng9IjE1IiBmaWxsPSJ1cmwoI2JnKSIvPgogIDxnIGZpbGw9Im5vbmUiIHN0cm9rZT0idXJsKCNhY2NlbnQpIiBvcGFjaXR5PSIuMzgiPgogICAgPGNpcmNsZSBjeD0iMzIiIGN5PSIzMiIgcj0iMTAuNSIvPgogICAgPGNpcmNsZSBjeD0iMzIiIGN5PSIzMiIgcj0iMTkiLz4KICAgIDxjaXJjbGUgY3g9IjMyIiBjeT0iMzIiIHI9IjI2Ii8+CiAgPC9nPgogIDxwYXRoIGQ9Ik0zMiAzMiAzMiA2YTI2IDI2IDAgMCAxIDIzIDE1WiIgZmlsbD0idXJsKCNhY2NlbnQpIiBvcGFjaXR5PSIuMTYiLz4KICA8ZyBmaWxsPSIjZjNmMGZmIj4KICAgIDxwYXRoIGQ9Ik0xNC41IDM4LjVjNS4yLTQuNiAxMS40LTYuNCAxNy4zLTUuMmw3LjItNC4xLTEuNyA2LjIgNi44IDIuOGMtNiAzLjEtMTIuMSA0LjgtMTguMiA0LjhsLTExIDUuNSAyLjEtNy4xeiIvPgogICAgPHBhdGggZD0iTTI4LjQgMjQuOGMuOC02LjUgNi0xMC4yIDEyLjktOS45LTIuNCAyLjktMi44IDUuMy0xLjkgNy4yLTQuMy4xLTcuNy44LTExIDIuN3oiIG9wYWNpdHk9Ii45MiIvPgogICAgPHBhdGggZD0iTTE5LjggMzQuOGMyLjgtMi43IDYuNC00LjIgMTAuMy00LjMtMi40IDItNC4xIDQuMy00LjkgNy4xLTEuNy0uOC0zLjUtMS43LTUuNC0yLjh6IiBvcGFjaXR5PSIuNTUiLz4KICA8L2c+CiAgPGNpcmNsZSBjeD0iNDQuNiIgY3k9IjI4LjQiIHI9IjEuOSIgZmlsbD0iI2ZmZDE2NiIvPgogIDxjaXJjbGUgY3g9IjMyIiBjeT0iMzIiIHI9IjEuOCIgZmlsbD0iIzU2ZDRkZCIvPgogIDxjaXJjbGUgY3g9IjExIiBjeT0iMTciIHI9IjEuNSIgZmlsbD0iIzhiN2NmNiIgb3BhY2l0eT0iLjkiLz4KICA8Y2lyY2xlIGN4PSI1MiIgY3k9IjQ5IiByPSIxLjUiIGZpbGw9IiM1NmQ0ZGQiIG9wYWNpdHk9Ii45Ii8+Cjwvc3ZnPgo=",
+    "summary": {
+      "en": "A live cockpit for Magpie: two-way magpie routes, quotas, usage, four views (route, radar, loom, rhythm), four style packs and one-screen layout settings.",
+      "zh": "Magpie 的实时监看驾驶舱：双向喜鹊路由、账号额度、用量，四种视图（路由 / 雷达 / 织机 / 节奏）、四套风格和一屏布局设置。"
+    },
+    "page": {
+      "title": "Observatory",
+      "titles": {
+        "zh": "观测台",
+        "zh-TW": "觀測台",
+        "ja": "オブザーバトリー",
+        "de": "Observatorium"
+      },
+      "file": "page/index.html",
+      "icon": "icon.svg",
+      "service": {
+        "port": 3488,
+        "option": "port"
+      },
+      "keepAlive": true
+    },
+    "options": {
+      "port": 3488
+    }
+  }
+}
