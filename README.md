@@ -16,7 +16,7 @@ Observatory turns that stream into something you can *watch*:
 - **Live routing** — Agent → Magpie → Provider/Account, with a filled magpie
   carrying the request out and a mirrored outlined magpie bringing the answer
   back. Failed attempts stay visible as “rerouted”.
-- **Nineteen views** — `Route`, `Radar`, `Loom`, `Rhythm`, `Rings`, `Quota`, `Waterfall`, `Swarm`, `Treemap`, `Sankey`, `Funnel`, `Latency`, `Orrery`, `Budget`, `Marimekko`, `Chord`, `Network`, `Stream`, `Chips`.
+- **Twenty-one views** — the nineteen above plus `Factory` and `Bees`.
 - **Four style packs** — `Control`, `Pixel`, `Paper`, `Neon`; each with a light
   and dark variant. Light/dark and style are independent.
 - **Layout settings** — Auto / One screen / Comfort, density Compact / Standard /
@@ -89,7 +89,7 @@ MAGPIE_URL=http://127.0.0.1:3425 MAGPIE_KEY=... node preview.mjs
 
 The preview is for development only; the plugin uses the same service internally.
 
-## The nineteen views
+## The twenty-one views
 
 | Route · two-way magpies | Radar · provider ring and quotas |
 | --- | --- |
@@ -128,6 +128,10 @@ The preview is for development only; the plugin uses the same service internally
 | ![network](docs/mode-network.png) | ![stream](docs/mode-stream.png) |
 
 ![Chips · combo cards](docs/mode-chips.png)
+
+| Factory · queued → streaming → done | Bees · sessions around provider hives |
+| --- | --- |
+| ![factory](docs/mode-factory.png) | ![bees](docs/mode-bees.png) |
 
 - **Route**: the default. Magpies fly the whole `Agent → Magpie → Provider`
   path; failures remain visible.
@@ -168,6 +172,10 @@ The preview is for development only; the plugin uses the same service internally
   with a Horizon toggle for a compact per-provider reading.
 - **Chips**: an optional game-like view; each request is a card, consecutive
   successes build a combo, and score/multipliers come from the real ledger.
+- **Factory**: sessions as parcels moving through queued → streaming → done,
+  with a reject lane for errors; the belt and parcels animate, the counts are real.
+- **Bees**: providers as hives and sessions as bees; subagents become smaller
+  bees, size follows tokens, and hovering a hive highlights its bees.
 
 ## Styles and themes
 

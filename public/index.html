@@ -20,6 +20,8 @@
 <link rel="stylesheet" href="assets/views/network.css">
 <link rel="stylesheet" href="assets/views/stream.css">
 <link rel="stylesheet" href="assets/views/chips.css">
+<link rel="stylesheet" href="assets/views/factory.css">
+<link rel="stylesheet" href="assets/views/bees.css">
 </head>
 <body>
 <svg class="sprite" aria-hidden="true">
@@ -69,7 +71,7 @@
       <button class="nav-item" id="theme-toggle" title="明暗模式"><svg class="icon-moon"><use href="#i-moon"/></svg><svg class="icon-sun"><use href="#i-sun"/></svg><span>明暗</span></button>
       <button class="nav-item" id="style-toggle" title="界面风格"><svg><use href="#i-palette"/></svg><span>风格</span></button>
       <button class="nav-item" id="settings-toggle" title="布局与动效"><svg><use href="#i-settings"/></svg><span>设置</span></button>
-      <div class="rail-version">v0.11.0 <i></i> plugin</div>
+      <div class="rail-version">v0.12.0 <i></i> plugin</div>
     </div>
   </aside>
 
@@ -126,6 +128,8 @@
               <button data-hero="network">网络</button>
               <button data-hero="stream">河流</button>
               <button data-hero="chips">连击</button>
+              <button data-hero="factory">工厂</button>
+              <button data-hero="bees">蜂巢</button>
             </div>
             <div class="hero-stat"><b id="hero-requests">0</b><span>请求</span></div>
             <div class="hero-stat warn"><b id="hero-fallbacks">0</b><span>改道</span></div>
@@ -170,6 +174,8 @@
           <div class="stage-view" id="view-network" hidden></div>
           <div class="stage-view" id="view-stream" hidden></div>
           <div class="stage-view" id="view-chips" hidden></div>
+          <div class="stage-view" id="view-factory" hidden></div>
+          <div class="stage-view" id="view-bees" hidden></div>
         </div>
         <div class="decision-strip">
           <div class="decision-icon"><svg><use href="#i-zap"/></svg></div>
@@ -353,6 +359,8 @@
 <script src="assets/views/network.js"></script>
 <script src="assets/views/stream.js"></script>
 <script src="assets/views/chips.js"></script>
+<script src="assets/views/factory.js"></script>
+<script src="assets/views/bees.js"></script>
 <script src="assets/app.js"></script>
 </body>
 </html>

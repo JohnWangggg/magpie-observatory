@@ -178,11 +178,12 @@ Shipped from this list as hero views:
 | Force-directed network | ✅ v0.11.0 | `#view-network` |
 | Streamgraph / horizon | ✅ v0.11.0 | `#view-stream` |
 | Chips / combo | ✅ v0.11.0 | `#view-chips` |
+| Factory | ✅ v0.12.0 | `#view-factory` |
+| Bees / beehive | ✅ v0.12.0 | `#view-bees` |
 
 Still open:
 
-- **Flame graph**: needs span / tool-call nesting; the current ledger is flat;
-- **Factory / Bees**: optional game-like themes.
+- **Flame graph**: needs span / tool-call nesting; the current ledger is flat.
 
 ## 8. Recommended order
 

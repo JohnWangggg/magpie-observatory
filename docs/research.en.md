@@ -472,7 +472,7 @@ Other formats worth borrowing:
 | Cards / scoring | Cache hit, reroute, TPS combo | Chips: combo × multiplier |
 | Swarm / orbit | Subagents, parallel sessions | Bees: one bee per subagent |
 
-This prototype implements nineteen views over the same data (more candidates in
+This prototype implements twenty-one views over the same data (more candidates in
 [`visual-forms.en.md`](visual-forms.en.md)):
 
 - **Route**: two-way magpies along Agent → magpie → Provider.
@@ -511,6 +511,10 @@ This prototype implements nineteen views over the same data (more candidates in
 - **Stream**: provider token deltas as a streamgraph, with a horizon toggle.
 - **Chips**: a game-like card view; combo, multipliers and score come from the
   real ledger.
+- **Factory**: sessions as parcels moving queued → streaming → done, with a
+  reject lane.
+- **Bees**: providers as hives and sessions as bees; subagents become smaller
+  bees.
 
 Later, **Factory** (queued/streaming parcels) and **Chips** (combo × multiplier)
 can be added, but not all on one screen; mode switching preserves the

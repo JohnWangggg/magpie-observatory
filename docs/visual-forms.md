@@ -172,11 +172,12 @@ provider → account → model → agent
 | 力导向网络 | ✅ v0.11.0 | `#view-network` |
 | Streamgraph / Horizon | ✅ v0.11.0 | `#view-stream` |
 | Chips / 连击 | ✅ v0.11.0 | `#view-chips` |
+| Factory / 工厂 | ✅ v0.12.0 | `#view-factory` |
+| Bees / 蜂巢 | ✅ v0.12.0 | `#view-bees` |
 
 仍未实现：
 
-- **火焰图**——需要 span / tool 调用嵌套；当前账本只有扁平的请求行；
-- **Factory / Bees**——游戏化主题，可作为可选项继续扩展。
+- **火焰图**——需要 span / tool 调用嵌套；当前账本只有扁平的请求行。
 
 ## 8. 推荐路线
 
