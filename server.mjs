@@ -16,7 +16,7 @@ const DEFAULT_PORT = 3488;
 const MAGPIE_URL = (process.env.MAGPIE_URL || "http://127.0.0.1:3425").replace(/\/+$/, "");
 const MAGPIE_KEY = (process.env.MAGPIE_KEY || "").trim();
 const PERIODS = new Set(["today", "week", "month", "all"]);
-const VERSION = "0.15.0";
+const VERSION = "0.15.1";
 
 const TYPES = {
   ".html": "text/html; charset=utf-8",
@@ -94,7 +94,7 @@ function slimTrace(body) {
 function slimRequests(body) {
   if (!body || !Array.isArray(body.rows)) return body;
   return {
-    ...body,
+    period: body.period, total: body.total, offset: body.offset,
     rows: body.rows.map(r => ({
       id: r.id, route_id: r.route_id, t: r.t, time: r.time,
       agent: r.agent, agentName: r.agentName,
@@ -117,7 +117,29 @@ function slimQuotaHistory(body) {
     data: body.data.map(x => ({
       ...x,
       lines: (Array.isArray(x.lines) ? x.lines : [])
-        .map(l => ({ ...l, points: Array.isArray(l.points) ? l.points.slice(-40) : [] }))
+        .map(l => {
+          // Normalize first: a missing stamp and an explicit null must not be
+          // confused once a dropped key means "same as the previous point".
+          const points = (Array.isArray(l.points) ? l.points.slice(-40) : []).map(p =>
+            p && typeof p === "object"
+              ? { at: p.at, left: p.left, start: p.start ?? null, resetsAt: p.resetsAt ?? null }
+              : p
+          );
+          let prev = null;
+          const slim = points.map(p => {
+            if (!p || typeof p !== "object") return p;
+            const out = { ...p };
+            if (prev) {
+              // `start`/`resetsAt` repeat for every point in a window; the
+              // client forward-fills them, so only store a change.
+              if (out.start === prev.start) delete out.start;
+              if (out.resetsAt === prev.resetsAt) delete out.resetsAt;
+            }
+            prev = p;
+            return out;
+          });
+          return { ...l, points: slim };
+        })
         .filter(l => l.points.length >= 2)
     })).filter(x => x.lines.length)
   };

@@ -574,15 +574,23 @@
         provider,
         name: x.name || providerMeta(provider).name,
         user: x.user || "",
-        lines: (x.lines || []).map(l => ({
-          name: l.name || "额度",
-          points: (l.points || []).filter(p => p && p.at && isFinite(Number(p.left))).slice(-200).map(p => ({
-            at: p.at,
-            left: Math.max(0, Math.min(100, Number(p.left))),
-            start: p.start || null,
-            resetsAt: p.resetsAt || null
-          }))
-        })).filter(l => l.points.length >= 2)
+        lines: (x.lines || []).map(l => {
+          const raw = (l.points || []).filter(p => p && p.at && isFinite(Number(p.left))).slice(-200);
+          // The snapshot omits `start`/`resetsAt` when they repeat; restore
+          // them so window math sees the same stamps the gateway sent.
+          let lastStart = null, lastReset = null;
+          const points = raw.map(p => {
+            lastStart = p.start === undefined ? lastStart : p.start;
+            lastReset = p.resetsAt === undefined ? lastReset : p.resetsAt;
+            return {
+              at: p.at,
+              left: Math.max(0, Math.min(100, Number(p.left))),
+              start: lastStart,
+              resetsAt: lastReset
+            };
+          });
+          return { name: l.name || "额度", points };
+        }).filter(l => l.points.length >= 2)
       };
     }).filter(x => x.lines.length);
 
