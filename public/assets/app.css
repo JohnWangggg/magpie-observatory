@@ -577,6 +577,50 @@ img { display: block; }
 @keyframes rhythmSweep { 0% { left: 110px; opacity: 0; } 6% { opacity: 1; } 94% { opacity: 1; } 100% { left: calc(100% - 2px); opacity: 0; } }
 @keyframes notePulse { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(1.5); } }
 
+/* ----------------------------------------------------------------- rings */
+.rings-board { height: 100%; display: flex; gap: 16px; align-items: stretch; padding: 0 4px; }
+.rings-stage { position: relative; flex: 1; min-width: 0; min-height: 0; overflow: hidden; }
+.rings-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.rings-track { fill: none; stroke: var(--line); opacity: .5; }
+.rings-pearl { cursor: default; transition: r .3s, fill .3s, opacity .3s; }
+.rings-pearl[data-level="0"] { fill: var(--card-3); opacity: .5; }
+.rings-pearl[data-level="1"] { fill: color-mix(in srgb, var(--accent) 30%, var(--card)); opacity: .85; }
+.rings-pearl[data-level="2"] { fill: color-mix(in srgb, var(--accent) 55%, var(--card)); }
+.rings-pearl[data-level="3"] { fill: color-mix(in srgb, var(--accent) 78%, var(--cyan)); }
+.rings-pearl[data-level="4"] { fill: var(--cyan); filter: drop-shadow(0 0 4px color-mix(in srgb, var(--cyan) 55%, transparent)); }
+.rings-pearl.today { stroke: var(--green); stroke-width: 1.6; paint-order: stroke; filter: drop-shadow(0 0 6px rgba(74,222,128,.55)); }
+.rings-pearl:hover { opacity: 1; }
+.rings-month { font-size: 9.5px; fill: var(--faint); font-family: var(--mono); letter-spacing: .03em; }
+.rings-core circle { fill: var(--card); stroke: var(--line-2); }
+.rings-core-num { font-size: 18px; font-weight: 650; fill: var(--fg); text-anchor: middle; font-variant-numeric: tabular-nums; }
+.rings-core-sub { font-size: 6px; fill: var(--faint); text-anchor: middle; letter-spacing: .16em; }
+.rings-side { width: 196px; flex: none; display: flex; flex-direction: column; gap: 8px; padding: 3px 2px; min-height: 0; }
+.rings-side-title { display: flex; justify-content: space-between; font-size: 7px; letter-spacing: .14em; color: var(--faint); }
+.rings-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.rings-stat { border: 1px solid var(--line); border-radius: 8px; background: var(--card-2); padding: 6px 7px; display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.rings-stat span { font-size: 6.5px; color: var(--faint); letter-spacing: .08em; }
+.rings-stat b { font-size: 12px; font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+.rings-stat small { font-size: 6.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rings-legend { display: flex; align-items: center; gap: 3px; font-size: 6.5px; color: var(--faint); }
+.rings-legend i { width: 7px; height: 7px; border-radius: 50%; display: block; }
+.rings-legend i[data-level="0"] { background: var(--card-3); }
+.rings-legend i[data-level="1"] { background: color-mix(in srgb, var(--accent) 30%, var(--card)); }
+.rings-legend i[data-level="2"] { background: color-mix(in srgb, var(--accent) 55%, var(--card)); }
+.rings-legend i[data-level="3"] { background: color-mix(in srgb, var(--accent) 78%, var(--cyan)); }
+.rings-legend i[data-level="4"] { background: var(--cyan); }
+.rings-legend-note { margin-left: auto; color: var(--muted); }
+.rings-weeknote { font-size: 6.5px; color: var(--faint); letter-spacing: .06em; }
+.rings-months { display: flex; flex-direction: column; gap: 4px; margin-top: auto; }
+.rings-mrow { display: grid; grid-template-columns: 24px minmax(0, 1fr) 42px; gap: 6px; align-items: center; font-size: 7px; color: var(--muted); }
+.rings-mrow i { height: 4px; border-radius: 2px; background: var(--card-3); overflow: hidden; }
+.rings-mrow em { display: block; height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--accent), var(--cyan)); }
+.rings-mrow b { text-align: right; font-weight: 550; color: var(--fg-2); font-variant-numeric: tabular-nums; }
+.rings-tip { position: absolute; pointer-events: none; transform: translate(-50%, -165%); display: flex; flex-direction: column; gap: 1px; padding: 5px 7px; border: 1px solid var(--line-2); border-radius: 6px; background: var(--card-3); box-shadow: var(--shadow); z-index: 5; }
+.rings-tip b { font-size: 9px; font-weight: 600; }
+.rings-tip span { font-size: 8px; color: var(--muted); }
+.rings-anim .rings-pearl { transform-box: fill-box; transform-origin: center; animation: pearlIn .5s both; animation-delay: calc(var(--i) * 2ms); }
+@keyframes pearlIn { from { opacity: 0; transform: scale(.25); } to { opacity: 1; transform: scale(1); } }
+
 /* ------------------------------------------------------------ live panel */
 .live-panel { grid-column: span 4; min-height: 0; display: flex; flex-direction: column; overflow: hidden; max-height: none; }
 .live-panel .card-head { padding-bottom: 10px; }
@@ -869,6 +913,9 @@ img { display: block; }
   .rhythm-playhead { left: 64px; }
   .rhythm-label b { font-size: 7.5px; }
   .rhythm-judge, .rhythm-hint { display: none; }
+  .rings-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .rings-legend-note { display: none; }
+  .rings-side { gap: 8px; }
   .style-menu { left: 66px; width: 238px; }
   .radar-board { grid-template-columns: 1fr; }
   .radar-side { display: none; }
@@ -902,6 +949,7 @@ img { display: block; }
   .grid { height: auto; grid-template-rows: none; overflow: visible; }
   .hero { min-height: 500px; }
   .route-stage { min-height: 340px; }
+  .rings-stage { min-height: 340px; }
   .live-panel { max-height: 520px; }
   .chart-wrap { height: 220px; flex: none; }
   .quota-list { max-height: 280px; }
@@ -917,6 +965,10 @@ img { display: block; }
   .app, .shell { height: auto; min-height: 100vh; overflow: visible; }
   .grid { height: auto; min-height: 0; grid-template-rows: none; overflow: visible; }
   .route-stage { min-height: 380px; }
+  .rings-board { flex-direction: column; gap: 10px; }
+  .rings-side { width: 100%; flex-direction: row; flex-wrap: wrap; gap: 10px; }
+  .rings-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); flex: 1; }
+  .rings-months { display: none; }
   .stage-cols { min-height: 0; height: auto; }
   .chart-wrap { height: 220px; flex: none; }
   .table-scroll { max-height: 320px; }
@@ -925,6 +977,11 @@ img { display: block; }
   .heat-months { display: grid; }
   .live-foot { display: flex; }
 }
+@media (max-width: 680px) {
+  .rings-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .rings-legend-note { display: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
 }

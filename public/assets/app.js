@@ -327,6 +327,7 @@
     if (state.heroMode === "radar") renderRadarView();
     else if (state.heroMode === "loom") renderLoomView();
     else if (state.heroMode === "rhythm") renderRhythmView();
+    else if (state.heroMode === "rings") renderRingsView();
   }
 
   // The brand magpie, inline once in index.html. The outbound bird is 34px
@@ -670,23 +671,176 @@
     </div>`;
   }
 
+  /* -------------------------------------------------------------- rings --- */
+  // A half-year as a polar calendar: 7 concentric rings (Mon -> Sun) and one
+  // column per week. Beads grow toward the rim so the dense inner rings stay
+  // legible; color uses the same five-level scale as the heatmap.
+  const RINGS_WEEKS = 26;
+
+  function ringsLevel(day, max) {
+    const pct = max > 0 ? (day.tokens || 0) / max : 0;
+    return pct === 0 ? 0 : pct < .18 ? 1 : pct < .36 ? 2 : pct < .62 ? 3 : 4;
+  }
+
+  function ringsSideHtml(days) {
+    const total = days.reduce((a, d) => a + (d.tokens || 0), 0);
+    const active = days.filter(d => (d.tokens || 0) > 0).length;
+    const best = days.reduce((a, d) => (d.tokens || 0) > (a.tokens || 0) ? d : a, days[0]);
+    let streak = 0;
+    for (let i = days.length - 1; i >= 0; i--) { if ((days[i].tokens || 0) > 0) streak++; else break; }
+    const last = days[days.length - 1];
+    const months = new Map();
+    days.forEach(d => {
+      const key = d.date.slice(0, 7);
+      months.set(key, (months.get(key) || 0) + (d.tokens || 0));
+    });
+    const maxMonth = Math.max(1, ...months.values());
+    const monthRows = Array.from(months.entries()).slice(-6).map(([key, value]) =>
+      `<div class="rings-mrow"><span>${Number(key.slice(5, 7))}月</span><i><em style="width:${Math.round(value / maxMonth * 100)}%"></em></i><b>${fmtTokens(value)}</b></div>`
+    ).join("");
+    return `<aside class="rings-side">
+      <div class="rings-side-title"><span>HALF YEAR IN RINGS</span><span>${days.length} days</span></div>
+      <div class="rings-stats">
+        <div class="rings-stat"><span>总 Token</span><b>${fmtTokens(total)}</b><small>${active} 天有请求</small></div>
+        <div class="rings-stat"><span>最忙一天</span><b>${fmtTokens(best.tokens)}</b><small>${esc(best.date)}</small></div>
+        <div class="rings-stat"><span>今日</span><b>${fmtTokens(last.tokens)}</b><small>${last.calls || 0} 次调用</small></div>
+        <div class="rings-stat"><span>连续活跃</span><b>${streak}</b><small>天</small></div>
+      </div>
+      <div class="rings-legend"><span>少</span><i data-level="0"></i><i data-level="1"></i><i data-level="2"></i><i data-level="3"></i><i data-level="4"></i><span>多</span><span class="rings-legend-note">点大小 = Token</span></div>
+      <div class="rings-weeknote">内圈 周一 · 外圈 周日</div>
+      <div class="rings-months">${monthRows}</div>
+    </aside>`;
+  }
+
+  function renderRingsView(force) {
+    const host = $("#view-rings");
+    if (!host) return;
+    const allDays = state.data.heatmap || [];
+    if (!allDays.length) {
+      host.innerHTML = `<div class="empty-state"><b>年轮等待第一圈</b><span>需要 Magpie 的日粒度历史；headless 网关会用 usage 序列回退。</span></div>`;
+      host.dataset.sig = "";
+      return;
+    }
+    const days = allDays.slice(-RINGS_WEEKS * 7);
+    const sig = `${days.length}:${days[0].date}:${days[days.length - 1].date}`;
+    const built = host.querySelector(".rings-svg");
+    if (!force && built && host.dataset.sig === sig) {
+      // Same window, only today's numbers moved: update one bead in place so
+      // the reveal animation never restarts under a live counter.
+      const max = host.__max || Math.max(1, ...days.map(d => d.tokens || 0));
+      const last = days[days.length - 1];
+      const pearl = host.querySelector(`.rings-pearl[data-i="${days.length - 1}"]`);
+      if (pearl) {
+        pearl.dataset.level = String(ringsLevel(last, max));
+        pearl.dataset.tokens = String(last.tokens || 0);
+        pearl.dataset.calls = String(last.calls || 0);
+      }
+      const side = host.querySelector(".rings-side");
+      if (side) side.outerHTML = ringsSideHtml(days);
+      return;
+    }
+    host.dataset.sig = sig;
+    const max = Math.max(1, ...days.map(d => d.tokens || 0));
+    host.__max = max;
+    const CX = 260, CY = 260, R_MIN = 96, R_MAX = 234;
+    const firstDow = (new Date(days[0].date + "T00:00:00").getDay() + 6) % 7; // Mon = 0
+    const cols = Math.ceil((days.length + firstDow) / 7);
+    const ringGap = (R_MAX - R_MIN) / 6;
+    const angleStep = Math.PI * 2 / cols;
+    const posOf = (i) => {
+      const d = new Date(days[i].date + "T00:00:00");
+      const dow = (d.getDay() + 6) % 7;
+      const week = Math.floor((i + firstDow) / 7);
+      const angle = week * angleStep - Math.PI / 2;
+      const r = R_MIN + dow * ringGap;
+      return { x: CX + r * Math.cos(angle), y: CY + r * Math.sin(angle), r, angle, week, dow };
+    };
+    const tracks = Array.from({ length: 7 }, (_, d) => {
+      const r = R_MIN + d * ringGap;
+      return `<circle class="rings-track" cx="${CX}" cy="${CY}" r="${r.toFixed(1)}"/>`;
+    }).join("");
+    const pearls = days.map((d, i) => {
+      const p = posOf(i);
+      const level = ringsLevel(d, max);
+      const rad = (3.4 + (p.r - R_MIN) / (R_MAX - R_MIN) * 4.6).toFixed(2);
+      const today = i === days.length - 1;
+      return `<circle class="rings-pearl${today ? " today" : ""}" data-level="${level}" data-i="${i}" data-date="${esc(d.date)}" data-tokens="${d.tokens || 0}" data-calls="${d.calls || 0}" cx="${p.x.toFixed(2)}" cy="${p.y.toFixed(2)}" r="${rad}" style="--i:${p.week}"/>`;
+    }).join("");
+    const labels = [];
+    let lastMonth = "";
+    days.forEach((d, i) => {
+      const key = d.date.slice(0, 7);
+      if (key === lastMonth) return;
+      lastMonth = key;
+      const p = posOf(i);
+      const lx = CX + (R_MAX + 17) * Math.cos(p.angle);
+      const ly = CY + (R_MAX + 17) * Math.sin(p.angle);
+      labels.push(`<text class="rings-month" x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="middle">${Number(d.date.slice(5, 7))}月</text>`);
+    });
+    const total = days.reduce((a, d) => a + (d.tokens || 0), 0);
+    host.classList.add("rings-anim");
+    host.innerHTML = `<div class="rings-board">
+      <div class="rings-stage">
+        <svg class="rings-svg" viewBox="0 0 520 520" role="img" aria-label="${RINGS_WEEKS} 周 Token 年轮">
+          <defs>
+            <radialGradient id="rings-core" cx=".5" cy=".5" r=".5">
+              <stop offset="0" stop-color="rgba(139,124,246,.22)"/>
+              <stop offset="1" stop-color="rgba(139,124,246,0)"/>
+            </radialGradient>
+          </defs>
+          <circle class="rings-glow" cx="260" cy="260" r="252" fill="url(#rings-core)"/>
+          <g class="rings-tracks">${tracks}</g>
+          <g class="rings-pearls">${pearls}</g>
+          <g class="rings-labels">${labels.join("")}</g>
+          <g class="rings-core">
+            <circle cx="260" cy="260" r="56"/>
+            <text x="260" y="253" class="rings-core-num">${fmtTokens(total)}</text>
+            <text x="260" y="268" class="rings-core-sub">TOKENS · ${RINGS_WEEKS}W</text>
+          </g>
+        </svg>
+        <div class="rings-tip" hidden></div>
+      </div>
+      ${ringsSideHtml(days)}
+    </div>`;
+    const svg = host.querySelector(".rings-svg");
+    const tip = host.querySelector(".rings-tip");
+    const stage = host.querySelector(".rings-stage");
+    svg.addEventListener("pointerover", e => {
+      const bead = e.target.closest(".rings-pearl");
+      if (!bead) return;
+      const d = days[Number(bead.dataset.i)];
+      if (!d) return;
+      tip.hidden = false;
+      tip.innerHTML = `<b>${esc(d.date)}</b><span>${fmtTokens(d.tokens)} tokens · ${d.calls || 0} 次</span>`;
+    });
+    svg.addEventListener("pointermove", e => {
+      const box = stage.getBoundingClientRect();
+      const x = e.clientX - box.left, y = e.clientY - box.top;
+      tip.style.left = clamp(x, 60, box.width - 60) + "px";
+      tip.style.top = clamp(y, 30, box.height - 10) + "px";
+    });
+    svg.addEventListener("pointerleave", () => { tip.hidden = true; });
+  }
+
   function setHeroMode(mode) {
     state.heroMode = mode;
-    const titles = { route: ["实时路由", "LIVE ROUTING"], radar: ["路由雷达", "RADAR SCAN"], loom: ["请求织机", "REQUEST LOOM"], rhythm: ["请求节奏", "RHYTHM"] };
+    const titles = { route: ["实时路由", "LIVE ROUTING"], radar: ["路由雷达", "RADAR SCAN"], loom: ["请求织机", "REQUEST LOOM"], rhythm: ["请求节奏", "RHYTHM"], rings: ["Token 年轮", "YEAR IN RINGS"] };
     const [title, eyebrow] = titles[mode] || titles.route;
     $("#hero-title").textContent = title;
     const eb = $(".hero-head .eyebrow");
     if (eb) eb.innerHTML = `<span class="live-ring"></span> ${eyebrow}`;
     $$("#hero-modes button").forEach(b => b.classList.toggle("active", b.dataset.hero === mode));
-    const route = $("#view-route"), radar = $("#view-radar"), loom = $("#view-loom"), rhythm = $("#view-rhythm");
+    const route = $("#view-route"), radar = $("#view-radar"), loom = $("#view-loom"), rhythm = $("#view-rhythm"), rings = $("#view-rings");
     if (route) route.hidden = mode !== "route";
     if (radar) radar.hidden = mode !== "radar";
     if (loom) loom.hidden = mode !== "loom";
     if (rhythm) rhythm.hidden = mode !== "rhythm";
+    if (rings) rings.hidden = mode !== "rings";
     if (mode === "route") requestAnimationFrame(drawWires);
     if (mode === "radar") renderRadarView(true);
     if (mode === "loom") renderLoomView(true);
     if (mode === "rhythm") renderRhythmView(true);
+    if (mode === "rings") renderRingsView(true);
   }
 
   function sessionCard(s) {
@@ -1276,6 +1430,7 @@
         if (state.heroMode === "radar") renderRadarView(true);
         if (state.heroMode === "loom") renderLoomView(true);
         if (state.heroMode === "rhythm") renderRhythmView(true);
+        if (state.heroMode === "rings") renderRingsView(true);
       }, 120);
     });
 
@@ -1387,7 +1542,7 @@
 
   /* ------------------------------------------------------------------ init --- */
   function init() {
-    try { console.info("%c Magpie Observatory v0.6.1 · route / radar / loom / rhythm · 4 styles · layout settings", "color:#8b7cf6;font-weight:bold"); } catch (_) {}
+    try { console.info("%c Magpie Observatory v0.7.0 · route / radar / loom / rhythm / rings · 4 styles · layout settings", "color:#8b7cf6;font-weight:bold"); } catch (_) {}
     try {
       const hostTheme = new URLSearchParams(location.search).get("hostTheme");
       if (hostTheme === "light" || hostTheme === "dark") {

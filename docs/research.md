@@ -429,7 +429,8 @@ v2 改成：
 | 卡牌 / 计分 | 缓存命中、改道、TPS 组合 | Chips：combo × multiplier |
 | 蜂群 / 轨道 | 子 Agent、并行会话 | Bees：每个子 Agent 一只蜂 |
 
-本次原型实现四种视图，共用同一份数据：
+本次原型实现五种视图，共用同一份数据（更多候选形式见
+[`visual-forms.md`](visual-forms.md)）：
 
 - **路由**：Agent → magpie → Provider 的双向喜鹊。
 - **雷达**：中心 magpie，provider 在环上，外圈额度；左右是 in-flight 与 quota 面板。
@@ -437,6 +438,8 @@ v2 改成：
   右侧是模型/Token/状态，顶部是 cache 命中。
 - **节奏**：每个 provider 一条轨道，请求是落在 16 个节拍格上的音符；
   播放头循环扫过，底部显示 combo / cache，失败音符变红。
+- **年轮**：最近 26 周铺成极坐标日历；7 个同心圆是周一到周日，一列是一周；
+  点大小 = Token，颜色 = 活跃级别，今天有绿色描边。
 
 后续可以继续做 **Factory**（排队/流式包裹）和 **Chips**（combo × multiplier），
 但不应同时堆在一屏；用模式切换保留“默认路由视图”的可读性。

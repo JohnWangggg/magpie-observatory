@@ -14,7 +14,7 @@ Magpie 已经知道每个请求走的是哪个 provider、账号和模型。Obse
 
 - **实时路由**：Agent → Magpie → Provider/Account；实心喜鹊带请求飞出去，
   镜像描边喜鹊带回答飞回来；失败改道保留“已改道”标记。
-- **四种视图**：`路由` / `雷达` / `织机` / `节奏`。
+- **五种视图**：`路由` / `雷达` / `织机` / `节奏` / `年轮`。
 - **四套风格**：`控制室` / `像素` / `纸感` / `霓虹`，每套都有明暗两版；
   明暗和风格互相独立。
 - **布局设置**：自动 / 一屏 / 舒展；密度 紧凑 / 标准 / 宽松；动效 全部 / 轻柔 / 关闭。
@@ -80,7 +80,7 @@ MAGPIE_URL=http://127.0.0.1:3425 MAGPIE_KEY=... node preview.mjs
 
 预览只用于开发；插件内部使用同一个服务。
 
-## 四种视图
+## 五种视图
 
 | 路由 · 双向喜鹊 | 雷达 · Provider 环与额度 |
 | --- | --- |
@@ -90,6 +90,8 @@ MAGPIE_URL=http://127.0.0.1:3425 MAGPIE_KEY=... node preview.mjs
 | --- | --- |
 | ![loom](docs/mode-loom.png) | ![rhythm](docs/mode-rhythm.png) |
 
+![年轮 · 半年的极坐标日历](docs/mode-rings.png)
+
 - **路由**：默认视图。喜鹊沿整条 `Agent → Magpie → Provider` 路径飞行，
   失败尝试仍然留在画面上。
 - **雷达**：Provider 在环上，外圈是额度；左边是 In-flight 会话，右边是
@@ -98,6 +100,8 @@ MAGPIE_URL=http://127.0.0.1:3425 MAGPIE_KEY=... node preview.mjs
   织机梭子向下移动。
 - **节奏**：每个 Provider 一条轨道，请求落在 16 个节拍格上；播放头循环扫过，
   底部保留 combo / cache 统计。
+- **年轮**：最近 26 周铺成极坐标日历；7 圈代表周一到周日，一列一周，
+  点的大小和颜色表示 Token，今天有一圈绿色描边。
 
 ## 风格与明暗
 
@@ -188,6 +192,8 @@ public/                仪表板（index.html、assets/）
 docs/research.md       调研与设计（简体中文）
 docs/research.en.md    调研与设计（English）
 docs/publishing.md     GitHub 发布 + Magpie 商店 topics
+docs/visual-forms.md   展现形式调研（中文）
+docs/visual-forms.en.md 展现形式调研（English）
 scripts/               发布脚本
 ```
 
@@ -207,6 +213,8 @@ node preview.mjs        # 演示 + 可选真实网关
 - 插件文档: https://github.com/yetone/magpie/blob/main/docs/subsystems/plugin-runtime.md
 - 调研笔记: [`docs/research.md`](docs/research.md)（中文）·
   [`docs/research.en.md`](docs/research.en.md)（English）
+- 展现形式调研: [`docs/visual-forms.md`](docs/visual-forms.md)（中文）·
+  [`docs/visual-forms.en.md`](docs/visual-forms.en.md)（English）
 - 发布与商店 topics: [`docs/publishing.md`](docs/publishing.md)
 - Issues: https://github.com/JohnWangggg/magpie-observatory/issues
 

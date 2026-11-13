@@ -472,7 +472,8 @@ Other formats worth borrowing:
 | Cards / scoring | Cache hit, reroute, TPS combo | Chips: combo × multiplier |
 | Swarm / orbit | Subagents, parallel sessions | Bees: one bee per subagent |
 
-This prototype implements four views over the same data:
+This prototype implements five views over the same data (more candidates in
+[`visual-forms.en.md`](visual-forms.en.md)):
 
 - **Route**: two-way magpies along Agent → magpie → Provider.
 - **Radar**: magpie at the center, providers on a dial, quota rings; in-flight
@@ -482,6 +483,9 @@ This prototype implements four views over the same data:
   top.
 - **Rhythm**: one lane per provider; requests land on a 16-step grid; a playhead
   sweeps; combo/cache at the bottom; failed notes turn red.
+- **Rings**: the last 26 weeks as a polar calendar; seven weekday rings and one
+  column per week; bead size = tokens, colour = activity level, today keeps a
+  green ring.
 
 Later, **Factory** (queued/streaming parcels) and **Chips** (combo × multiplier)
 can be added, but not all on one screen; mode switching preserves the

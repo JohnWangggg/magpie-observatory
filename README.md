@@ -16,7 +16,7 @@ Observatory turns that stream into something you can *watch*:
 - **Live routing** — Agent → Magpie → Provider/Account, with a filled magpie
   carrying the request out and a mirrored outlined magpie bringing the answer
   back. Failed attempts stay visible as “rerouted”.
-- **Four views** — `Route`, `Radar`, `Loom`, `Rhythm`.
+- **Five views** — `Route`, `Radar`, `Loom`, `Rhythm`, `Rings`.
 - **Four style packs** — `Control`, `Pixel`, `Paper`, `Neon`; each with a light
   and dark variant. Light/dark and style are independent.
 - **Layout settings** — Auto / One screen / Comfort, density Compact / Standard /
@@ -89,7 +89,7 @@ MAGPIE_URL=http://127.0.0.1:3425 MAGPIE_KEY=... node preview.mjs
 
 The preview is for development only; the plugin uses the same service internally.
 
-## The four views
+## The five views
 
 | Route · two-way magpies | Radar · provider ring and quotas |
 | --- | --- |
@@ -99,6 +99,8 @@ The preview is for development only; the plugin uses the same service internally
 | --- | --- |
 | ![loom](docs/mode-loom.png) | ![rhythm](docs/mode-rhythm.png) |
 
+![Rings · half a year as a polar calendar](docs/mode-rings.png)
+
 - **Route**: the default. Magpies fly the whole `Agent → Magpie → Provider`
   path; failures remain visible.
 - **Radar**: providers on a dial, quota rings, in-flight sessions on the left,
@@ -107,6 +109,9 @@ The preview is for development only; the plugin uses the same service internally
   brightness is token density, the shuttle moves down the weave.
 - **Rhythm**: each provider gets a lane; requests land on a 16-step grid, a
   playhead sweeps through, and the footer keeps the combo / cache.
+- **Rings**: the last 26 weeks as a polar calendar — seven weekday rings, one
+  column per week; bead size and colour carry token volume, and today keeps a
+  green ring.
 
 ## Styles and themes
 
@@ -205,6 +210,8 @@ public/                the dashboard (index.html, assets/)
 docs/research.md       research & design notes (简体中文)
 docs/research.en.md    research & design notes (English)
 docs/publishing.md     GitHub release + Magpie store topics
+docs/visual-forms.md   visual-form research (中文)
+docs/visual-forms.en.md visual-form research (English)
 scripts/               publish helper
 ```
 
@@ -224,6 +231,8 @@ The plugin host runs it on Bun; the preview runs on Node 18+.
 - Plugin docs: https://github.com/yetone/magpie/blob/main/docs/subsystems/plugin-runtime.md
 - Research notes: [`docs/research.md`](docs/research.md) (中文) ·
   [`docs/research.en.md`](docs/research.en.md) (English)
+- Visual forms research: [`docs/visual-forms.md`](docs/visual-forms.md) (中文) ·
+  [`docs/visual-forms.en.md`](docs/visual-forms.en.md) (English)
 - Publishing & store topics: [`docs/publishing.md`](docs/publishing.md)
 - Issues: https://github.com/JohnWangggg/magpie-observatory/issues
 
