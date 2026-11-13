@@ -1,0 +1,331 @@
+/* ==========================================================================
+   Magpie Observatory — cost treemap view (hero module)
+   Every class is prefixed `tree-`; colours come from dashboard tokens only
+   (provider hues arrive as data and are blended with color-mix against tokens).
+   ========================================================================== */
+
+.tree-board {
+  position: relative;
+  display: flex;
+  gap: 14px;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+/* ---------------------------------------------------------------- map --- */
+.tree-main {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+}
+
+.tree-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 0 2px 6px;
+  min-height: 21px;
+}
+
+.tree-crumbs { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.tree-crumb {
+  font-size: 10px;
+  letter-spacing: .05em;
+  color: var(--fg-2);
+  padding: 2px 8px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--card-2);
+  transition: color .16s ease, border-color .16s ease, background .16s ease;
+}
+.tree-crumb:hover { color: var(--fg); border-color: var(--line-2); background: var(--card-3); }
+.tree-crumb-on { color: var(--fg); background: var(--card-3); border-color: var(--line-2); }
+.tree-crumb-sep { color: var(--faint); font-family: var(--mono); font-size: 10px; }
+.tree-crumb-cur {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  max-width: 190px;
+  font-size: 10.5px;
+  font-weight: 650;
+  color: var(--fg);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tree-crumb-cur i { width: 8px; height: 8px; border-radius: 50%; flex: 0 0 auto; }
+.tree-crumb-back {
+  font-size: 9.5px;
+  color: var(--muted);
+  padding: 2px 7px;
+  border-radius: 20px;
+  border: 1px dashed var(--line-2);
+}
+.tree-crumb-back:hover { color: var(--accent-strong); border-color: var(--accent); }
+.tree-unit { font-size: 9.5px; letter-spacing: .06em; color: var(--muted); white-space: nowrap; }
+
+.tree-map {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--card-2);
+  background-image: linear-gradient(var(--card) 0%, var(--card-2) 100%);
+  overflow: hidden;
+}
+
+/* ------------------------------------------------------------ tiles ----- */
+.tree-provider {
+  position: absolute;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--card-3);
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color .18s ease, box-shadow .18s ease, opacity .18s ease;
+}
+.tree-provider:hover { border-color: var(--line-2); box-shadow: var(--glow); }
+.tree-provider:focus-visible { outline: 1px solid var(--accent-strong); outline-offset: -2px; }
+.tree-provider.tree-focused { cursor: zoom-out; }
+
+.tree-head {
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 0 7px;
+  font-size: 9.5px;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--fg-2);
+  pointer-events: none;
+}
+.tree-head b { font-weight: 650; color: var(--fg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tree-head i { font-style: normal; font-family: var(--mono); color: var(--muted); flex: 0 0 auto; }
+.tree-head-solo i { display: none; }   /* narrow tile: the name matters, the share does not fit */
+
+.tree-solo {
+  position: absolute;
+  left: 6px; top: 3px; right: 6px;
+  z-index: 1;
+  font-size: 9.5px;
+  font-weight: 650;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--fg);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 1px 2px color-mix(in srgb, var(--bg) 70%, transparent);
+  pointer-events: none;
+}
+
+.tree-model {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 1px;
+  padding: 4px 7px 5px;
+  border-radius: 6px;
+  background: var(--card-3);
+  overflow: hidden;
+  transition: filter .16s ease, box-shadow .16s ease, opacity .18s ease;
+}
+.tree-model.tree-mid { justify-content: center; padding: 2px 6px; }
+
+/* Labels sit on a scrim of the theme surface, so text stays legible on any
+   provider hue in either theme (a light brand colour would otherwise need the
+   opposite ink). */
+.tree-model.tree-tall::after,
+.tree-model.tree-mid::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 46px;
+  background: linear-gradient(to top, color-mix(in srgb, var(--bg) 86%, transparent), transparent);
+  pointer-events: none;
+}
+.tree-model-name,
+.tree-model-share { position: relative; z-index: 1; }
+
+.tree-model-name {
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: .01em;
+  color: var(--fg);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 1px 1px color-mix(in srgb, var(--bg) 55%, transparent);
+}
+.tree-model-share {
+  font-style: normal;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  color: var(--fg-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 1px 1px color-mix(in srgb, var(--bg) 55%, transparent);
+}
+.tree-model:hover {
+  filter: brightness(1.09) saturate(1.06);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--fg) 32%, transparent);
+}
+
+/* Provider hue per tile, stepped in lightness per sibling — no hardcoded paints. */
+@supports (background: color-mix(in srgb, red 50%, blue)) {
+  .tree-provider { background: var(--tree-mix, var(--card-3)); }
+  .tree-model { background: var(--tree-mix, var(--card-3)); }
+}
+
+/* Hovering a provider (map tile or side row) spotlights its tiles. */
+.tree-map[data-hover]:not([data-hover=""]) .tree-provider { opacity: .32; }
+.tree-map[data-hover]:not([data-hover=""]) .tree-provider.tree-on { opacity: 1; }
+
+/* --------------------------------------------------------- side panel --- */
+.tree-side {
+  flex: 0 0 234px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 0;
+  padding: 9px 10px 8px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--card-2);
+  overflow: hidden;
+}
+.tree-side-title {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 9.5px;
+  letter-spacing: .12em;
+  color: var(--muted);
+}
+.tree-side-title span:first-child { color: var(--fg-2); font-weight: 650; }
+
+.tree-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 7px 10px; }
+.tree-stat { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+.tree-stat small { font-size: 8.5px; letter-spacing: .05em; color: var(--faint); }
+.tree-stat b {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--fg);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tree-stat b i { font-style: normal; font-family: var(--mono); font-size: 9.5px; color: var(--muted); }
+
+.tree-list {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  overflow: auto;
+}
+.tree-row {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  text-align: left;
+  padding: 5px 7px 6px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: var(--card-3);
+  transition: background .16s ease, border-color .16s ease;
+}
+.tree-row:hover,
+.tree-row.tree-on { border-color: var(--line-2); background: var(--card-2); }
+.tree-row.tree-active { border-color: var(--line-2); background: var(--card-2); box-shadow: inset 0 0 0 1px var(--accent); }
+.tree-row-top { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.tree-row-dot { width: 8px; height: 8px; border-radius: 50%; flex: 0 0 auto; }
+.tree-row-name {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--fg);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tree-row-share { font-family: var(--mono); font-size: 9.5px; color: var(--fg-2); flex: 0 0 auto; }
+.tree-row-bar { display: block; height: 4px; border-radius: 3px; background: var(--line); overflow: hidden; }
+.tree-row-bar i { display: block; height: 100%; border-radius: 3px; min-width: 2px; }
+.tree-row-sub { font-family: var(--mono); font-size: 8.5px; color: var(--muted); }
+.tree-side-note { font-size: 8.5px; color: var(--faint); letter-spacing: .04em; }
+
+/* ------------------------------------------------------------- tip ------ */
+.tree-tip {
+  position: absolute;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  max-width: 250px;
+  padding: 6px 9px 7px;
+  border: 1px solid var(--line-2);
+  border-radius: 9px;
+  background: var(--card);
+  box-shadow: var(--shadow);
+  pointer-events: none;
+}
+.tree-tip[hidden] { display: none; }
+.tree-tip b { font-size: 10.5px; font-weight: 650; color: var(--fg); letter-spacing: .02em; }
+.tree-tip span { font-size: 10px; color: var(--fg-2); overflow-wrap: anywhere; }
+.tree-tip em { font-style: normal; font-family: var(--mono); font-size: 9.5px; color: var(--muted); }
+
+/* ----------------------------------------------------------- empty ------ */
+.tree-board.tree-empty { align-items: stretch; }
+.tree-board.tree-empty .empty-state { flex: 1 1 auto; width: 100%; }
+
+/* --------------------------------------------------------- entrance ----- */
+@keyframes tree-in {
+  from { opacity: 0; transform: scale(.962); }
+  to { opacity: 1; transform: none; }
+}
+.tree-anim .tree-provider,
+.tree-anim .tree-model {
+  animation: tree-in .42s cubic-bezier(.22, .68, .3, 1) both;
+  animation-delay: calc(var(--tree-d, 0) * 26ms);
+}
+.tree-anim.tree-soft .tree-provider,
+.tree-anim.tree-soft .tree-model {
+  animation-duration: .2s;
+  animation-delay: calc(var(--tree-d, 0) * 9ms);
+}
+@media (prefers-reduced-motion: reduce) {
+  .tree-anim .tree-provider,
+  .tree-anim .tree-model { animation: none; }
+}
+
+/* -------------------------------------------------------- responsive ---- */
+@media (max-width: 980px) {
+  .tree-board { flex-direction: column; gap: 10px; }
+  .tree-side { flex: 0 0 auto; max-height: 170px; }
+  .tree-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .tree-list { flex-direction: row; overflow-x: auto; overflow-y: hidden; padding-bottom: 2px; }
+  .tree-row { flex: 0 0 158px; }
+  .tree-side-note { display: none; }
+}
+@media (max-width: 680px) {
+  .tree-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tree-list { display: none; }
+  .tree-side { max-height: 118px; }
+  .tree-crumb-cur { max-width: 110px; }
+}

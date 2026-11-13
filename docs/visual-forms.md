@@ -151,7 +151,29 @@ provider → account → model → agent
 
 ---
 
-## 7. 推荐路线
+## 7. 实施状态（2026-11）
+
+已从本文候选落地为 hero 视图：
+
+| 形式 | 状态 | 位置 |
+| --- | --- | --- |
+| 年轮（极坐标日历） | ✅ v0.7.0 | `#view-rings` |
+| 额度燃尽 + 配速 | ✅ v0.8.0 | `#view-quota` |
+| 会话瀑布 / Gantt | ✅ v0.8.0 | `#view-waterfall` |
+| 延迟蜂群 / 山脊 | ✅ v0.8.0 | `#view-swarm` |
+| 成本树图 | ✅ v0.8.0 | `#view-treemap` |
+| Agent → Provider → 模型流向 | ✅ v0.8.0 | `#view-sankey` |
+
+仍未实现、值得继续做的：
+
+- **漏斗**（calls → timed → done → success）——成本低，适合放在 KPI 旁；
+- **bullet / 预算阈值**——额度视图的轻量版，适合卡片；
+- **延迟热力（time × bucket）**——需要客户端维护一个请求延迟环形缓冲；
+- **星图 / Orrery**——品牌最贴，但数据映射偏叙事；
+- **火焰图 / streamgraph / horizon**——等 Magpie 开放 span 嵌套或
+  `usage?by=provider` 的堆叠序列。
+
+## 8. 推荐路线
 
 1. **额度燃尽 + 配速**：服务端加 `/quotas/history`，前端加一张“额度燃尽”卡，
    或在雷达视图右侧把 quota rings 换成 burn-down。
@@ -163,7 +185,7 @@ provider → account → model → agent
 
 ---
 
-## 8. 参考
+## 9. 参考
 
 - Langfuse Custom Dashboards: https://langfuse.com/docs/metrics/features/custom-dashboards
 - Langfuse flame graph issue #16219: https://github.com/langfuse/langfuse/issues/16219

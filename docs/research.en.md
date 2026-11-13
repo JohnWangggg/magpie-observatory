@@ -472,7 +472,7 @@ Other formats worth borrowing:
 | Cards / scoring | Cache hit, reroute, TPS combo | Chips: combo × multiplier |
 | Swarm / orbit | Subagents, parallel sessions | Bees: one bee per subagent |
 
-This prototype implements five views over the same data (more candidates in
+This prototype implements ten views over the same data (more candidates in
 [`visual-forms.en.md`](visual-forms.en.md)):
 
 - **Route**: two-way magpies along Agent → magpie → Provider.
@@ -486,6 +486,15 @@ This prototype implements five views over the same data (more candidates in
 - **Rings**: the last 26 weeks as a polar calendar; seven weekday rings and one
   column per week; bead size = tokens, colour = activity level, today keeps a
   green ring.
+- **Quota**: each account's window as a burn-down line with a projected left at
+  reset; green/amber/red risk and a pace side list.
+- **Waterfall**: one Gantt row per session; pale first-token segment, dark
+  streaming segment, failure hatch, click to focus.
+- **Swarm**: one TTFT lane per provider with P50/P90 lines; dot size = tokens;
+  missing first-token samples are marked as estimated.
+- **Treemap**: provider → model area by tokens; click a provider to drill in.
+- **Sankey**: agent → provider → model alluvial; link width = tokens; hover
+  highlights the whole route.
 
 Later, **Factory** (queued/streaming parcels) and **Chips** (combo × multiplier)
 can be added, but not all on one screen; mode switching preserves the

@@ -16,7 +16,7 @@ const DEFAULT_PORT = 3488;
 const MAGPIE_URL = (process.env.MAGPIE_URL || "http://127.0.0.1:3425").replace(/\/+$/, "");
 const MAGPIE_KEY = (process.env.MAGPIE_KEY || "").trim();
 const PERIODS = new Set(["today", "week", "month", "all"]);
-const VERSION = "0.7.0";
+const VERSION = "0.8.0";
 
 const TYPES = {
   ".html": "text/html; charset=utf-8",
@@ -67,6 +67,20 @@ async function usageHeatmap() {
   return { days };
 }
 
+// The quota history is a long per-window point series — heavier than every
+// other read, and the shape of a burn-down does not change between two
+// 2.5s snapshots. Keep the last good answer for a minute and serve it from
+// cache in between; a gateway that does not serve the endpoint simply leaves
+// the key missing.
+let quotaHistoryCache = { at: 0, body: null };
+
+async function quotaHistory() {
+  if (quotaHistoryCache.body && Date.now() - quotaHistoryCache.at < 60000) return quotaHistoryCache.body;
+  const body = await magpieGet("/v1/magpie/quotas/history", 4000);
+  quotaHistoryCache = { at: Date.now(), body };
+  return body;
+}
+
 export async function snapshot(period = "today") {
   if (!PERIODS.has(period)) period = "today";
   const calls = {
@@ -76,11 +90,12 @@ export async function snapshot(period = "today") {
     concurrency: "/v1/magpie/concurrency",
     requests: `/v1/magpie/usage/requests?period=${period}&limit=80`,
     heatmap: "/api/usage/heatmap?period=all",
+    quotaHistory: "/v1/magpie/quotas/history",
   };
   const data = {};
   const errors = {};
   await Promise.all(Object.entries(calls).map(async ([name, endpoint]) => {
-    try { data[name] = await magpieGet(endpoint); }
+    try { data[name] = name === "quotaHistory" ? await quotaHistory() : await magpieGet(endpoint); }
     catch (err) { errors[name] = err?.message || String(err); }
   }));
   if (!data.heatmap) {

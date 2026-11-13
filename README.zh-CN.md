@@ -14,7 +14,7 @@ Magpie 已经知道每个请求走的是哪个 provider、账号和模型。Obse
 
 - **实时路由**：Agent → Magpie → Provider/Account；实心喜鹊带请求飞出去，
   镜像描边喜鹊带回答飞回来；失败改道保留“已改道”标记。
-- **五种视图**：`路由` / `雷达` / `织机` / `节奏` / `年轮`。
+- **十种视图**：`路由` / `雷达` / `织机` / `节奏` / `年轮` / `额度` / `瀑布` / `蜂群` / `成本` / `流向`。
 - **四套风格**：`控制室` / `像素` / `纸感` / `霓虹`，每套都有明暗两版；
   明暗和风格互相独立。
 - **布局设置**：自动 / 一屏 / 舒展；密度 紧凑 / 标准 / 宽松；动效 全部 / 轻柔 / 关闭。
@@ -80,7 +80,7 @@ MAGPIE_URL=http://127.0.0.1:3425 MAGPIE_KEY=... node preview.mjs
 
 预览只用于开发；插件内部使用同一个服务。
 
-## 五种视图
+## 十种视图
 
 | 路由 · 双向喜鹊 | 雷达 · Provider 环与额度 |
 | --- | --- |
@@ -90,7 +90,17 @@ MAGPIE_URL=http://127.0.0.1:3425 MAGPIE_KEY=... node preview.mjs
 | --- | --- |
 | ![loom](docs/mode-loom.png) | ![rhythm](docs/mode-rhythm.png) |
 
-![年轮 · 半年的极坐标日历](docs/mode-rings.png)
+| 年轮 · 半年的极坐标日历 | 额度 · 燃尽与配速 |
+| --- | --- |
+| ![rings](docs/mode-rings.png) | ![quota](docs/mode-quota.png) |
+
+| 瀑布 · 会话时间轴 | 蜂群 · 各 Provider 的 TTFT 分布 |
+| --- | --- |
+| ![waterfall](docs/mode-waterfall.png) | ![swarm](docs/mode-swarm.png) |
+
+| 成本 · Provider × 模型面积 | 流向 · Agent → Provider → 模型 |
+| --- | --- |
+| ![treemap](docs/mode-treemap.png) | ![sankey](docs/mode-sankey.png) |
 
 - **路由**：默认视图。喜鹊沿整条 `Agent → Magpie → Provider` 路径飞行，
   失败尝试仍然留在画面上。
@@ -102,6 +112,15 @@ MAGPIE_URL=http://127.0.0.1:3425 MAGPIE_KEY=... node preview.mjs
   底部保留 combo / cache 统计。
 - **年轮**：最近 26 周铺成极坐标日历；7 圈代表周一到周日，一列一周，
   点的大小和颜色表示 Token，今天有一圈绿色描边。
+- **额度**：每个账号的窗口画成燃尽线，并外推重置时的剩余量；
+  绿 / 琥珀 / 红三档风险、重置虚线和 `QUOTA PACE` 侧栏。
+- **瀑布**：每个会话一行甘特；浅色首字段 + 深色流式段，失败斜纹，
+  点击会话聚焦。
+- **蜂群**：每个 Provider 一条轨道，TTFT 点带 P50/P90 线，点大小 = Token；
+  缺少首字样本的点标为估计值。
+- **成本**：Provider → 模型的 Token 面积树图；点击 Provider 下钻到模型。
+- **流向**：Agent → Provider → 模型三列流向；带宽 = Token，颜色 = Provider，
+  悬停高亮整条路由。
 
 ## 风格与明暗
 

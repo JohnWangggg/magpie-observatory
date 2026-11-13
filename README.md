@@ -16,7 +16,7 @@ Observatory turns that stream into something you can *watch*:
 - **Live routing** — Agent → Magpie → Provider/Account, with a filled magpie
   carrying the request out and a mirrored outlined magpie bringing the answer
   back. Failed attempts stay visible as “rerouted”.
-- **Five views** — `Route`, `Radar`, `Loom`, `Rhythm`, `Rings`.
+- **Ten views** — `Route`, `Radar`, `Loom`, `Rhythm`, `Rings`, `Quota`, `Waterfall`, `Swarm`, `Treemap`, `Sankey`.
 - **Four style packs** — `Control`, `Pixel`, `Paper`, `Neon`; each with a light
   and dark variant. Light/dark and style are independent.
 - **Layout settings** — Auto / One screen / Comfort, density Compact / Standard /
@@ -89,7 +89,7 @@ MAGPIE_URL=http://127.0.0.1:3425 MAGPIE_KEY=... node preview.mjs
 
 The preview is for development only; the plugin uses the same service internally.
 
-## The five views
+## The ten views
 
 | Route · two-way magpies | Radar · provider ring and quotas |
 | --- | --- |
@@ -99,7 +99,17 @@ The preview is for development only; the plugin uses the same service internally
 | --- | --- |
 | ![loom](docs/mode-loom.png) | ![rhythm](docs/mode-rhythm.png) |
 
-![Rings · half a year as a polar calendar](docs/mode-rings.png)
+| Rings · half a year as a polar calendar | Quota · burn-down and pace |
+| --- | --- |
+| ![rings](docs/mode-rings.png) | ![quota](docs/mode-quota.png) |
+
+| Waterfall · sessions on a time axis | Swarm · TTFT per provider |
+| --- | --- |
+| ![waterfall](docs/mode-waterfall.png) | ![swarm](docs/mode-swarm.png) |
+
+| Treemap · cost by provider and model | Sankey · agent → provider → model flow |
+| --- | --- |
+| ![treemap](docs/mode-treemap.png) | ![sankey](docs/mode-sankey.png) |
 
 - **Route**: the default. Magpies fly the whole `Agent → Magpie → Provider`
   path; failures remain visible.
@@ -112,6 +122,16 @@ The preview is for development only; the plugin uses the same service internally
 - **Rings**: the last 26 weeks as a polar calendar — seven weekday rings, one
   column per week; bead size and colour carry token volume, and today keeps a
   green ring.
+- **Quota**: each account's window as a burn-down line with a projected left at
+  reset; green/amber/red risk, reset markers and a `QUOTA PACE` side list.
+- **Waterfall**: sessions as Gantt rows; pale first-token segment plus a
+  streaming segment, failure hatching, click a session to focus it.
+- **Swarm**: one lane per provider, TTFT points with P50/P90 lines, dot size =
+  tokens; missing first-token samples are marked as estimated.
+- **Treemap**: provider → model area by tokens; click a provider to drill into
+  its models.
+- **Sankey**: agent → provider → model flow; link width = tokens, provider
+  colours, hover highlights the whole route.
 
 ## Styles and themes
 

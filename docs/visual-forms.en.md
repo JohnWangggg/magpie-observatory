@@ -157,7 +157,29 @@ one-screen quota, `RINGS_WEEKS` can move to 53.
 
 ---
 
-## 7. Recommended order
+## 7. Implementation status (2026-11)
+
+Shipped from this list as hero views:
+
+| Form | Status | Where |
+| --- | --- | --- |
+| Rings (polar calendar) | ✅ v0.7.0 | `#view-rings` |
+| Quota burn-down + pace | ✅ v0.8.0 | `#view-quota` |
+| Session waterfall / Gantt | ✅ v0.8.0 | `#view-waterfall` |
+| Latency beeswarm / ridgeline | ✅ v0.8.0 | `#view-swarm` |
+| Cost treemap | ✅ v0.8.0 | `#view-treemap` |
+| Agent → provider → model flow | ✅ v0.8.0 | `#view-sankey` |
+
+Still open and worth doing:
+
+- **Funnel** (calls → timed → done → success): cheap, fits beside the KPI row;
+- **Bullet / budget threshold**: a lightweight card version of the quota view;
+- **Latency heatmap (time × bucket)**: needs a client-side request ring buffer;
+- **Orrery / constellation**: strongest brand fit, weaker data fidelity;
+- **Flame graph / streamgraph / horizon**: blocked until Magpie exposes span
+  nesting or stacked `usage?by=provider` series.
+
+## 8. Recommended order
 
 1. **Quota burn-down + pace**: add `/quotas/history` to the service, add a
    burn-down card (or replace the radar's quota rings with it).
@@ -169,7 +191,7 @@ one-screen quota, `RINGS_WEEKS` can move to 53.
 
 ---
 
-## 8. References
+## 9. References
 
 - Langfuse Custom Dashboards: https://langfuse.com/docs/metrics/features/custom-dashboards
 - Langfuse flame graph issue #16219: https://github.com/langfuse/langfuse/issues/16219

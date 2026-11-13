@@ -35,6 +35,31 @@
   const STATUS_CLASS = { streaming: "run", queued: "queue", done: "done", error: "err" };
   const STATUS_LOG = { ok: "ok", run: "run", retry: "retry", err: "err" };
 
+  /* ---------------------------------------------------------- view registry --- */
+  // New visual forms live in public/assets/views/*.js and register themselves
+  // on window.ObservatoryViews. This keeps app.js small and lets each view own
+  // its own files; buildViewCtx() is the only contract between them.
+  function viewRegistry() { return window.ObservatoryViews || {}; }
+  function buildViewCtx() {
+    return {
+      data: state.data,
+      logs: state.data.logs || [],
+      quotas: state.data.quotas || [],
+      kpis: state.data.kpis || {},
+      fmtTokens, fmtMoney, esc, clamp,
+      providerMeta: D.providerMeta,
+      providerOfModel: D.providerOfModel,
+      providerIcon, agentMeta: D.agentMeta, agentIcon,
+      motion: document.documentElement.dataset.motion || "full"
+    };
+  }
+  function renderCustomView(mode, force) {
+    const view = viewRegistry()[mode];
+    const host = $("#view-" + mode);
+    if (!view || !host) return;
+    view.render(host, buildViewCtx());
+  }
+
   /* ------------------------------------------------------------- derive --- */
   function computeView() {
     const d = state.data;
@@ -328,6 +353,8 @@
     else if (state.heroMode === "loom") renderLoomView();
     else if (state.heroMode === "rhythm") renderRhythmView();
     else if (state.heroMode === "rings") renderRingsView();
+    else if (state.heroMode === "quota") renderQuotaView();
+    else if (viewRegistry()[state.heroMode]) renderCustomView(state.heroMode);
   }
 
   // The brand magpie, inline once in index.html. The outbound bird is 34px
@@ -822,25 +849,244 @@
     svg.addEventListener("pointerleave", () => { tip.hidden = true; });
   }
 
+  /* ----------------------------------------------------------- quota pace --- */
+  // Burn-down + pace: one row per account × window. x is the history the
+  // gateway kept, y is what is left of the window (0-100). The dotted tail
+  // projects the recent burn rate to the reset, so the color of the line
+  // answers "will this window run out before it resets?".
+  const QUOTA_ROWS_MAX = 8;
+  const QP_PAD = { l: 3, r: 3, t: 3, b: 3 };
+  const QUOTA_RISK_TEXT = { green: "能撑到重置", amber: "余量告急", red: "会提前用完", flat: "无重置窗口" };
+
+  function quotaMotionOn() {
+    if (document.documentElement.dataset.motion === "off") return false;
+    return !(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+  }
+
+  function fmtCountdown(ms) {
+    if (ms == null) return "—";
+    if (ms <= 0) return "重置中";
+    const mins = Math.round(ms / 60000);
+    if (mins < 60) return mins + "m";
+    const h = Math.floor(mins / 60), m = mins % 60;
+    if (h < 24) return h + "h" + (m ? pad2(m) : "");
+    return Math.floor(h / 24) + "d" + (h % 24) + "h";
+  }
+
+  function quotaTimeLabel(ms, spanMs) {
+    const d = new Date(ms);
+    const hm = pad2(d.getHours()) + ":" + pad2(d.getMinutes());
+    return spanMs > 172800000 ? `${pad2(d.getMonth() + 1)}-${pad2(d.getDate())} ${hm}` : hm;
+  }
+
+  // One row per account × window, riskiest first: the projection at the reset
+  // is the sort key, and a line without a reset falls back to what is left.
+  function quotaRows() {
+    const rows = [];
+    (state.data.quotaHistory || []).forEach(entry => {
+      (entry.lines || []).forEach(line => {
+        const pts = (line.points || []).filter(p => p && p.at && isFinite(Number(p.left)));
+        if (pts.length < 2) return;
+        const last = pts[pts.length - 1];
+        const t0 = Date.parse(pts[0].start || pts[0].at);
+        const resetMs = last.resetsAt ? Date.parse(last.resetsAt) : null;
+        const endMs = resetMs != null && resetMs > t0 ? resetMs : Date.parse(last.at);
+        // Burn rate over the window in flight only: averaging an earlier
+        // reset's fresh 100% back in would flatten the slope.
+        const winStart = Date.parse(last.start || pts[0].at);
+        let from = pts[0];
+        for (let i = pts.length - 1; i >= 0; i--) {
+          if (winStart && Date.parse(pts[i].at) < winStart) break;
+          from = pts[i];
+        }
+        const hours = (Date.parse(last.at) - Date.parse(from.at)) / 3600000;
+        const rate = hours > 0.1 ? Math.max(0, (from.left - last.left) / hours) : 0;
+        const toResetH = resetMs != null ? Math.max(0, (resetMs - Date.parse(last.at)) / 3600000) : null;
+        const projected = toResetH != null ? last.left - rate * toResetH : null;
+        const risk = projected == null ? "flat" : projected < 0 ? "red" : projected < 20 ? "amber" : "green";
+        rows.push({
+          entry, line, pts, last, t0, endMs, resetMs, rate, projected, risk,
+          resetIn: resetMs != null ? resetMs - Date.now() : null,
+          meta: D.providerMeta(entry.provider),
+          sortKey: projected == null ? last.left : projected
+        });
+      });
+    });
+    return rows.sort((a, b) => a.sortKey - b.sortKey).slice(0, QUOTA_ROWS_MAX);
+  }
+
+  // Drawn in real pixels (viewBox === element box) so strokes, dashes and the
+  // end dot keep their weight whatever the row width is.
+  function drawQuotaRow(row, svg, w, h) {
+    const span = Math.max(1, row.endMs - row.t0);
+    if (!(w > 60) || !(h > 12)) return;
+    const px = (ms) => QP_PAD.l + (ms - row.t0) / span * (w - QP_PAD.l - QP_PAD.r);
+    const py = (left) => QP_PAD.t + (1 - clamp(left, 0, 100) / 100) * (h - QP_PAD.t - QP_PAD.b);
+    const right = (w - QP_PAD.r).toFixed(1);
+    const bottom = (h - QP_PAD.b).toFixed(1);
+    const grid = [0, 50, 100].map(v =>
+      `<line class="qp-grid" x1="${QP_PAD.l}" y1="${py(v).toFixed(1)}" x2="${right}" y2="${py(v).toFixed(1)}"/>`).join("");
+    const threshold = `<line class="qp-thresh" x1="${QP_PAD.l}" y1="${py(20).toFixed(1)}" x2="${right}" y2="${py(20).toFixed(1)}"/>`;
+    const resetX = px(row.endMs).toFixed(1);
+    const marker = row.resetMs != null
+      ? `<line class="qp-reset" x1="${resetX}" y1="${QP_PAD.t}" x2="${resetX}" y2="${bottom}"/>`
+      : "";
+    const lastX = px(Date.parse(row.last.at)).toFixed(1);
+    const lastY = py(row.last.left).toFixed(1);
+    const projection = row.projected == null ? ""
+      : `<line class="qp-proj" x1="${lastX}" y1="${lastY}" x2="${resetX}" y2="${py(clamp(row.projected, 0, 100)).toFixed(1)}"/>`;
+    const d = row.pts.map((p, i) =>
+      (i ? "L" : "M") + px(Date.parse(p.at)).toFixed(1) + " " + py(p.left).toFixed(1)).join(" ");
+    svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
+    svg.innerHTML = `${grid}${threshold}${marker}${projection}<path class="qp-line" d="${d}"/><circle class="qp-dot" cx="${lastX}" cy="${lastY}" r="2"/>`;
+    const path = svg.querySelector(".qp-line");
+    if (path && quotaMotionOn()) {
+      try {
+        const len = path.getTotalLength();
+        path.style.strokeDasharray = String(len);
+        path.style.strokeDashoffset = String(len);
+        requestAnimationFrame(() => {
+          path.style.transition = "stroke-dashoffset .85s cubic-bezier(.4,0,.2,1)";
+          path.style.strokeDashoffset = "0";
+        });
+      } catch (_) {}
+    }
+  }
+
+  function renderQuotaView(force) {
+    const host = $("#view-quota");
+    if (!host) return;
+    const rows = quotaRows();
+    if (!rows.length) {
+      host.dataset.sig = "";
+      host.innerHTML = `<div class="empty-state qp-empty">
+        <b>额度燃尽等待历史</b>
+        <span>曲线来自 <code>/v1/magpie/quotas/history</code>：每个账号 × 窗口的 remaining 序列。</span>
+        <span>GUI / tray 网关若不提供该接口（或只保留当前额度），这里会保持为空。</span>
+      </div>`;
+      return;
+    }
+    const sig = rows.map(r => `${r.entry.provider}|${r.entry.user}|${r.line.name}:${r.pts.length}:${r.last.at}:${r.last.left}`).join("~");
+    if (!force && host.dataset.sig === sig && host.innerHTML) return;
+    host.dataset.sig = sig;
+
+    const accounts = new Set(rows.map(r => r.entry.user || r.entry.name)).size;
+    const atRisk = rows.filter(r => r.risk === "red" || r.risk === "amber").length;
+    const withReset = rows.filter(r => r.resetIn != null).sort((a, b) => a.resetIn - b.resetIn);
+    const soon = withReset[0] || null;
+
+    const rowHtml = rows.map((r, i) => {
+      const label = r.entry.name || r.meta.name;
+      const proj = r.projected == null ? "—" : Math.round(r.projected) + "%";
+      return `<div class="qp-row ${r.risk}" data-ri="${i}" tabindex="0" role="button" title="${esc(label)} · ${esc(r.line.name)} · ${esc(QUOTA_RISK_TEXT[r.risk])}">
+        <span class="qp-id"><img src="${providerIcon(r.entry.provider)}" alt=""><span><b>${esc(label)}</b><small>${esc(r.line.name)} · ${esc(r.meta.name)}</small></span></span>
+        <span class="qp-plot"><svg class="qp-svg" preserveAspectRatio="none" aria-hidden="true"></svg></span>
+        <span class="qp-left"><b>${Math.round(r.last.left)}%</b><small>→ ${esc(proj)}</small></span>
+      </div>`;
+    }).join("");
+
+    const itemHtml = rows.map((r, i) => {
+      const label = r.entry.name || r.meta.name;
+      const proj = r.projected == null ? "—" : Math.round(r.projected) + "%";
+      return `<button class="qp-item ${r.risk}" data-ri="${i}" title="${esc(label)} · ${esc(r.line.name)} · ${r.rate.toFixed(1)}%/h · ${esc(QUOTA_RISK_TEXT[r.risk])}">
+        <img src="${providerIcon(r.entry.provider)}" alt="">
+        <span class="qp-item-copy"><b>${esc(label)}</b><small>${esc(r.line.name)} · ${r.rate.toFixed(1)}%/h → ${esc(proj)}</small></span>
+        <span class="qp-item-num"><b>${Math.round(r.last.left)}%</b></span>
+        <span class="qp-item-cd">${esc(fmtCountdown(r.resetIn))}</span>
+      </button>`;
+    }).join("");
+
+    host.innerHTML = `<div class="qp-board">
+      <div class="qp-main">
+        <div class="qp-head"><span><b>BURN-DOWN</b> · 额度燃尽</span><span>${rows.length} 个窗口 · 余量 100 → 0</span></div>
+        <div class="qp-rows">${rowHtml}</div>
+      </div>
+      <aside class="qp-side">
+        <div class="qp-side-title"><span>QUOTA PACE</span><span>按风险排序</span></div>
+        <div class="qp-summary">
+          <span>窗口 <b>${rows.length}</b> · 账号 <b>${accounts}</b></span>
+          <span>有风险 <b>${atRisk}</b></span>
+          <span title="${soon ? esc(soon.entry.name || soon.meta.name) + " · " + esc(soon.line.name) : "没有带重置的窗口"}">最近重置 <b>${esc(fmtCountdown(soon ? soon.resetIn : null))}</b></span>
+        </div>
+        <div class="qp-list">${itemHtml}</div>
+        <div class="qp-legend">
+          <span><i class="green"></i>能撑到重置</span>
+          <span><i class="amber"></i>≤20%</span>
+          <span><i class="red"></i>提前用尽</span>
+          <span class="qp-legend-note">虚线 = 按最近配速外推 · 竖虚线 = 重置点</span>
+        </div>
+      </aside>
+    </div>
+    <div class="qp-tip" hidden></div>`;
+
+    const tip = $(".qp-tip", host);
+    const applySel = (ri) => {
+      host.dataset.sel = ri == null ? "" : String(ri);
+      $$(".qp-row", host).forEach(el => el.classList.toggle("sel", el.dataset.ri === host.dataset.sel));
+      $$(".qp-item", host).forEach(el => el.classList.toggle("sel", el.dataset.ri === host.dataset.sel));
+    };
+    const select = (ri) => applySel(host.dataset.sel === String(ri) ? null : ri);
+
+    $$(".qp-plot", host).forEach(plot => {
+      const svg = $(".qp-svg", plot);
+      const ri = Number(plot.parentElement.dataset.ri);
+      const width = plot.clientWidth || 600;
+      plot.dataset.w = String(width);
+      drawQuotaRow(rows[ri], svg, width, plot.clientHeight || 26);
+      plot.addEventListener("pointermove", e => {
+        const row = rows[ri];
+        const box = plot.getBoundingClientRect();
+        const span = Math.max(1, row.endMs - row.t0);
+        const x = clamp(e.clientX - box.left, QP_PAD.l, box.width - QP_PAD.r);
+        const at = row.t0 + (x - QP_PAD.l) / Math.max(1, box.width - QP_PAD.l - QP_PAD.r) * span;
+        let nearest = row.pts[0], dist = Infinity;
+        row.pts.forEach(p => {
+          const d = Math.abs(Date.parse(p.at) - at);
+          if (d < dist) { dist = d; nearest = p; }
+        });
+        const hostBox = host.getBoundingClientRect();
+        tip.hidden = false;
+        tip.innerHTML = `<b>${esc(quotaTimeLabel(Date.parse(nearest.at), span))}</b><span>剩 ${nearest.left.toFixed(1)}% · ${esc(row.line.name)} · ${esc(row.entry.name || row.meta.name)}</span>`;
+        // Keep the tip inside the view: above the cursor, flipping below when
+        // the row is too close to the top.
+        const tw = tip.offsetWidth, th = tip.offsetHeight;
+        const cx = e.clientX - hostBox.left, cy = e.clientY - hostBox.top;
+        const top = cy - th - 8 < 4 ? cy + 10 : cy - th - 8;
+        tip.style.left = clamp(cx - tw / 2, 4, Math.max(4, hostBox.width - tw - 4)) + "px";
+        tip.style.top = clamp(top, 4, Math.max(4, hostBox.height - th - 4)) + "px";
+      });
+      plot.addEventListener("pointerleave", () => { tip.hidden = true; });
+    });
+    $$(".qp-row", host).forEach(el => {
+      el.addEventListener("click", () => select(el.dataset.ri));
+      el.addEventListener("keydown", e => {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); select(el.dataset.ri); }
+      });
+    });
+    $$(".qp-item", host).forEach(el => el.addEventListener("click", () => select(el.dataset.ri)));
+    if (host.dataset.sel) applySel(host.dataset.sel);
+  }
+
   function setHeroMode(mode) {
     state.heroMode = mode;
-    const titles = { route: ["实时路由", "LIVE ROUTING"], radar: ["路由雷达", "RADAR SCAN"], loom: ["请求织机", "REQUEST LOOM"], rhythm: ["请求节奏", "RHYTHM"], rings: ["Token 年轮", "YEAR IN RINGS"] };
+    const custom = viewRegistry()[mode];
+    const titles = { route: ["实时路由", "LIVE ROUTING"], radar: ["路由雷达", "RADAR SCAN"], loom: ["请求织机", "REQUEST LOOM"], rhythm: ["请求节奏", "RHYTHM"], rings: ["Token 年轮", "YEAR IN RINGS"], quota: ["额度燃尽", "QUOTA PACE"] };
+    if (custom) titles[mode] = [custom.title || mode, custom.eyebrow || ""];
     const [title, eyebrow] = titles[mode] || titles.route;
     $("#hero-title").textContent = title;
     const eb = $(".hero-head .eyebrow");
     if (eb) eb.innerHTML = `<span class="live-ring"></span> ${eyebrow}`;
     $$("#hero-modes button").forEach(b => b.classList.toggle("active", b.dataset.hero === mode));
-    const route = $("#view-route"), radar = $("#view-radar"), loom = $("#view-loom"), rhythm = $("#view-rhythm"), rings = $("#view-rings");
-    if (route) route.hidden = mode !== "route";
-    if (radar) radar.hidden = mode !== "radar";
-    if (loom) loom.hidden = mode !== "loom";
-    if (rhythm) rhythm.hidden = mode !== "rhythm";
-    if (rings) rings.hidden = mode !== "rings";
+    $$(".stage-view").forEach(v => { v.hidden = true; });
+    const host = $("#view-" + mode);
+    if (host) host.hidden = false;
+    if (custom) { renderCustomView(mode, true); return; }
     if (mode === "route") requestAnimationFrame(drawWires);
     if (mode === "radar") renderRadarView(true);
     if (mode === "loom") renderLoomView(true);
     if (mode === "rhythm") renderRhythmView(true);
     if (mode === "rings") renderRingsView(true);
+    if (mode === "quota") renderQuotaView(true);
   }
 
   function sessionCard(s) {
@@ -1091,7 +1337,7 @@
       const pm = D.providerMeta(r.provider);
       return `<tr>
         <td><span class="t">${time}</span></td>
-        <td><span class="log-agent"><img src="${agentIcon(r.agent)}" alt=""><span><b>${esc(meta.name)}</b><small>${esc(r.session)}</small></span></span></td>
+        <td><span class="log-agent"><img src="${agentIcon(r.agent)}" alt=""><span><b>${esc(meta.name)}</b><small>${esc(r.session || "—")}</small></span></span></td>
         <td><span class="route-cell"><img src="${providerIcon(r.provider)}" alt=""><code>${esc(r.model)}</code><span class="arrow">·</span><span style="font-size:8px;color:var(--faint)">${esc(pm.name)}</span></span></td>
         <td><span class="status ${STATUS_LOG[r.status] || ""}"><i></i>${r.status === "ok" ? "200" : r.status === "run" ? "流式" : r.status === "retry" ? "改道" : "错误"}</span></td>
         <td class="num">${fmtTokens(r.tokens)}</td>
@@ -1431,6 +1677,8 @@
         if (state.heroMode === "loom") renderLoomView(true);
         if (state.heroMode === "rhythm") renderRhythmView(true);
         if (state.heroMode === "rings") renderRingsView(true);
+        if (state.heroMode === "quota") renderQuotaView(true);
+        if (viewRegistry()[state.heroMode]) renderCustomView(state.heroMode, true);
       }, 120);
     });
 
@@ -1542,7 +1790,7 @@
 
   /* ------------------------------------------------------------------ init --- */
   function init() {
-    try { console.info("%c Magpie Observatory v0.7.0 · route / radar / loom / rhythm / rings · 4 styles · layout settings", "color:#8b7cf6;font-weight:bold"); } catch (_) {}
+    try { console.info("%c Magpie Observatory v0.8.0 · ten views · 4 styles · layout settings", "color:#8b7cf6;font-weight:bold"); } catch (_) {}
     try {
       const hostTheme = new URLSearchParams(location.search).get("hostTheme");
       if (hostTheme === "light" || hostTheme === "dark") {

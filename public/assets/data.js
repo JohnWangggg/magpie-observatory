@@ -212,6 +212,65 @@
     { provider: "deepseek", name: "DeepSeek", user: "demo-balance", plan: "Balance", balance: "¥86.40", windows: [{ name: "额度", used: 22, resetsIn: null }] }
   ];
 
+  // A window's length in minutes, read off its label ("5h", "7d", "30m").
+  function quotaWindowMinutes(name) {
+    const m = /(\d+(?:\.\d+)?)\s*([hdm])/i.exec(String(name || ""));
+    if (!m) return 300;
+    const n = Number(m[1]);
+    const unit = m[2].toLowerCase();
+    return unit === "d" ? n * 1440 : unit === "h" ? n * 60 : n;
+  }
+
+  // Demo quota history: a deterministic seven-day sawtooth per window, the
+  // shape a real /v1/magpie/quotas/history returns. Every window falls from
+  // 100 to its floor and jumps back to 100 at the reset; the window in flight
+  // ends on the same `left` the quota list shows, so both views agree.
+  function mockQuotaHistory() {
+    const WEEK = 7 * 1440; // minutes
+    const iso = (ms) => new Date(Math.round(ms)).toISOString();
+    const rand = rng(20261114);
+
+    // `steps` hourly marks from `wsMs` over `spanMin`, ending on the floor.
+    // `opts.periodMin` is the window's full length, so the reset can sit past
+    // the last generated point while a window is still in flight.
+    function linePoints(wsMs, spanMin, steps, floorLeft, opts) {
+      const span = spanMin * MIN;
+      const start = iso(wsMs);
+      const resetsAt = opts.resets ? iso(wsMs + (opts.periodMin || spanMin) * MIN) : null;
+      const burns = [];
+      for (let i = 0; i < steps; i++) burns.push(0.45 + rand());
+      const total = burns.reduce((a, b) => a + b, 0);
+      const points = [{ at: start, left: 100, start, resetsAt }];
+      let spent = 0;
+      for (let i = 1; i <= steps; i++) {
+        spent += burns[i - 1];
+        const left = Math.max(floorLeft, 100 - (100 - floorLeft) * spent / total);
+        const at = opts.atNow && i === steps ? NOW : wsMs + span * i / steps;
+        points.push({ at: iso(at), left: +left.toFixed(2), start, resetsAt });
+      }
+      return points;
+    }
+
+    return QUOTA_SEEDS.map(seed => {
+      const lines = seed.windows.map(w => {
+        const balance = w.resetsIn == null;
+        const periodMin = balance ? WEEK : quotaWindowMinutes(w.name);
+        const elapsedMin = balance ? WEEK : Math.max(60, periodMin - (Number(w.resetsIn) || 0));
+        const endLeft = Math.max(0, Math.min(100, 100 - (Number(w.used) || 0)));
+        // The window in flight ends on "now"; older windows tile the week
+        // before it so the burn-down keeps its resets.
+        const points = linePoints(NOW - elapsedMin * MIN, elapsedMin, Math.max(2, Math.round(elapsedMin / 60)), endLeft, { atNow: true, resets: !balance, periodMin });
+        let ws = NOW - elapsedMin * MIN;
+        for (let guard = 0; !balance && ws - periodMin * MIN > NOW - WEEK * MIN && guard < 60; guard++) {
+          ws -= periodMin * MIN;
+          points.unshift(...linePoints(ws, periodMin, Math.max(2, Math.round(periodMin / 60)), +(8 + rand() * 42).toFixed(1), { resets: true }));
+        }
+        return { name: w.name || "额度", points: points.slice(-200) };
+      }).filter(l => l.points.length >= 2);
+      return { provider: providerOfModel("", seed.provider), name: seed.name, user: seed.user || "", lines };
+    }).filter(x => x.lines.length);
+  }
+
   function mockState() {
     const rand = rng(20261113);
     const series = [];
@@ -256,20 +315,21 @@
       ["codex", "修复 HUD 路由连线在窄窗下的溢出", "openai", "gpt-5.2-codex", "run", 12800, 410, 118.6, 0.11],
       ["gemini", "分析 30 天 token 账单", "google", "gemini-3-pro", "run", 24600, 920, 88.2, 0.17],
       ["opencode", "批量重命名测试快照", "deepseek", "deepseek-v4", "retry", 5200, 0, 0, 0.01],
-      ["claude", "实现 SSE 增量同步", "openrouter", "claude-sonnet-4-5", "ok", 20400, 540, 74.1, 0.16],
-      ["codex", "review PR #482：quota 缓存竞态", "openai", "gpt-5.1", "ok", 15600, 390, 96.5, 0.13],
-      ["gemini", "写一版 release note", "zhipu", "glm-5", "ok", 4800, 610, 52.8, 0.01],
-      ["claude", "检查 MCP 工具调用失败原因", "minimax", "MiniMax-M3", "err", 6700, 780, 41.9, 0.05],
+      ["claude", "重构计费模块的边界条件", "openrouter", "claude-sonnet-4-5", "ok", 20400, 540, 74.1, 0.16],
+      ["codex", "修复 HUD 路由连线在窄窗下的溢出", "openai", "gpt-5.1", "ok", 15600, 390, 96.5, 0.13],
+      ["gemini", "分析 30 天 token 账单", "zhipu", "glm-5", "ok", 4800, 610, 52.8, 0.01],
+      ["claude", "重构计费模块的边界条件", "minimax", "MiniMax-M3", "err", 6700, 780, 41.9, 0.05],
       ["cursor", "补全 provider 图标映射", "moonshot", "kimi-k2.5", "ok", 9100, 520, 81.3, 0.04],
-      ["codex", "把 trace 长轮询接进 HUD", "openai", "gpt-5.2-codex", "ok", 11200, 360, 121.7, 0.10],
-      ["claude", "解释 cache_read 的计费口径", "anthropic", "claude-sonnet-4-5", "ok", 7300, 610, 69.2, 0.03],
-      ["gemini", "整理 8 周活跃热力图", "google", "gemini-3-pro", "ok", 8800, 840, 85.4, 0.04],
-      ["opencode", "生成 Lighthouse 报告摘要", "deepseek", "deepseek-v4", "ok", 6400, 470, 102.3, 0.02],
-      ["codex", "重写 quota 倒计时格式化", "openai", "gpt-5.1", "ok", 10200, 410, 91.8, 0.06],
-      ["claude", "检查 subagent 会话归属", "openrouter", "claude-opus-4-5", "ok", 14600, 720, 58.7, 0.12]
+      ["codex", "修复 HUD 路由连线在窄窗下的溢出", "openai", "gpt-5.2-codex", "ok", 11200, 360, 121.7, 0.10],
+      ["claude", "重构计费模块的边界条件", "anthropic", "claude-sonnet-4-5", "ok", 7300, 610, 69.2, 0.03],
+      ["gemini", "分析 30 天 token 账单", "google", "gemini-3-pro", "ok", 8800, 840, 85.4, 0.04],
+      ["opencode", "批量重命名测试快照", "deepseek", "deepseek-v4", "ok", 6400, 470, 102.3, 0.02],
+      ["codex", "修复 HUD 路由连线在窄窗下的溢出", "openai", "gpt-5.1", "ok", 10200, 410, 91.8, 0.06],
+      ["claude", "重构计费模块的边界条件", "openrouter", "claude-opus-4-5", "ok", 14600, 720, 58.7, 0.12],
+      ["claude", null, "openai", "gpt-5.1", "ok", 900, 210, 140, 0.01]
     ];
     logTemplates.forEach((t, i) => {
-      const at = new Date(NOW - i * 97000 - (i % 3) * 41000);
+      const at = new Date(NOW - i * 46000 - (i % 3) * 8000);
       logs.push({
         id: "r-" + i, at: at.toISOString(), agent: t[0], session: t[1], provider: t[2],
         model: t[3], status: t[4], tokens: t[5], ttft: t[6], tps: t[7], cost: t[8]
@@ -289,6 +349,7 @@
         active: 4, activeDelta: 1
       },
       quotas: QUOTA_SEEDS.map(q => ({ ...q })),
+      quotaHistory: mockQuotaHistory(),
       sessions: SESSION_SEEDS.map(s => ({ ...s, startedAt: NOW - s.startedAgo })),
       recent: RECENT_SEEDS.map(s => ({ ...s, startedAt: NOW - s.startedAgo })),
       series,
@@ -425,7 +486,10 @@
         model: r.served || r.model || "—",
         status,
         tokens,
-        ttft: r.ttft_ms || r.first_text_ms || 0,
+        ttft: r.ttft_ms != null ? Number(r.ttft_ms)
+          : r.first_text_ms != null ? Number(r.first_text_ms) : null,
+        ms: Number(r.ms) || 0,
+        out: Number(r.out) || 0,
         tps,
         cost: r.cost || 0
       };
@@ -457,6 +521,26 @@
         resetsIn: w.resetsAt ? Math.max(0, Math.round((Date.parse(w.resetsAt) - now) / 60000)) : null
       }))
     })).filter(x => x.windows.length || x.balance);
+
+    // Burn-down history: the gateway keeps an `at/left/start/resetsAt` series
+    // per account × window. Keep the tail of each series only.
+    const quotaHistory = ((raw.quotaHistory && (raw.quotaHistory.data || raw.quotaHistory)) || []).map(x => {
+      const provider = providerOfModel("", x.provider || x.name || "");
+      return {
+        provider,
+        name: x.name || providerMeta(provider).name,
+        user: x.user || "",
+        lines: (x.lines || []).map(l => ({
+          name: l.name || "额度",
+          points: (l.points || []).filter(p => p && p.at && isFinite(Number(p.left))).slice(-200).map(p => ({
+            at: p.at,
+            left: Math.max(0, Math.min(100, Number(p.left))),
+            start: p.start || null,
+            resetsAt: p.resetsAt || null
+          }))
+        })).filter(l => l.points.length >= 2)
+      };
+    }).filter(x => x.lines.length);
 
     const activeIds = new Set(sessions.map(s => s.id));
     const recentMap = new Map();
@@ -490,6 +574,7 @@
         active: active.length
       },
       quotas: q,
+      quotaHistory,
       sessions,
       recent: Array.from(recentMap.values()).slice(0, 5),
       series,
