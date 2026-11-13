@@ -533,18 +533,32 @@
       heatmap = full;
     }
 
-    const q = quotas.map(x => ({
-      provider: providerOfModel("", x.provider),
-      name: x.name || x.provider,
-      user: x.user || "",
-      plan: x.plan || x.kind || "",
-      balance: x.balance || null,
-      windows: (x.windows || []).slice().sort((a, b) => (a.resetsAt || "").localeCompare(b.resetsAt || "")).slice(0, 2).map(w => ({
-        name: w.name || "额度",
-        used: w.used != null ? (w.used <= 1 ? w.used * 100 : w.used) : (w.remaining != null && w.limit ? (1 - w.remaining / w.limit) * 100 : 0),
-        resetsIn: w.resetsAt ? Math.max(0, Math.round((Date.parse(w.resetsAt) - now) / 60000)) : null
-      }))
-    })).filter(x => x.windows.length || x.balance);
+    const q = quotas.map(x => {
+      const rawWins = x.windows || [];
+      // Magpie normally reports used/remaining as 0–100. Only treat a whole
+      // account's windows as 0–1 fractions when every value is <=1 and a
+      // remaining value confirms the scale; a real 1% must stay 1%.
+      const asFraction = rawWins.length > 0 && rawWins.every(w => {
+        if (w.used == null) return true;
+        if (w.used > 1) return false;
+        if (w.remaining != null) return w.remaining <= 1;
+        return false;
+      });
+      return {
+        provider: providerOfModel("", x.provider),
+        name: x.name || x.provider,
+        user: x.user || "",
+        plan: x.plan || x.kind || "",
+        balance: x.balance || null,
+        windows: rawWins.slice().sort((a, b) => (a.resetsAt || "").localeCompare(b.resetsAt || "")).slice(0, 2).map(w => ({
+          name: w.name || "额度",
+          used: w.used != null
+            ? (asFraction ? w.used * 100 : w.used)
+            : (w.remaining != null && w.limit ? (1 - w.remaining / w.limit) * 100 : 0),
+          resetsIn: w.resetsAt ? Math.max(0, Math.round((Date.parse(w.resetsAt) - now) / 60000)) : null
+        }))
+      };
+    }).filter(x => x.windows.length || x.balance);
 
     // Burn-down history: the gateway keeps an `at/left/start/resetsAt` series
     // per account × window. Keep the tail of each series only.
