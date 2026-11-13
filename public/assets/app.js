@@ -2187,7 +2187,7 @@
   }
 
   /* ---------------------------------------------------------------- style --- */
-  const STYLE_NAMES = { control: "控制室", pixel: "像素", paper: "纸感", neon: "霓虹" };
+  const STYLE_NAMES = { control: "控制室", pixel: "像素", paper: "纸感", neon: "霓虹", terminal: "终端", blueprint: "蓝图", zine: "拼贴" };
   function syncStyleMenu() {
     const style = document.documentElement.dataset.style || "control";
     $$(".style-item").forEach(b => b.classList.toggle("active", b.dataset.style === style));
@@ -2217,7 +2217,7 @@
 
   /* ------------------------------------------------------------------ init --- */
   function init() {
-    try { console.info("%c Magpie Observatory v0.16.0 · twenty-one views · 4 styles · layout settings", "color:#8b7cf6;font-weight:bold"); } catch (_) {}
+    try { console.info("%c Magpie Observatory v0.17.0 · twenty-one views · 7 styles · layout settings", "color:#8b7cf6;font-weight:bold"); } catch (_) {}
     try {
       const hostTheme = new URLSearchParams(location.search).get("hostTheme");
       if (hostTheme === "light" || hostTheme === "dark") {

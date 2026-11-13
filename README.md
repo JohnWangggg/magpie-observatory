@@ -202,11 +202,28 @@ top of the picker and survive reloads), **?** opens the shortcut sheet, and
 | --- | --- |
 | ![paper](docs/style-paper.png) | ![neon](docs/style-neon.png) |
 
+| Terminal | Blueprint |
+| --- | --- |
+| ![terminal](docs/style-terminal.png) | ![blueprint](docs/style-blueprint.png) |
+
+| Zine | Game Boy (pixel light) |
+| --- | --- |
+| ![zine](docs/style-zine.png) | ![game boy](docs/style-pixel-light.png) |
+
 - **Control**: glass cards, iris/cyan accents, balanced density.
-- **Pixel**: hard 2 px borders, 4 px hard shadows, monospace, scanlines, Game Boy
-  green. Light variant is a daylight Game Boy.
+- **Pixel**: 8-bit console — 2 px frames, offset block shadows, dither pattern,
+  segmented meters, uppercase mono, heavy CRT raster; the light variant is a
+  Game Boy DMG screen.
 - **Paper**: cream, serif, brown ink, paper grain; a report-like dark variant.
-- **Neon**: black, magenta/cyan glow, radar-friendly; a daylight variant.
+- **Neon**: cyberpunk black glass — magenta/cyan split lighting, HUD corner
+  brackets, a perspective grid floor and chromatic-aberration titles.
+- **Terminal**: phosphor CRT — green bloom on numbers, block cursor on card
+  heads, hard raster, monospace everywhere; light variant is a day terminal.
+- **Blueprint**: drafting table — navy vellum, 24 px graph grid, dashed inner
+  frames, ruler ticks, no glow; light variant is a day print.
+- **Zine**: risograph cut-out — newsprint with halftone dots, 2 px ink borders,
+  hard offset shadows, one spot red, highlighter titles; dark variant is
+  black-ink newsprint.
 
 Use the **明暗** button for light/dark and the **风格** button for a pack. Both
 choices persist separately.
