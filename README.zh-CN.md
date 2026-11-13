@@ -24,6 +24,13 @@ Magpie 已经知道每个请求走的是哪个 provider、账号和模型。Obse
 - **会话**：活跃请求、子 Agent、TPS、改道次数；最近完成的会话留在侧栏。
 - **响应式**：桌面一屏，手机单列 + 紧凑侧栏；同一份数据，没有单独的移动端构建。
 
+## 图标
+
+<img src="docs/icon.png" width="88" alt="Magpie Observatory 图标">
+
+一只在轨道上的喜鹊：白色鸟身是请求/回答的双向路径，虚线环是观测台，
+青色眼睛代表实时网关。
+
 ## 作为 Magpie 插件安装
 
 需要较新的 Magpie，支持 **plugin page** 和 **page service**
@@ -151,6 +158,10 @@ MAGPIE_URL=http://127.0.0.1:3425 MAGPIE_KEY=... node preview.mjs
 | `GET /v1/magpie/concurrency` | 在飞/排队请求 |
 | `GET /v1/magpie/usage/requests?period=…` | 请求账本 |
 | `GET /api/usage/heatmap?period=all` | 热力图（GUI / `magpie web`） |
+
+如果 GUI 的热力图路由不存在（headless / tray 网关会返回 404），服务会用
+`/v1/magpie/usage?period=all` 的每日序列补齐同样的日期格子，并缓存 5 分钟；
+不读取 prompt 或回复正文。
 
 不保存 prompt、回复、凭据或模型调用密钥。服务只监听 loopback；插件页面通过
 自己的 origin 访问它。

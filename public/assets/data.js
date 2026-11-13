@@ -20,10 +20,20 @@
     openrouter: { name: "OpenRouter", icon: "openrouter.svg",       color: "#a78bfa" },
     minimax:    { name: "MiniMax",    icon: "minimax-color.svg",    color: "#fb7185" },
     xai:        { name: "xAI",        icon: "grok.svg",             color: "#e5e7eb" },
+    grok:       { name: "Grok",       icon: "grok.svg",             color: "#e5e7eb" },
     ollama:     { name: "Ollama",     icon: "ollama.svg",           color: "#f97316" },
     qwen:       { name: "Qwen",       icon: "qwen-color.svg",       color: "#8b5cf6" },
     cursor:     { name: "Cursor",     icon: "cursor.svg",           color: "#cbd5e1" },
     copilot:    { name: "Copilot",    icon: "copilot-color.svg",    color: "#22d3ee" },
+    "opencode-go":     { name: "OpenCode Go",  icon: "opencode.svg",      color: "#8b7cf6" },
+    workbuddy:         { name: "WorkBuddy",    icon: "magpie.svg",        color: "#22d3ee" },
+    "workbuddy-ai":    { name: "WorkBuddy AI", icon: "magpie.svg",        color: "#22d3ee" },
+    zcode:             { name: "ZCode",        icon: "zhipu-color.svg",   color: "#3b82f6" },
+    "commandcode-plan":{ name: "Command Code", icon: "magpie.svg",        color: "#f59e0b" },
+    "mimo-app":        { name: "Xiaomi MiMo",  icon: "magpie.svg",        color: "#f97316" },
+    raccoon:           { name: "Raccoon",      icon: "magpie.svg",        color: "#22d3ee" },
+    "muse-web":        { name: "Muse Web",     icon: "magpie.svg",        color: "#e2549a" },
+    "agy-cli":         { name: "agy-cli",      icon: "magpie.svg",        color: "#8b7cf6" },
     unknown:    { name: "Magpie",     icon: "magpie.svg",           color: "#8b7cf6" }
   };
 
@@ -35,12 +45,20 @@
     "gemini":        { name: "Gemini CLI",   icon: "geminicli-color.svg",  color: "#4285f4" },
     "gemini-cli":    { name: "Gemini CLI",   icon: "geminicli-color.svg",  color: "#4285f4" },
     "opencode":      { name: "OpenCode",     icon: "opencode.svg",         color: "#8b7cf6" },
+    "opencode-go":   { name: "OpenCode Go",  icon: "opencode.svg",         color: "#8b7cf6" },
     "cursor":        { name: "Cursor",       icon: "cursor.svg",           color: "#cbd5e1" },
     "copilot":       { name: "Copilot",      icon: "copilot-color.svg",    color: "#22d3ee" },
+    "alma":          { name: "Alma",         icon: "magpie.svg",           color: "#d97757" },
+    "omp":           { name: "OMP",          icon: "magpie.svg",           color: "#8b7cf6" },
+    "workbuddy":     { name: "WorkBuddy",    icon: "magpie.svg",           color: "#22d3ee" },
     "unknown":       { name: "Agent",        icon: "magpie.svg",           color: "#8b7cf6" }
   };
 
   const MODEL_COLORS = ["#8b7cf6", "#56d4dd", "#4ade80", "#fbbf24", "#f472b6", "#60a5fa", "#c084fc", "#94a3b8"];
+
+  function prettyName(key) {
+    return String(key || "").trim().replace(/[-_]+/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+  }
 
   function providerMeta(key) {
     const k = String(key || "").toLowerCase();
@@ -58,7 +76,8 @@
     if (k.includes("qwen") || k.includes("alibaba")) return PROVIDERS.qwen;
     if (k.includes("cursor")) return PROVIDERS.cursor;
     if (k.includes("copilot")) return PROVIDERS.copilot;
-    return PROVIDERS.unknown;
+    const name = prettyName(key);
+    return name ? { name, icon: "magpie.svg", color: "#8b7cf6" } : PROVIDERS.unknown;
   }
 
   function agentMeta(key) {
@@ -70,7 +89,8 @@
     if (k.includes("opencode")) return AGENTS.opencode;
     if (k.includes("cursor")) return AGENTS.cursor;
     if (k.includes("copilot")) return AGENTS.copilot;
-    return AGENTS.unknown;
+    const name = prettyName(key);
+    return name ? { name, icon: "magpie.svg", color: "#8b7cf6" } : AGENTS.unknown;
   }
 
   function iconUrl(file) { return ICON_BASE + file; }
@@ -313,20 +333,27 @@
 
     const sessions = routes.map(r => {
       const agentKey = r.agent || "unknown";
-      const tries = (r.tries || []).map(t => ({
-        provider: providerOfModel(t.model, r.provider),
-        model: t.model || r.served || "—",
-        state: t.done ? (t.status >= 200 && t.status < 300 ? "ok" : "fail") : "pending",
-        ms: t.firstText || 0,
-        why: t.status ? String(t.status) : (t.done ? "done" : "in flight")
-      }));
+      const tries = (r.tries || []).map(t => {
+        // A try's id names the seat it ran on: `provider#key` for a key,
+        // `provider@account` for an account. The route's provider is only
+        // the final seat, so do not use it for every attempt.
+        const seat = String(t.id || "");
+        const tryProvider = t.provider || seat.split("#")[0].split("@")[0] || r.provider || "";
+        return {
+          provider: providerOfModel(t.model, tryProvider),
+          model: t.model || r.served || "—",
+          state: t.done ? (t.status >= 200 && t.status < 300 ? "ok" : "fail") : "pending",
+          ms: t.ttft || t.firstText || t.ms || 0,
+          why: t.status ? String(t.status) : (t.done ? "done" : "in flight")
+        };
+      });
       const firstTry = tries[0] || {};
       const last = tries[tries.length - 1] || {};
       const finalTry = tries.slice().reverse().find(t => t.state === "ok") || last;
       return {
         id: String(r.session || r.id),
         routeId: r.id,
-        title: r.folder || ("会话 " + String(r.session || r.id).slice(0, 8)),
+        title: (r.group && (r.group.name || r.group.ref)) || r.folder || ("会话 " + String(r.session || r.id).slice(0, 8)),
         agent: agentKey,
         provider: finalTry.provider || (r.provider ? providerOfModel("", r.provider) : "unknown"),
         requested: firstTry.model || "",
@@ -365,13 +392,20 @@
       const byHour = new Map(series.map(p => [p.hour, p]));
       series = Array.from({ length: 24 }, (_, h) => byHour.get(h) || { hour: h, label: String(h).padStart(2, "0") + ":00", tokens: 0, cost: 0 });
     }
-    const modelTokens = (usage.models || []).reduce((a, m) => a + (m.tokens || 0), 0);
-    const models = (usage.models || []).map(m => ({
-      name: m.model || m.name || "—",
-      provider: m.provider || m.providerName || "unknown",
-      tokens: m.tokens || 0,
-      share: modelTokens ? Math.round((m.tokens || 0) / modelTokens * 100) : 0
-    })).sort((a, b) => b.tokens - a.tokens).slice(0, 6);
+    const modelList = (usage.models || []).map(m => {
+      const tokens = m.tokens != null
+        ? m.tokens
+        : (m.input || 0) + (m.output || 0) + (m.cache_read || 0);
+      return {
+        name: m.name || m.model || "—",
+        provider: m.provider || m.providerName || m.sub || "unknown",
+        tokens,
+        share: 0
+      };
+    });
+    const modelTokens = modelList.reduce((a, m) => a + m.tokens, 0);
+    modelList.forEach(m => { m.share = modelTokens ? Math.round(m.tokens / modelTokens * 100) : 0; });
+    const models = modelList.sort((a, b) => b.tokens - a.tokens).slice(0, 6);
     const totalTokens = (totals.input || 0) + (totals.output || 0) + (totals.cache_read || 0);
     const cacheRate = totals.cache_read && (totals.input + totals.cache_read) ? totals.cache_read / (totals.input + totals.cache_read) * 100 : 0;
 
@@ -379,6 +413,9 @@
     const logs = rows.map((r, i) => {
       const tokens = (r.in || 0) + (r.out || 0) + (r.cache_read || 0);
       const status = r.status >= 400 ? "err" : r.status === 0 || r.status == null ? "run" : "ok";
+      const tps = r.decode_ms && r.decode_out
+        ? Math.round(r.decode_out / (r.decode_ms / 1000))
+        : (r.out && r.ms ? Math.round(r.out / (r.ms / 1000)) : 0);
       return {
         id: r.id || ("r-" + i),
         at: r.t || r.time || new Date(now).toISOString(),
@@ -389,7 +426,7 @@
         status,
         tokens,
         ttft: r.ttft_ms || r.first_text_ms || 0,
-        tps: r.decode_ms && r.decode_out ? Math.round(r.decode_out / (r.decode_ms / 1000)) : 0,
+        tps,
         cost: r.cost || 0
       };
     });
@@ -419,14 +456,14 @@
         used: w.used != null ? (w.used <= 1 ? w.used * 100 : w.used) : (w.remaining != null && w.limit ? (1 - w.remaining / w.limit) * 100 : 0),
         resetsIn: w.resetsAt ? Math.max(0, Math.round((Date.parse(w.resetsAt) - now) / 60000)) : null
       }))
-    }));
+    })).filter(x => x.windows.length || x.balance);
 
     const activeIds = new Set(sessions.map(s => s.id));
     const recentMap = new Map();
     logs.forEach(l => {
       if (!l.session || l.session === "—" || activeIds.has(l.session) || recentMap.has(l.session)) return;
       recentMap.set(l.session, {
-        id: l.session, title: l.session, agent: l.agent, provider: l.provider,
+        id: l.session, title: `${agentMeta(l.agent).name} · ${l.model}`, agent: l.agent, provider: l.provider,
         model: l.model, group: "最近完成", mode: "—", rule: "—", intent: "—",
         confidence: null, effort: "", status: l.status === "err" ? "error" : "done",
         tokens: l.tokens, tps: l.tps, startedAt: Date.parse(l.at) || now, ttft: l.ttft,
@@ -475,8 +512,12 @@
   }
 
   function providerOfModel(model, provider) {
-    const p = String(provider || "").toLowerCase();
-    if (p && PROVIDERS[p]) return p;
+    const p = String(provider || "").toLowerCase().trim();
+    // The gateway already knows the seat it used. Keep that identity even
+    // when the provider is not in the bundled icon set; the model name is
+    // not a reliable provider hint (`workbuddy` serving DeepSeek is not
+    // DeepSeek).
+    if (p) return p;
     const m = String(model || "").toLowerCase();
     // An aggregator's id is "vendor/model": the call went through the
     // aggregator even when the vendor name is in the model id.
@@ -490,7 +531,7 @@
     if (m.includes("minimax")) return "minimax";
     if (m.includes("grok")) return "xai";
     if (m.includes("qwen")) return "qwen";
-    return provider || "unknown";
+    return "unknown";
   }
 
   window.MagpieData = {

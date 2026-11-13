@@ -62,19 +62,22 @@ Magpie's Discover reads a GitHub repository and checks:
 Topics configured for this repository:
 
 ```text
-magpie-plugin  magpie-page  magpie  magpie-observatory  observatory
-dashboard  monitoring  observability  llm-gateway  ai-gateway
-quota  usage  token-usage  cost-tracking  routing
-claude-code  codex  gemini-cli  opencode
+magpie-plugin  magpie-page  magpie  observatory  dashboard  monitoring
+llm-gateway
 ```
 
-`magpie-plugin` is the mandatory one. The others are search aids. The same list
-lives in `package.json` under `keywords` and `topics`; the `docs/publishing.md`
-checklist and `scripts/publish-github.sh` apply it to GitHub.
+`magpie-plugin` is the mandatory one. The others are search aids. This is a
+deliberately small set: across the 100 most-starred repositories tagged
+`magpie-plugin`, the median is 4 topics; `magpie` appears on 49%, `magpie-page`
+on the page plugins, and feature tags such as `quota` or `routing` are uncommon.
+The same list lives in `package.json` under `topics`; `keywords` keeps the
+feature words for npm-style search.
 
 `package.json` 里的 `magpie.page.file` 必须已提交，`magpie.page.service`
 声明本地服务端口；GitHub 仓库必须带 `magpie-plugin` topic。其余 topic 只帮助搜索。
-`keywords` / `topics` 与脚本里的列表保持一致。
+这里刻意收敛到 7 个：同类仓库 topic 中位数约为 4 个，`magpie` 出现在约一半仓库，
+`magpie-page` 用于页面插件，`quota` / `routing` 这类功能词并不常见。
+`topics` 与脚本里的列表保持一致，功能词放在 `keywords`。
 
 ## 4. One-command release · 一键发布
 
@@ -91,7 +94,7 @@ The script:
 2. initializes `main` if needed, commits the working tree;
 3. creates the public repository if it does not exist, otherwise pushes;
 4. adds all store topics with `gh repo edit --add-topic`;
-5. creates the annotated tag `v0.6.0` and pushes it.
+5. creates the annotated tag `v0.6.1` and pushes it.
 
 Manual equivalent:
 
@@ -100,29 +103,17 @@ git init -b main
 git config user.name "JohnWangggg"
 git config user.email "JohnWangggg@users.noreply.github.com"
 git add -A
-git commit -m "release: Magpie Observatory v0.6.0"
+git commit -m "release: Magpie Observatory v0.6.1"
 gh repo create JohnWangggg/magpie-observatory --public --source=. --remote=origin --push
-gh repo edit JohnWangggg/magpie-observatory \
-  --add-topic magpie-plugin \
-  --add-topic magpie-page \
-  --add-topic magpie \
-  --add-topic magpie-observatory \
-  --add-topic observatory \
-  --add-topic dashboard \
-  --add-topic monitoring \
-  --add-topic observability \
-  --add-topic llm-gateway \
-  --add-topic ai-gateway \
-  --add-topic quota \
-  --add-topic usage \
-  --add-topic token-usage \
-  --add-topic cost-tracking \
-  --add-topic routing \
-  --add-topic claude-code \
-  --add-topic codex \
-  --add-topic gemini-cli \
-  --add-topic opencode
-git tag -a v0.6.0 -m "Magpie Observatory v0.6.0"
+gh api --method PUT repos/JohnWangggg/magpie-observatory/topics \
+  -f 'names[]=magpie-plugin' \
+  -f 'names[]=magpie-page' \
+  -f 'names[]=magpie' \
+  -f 'names[]=observatory' \
+  -f 'names[]=dashboard' \
+  -f 'names[]=monitoring' \
+  -f 'names[]=llm-gateway'
+git tag -a v0.6.1 -m "Magpie Observatory v0.6.1"
 git push -u origin main --tags
 ```
 
@@ -147,8 +138,8 @@ under **Plugins → Installed** with an **Observatory** tab.
 Release tags are annotated and match `package.json`:
 
 ```bash
-git tag -a v0.6.0 -m "Magpie Observatory v0.6.0"
-git push origin v0.6.0
+git tag -a v0.6.1 -m "Magpie Observatory v0.6.1"
+git push origin v0.6.1
 ```
 
 For the next release, bump `package.json`, update the tag in

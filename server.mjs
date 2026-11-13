@@ -16,6 +16,7 @@ const DEFAULT_PORT = 3488;
 const MAGPIE_URL = (process.env.MAGPIE_URL || "http://127.0.0.1:3425").replace(/\/+$/, "");
 const MAGPIE_KEY = (process.env.MAGPIE_KEY || "").trim();
 const PERIODS = new Set(["today", "week", "month", "all"]);
+const VERSION = "0.6.1";
 
 const TYPES = {
   ".html": "text/html; charset=utf-8",
@@ -46,6 +47,26 @@ async function magpieGet(endpoint, timeout = 2500) {
   }
 }
 
+// The GUI's /api/usage/heatmap is not served by every Magpie process (the
+// tray gateway answers 404). Build the same shape from the all-time daily
+// usage series instead, and keep it for five minutes: 371 day cells are
+// cheap to draw but not worth fetching every 2.5s.
+let heatmapFallback = { at: 0, days: [] };
+
+async function usageHeatmap() {
+  if (heatmapFallback.days.length && Date.now() - heatmapFallback.at < 300000) {
+    return { days: heatmapFallback.days };
+  }
+  const all = await magpieGet("/v1/magpie/usage?period=all", 4000);
+  const days = (all.series || []).map(d => ({
+    date: String(d.time || "").slice(0, 10),
+    calls: d.calls || 0,
+    tokens: (d.input || 0) + (d.output || 0) + (d.cache_read || 0),
+  })).filter(d => d.date);
+  if (days.length) heatmapFallback = { at: Date.now(), days };
+  return { days };
+}
+
 export async function snapshot(period = "today") {
   if (!PERIODS.has(period)) period = "today";
   const calls = {
@@ -62,6 +83,14 @@ export async function snapshot(period = "today") {
     try { data[name] = await magpieGet(endpoint); }
     catch (err) { errors[name] = err?.message || String(err); }
   }));
+  if (!data.heatmap) {
+    try {
+      data.heatmap = await usageHeatmap();
+      delete errors.heatmap;
+    } catch (err) {
+      errors.heatmapFallback = err?.message || String(err);
+    }
+  }
   return {
     ok: Boolean(data.trace || data.usage || data.quotas),
     gateway: new URL(MAGPIE_URL).host,
@@ -78,7 +107,7 @@ function json(res, status, body) {
     "Content-Type": "application/json; charset=utf-8",
     "Cache-Control": "no-store",
     "Content-Length": buf.length,
-    "X-Observatory-Version": "0.6.0",
+    "X-Observatory-Version": VERSION,
   });
   res.end(buf);
 }
@@ -101,7 +130,7 @@ async function handler(req, res) {
     catch (err) { return json(res, 502, { ok: false, error: err?.message || String(err) }); }
   }
   if (pathname === "/api/version") {
-    return json(res, 200, { name: "magpie-observatory", version: "0.6.0" });
+    return json(res, 200, { name: "magpie-observatory", version: VERSION });
   }
 
   let rel = pathname === "/" ? "index.html" : pathname.replace(/^\/+/, "");
@@ -115,7 +144,7 @@ async function handler(req, res) {
       "Content-Type": TYPES[path.extname(file).toLowerCase()] || "application/octet-stream",
       "Cache-Control": "no-store, max-age=0",
       "Content-Length": body.length,
-      "X-Observatory-Version": "0.6.0",
+      "X-Observatory-Version": VERSION,
     });
     res.end(body);
   } catch {

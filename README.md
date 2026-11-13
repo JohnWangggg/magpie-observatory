@@ -30,6 +30,13 @@ Observatory turns that stream into something you can *watch*:
 - **Responsive** — one screen at desktop sizes, a single column with a compact
   rail on phones; the same data, no separate mobile build.
 
+## The mark
+
+<img src="docs/icon.png" width="88" alt="Magpie Observatory icon">
+
+A magpie in orbit: the white bird is the request/response pair, the dashed ring
+is the observatory, and the cyan eye is the live gateway.
+
 ## Install as a Magpie plugin
 
 Requires a recent Magpie build with **plugin pages** and **page services**
@@ -164,6 +171,10 @@ The local service proxies only documented read APIs:
 | `GET /v1/magpie/concurrency` | in-flight and queued requests |
 | `GET /v1/magpie/usage/requests?period=…` | request ledger |
 | `GET /api/usage/heatmap?period=all` | heatmap (GUI / `magpie web` only) |
+
+When the GUI heatmap route is absent (a headless/tray gateway answers 404), the
+service builds the same day cells from `/v1/magpie/usage?period=all` and caches
+them for five minutes. No prompt or response body is read.
 
 No prompts, replies, credentials or model-call keys are stored. The service
 listens on loopback; the plugin page reaches it through its own origin.

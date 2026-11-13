@@ -8,7 +8,7 @@ set -euo pipefail
 
 REPO="${REPO:-JohnWangggg/magpie-observatory}"
 BRANCH="${BRANCH:-main}"
-TAG="${TAG:-v0.6.0}"
+TAG="${TAG:-v0.6.1}"
 GIT_NAME="${GIT_NAME:-JohnWangggg}"
 GIT_EMAIL="${GIT_EMAIL:-JohnWangggg@users.noreply.github.com}"
 
@@ -16,22 +16,10 @@ TOPICS=(
   magpie-plugin
   magpie-page
   magpie
-  magpie-observatory
   observatory
   dashboard
   monitoring
-  observability
   llm-gateway
-  ai-gateway
-  quota
-  usage
-  token-usage
-  cost-tracking
-  routing
-  claude-code
-  codex
-  gemini-cli
-  opencode
 )
 
 need() {
@@ -58,7 +46,14 @@ if ! git diff --cached --quiet; then
   git commit -m "release: Magpie Observatory ${TAG}"
 fi
 
-if gh repo view "$REPO" >/dev/null 2>&1; then
+repo_exists() {
+  gh repo view "$REPO" >/dev/null 2>&1 && return 0
+  # A transient GraphQL/API failure must not look like a missing repository:
+  # ask Git directly before creating anything.
+  git ls-remote "https://github.com/${REPO}.git" >/dev/null 2>&1
+}
+
+if repo_exists; then
   if ! git remote get-url origin >/dev/null 2>&1; then
     git remote add origin "https://github.com/${REPO}.git"
   fi
@@ -73,12 +68,13 @@ else
 fi
 
 # GitHub topics are what Magpie's Discover uses to find a page plugin.
-# `magpie-plugin` is mandatory; the rest improve search.
-topic_args=()
+# `magpie-plugin` is mandatory; the rest improve search. PUT replaces the
+# whole set, so re-running keeps the repository clean.
+topic_args=(--method PUT "repos/${REPO}/topics")
 for topic in "${TOPICS[@]}"; do
-  topic_args+=(--add-topic "$topic")
+  topic_args+=(-f "names[]=${topic}")
 done
-gh repo edit "$REPO" "${topic_args[@]}"
+gh api "${topic_args[@]}" >/dev/null
 
 if git rev-parse -q --verify "refs/tags/${TAG}" >/dev/null; then
   echo "tag ${TAG} already exists"
