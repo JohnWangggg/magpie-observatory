@@ -71,7 +71,7 @@
       <button class="nav-item" id="theme-toggle" title="明暗模式"><svg class="icon-moon"><use href="#i-moon"/></svg><svg class="icon-sun"><use href="#i-sun"/></svg><span>明暗</span></button>
       <button class="nav-item" id="style-toggle" title="界面风格"><svg><use href="#i-palette"/></svg><span>风格</span></button>
       <button class="nav-item" id="settings-toggle" title="布局与动效"><svg><use href="#i-settings"/></svg><span>设置</span></button>
-      <div class="rail-version">v0.12.0 <i></i> plugin</div>
+      <div class="rail-version">v0.13.0 <i></i> plugin</div>
     </div>
   </aside>
 
@@ -108,29 +108,11 @@
             <h1 id="hero-title">实时路由</h1>
           </div>
           <div class="hero-meta">
-            <div class="hero-modes" id="hero-modes" role="group" aria-label="路由视图">
-              <button data-hero="route" class="active">路由</button>
-              <button data-hero="radar">雷达</button>
-              <button data-hero="loom">织机</button>
-              <button data-hero="rhythm">节奏</button>
-              <button data-hero="rings">年轮</button>
-              <button data-hero="quota">额度</button>
-              <button data-hero="waterfall">瀑布</button>
-              <button data-hero="swarm">蜂群</button>
-              <button data-hero="treemap">成本</button>
-              <button data-hero="sankey">流向</button>
-              <button data-hero="funnel">漏斗</button>
-              <button data-hero="latency">热力</button>
-              <button data-hero="orrery">星图</button>
-              <button data-hero="budget">预算</button>
-              <button data-hero="marimekko">结构</button>
-              <button data-hero="chord">和弦</button>
-              <button data-hero="network">网络</button>
-              <button data-hero="stream">河流</button>
-              <button data-hero="chips">连击</button>
-              <button data-hero="factory">工厂</button>
-              <button data-hero="bees">蜂巢</button>
-            </div>
+            <button class="view-picker" id="view-picker" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="view-menu" title="切换视图（V）">
+              <span class="vp-ic" id="vp-ic"><svg><use href="#i-route"/></svg></span>
+              <span class="vp-copy"><b id="vp-title">实时路由</b><small id="vp-eyebrow">LIVE ROUTING</small></span>
+              <svg class="vp-chevron"><use href="#i-chevron"/></svg>
+            </button>
             <div class="hero-stat"><b id="hero-requests">0</b><span>请求</span></div>
             <div class="hero-stat warn"><b id="hero-fallbacks">0</b><span>改道</span></div>
             <div class="hero-stat bad"><b id="hero-errors">0</b><span>错误</span></div>
@@ -285,7 +267,7 @@
     <footer class="statusbar">
       <div class="status-left">
         <span class="status-item"><span class="status-dot ok"></span>网关在线</span>
-        <span class="status-item"><span class="status-dot ok"></span>usage.jsonl 监听中</span>
+        <span class="status-item ticker"><span class="ticker-dot"></span><span id="ticker-text">缓存 —</span></span>
         <span class="status-item"><svg><use href="#i-db"/></svg><span id="status-events">0 条事件</span></span>
       </div>
       <div class="status-right">
@@ -343,6 +325,13 @@
       <button data-motion="off">关闭</button>
     </div>
   </div>
+</div>
+<div class="view-menu" id="view-menu" hidden role="dialog" aria-label="切换视图">
+  <div class="vm-head"><div><b>切换视图</b><small>21 VIEWS</small></div><button class="vm-close" id="view-menu-close" type="button" aria-label="关闭"><svg><use href="#i-x"/></svg></button></div>
+  <label class="vm-search"><svg><use href="#i-search"/></svg><input id="view-search" type="search" placeholder="搜索视图 / 分组 / 关键词" autocomplete="off"></label>
+  <div class="vm-groups" id="vm-groups"></div>
+  <div class="vm-none" id="vm-none" hidden>没有匹配的视图</div>
+  <div class="vm-foot"><button class="vm-random" id="vm-random" type="button"><svg><use href="#i-refresh"/></svg>随机一个</button><span>V 打开 · Esc 关闭</span></div>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 <script src="assets/data.js"></script>

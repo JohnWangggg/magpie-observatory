@@ -26,6 +26,7 @@
     view: null,
     wireSig: "",
     events: 0,
+    tickerIndex: 0,
     lastTick: Date.now(),
     timers: [],
     liveTimer: null
@@ -58,6 +59,129 @@
     const host = $("#view-" + mode);
     if (!view || !host) return;
     view.render(host, buildViewCtx());
+  }
+
+  /* ----------------------------------------------------------- view picker --- */
+  // One catalog feeds the hero picker, the menu, the active title and each
+  // group's accent. Views registered by modules override title/eyebrow.
+  const VIEW_GROUPS = ["实时", "用量", "结构", "趣味"];
+  const GROUP_COLORS = { "实时": "#56d4dd", "用量": "#8b7cf6", "结构": "#4ade80", "趣味": "#fbbf24" };
+  const VIEW_META = [
+    { id: "route", title: "实时路由", eyebrow: "LIVE ROUTING", group: "实时", icon: "i-route", hint: "Agent → Provider" },
+    { id: "waterfall", title: "会话瀑布", eyebrow: "SESSION WATERFALL", group: "实时", icon: "i-stack", hint: "一次会话的时间轴" },
+    { id: "network", title: "关系网络", eyebrow: "RELATION GRAPH", group: "实时", icon: "i-magpie", hint: "Agent / Provider / 模型" },
+    { id: "swarm", title: "延迟蜂群", eyebrow: "LATENCY SWARM", group: "实时", icon: "i-bolt", hint: "TTFT 分布" },
+    { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
+    { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
+    { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
+    { id: "quota", title: "额度燃尽", eyebrow: "QUOTA PACE", group: "用量", icon: "i-db", hint: "窗口燃尽与预测" },
+    { id: "budget", title: "额度预算", eyebrow: "BUDGET BULLETS", group: "用量", icon: "i-bolt", hint: "阈值与配速" },
+    { id: "treemap", title: "成本结构", eyebrow: "COST TREEMAP", group: "结构", icon: "i-overview", hint: "Provider → 模型" },
+    { id: "marimekko", title: "结构马赛克", eyebrow: "MARIMEKKO", group: "结构", icon: "i-chart", hint: "列宽 / 带高" },
+    { id: "sankey", title: "路由流向", eyebrow: "ROUTING FLOW", group: "结构", icon: "i-route", hint: "Agent → Provider" },
+    { id: "chord", title: "流向和弦", eyebrow: "CHORD", group: "结构", icon: "i-magpie", hint: "左右弧彩带" },
+    { id: "funnel", title: "请求漏斗", eyebrow: "REQUEST FUNNEL", group: "结构", icon: "i-stack", hint: "发出 → 成功" },
+    { id: "radar", title: "路由雷达", eyebrow: "RADAR SCAN", group: "趣味", icon: "i-pulse", hint: "Provider 环" },
+    { id: "loom", title: "请求织机", eyebrow: "REQUEST LOOM", group: "趣味", icon: "i-stack", hint: "请求织成彩带" },
+    { id: "rhythm", title: "请求节奏", eyebrow: "RHYTHM", group: "趣味", icon: "i-bolt", hint: "16 步节拍" },
+    { id: "orrery", title: "轨道星图", eyebrow: "ORRERY", group: "趣味", icon: "i-magpie", hint: "行星与卫星" },
+    { id: "chips", title: "连击卡牌", eyebrow: "COMBO CHIPS", group: "趣味", icon: "i-zap", hint: "游戏化连击" },
+    { id: "factory", title: "请求工厂", eyebrow: "REQUEST FACTORY", group: "趣味", icon: "i-server", hint: "排队 → 完成" },
+    { id: "bees", title: "蜂巢", eyebrow: "BEEHIVE", group: "趣味", icon: "i-magpie", hint: "会话绕着 Provider" }
+  ];
+
+  function viewMeta(mode) {
+    const base = VIEW_META.find(v => v.id === mode);
+    const custom = viewRegistry()[mode];
+    if (!base && !custom) return null;
+    return {
+      id: mode,
+      title: (custom && custom.title) || (base && base.title) || mode,
+      eyebrow: (custom && custom.eyebrow) || (base && base.eyebrow) || "",
+      group: (base && base.group) || "趣味",
+      icon: (base && base.icon) || "i-magpie",
+      hint: (base && base.hint) || ""
+    };
+  }
+
+  function buildViewMenu() {
+    const host = $("#vm-groups");
+    if (!host) return;
+    host.innerHTML = VIEW_GROUPS.map(group => {
+      const items = VIEW_META.filter(v => v.group === group).map(v => {
+        const search = `${v.title} ${v.eyebrow} ${v.group} ${v.hint} ${v.id}`.toLowerCase();
+        return `<button class="vm-item" type="button" data-hero="${v.id}" data-search="${esc(search)}" role="option" aria-selected="false" style="--vm-c:${GROUP_COLORS[group]}">
+          <span class="vm-ic"><svg><use href="#${v.icon}"/></svg></span>
+          <span class="vm-copy"><b>${esc(v.title)}</b><small>${esc(v.eyebrow)}</small></span>
+          <span class="vm-hint">${esc(v.hint)}</span>
+        </button>`;
+      }).join("");
+      return `<section class="vm-group"><h4 style="--vm-g:${GROUP_COLORS[group]}"><i></i>${group}<span>${VIEW_META.filter(v => v.group === group).length}</span></h4>${items}</section>`;
+    }).join("");
+  }
+
+  function filterViewMenu(query) {
+    const needle = String(query || "").trim().toLowerCase();
+    let shown = 0;
+    $$(".view-menu .vm-item").forEach(b => {
+      const on = !needle || b.dataset.search.includes(needle);
+      b.hidden = !on;
+      if (on) shown++;
+    });
+    $$(".view-menu .vm-group").forEach(g => {
+      g.hidden = !Array.from(g.querySelectorAll(".vm-item")).some(b => !b.hidden);
+    });
+    const none = $("#vm-none");
+    if (none) none.hidden = shown > 0;
+  }
+
+  function positionViewMenu() {
+    const picker = $("#view-picker"), menu = $("#view-menu");
+    if (!picker || !menu || menu.hidden) return;
+    const r = picker.getBoundingClientRect();
+    const width = Math.min(620, window.innerWidth - 24);
+    const left = Math.max(12, Math.min(r.left, window.innerWidth - width - 12));
+    const top = Math.max(12, r.bottom + 8);
+    menu.style.width = width + "px";
+    menu.style.left = left + "px";
+    menu.style.top = top + "px";
+    menu.style.maxHeight = Math.max(220, window.innerHeight - top - 16) + "px";
+  }
+
+  function openViewMenu() {
+    const menu = $("#view-menu"), picker = $("#view-picker");
+    if (!menu || !picker || !menu.hidden) return;
+    menu.hidden = false;
+    picker.setAttribute("aria-expanded", "true");
+    const search = $("#view-search");
+    if (search) search.value = "";
+    filterViewMenu("");
+    positionViewMenu();
+    setTimeout(() => { const s = $("#view-search"); if (s) s.focus(); }, 30);
+  }
+
+  function closeViewMenu(focus) {
+    const menu = $("#view-menu"), picker = $("#view-picker");
+    if (!menu) return;
+    menu.hidden = true;
+    if (picker) {
+      picker.setAttribute("aria-expanded", "false");
+      if (focus) picker.focus();
+    }
+  }
+
+  function toggleViewMenu() {
+    const menu = $("#view-menu");
+    if (!menu) return;
+    if (menu.hidden) openViewMenu(); else closeViewMenu(true);
+  }
+
+  function randomView() {
+    const pool = VIEW_META.filter(v => v.id !== state.heroMode);
+    if (!pool.length) return;
+    const pick = pool[Math.floor(Math.random() * pool.length)];
+    setHeroMode(pick.id);
+    closeViewMenu();
   }
 
   /* ------------------------------------------------------------- derive --- */
@@ -1070,16 +1194,33 @@
   function setHeroMode(mode) {
     state.heroMode = mode;
     const custom = viewRegistry()[mode];
-    const titles = { route: ["实时路由", "LIVE ROUTING"], radar: ["路由雷达", "RADAR SCAN"], loom: ["请求织机", "REQUEST LOOM"], rhythm: ["请求节奏", "RHYTHM"], rings: ["Token 年轮", "YEAR IN RINGS"], quota: ["额度燃尽", "QUOTA PACE"] };
-    if (custom) titles[mode] = [custom.title || mode, custom.eyebrow || ""];
-    const [title, eyebrow] = titles[mode] || titles.route;
-    $("#hero-title").textContent = title;
+    const meta = viewMeta(mode) || { title: "实时路由", eyebrow: "LIVE ROUTING", group: "实时", icon: "i-route" };
+    $("#hero-title").textContent = meta.title;
     const eb = $(".hero-head .eyebrow");
-    if (eb) eb.innerHTML = `<span class="live-ring"></span> ${eyebrow}`;
-    $$("#hero-modes button").forEach(b => b.classList.toggle("active", b.dataset.hero === mode));
+    if (eb) eb.innerHTML = `<span class="live-ring"></span> ${meta.eyebrow}`;
+    const vpTitle = $("#vp-title"), vpEyebrow = $("#vp-eyebrow"), vpIcon = $("#vp-ic");
+    if (vpTitle) vpTitle.textContent = meta.title;
+    if (vpEyebrow) vpEyebrow.textContent = meta.eyebrow;
+    if (vpIcon) vpIcon.innerHTML = `<svg><use href="#${meta.icon}"/></svg>`;
+    const hero = $(".hero");
+    if (hero) {
+      hero.style.setProperty("--hero-accent", GROUP_COLORS[meta.group] || "#8b7cf6");
+      hero.dataset.mode = mode;
+    }
+    $$(".view-menu .vm-item").forEach(b => {
+      const on = b.dataset.hero === mode;
+      b.classList.toggle("active", on);
+      b.setAttribute("aria-selected", String(on));
+    });
     $$(".stage-view").forEach(v => { v.hidden = true; });
     const host = $("#view-" + mode);
-    if (host) host.hidden = false;
+    if (host) {
+      host.hidden = false;
+      host.classList.remove("view-enter");
+      void host.offsetWidth;
+      host.classList.add("view-enter");
+      setTimeout(() => host.classList.remove("view-enter"), 340);
+    }
     if (custom) { renderCustomView(mode, true); return; }
     if (mode === "route") requestAnimationFrame(drawWires);
     if (mode === "radar") renderRadarView(true);
@@ -1377,6 +1518,33 @@
     const tps = state.data.sessions.filter(s => s.tps).reduce((a, s) => a + s.tps, 0);
     $("#global-tps").textContent = `${tps.toFixed(1)} tok/s`;
     $("#clock").textContent = new Date().toLocaleTimeString("zh-CN", { hour12: false });
+    renderTicker();
+  }
+
+  function tickerFacts() {
+    const d = state.data, k = d.kpis || {}, facts = [];
+    if (k.cache != null) facts.push(`缓存 ${Number(k.cache).toFixed(1)}%`);
+    if (k.requests != null) facts.push(`${Number(k.requests).toLocaleString()} 次请求`);
+    if (k.cost != null) facts.push(`费用 $${Number(k.cost).toFixed(2)}`);
+    const active = activeSessions();
+    facts.push(`${active.length} 个活跃会话`);
+    const reroutes = active.reduce((a, s) => a + (s.fallbacks || 0), 0);
+    if (reroutes) facts.push(`${reroutes} 次改道`);
+    let nextQ = null;
+    (d.quotas || []).forEach(q => (q.windows || []).forEach(w => {
+      if (typeof w.resetsIn === "number" && w.resetsIn > 0 && (!nextQ || w.resetsIn < nextQ.resetsIn)) nextQ = { name: q.name, resetsIn: w.resetsIn };
+    }));
+    if (nextQ) facts.push(`${nextQ.name} ${fmtReset(nextQ.resetsIn)}`);
+    return facts;
+  }
+
+  function renderTicker() {
+    const el = $("#ticker-text");
+    if (!el) return;
+    const facts = tickerFacts();
+    if (!facts.length) return;
+    const idx = (state.tickerIndex || 0) % facts.length;
+    el.textContent = facts[idx];
   }
 
   /* ------------------------------------------------------------- simulate --- */
@@ -1509,9 +1677,15 @@
       if (!menu.hidden && !e.target.closest("#style-menu") && !e.target.closest("#style-toggle")) menu.hidden = true;
       const settings = $("#settings-menu");
       if (!settings.hidden && !e.target.closest("#settings-menu") && !e.target.closest("#settings-toggle")) settings.hidden = true;
+      const viewMenu = $("#view-menu");
+      if (viewMenu && !viewMenu.hidden && !e.target.closest("#view-menu") && !e.target.closest("#view-picker")) closeViewMenu();
     });
     document.addEventListener("keydown", e => {
-      if (e.key === "Escape") { $("#style-menu").hidden = true; $("#settings-menu").hidden = true; }
+      if (e.key === "Escape") {
+        $("#style-menu").hidden = true;
+        $("#settings-menu").hidden = true;
+        if (!$("#view-menu").hidden) closeViewMenu(true);
+      }
     });
 
     $("#theme-toggle").addEventListener("click", () => {
@@ -1556,10 +1730,40 @@
       if (state.mode === "live") connectLive(true);
     });
 
-    $("#hero-modes").addEventListener("click", e => {
-      const b = e.target.closest("button[data-hero]");
-      if (b) setHeroMode(b.dataset.hero);
+    $("#view-picker").addEventListener("click", e => {
+      e.stopPropagation();
+      toggleViewMenu();
     });
+    $("#view-menu").addEventListener("click", e => {
+      const b = e.target.closest("button[data-hero]");
+      if (b) { setHeroMode(b.dataset.hero); closeViewMenu(); }
+    });
+    $("#view-menu-close").addEventListener("click", () => closeViewMenu(true));
+    $("#view-search").addEventListener("input", e => filterViewMenu(e.target.value));
+    $("#view-search").addEventListener("keydown", e => {
+      if (e.key === "Enter") {
+        const first = $(".view-menu .vm-item:not([hidden])");
+        if (first) { e.preventDefault(); setHeroMode(first.dataset.hero); closeViewMenu(); }
+      }
+      if (e.key === "ArrowDown") {
+        const first = $(".view-menu .vm-item:not([hidden])");
+        if (first) { e.preventDefault(); first.focus(); }
+      }
+    });
+    $("#view-menu").addEventListener("keydown", e => {
+      if (e.key === "Escape") { e.preventDefault(); closeViewMenu(true); return; }
+      if (!["ArrowDown", "ArrowUp", "Home", "End"].includes(e.key)) return;
+      const items = $$(".view-menu .vm-item:not([hidden])");
+      if (!items.length) return;
+      e.preventDefault();
+      const at = items.indexOf(document.activeElement);
+      let next = 0;
+      if (e.key === "ArrowDown") next = at < 0 ? 0 : (at + 1) % items.length;
+      if (e.key === "ArrowUp") next = at <= 0 ? items.length - 1 : at - 1;
+      if (e.key === "End") next = items.length - 1;
+      items[next].focus();
+    });
+    $("#vm-random").addEventListener("click", randomView);
 
     $("#trend-seg").addEventListener("click", e => {
       const b = e.target.closest("button[data-metric]");
@@ -1660,12 +1864,13 @@
       toast("已定位到 " + b.textContent.trim());
     }));
 
-    // Global shortcuts: / focuses search, space pauses demo, t toggles theme.
+    // Global shortcuts: / focuses search, space pauses demo, t toggles theme, v opens views.
     document.addEventListener("keydown", e => {
-      if (e.target.matches("input, textarea")) return;
+      if (e.target.matches("input, textarea, select, [contenteditable]")) return;
       if (e.key === "/") { e.preventDefault(); $("#log-search").focus(); }
       if (e.key === " ") { e.preventDefault(); $("#demo-toggle").click(); }
       if (e.key.toLowerCase() === "t") { e.preventDefault(); $("#theme-toggle").click(); }
+      if (e.key.toLowerCase() === "v" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); toggleViewMenu(); }
     });
 
     let resizeTimer = null;
@@ -1679,6 +1884,7 @@
         if (state.heroMode === "rings") renderRingsView(true);
         if (state.heroMode === "quota") renderQuotaView(true);
         if (viewRegistry()[state.heroMode]) renderCustomView(state.heroMode, true);
+        if (!$("#view-menu").hidden) positionViewMenu();
       }, 120);
     });
 
@@ -1712,7 +1918,14 @@
       clearInterval(state.liveTimer);
       state.liveTimer = setInterval(() => connectLive(true), 2500);
       renderAll();
-      if (!silent) toast("已连接 Magpie：" + (data.gateway || "127.0.0.1:3425"));
+      if (!silent) {
+        const pill = $("#conn-pill");
+        pill.classList.remove("fresh");
+        void pill.offsetWidth;
+        pill.classList.add("fresh");
+        setTimeout(() => pill.classList.remove("fresh"), 760);
+        toast("已连接 Magpie：" + (data.gateway || "127.0.0.1:3425"));
+      }
     } catch (err) {
       if (state.mode !== "live") {
         toast("无法连接本地网关，继续使用演示数据");
@@ -1790,7 +2003,7 @@
 
   /* ------------------------------------------------------------------ init --- */
   function init() {
-    try { console.info("%c Magpie Observatory v0.12.0 · twenty-one views · 4 styles · layout settings", "color:#8b7cf6;font-weight:bold"); } catch (_) {}
+    try { console.info("%c Magpie Observatory v0.13.0 · twenty-one views · 4 styles · layout settings", "color:#8b7cf6;font-weight:bold"); } catch (_) {}
     try {
       const hostTheme = new URLSearchParams(location.search).get("hostTheme");
       if (hostTheme === "light" || hostTheme === "dark") {
@@ -1808,10 +2021,20 @@
     } catch (_) {}
     syncStyleMenu();
     syncSettingsMenu();
+    buildViewMenu();
     computeView();
     renderAll();
     bindEvents();
+    setHeroMode(state.heroMode);
     setInterval(demoTick, 1200);
+    // Rotate one live fact in the status bar; data refreshes keep it current.
+    setInterval(() => {
+      state.tickerIndex = (state.tickerIndex || 0) + 1;
+      const el = $("#ticker-text");
+      if (!el) return;
+      el.classList.add("swap");
+      setTimeout(() => { renderTicker(); el.classList.remove("swap"); }, 180);
+    }, 6000);
     // Countdowns should move even when no new request arrives.
     setInterval(() => {
       (state.data.quotas || []).forEach(q => (q.windows || []).forEach(w => {

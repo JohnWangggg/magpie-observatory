@@ -177,6 +177,14 @@ The preview is for development only; the plugin uses the same service internally
 - **Bees**: providers as hives and sessions as bees; subagents become smaller
   bees, size follows tokens, and hovering a hive highlights its bees.
 
+## Switching views
+
+The hero header has a view picker instead of a wall of tabs. Press **V** (or
+click it), type to filter by name / eyebrow / group, press Enter to switch, or
+hit **随机一个** for a random view. The 21 views are grouped into
+`实时` / `用量` / `结构` / `趣味`, and the hero accent follows the group.
+**Esc** closes the picker.
+
 ## Styles and themes
 
 | Control | Pixel |
