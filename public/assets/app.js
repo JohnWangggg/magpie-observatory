@@ -29,7 +29,8 @@
     tickerIndex: 0,
     lastTick: Date.now(),
     timers: [],
-    liveTimer: null
+    liveTimer: null,
+    liveBusy: false
   };
 
   const STATUS_TEXT = { streaming: "运行中", queued: "排队", done: "完成", error: "失败" };
@@ -530,6 +531,7 @@
     } else {
       positionFlights(performance.now());
     }
+    ensureFlightLoop();
   }
 
   function setFlightAt(f, t) {
@@ -545,13 +547,25 @@
   }
 
   let lastFlightFrame = 0;
+  let flightRaf = 0;
+  function flightActive() {
+    return !window.__OBS_FREEZE && !document.hidden && !state.paused &&
+      state.heroMode === "route" && document.documentElement.dataset.motion !== "off" &&
+      state.flights && state.flights.length > 0;
+  }
   function flightLoop(ts) {
-    if (window.__OBS_FREEZE) { requestAnimationFrame(flightLoop); return; }
-    if (!document.hidden && state.flights && state.flights.length && ts - lastFlightFrame > 32) {
+    flightRaf = 0;
+    if (!flightActive()) return;
+    if (ts - lastFlightFrame > 32) {
       lastFlightFrame = ts;
       positionFlights(ts);
     }
-    requestAnimationFrame(flightLoop);
+    flightRaf = requestAnimationFrame(flightLoop);
+  }
+  function ensureFlightLoop() {
+    if (flightRaf || !flightActive()) return;
+    lastFlightFrame = 0;
+    flightRaf = requestAnimationFrame(flightLoop);
   }
 
   function drawWires() {
@@ -1230,7 +1244,7 @@
       setTimeout(() => host.classList.remove("view-enter"), 340);
     }
     if (custom) { renderCustomView(mode, true); return; }
-    if (mode === "route") requestAnimationFrame(drawWires);
+    if (mode === "route") { requestAnimationFrame(drawWires); ensureFlightLoop(); }
     if (mode === "radar") renderRadarView(true);
     if (mode === "loom") renderLoomView(true);
     if (mode === "rhythm") renderRhythmView(true);
@@ -1451,6 +1465,24 @@
     }
     const max = Math.max(1, ...days.map(d => d.tokens));
     const shownWeeks = Math.ceil(days.length / 7);
+    const todayKey = new Date().toISOString().slice(0, 10);
+    const grid = $("#heat-grid");
+    const sig = `${days.length}:${window.innerWidth}:${days[0].date}:${todayKey}`;
+    // A live poll usually only moves today's cell. Rebuild 371 divs only when
+    // the calendar itself changes; otherwise patch levels/title in place.
+    if (grid.dataset.sig === sig && grid.children.length === days.length) {
+      const cells = grid.children;
+      days.forEach((d, i) => {
+        const pct = d.tokens / max;
+        const level = String(pct === 0 ? 0 : pct < .18 ? 1 : pct < .36 ? 2 : pct < .62 ? 3 : 4);
+        if (cells[i].dataset.level !== level) cells[i].dataset.level = level;
+        if (i === days.length - 1) cells[i].title = `${d.date} · ${fmtTokens(d.tokens)} tokens · ${d.calls || 0} 次调用`;
+      });
+      const total = days.reduce((a, b) => a + b.tokens, 0);
+      $("#heat-summary").textContent = `${shownWeeks} 周 · ${fmtTokens(total)} tokens`;
+      return;
+    }
+    grid.dataset.sig = sig;
     const months = [];
     let lastMonth = -1;
     for (let w = 0; w < shownWeeks; w++) {
@@ -1709,6 +1741,8 @@
       state.paused = !state.paused;
       renderMode();
       renderStatus();
+      ensureFlightLoop();
+      if (!state.paused && state.mode === "live") connectLive(true);
       toast(state.paused ? "演示已暂停" : "演示继续");
     });
 
@@ -1866,9 +1900,15 @@
     $("#log-export").addEventListener("click", () => {
       const rows = state.data.logs;
       const head = ["time", "agent", "session", "provider", "model", "status", "tokens", "ttft_ms", "tps", "cost_usd"];
+      const cell = v => {
+        let s = String(v == null ? "" : v);
+        // Do not let a ledger value become a spreadsheet formula.
+        if (/^[=+\-@]/.test(s)) s = "'" + s;
+        return `"${s.replace(/"/g, '""')}"`;
+      };
       const csv = [head.join(",")].concat(rows.map(r => [
         r.at, r.agent, r.session, r.provider, r.model, r.status, r.tokens, r.ttft, r.tps, r.cost
-      ].map(v => `"${String(v == null ? "" : v).replace(/"/g, '""')}"`).join(","))).join("\n");
+      ].map(cell).join(","))).join("\n");
       const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
@@ -1899,6 +1939,7 @@
       if (e.key.toLowerCase() === "v" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); toggleViewMenu(); }
     });
 
+    document.addEventListener("visibilitychange", () => { if (!document.hidden) ensureFlightLoop(); });
     let resizeTimer = null;
     window.addEventListener("resize", () => {
       clearTimeout(resizeTimer);
@@ -1930,7 +1971,9 @@
 
   /* ----------------------------------------------------------------- live --- */
   async function connectLive(silent) {
-    if (silent && document.hidden) return;
+    if (state.liveBusy) return;
+    if (silent && (document.hidden || state.paused)) return;
+    state.liveBusy = true;
     try {
       if (!silent) toast("正在连接 Magpie…");
       const period = state.range === "7d" ? "week" : state.range === "30d" ? "month" : "today";
@@ -1966,6 +2009,8 @@
           toast("实时连接中断，保留最后一次快照");
         }
       }
+    } finally {
+      state.liveBusy = false;
     }
   }
 
@@ -1993,6 +2038,7 @@
     syncSettingsMenu();
     renderAll();
     requestAnimationFrame(drawWires);
+    ensureFlightLoop();
     const names = { layout: { auto: "自动", fit: "一屏", comfort: "舒展" }, density: { compact: "紧凑", cozy: "标准", spacious: "宽松" }, motion: { full: "全部", soft: "轻柔", off: "关闭" } };
     const fallback = kind === "layout" && value === "fit" && (window.innerWidth < 1200 || window.innerHeight < 900);
     toast((kind === "layout" ? "布局：" : kind === "density" ? "密度：" : "动效：") + ((names[kind] || {})[value] || value)
@@ -2030,7 +2076,7 @@
 
   /* ------------------------------------------------------------------ init --- */
   function init() {
-    try { console.info("%c Magpie Observatory v0.14.1 · twenty-one views · 4 styles · layout settings", "color:#8b7cf6;font-weight:bold"); } catch (_) {}
+    try { console.info("%c Magpie Observatory v0.14.2 · twenty-one views · 4 styles · layout settings", "color:#8b7cf6;font-weight:bold"); } catch (_) {}
     try {
       const hostTheme = new URLSearchParams(location.search).get("hostTheme");
       if (hostTheme === "light" || hostTheme === "dark") {
@@ -2069,7 +2115,7 @@
       }));
       renderQuotas();
     }, 60000);
-    requestAnimationFrame(flightLoop);
+    ensureFlightLoop();
     // A small delayed redraw catches web-font/layout settling.
     setTimeout(() => { renderTrend(); drawWires(); }, 120);
   }

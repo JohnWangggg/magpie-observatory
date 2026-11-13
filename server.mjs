@@ -16,7 +16,7 @@ const DEFAULT_PORT = 3488;
 const MAGPIE_URL = (process.env.MAGPIE_URL || "http://127.0.0.1:3425").replace(/\/+$/, "");
 const MAGPIE_KEY = (process.env.MAGPIE_KEY || "").trim();
 const PERIODS = new Set(["today", "week", "month", "all"]);
-const VERSION = "0.14.1";
+const VERSION = "0.14.2";
 
 const TYPES = {
   ".html": "text/html; charset=utf-8",
@@ -67,6 +67,43 @@ async function usageHeatmap() {
   return { days };
 }
 
+// The trace carries order/affinity/conv/prompt fields the dashboard never
+// reads. Drop them before the snapshot crosses the wire; 60 routes shrink from
+// ~400 KB to a few tens of KB.
+function slimTrace(body) {
+  if (!body || !Array.isArray(body.routes)) return body;
+  return {
+    ...body,
+    routes: body.routes.map(r => ({
+      seq: r.seq, id: r.id, time: r.time, agent: r.agent, model: r.model,
+      provider: r.provider, session: r.session, folder: r.folder,
+      group: r.group, rule: r.rule, done: r.done, status: r.status,
+      served: r.served,
+      tries: Array.isArray(r.tries) ? r.tries.map(t => ({
+        id: t.id, model: t.model, effort: t.effort, start: t.start,
+        done: t.done, status: t.status, ms: t.ms, ttft: t.ttft,
+        firstText: t.firstText, served: t.served
+      })) : []
+    }))
+  };
+}
+
+// Quota history is a long point series; the burn-down needs the recent slope,
+// not every point ever kept. Keep the last 40 points per line and drop lines
+// that cannot draw.
+function slimQuotaHistory(body) {
+  if (!body || !Array.isArray(body.data)) return body;
+  return {
+    ...body,
+    data: body.data.map(x => ({
+      ...x,
+      lines: (Array.isArray(x.lines) ? x.lines : [])
+        .map(l => ({ ...l, points: Array.isArray(l.points) ? l.points.slice(-40) : [] }))
+        .filter(l => l.points.length >= 2)
+    })).filter(x => x.lines.length)
+  };
+}
+
 // The quota history is a long per-window point series — heavier than every
 // other read, and the shape of a burn-down does not change between two
 // 2.5s snapshots. Keep the last good answer for a minute and serve it from
@@ -76,7 +113,7 @@ let quotaHistoryCache = { at: 0, body: null };
 
 async function quotaHistory() {
   if (quotaHistoryCache.body && Date.now() - quotaHistoryCache.at < 60000) return quotaHistoryCache.body;
-  const body = await magpieGet("/v1/magpie/quotas/history", 4000);
+  const body = slimQuotaHistory(await magpieGet("/v1/magpie/quotas/history", 4000));
   quotaHistoryCache = { at: Date.now(), body };
   return body;
 }
@@ -95,7 +132,11 @@ export async function snapshot(period = "today") {
   const data = {};
   const errors = {};
   await Promise.all(Object.entries(calls).map(async ([name, endpoint]) => {
-    try { data[name] = name === "quotaHistory" ? await quotaHistory() : await magpieGet(endpoint); }
+    try {
+      data[name] = name === "quotaHistory" ? await quotaHistory()
+        : name === "trace" ? slimTrace(await magpieGet(endpoint))
+        : await magpieGet(endpoint);
+    }
     catch (err) { errors[name] = err?.message || String(err); }
   }));
   if (!data.heatmap) {
@@ -123,11 +164,18 @@ function json(res, status, body) {
     "Cache-Control": "no-store",
     "Content-Length": buf.length,
     "X-Observatory-Version": VERSION,
+    "X-Content-Type-Options": "nosniff",
+    "Referrer-Policy": "no-referrer",
   });
   res.end(buf);
 }
 
 async function handler(req, res) {
+  if (req.method !== "GET" && req.method !== "HEAD") {
+    res.writeHead(405, { "Content-Type": "text/plain; charset=utf-8", "Allow": "GET, HEAD" });
+    res.end("Method not allowed");
+    return;
+  }
   const url = new URL(req.url || "/", "http://127.0.0.1");
   const pathname = decodeURIComponent(url.pathname);
 
@@ -160,6 +208,8 @@ async function handler(req, res) {
       "Cache-Control": "no-store, max-age=0",
       "Content-Length": body.length,
       "X-Observatory-Version": VERSION,
+      "X-Content-Type-Options": "nosniff",
+      "Referrer-Policy": "no-referrer",
     });
     res.end(body);
   } catch {
