@@ -166,25 +166,27 @@ provider → account → model → agent
 | 漏斗（calls → 首字 → 成功） | ✅ v0.9.0 | `#view-funnel` |
 | 延迟热力（time × bucket） | ✅ v0.9.0 | `#view-latency` |
 | 星图 / Orrery | ✅ v0.9.0 | `#view-orrery` |
+| bullet / 预算阈值 | ✅ v0.10.0 | `#view-budget` |
+| Marimekko / 马赛克 | ✅ v0.10.0 | `#view-marimekko` |
+| Chord / 弦图 | ✅ v0.10.0 | `#view-chord` |
 
 仍未实现、值得继续做的：
 
-- **bullet / 预算阈值**——额度视图的轻量卡片版；
-- **Marimekko / 马赛克**——provider × 模型的成本结构；
-- **Chord / 力导向网络**——Agent ↔ Provider 关系，但可读性/布局稳定性一般；
+- **力导向网络**——Agent ↔ Provider 关系，但布局稳定性一般；
 - **火焰图 / streamgraph / horizon**——等 Magpie 开放 span 嵌套或
-  `usage?by=provider` 的堆叠序列。
+  `usage?by=provider` 的堆叠序列；
+- **Factory / Chips / Bees** 等游戏化形式——更适合作为可选主题，而不是默认监控视图。
 
 ## 8. 推荐路线
 
-已完成：额度燃尽、会话瀑布、延迟蜂群、成本树图、流向、漏斗、延迟热力、星图。
+已完成：额度燃尽、会话瀑布、延迟蜂群、成本树图、流向、漏斗、延迟热力、星图、预算、结构、和弦。
 
-下一步按性价比：
+下一步：
 
-1. **bullet / 预算阈值**：额度视图的轻量卡片版，适合放在 KPI 旁；
-2. **Marimekko**：provider × 模型的成本结构，补足树图的另一种读法；
-3. **未来**：如果 Magpie 开放 span/tool 调用或 `usage?by=provider` 的堆叠序列，
-   再上火焰图、streamgraph、horizon。
+1. **力导向网络**：Agent ↔ Provider 的关系图，适合探索而非默认视图；
+2. **未来**：如果 Magpie 开放 span/tool 调用或 `usage?by=provider` 的堆叠序列，
+   再上火焰图、streamgraph、horizon；
+3. **游戏化**：Factory / Chips / Bees 作为可选主题。
 
 ---
 

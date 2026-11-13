@@ -14,6 +14,9 @@
 <link rel="stylesheet" href="assets/views/funnel.css">
 <link rel="stylesheet" href="assets/views/latency.css">
 <link rel="stylesheet" href="assets/views/orrery.css">
+<link rel="stylesheet" href="assets/views/budget.css">
+<link rel="stylesheet" href="assets/views/marimekko.css">
+<link rel="stylesheet" href="assets/views/chord.css">
 </head>
 <body>
 <svg class="sprite" aria-hidden="true">
@@ -63,7 +66,7 @@
       <button class="nav-item" id="theme-toggle" title="明暗模式"><svg class="icon-moon"><use href="#i-moon"/></svg><svg class="icon-sun"><use href="#i-sun"/></svg><span>明暗</span></button>
       <button class="nav-item" id="style-toggle" title="界面风格"><svg><use href="#i-palette"/></svg><span>风格</span></button>
       <button class="nav-item" id="settings-toggle" title="布局与动效"><svg><use href="#i-settings"/></svg><span>设置</span></button>
-      <div class="rail-version">v0.9.0 <i></i> plugin</div>
+      <div class="rail-version">v0.10.0 <i></i> plugin</div>
     </div>
   </aside>
 
@@ -114,6 +117,9 @@
               <button data-hero="funnel">漏斗</button>
               <button data-hero="latency">热力</button>
               <button data-hero="orrery">星图</button>
+              <button data-hero="budget">预算</button>
+              <button data-hero="marimekko">结构</button>
+              <button data-hero="chord">和弦</button>
             </div>
             <div class="hero-stat"><b id="hero-requests">0</b><span>请求</span></div>
             <div class="hero-stat warn"><b id="hero-fallbacks">0</b><span>改道</span></div>
@@ -152,6 +158,9 @@
           <div class="stage-view" id="view-funnel" hidden></div>
           <div class="stage-view" id="view-latency" hidden></div>
           <div class="stage-view" id="view-orrery" hidden></div>
+          <div class="stage-view" id="view-budget" hidden></div>
+          <div class="stage-view" id="view-marimekko" hidden></div>
+          <div class="stage-view" id="view-chord" hidden></div>
         </div>
         <div class="decision-strip">
           <div class="decision-icon"><svg><use href="#i-zap"/></svg></div>
@@ -329,6 +338,9 @@
 <script src="assets/views/funnel.js"></script>
 <script src="assets/views/latency.js"></script>
 <script src="assets/views/orrery.js"></script>
+<script src="assets/views/budget.js"></script>
+<script src="assets/views/marimekko.js"></script>
+<script src="assets/views/chord.js"></script>
 <script src="assets/app.js"></script>
 </body>
 </html>

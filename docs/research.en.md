@@ -472,7 +472,7 @@ Other formats worth borrowing:
 | Cards / scoring | Cache hit, reroute, TPS combo | Chips: combo × multiplier |
 | Swarm / orbit | Subagents, parallel sessions | Bees: one bee per subagent |
 
-This prototype implements thirteen views over the same data (more candidates in
+This prototype implements sixteen views over the same data (more candidates in
 [`visual-forms.en.md`](visual-forms.en.md)):
 
 - **Route**: two-way magpies along Agent → magpie → Provider.
@@ -501,6 +501,11 @@ This prototype implements thirteen views over the same data (more candidates in
   the page is open, with P50/P90 and the hottest bucket.
 - **Orrery**: providers as planets on elliptical orbits; planet size = active
   sessions, the arc = quota used, moons = active sessions.
+- **Budget**: a bullet chart per account window with 70/88 thresholds, a pace
+  marker from quota history, and a projected end.
+- **Marimekko**: column width = provider share, band height = model share; click
+  a provider to expand.
+- **Chord**: agents on one arc, providers on the other; ribbon area = tokens.
 
 Later, **Factory** (queued/streaming parcels) and **Chips** (combo × multiplier)
 can be added, but not all on one screen; mode switching preserves the

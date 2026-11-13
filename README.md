@@ -16,7 +16,7 @@ Observatory turns that stream into something you can *watch*:
 - **Live routing** — Agent → Magpie → Provider/Account, with a filled magpie
   carrying the request out and a mirrored outlined magpie bringing the answer
   back. Failed attempts stay visible as “rerouted”.
-- **Thirteen views** — `Route`, `Radar`, `Loom`, `Rhythm`, `Rings`, `Quota`, `Waterfall`, `Swarm`, `Treemap`, `Sankey`, `Funnel`, `Latency`, `Orrery`.
+- **Sixteen views** — `Route`, `Radar`, `Loom`, `Rhythm`, `Rings`, `Quota`, `Waterfall`, `Swarm`, `Treemap`, `Sankey`, `Funnel`, `Latency`, `Orrery`, `Budget`, `Marimekko`, `Chord`.
 - **Four style packs** — `Control`, `Pixel`, `Paper`, `Neon`; each with a light
   and dark variant. Light/dark and style are independent.
 - **Layout settings** — Auto / One screen / Comfort, density Compact / Standard /
@@ -89,7 +89,7 @@ MAGPIE_URL=http://127.0.0.1:3425 MAGPIE_KEY=... node preview.mjs
 
 The preview is for development only; the plugin uses the same service internally.
 
-## The thirteen views
+## The sixteen views
 
 | Route · two-way magpies | Radar · provider ring and quotas |
 | --- | --- |
@@ -116,6 +116,12 @@ The preview is for development only; the plugin uses the same service internally
 | ![funnel](docs/mode-funnel.png) | ![latency](docs/mode-latency.png) |
 
 ![Orrery · providers, quotas and sessions in orbit](docs/mode-orrery.png)
+
+| Budget · thresholds and pace | Marimekko · provider × model mosaic |
+| --- | --- |
+| ![budget](docs/mode-budget.png) | ![marimekko](docs/mode-marimekko.png) |
+
+![Chord · agent ↔ provider ribbons](docs/mode-chord.png)
 
 - **Route**: the default. Magpies fly the whole `Agent → Magpie → Provider`
   path; failures remain visible.
@@ -144,6 +150,12 @@ The preview is for development only; the plugin uses the same service internally
   is open, with P50/P90 and the hottest bucket.
 - **Orrery**: providers as planets on elliptical orbits; planet size = active
   sessions, the arc = quota used, moons = active sessions.
+- **Budget**: a bullet chart per account window; 70/88 thresholds, a pace marker
+  from quota history, and a projected end.
+- **Marimekko**: column width = provider share, band height = model share; click
+  a provider to expand its column.
+- **Chord**: agents on one arc, providers on the other; ribbon area = tokens;
+  hover highlights the flow and side panel lists the top routes.
 
 ## Styles and themes
 

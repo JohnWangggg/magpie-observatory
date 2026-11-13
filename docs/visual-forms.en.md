@@ -172,27 +172,28 @@ Shipped from this list as hero views:
 | Funnel (calls → first token → success) | ✅ v0.9.0 | `#view-funnel` |
 | Latency heatmap (time × bucket) | ✅ v0.9.0 | `#view-latency` |
 | Orrery / constellation | ✅ v0.9.0 | `#view-orrery` |
+| Bullet / budget threshold | ✅ v0.10.0 | `#view-budget` |
+| Marimekko / mosaic | ✅ v0.10.0 | `#view-marimekko` |
+| Chord diagram | ✅ v0.10.0 | `#view-chord` |
 
 Still open and worth doing:
 
-- **Bullet / budget threshold**: a lightweight card version of the quota view;
-- **Marimekko / mosaic**: provider × model cost structure;
-- **Chord / force-directed network**: agent ↔ provider relations, but readability
-  and layout stability are weaker;
+- **Force-directed network**: agent ↔ provider relations, but layout stability is weaker;
 - **Flame graph / streamgraph / horizon**: blocked until Magpie exposes span
-  nesting or stacked `usage?by=provider` series.
+  nesting or stacked `usage?by=provider` series;
+- **Factory / Chips / Bees** game-like forms: better as optional themes than default views.
 
 ## 8. Recommended order
 
 Done: quota burn-down, session waterfall, latency beeswarm, cost treemap, Sankey,
-funnel, latency heatmap, orrery.
+funnel, latency heatmap, orrery, budget bullets, Marimekko, chord.
 
-Next by value:
+Next:
 
-1. **Bullet / budget threshold**: a lightweight card beside the KPI row;
-2. **Marimekko**: another reading of the provider × model cost structure;
-3. **Later**: flame graphs, streamgraphs and horizon charts once Magpie exposes
-   span/tool nesting or stacked `usage?by=provider` series.
+1. **Force-directed network**: an exploratory agent ↔ provider graph;
+2. **Later**: flame graphs, streamgraphs and horizon charts once Magpie exposes
+   span/tool nesting or stacked `usage?by=provider` series;
+3. **Game-like forms** (Factory / Chips / Bees) as optional themes.
 
 ---
 
