@@ -51,6 +51,7 @@
   <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
   <symbol id="i-x" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
   <symbol id="i-pulse" viewBox="0 0 24 24"><path d="M3 12h4l2-6 4 12 2-6h6"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 4 2.35 4.76 5.25.76-3.8 3.7.9 5.23L12 16l-4.7 2.45.9-5.23-3.8-3.7 5.25-.76L12 4Z"/></symbol>
   <symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0 0 18h1.3a2.6 2.6 0 0 0 0-5.2H12a2 2 0 0 1 0-4h4.2A4.8 4.8 0 0 0 21 7.2 9 9 0 0 0 12 3Z"/><circle cx="7.5" cy="9" r="1"/><circle cx="10" cy="6.4" r="1"/><circle cx="14" cy="6.4" r="1"/></symbol>
 </svg>
 
@@ -71,7 +72,7 @@
       <button class="nav-item" id="theme-toggle" title="明暗模式"><svg class="icon-moon"><use href="#i-moon"/></svg><svg class="icon-sun"><use href="#i-sun"/></svg><span>明暗</span></button>
       <button class="nav-item" id="style-toggle" title="界面风格"><svg><use href="#i-palette"/></svg><span>风格</span></button>
       <button class="nav-item" id="settings-toggle" title="布局与动效"><svg><use href="#i-settings"/></svg><span>设置</span></button>
-      <div class="rail-version">v0.15.1 <i></i> plugin</div>
+      <div class="rail-version">v0.16.0 <i></i> plugin</div>
     </div>
   </aside>
 
@@ -318,6 +319,15 @@
     </div>
   </div>
   <div class="setting-group">
+    <label>巡游间隔</label>
+    <div class="seg setting-seg" id="tour-seg">
+      <button data-tour="5">5 秒</button>
+      <button data-tour="10" class="active">10 秒</button>
+      <button data-tour="30">30 秒</button>
+    </div>
+    <small>巡游模式（G）每轮切换视图的间隔。</small>
+  </div>
+  <div class="setting-group">
     <label>动效</label>
     <div class="seg setting-seg" id="motion-seg">
       <button data-motion="full" class="active">全部</button>
@@ -349,10 +359,11 @@
     <kbd>Space</kbd><span>暂停 / 继续</span>
     <kbd>T</kbd><span>明暗模式</span>
     <kbd>G</kbd><span>巡游模式</span>
+    <kbd>F</kbd><span>收藏当前视图</span>
     <kbd>?</kbd><span>打开 / 关闭帮助</span>
     <kbd>Esc</kbd><span>关闭弹层</span>
   </div>
-  <p>巡游按钮在视图菜单底部：每 8 秒自动切换一个视图。</p>
+  <p>巡游按钮在视图菜单底部：间隔在 设置 → 巡游间隔 里选 5 / 10 / 30 秒。</p>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 <script src="assets/data.js"></script>

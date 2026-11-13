@@ -9,6 +9,7 @@ import http from "node:http";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { createHash } from "node:crypto";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const PUBLIC = path.join(HERE, "public");
@@ -16,7 +17,7 @@ const DEFAULT_PORT = 3488;
 const MAGPIE_URL = (process.env.MAGPIE_URL || "http://127.0.0.1:3425").replace(/\/+$/, "");
 const MAGPIE_KEY = (process.env.MAGPIE_KEY || "").trim();
 const PERIODS = new Set(["today", "week", "month", "all"]);
-const VERSION = "0.15.1";
+const VERSION = "0.16.0";
 
 const TYPES = {
   ".html": "text/html; charset=utf-8",
@@ -107,6 +108,24 @@ function slimRequests(body) {
   };
 }
 
+// Requests are newest-first and immutable once logged, so a client that names
+// the newest row it already has only needs the rows above it.
+function requestKey(r) { return String((r && (r.route_id || r.t)) || ""); }
+
+function requestsDelta(body, cursor) {
+  const rows = Array.isArray(body && body.rows) ? body.rows : [];
+  if (!cursor || !rows.length) return null;
+  const at = rows.findIndex(r => requestKey(r) === cursor);
+  if (at < 0) return null;
+  const head = rows.slice(0, at);
+  return {
+    delta: true,
+    cursor: head.length ? requestKey(head[0]) : cursor,
+    head,
+    total: body.total, offset: body.offset, period: body.period
+  };
+}
+
 // Quota history is a long point series; the burn-down needs the recent slope,
 // not every point ever kept. Keep the last 40 points per line and drop lines
 // that cannot draw.
@@ -150,33 +169,77 @@ function slimQuotaHistory(body) {
 // 2.5s snapshots. Keep the last good answer for a minute and serve it from
 // cache in between; a gateway that does not serve the endpoint simply leaves
 // the key missing.
-let quotaHistoryCache = { at: 0, body: null };
+let quotaHistoryCache = { at: 0, body: null, token: "" };
 
-async function quotaHistory() {
-  if (quotaHistoryCache.body && Date.now() - quotaHistoryCache.at < 60000) return quotaHistoryCache.body;
+// `token` is a content hash: a client that sends back the hash it already has
+// gets a tiny `{delta:true}` instead of the whole ~59 KB series.
+async function quotaHistory(token) {
+  if (quotaHistoryCache.body && Date.now() - quotaHistoryCache.at < 60000) {
+    if (token && token === quotaHistoryCache.token) return { delta: true, token };
+    return { ...quotaHistoryCache.body, token: quotaHistoryCache.token };
+  }
   const body = slimQuotaHistory(await magpieGet("/v1/magpie/quotas/history", 4000));
-  quotaHistoryCache = { at: Date.now(), body };
-  return body;
+  const json = JSON.stringify(body);
+  const hash = createHash("sha1").update(json).digest("hex").slice(0, 12);
+  quotaHistoryCache = { at: Date.now(), body, token: hash };
+  return { ...body, token: hash };
 }
 
-export async function snapshot(period = "today") {
+// The gateway keeps the newest 60 routes and takes `after=<route seq>` for the
+// tail. Cache that window so a client which stays in sync receives only the
+// routes added since its last snapshot instead of the whole 60-route page.
+let traceCache = { seq: 0, routes: [], at: 0 };
+const TRACE_WINDOW = 60;
+
+async function tracePayload(since) {
+  const inSync = traceCache.seq > 0 && since === traceCache.seq && Date.now() - traceCache.at < 30000;
+  let body = inSync
+    ? await magpieGet(`/v1/magpie/trace?after=${traceCache.seq}`)
+    : await magpieGet("/v1/magpie/trace?after=0");
+  const freshSeq = Number(body && body.seq) || 0;
+  // A restarted gateway numbers from the other side; recover with a full read.
+  let full = !inSync || !freshSeq || freshSeq < traceCache.seq;
+  if (!full && !Array.isArray(body.routes)) {
+    body = await magpieGet("/v1/magpie/trace?after=0");
+    full = true;
+  }
+  const slim = slimTrace(body);
+  const routes = Array.isArray(slim.routes) ? slim.routes : [];
+  const seq = Number(slim.seq) || freshSeq || traceCache.seq;
+  if (full) {
+    traceCache = { seq, routes: routes.slice(-TRACE_WINDOW), at: Date.now() };
+    return { seq, delta: false, routes: traceCache.routes };
+  }
+  const seen = new Set(traceCache.routes.map(r => r.id));
+  const added = routes.filter(r => r && !seen.has(r.id));
+  if (added.length) traceCache.routes = traceCache.routes.concat(added).slice(-TRACE_WINDOW);
+  traceCache = { seq, routes: traceCache.routes, at: Date.now() };
+  return { seq, delta: true, routes: added };
+}
+
+export async function snapshot(period = "today", since = 0, qh = "", rq = "") {
   if (!PERIODS.has(period)) period = "today";
   const calls = {
     trace: "/v1/magpie/trace?after=0",
     quotas: "/v1/magpie/quotas?kept=1",
     usage: `/v1/magpie/usage?period=${period}`,
     concurrency: "/v1/magpie/concurrency",
-    requests: `/v1/magpie/usage/requests?period=${period}&limit=80`,
+    requests: `/v1/magpie/usage/requests?period=${period}&limit=60`,
     heatmap: "/api/usage/heatmap?period=all",
     quotaHistory: "/v1/magpie/quotas/history",
   };
   const data = {};
   const errors = {};
+  let requestsBody = null;
   await Promise.all(Object.entries(calls).map(async ([name, endpoint]) => {
     try {
-      data[name] = name === "quotaHistory" ? await quotaHistory()
-        : name === "trace" ? slimTrace(await magpieGet(endpoint))
-        : name === "requests" ? slimRequests(await magpieGet(endpoint))
+      if (name === "requests") requestsBody = await magpieGet(endpoint);
+      data[name] = name === "quotaHistory" ? await quotaHistory(qh)
+        : name === "trace" ? await tracePayload(since)
+        : name === "requests" ? (() => {
+            const slim = slimRequests(requestsBody);
+            return requestsDelta(slim, rq) || { ...slim, cursor: slim.rows && slim.rows.length ? requestKey(slim.rows[0]) : "" };
+          })()
         : await magpieGet(endpoint);
     }
     catch (err) { errors[name] = err?.message || String(err); }
@@ -231,7 +294,10 @@ async function handler(req, res) {
   }
   if (pathname === "/api/snapshot") {
     const period = url.searchParams.get("period") || "today";
-    try { return json(res, 200, await snapshot(period)); }
+    const since = Math.max(0, Number(url.searchParams.get("since")) || 0);
+    const qh = String(url.searchParams.get("qh") || "").slice(0, 40);
+    const rq = String(url.searchParams.get("rq") || "").slice(0, 60);
+    try { return json(res, 200, await snapshot(period, since, qh, rq)); }
     catch (err) { return json(res, 502, { ok: false, error: err?.message || String(err) }); }
   }
   if (pathname === "/api/version") {

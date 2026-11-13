@@ -1,6 +1,6 @@
 {
   "name": "magpie-observatory",
-  "version": "0.15.1",
+  "version": "0.16.0",
   "description": "A monitoring cockpit for Magpie: live routing with two-way magpies, quotas, usage, 21 views, 4 style packs and layout settings.",
   "type": "module",
   "main": "./index.mjs",

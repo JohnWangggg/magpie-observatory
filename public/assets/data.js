@@ -379,18 +379,82 @@
   }
 
   /* --------------------------------------------------------------- live --- */
+  // The snapshot endpoint can answer with a trace delta: it keeps the same
+  // 60-route window and sends only the routes appended since `liveTrace.seq`.
+  // Merge here so normalizeLive keeps seeing one complete window.
+  let liveTrace = { seq: 0, routes: [] };
+  let liveQuota = { token: "", body: null };
+  let liveRequests = { cursor: "", rows: [] };
+  let livePeriod = "";
+
+  function mergeTrace(rawTrace) {
+    if (!rawTrace || typeof rawTrace !== "object") return;
+    const incoming = Array.isArray(rawTrace.routes) ? rawTrace.routes : [];
+    if (rawTrace.delta && liveTrace.seq) {
+      const seen = new Set(liveTrace.routes.map(r => r && r.id));
+      for (const r of incoming) {
+        if (r && !seen.has(r.id)) { liveTrace.routes.push(r); seen.add(r.id); }
+      }
+      liveTrace.routes = liveTrace.routes.slice(-60);
+    } else {
+      liveTrace.routes = incoming.slice(-60);
+    }
+    liveTrace.seq = Number(rawTrace.seq) || liveTrace.seq;
+  }
+
+  // `qh` carries the quota-history hash; a match means the server answers
+  // `{delta:true}` and the previous series stays in place.
+  function mergeQuotaHistory(raw) {
+    if (!raw || typeof raw !== "object") return;
+    if (raw.delta) return;
+    liveQuota = { token: String(raw.token || ""), body: raw };
+  }
+
+  // The ledger is newest-first: a delta is the rows above the cursor the
+  // client names, and the tail is trimmed so the window keeps its 60 rows.
+  function requestKey(r) { return String((r && (r.route_id || r.t)) || ""); }
+
+  function mergeRequests(raw) {
+    if (!raw || typeof raw !== "object") return;
+    if (raw.delta) {
+      if (Array.isArray(raw.head) && raw.head.length && liveRequests.rows.length) {
+        liveRequests.rows = raw.head.concat(liveRequests.rows).slice(0, 60);
+      }
+      if (raw.cursor) liveRequests.cursor = raw.cursor;
+      return;
+    }
+    liveRequests = { cursor: String(raw.cursor || ""), rows: (raw.rows || []).slice(0, 60) };
+  }
+
   async function fetchLive(period) {
-    const q = period ? ("?period=" + encodeURIComponent(period)) : "";
+    if (period && period !== livePeriod) {
+      livePeriod = period;
+      liveRequests = { cursor: "", rows: [] };
+      liveQuota = { token: "", body: null };
+    }
+    const params = new URLSearchParams();
+    if (period) params.set("period", period);
+    if (liveTrace.seq) params.set("since", String(liveTrace.seq));
+    if (liveQuota.token) params.set("qh", liveQuota.token);
+    if (liveRequests.cursor) params.set("rq", liveRequests.cursor);
+    const qs = params.toString();
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), 8000);
     try {
-      const res = await fetch("api/snapshot" + q, { cache: "no-store", signal: ctrl.signal });
+      const res = await fetch("api/snapshot" + (qs ? "?" + qs : ""), { cache: "no-store", signal: ctrl.signal });
       if (!res.ok) throw new Error("snapshot " + res.status);
       const body = await res.json();
       if (!body || body.ok === false) throw new Error((body && body.error) || "magpie unavailable");
       const data = body.data || body;
       data.gateway = body.gateway || data.gateway;
       data.period = body.period || data.period;
+      mergeTrace(data.trace);
+      data.trace = { routes: liveTrace.routes, seq: liveTrace.seq };
+      mergeQuotaHistory(data.quotaHistory);
+      data.quotaHistory = liveQuota.body;
+      const reqTotal = data.requests && data.requests.total;
+      mergeRequests(data.requests);
+      data.requests = { rows: liveRequests.rows, cursor: liveRequests.cursor, total: reqTotal };
       return normalizeLive(data);
     } finally {
       clearTimeout(timer);

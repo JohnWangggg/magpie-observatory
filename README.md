@@ -183,8 +183,10 @@ The hero header has a view picker instead of a wall of tabs. Press **V** (or
 click it), type to filter by name / eyebrow / group, press Enter to switch, or
 hit **随机一个** for a random view. The 21 views are grouped into
 `实时` / `用量` / `结构` / `趣味`, and the hero accent follows the group.
-**G** starts or stops an 8-second auto tour, **R** picks a random view, **?**
-opens the shortcut sheet, and **Esc** closes the picker.
+**G** starts or stops an auto tour (5 / 10 / 30-second interval in settings),
+**R** picks a random view, **F** stars the current view (favourites pin to the
+top of the picker and survive reloads), **?** opens the shortcut sheet, and
+**Esc** closes the picker.
 
 | View picker | Keyboard shortcuts |
 | --- | --- |
@@ -260,6 +262,10 @@ them for five minutes. No prompt or response body is read.
 
 No prompts, replies, credentials or model-call keys are stored. The service
 listens on loopback; the plugin page reaches it through its own origin.
+
+Steady-state polling is incremental: after the first snapshot, the service sends
+only the new trace routes, the new ledger rows and a quota-history hash, so a
+2.5-second poll is ~23 KB instead of ~150 KB.
 
 ### Privacy
 

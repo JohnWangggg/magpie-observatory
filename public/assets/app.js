@@ -32,7 +32,13 @@
     liveTimer: null,
     liveBusy: false,
     tour: false,
-    tourTimer: null
+    tourTimer: null,
+    favorites: (() => {
+      try {
+        const raw = JSON.parse(localStorage.getItem("magpie.favorites") || "[]");
+        return Array.isArray(raw) ? raw.filter(x => typeof x === "string") : [];
+      } catch (_) { return []; }
+    })()
   };
 
   const STATUS_TEXT = { streaming: "运行中", queued: "排队", done: "完成", error: "失败" };
@@ -107,20 +113,52 @@
     };
   }
 
+  function menuItem(v, accent) {
+    const search = `${v.title} ${v.eyebrow} ${v.group} ${v.hint} ${v.id}`.toLowerCase();
+    const on = state.favorites.includes(v.id);
+    return `<div class="vm-row">
+      <button class="vm-item" type="button" data-hero="${v.id}" data-search="${esc(search)}" role="option" aria-selected="false" style="--vm-c:${accent}">
+        <span class="vm-ic"><svg><use href="#${v.icon}"/></svg></span>
+        <span class="vm-copy"><b>${esc(v.title)}</b><small>${esc(v.eyebrow)}</small></span>
+        <span class="vm-hint">${esc(v.hint)}</span>
+      </button>
+      <button class="vm-star${on ? " on" : ""}" type="button" data-fav="${v.id}" aria-pressed="${on}" aria-label="${on ? "取消收藏" : "收藏"} ${esc(v.title)}" title="${on ? "取消收藏" : "收藏"}">
+        <svg><use href="#i-star"/></svg>
+      </button>
+    </div>`;
+  }
+
   function buildViewMenu() {
     const host = $("#vm-groups");
     if (!host) return;
-    host.innerHTML = VIEW_GROUPS.map(group => {
-      const items = VIEW_META.filter(v => v.group === group).map(v => {
-        const search = `${v.title} ${v.eyebrow} ${v.group} ${v.hint} ${v.id}`.toLowerCase();
-        return `<button class="vm-item" type="button" data-hero="${v.id}" data-search="${esc(search)}" role="option" aria-selected="false" style="--vm-c:${GROUP_COLORS[group]}">
-          <span class="vm-ic"><svg><use href="#${v.icon}"/></svg></span>
-          <span class="vm-copy"><b>${esc(v.title)}</b><small>${esc(v.eyebrow)}</small></span>
-          <span class="vm-hint">${esc(v.hint)}</span>
-        </button>`;
-      }).join("");
-      return `<section class="vm-group"><h4 style="--vm-g:${GROUP_COLORS[group]}"><i></i>${group}<span>${VIEW_META.filter(v => v.group === group).length}</span></h4>${items}</section>`;
-    }).join("");
+    const sections = [];
+    const favs = state.favorites
+      .map(id => VIEW_META.find(v => v.id === id))
+      .filter(Boolean);
+    if (favs.length) {
+      sections.push(`<section class="vm-group vm-fav"><h4 style="--vm-g:var(--amber)"><i></i>收藏<span>${favs.length}</span></h4>${favs.map(v => menuItem(v, "var(--amber)")).join("")}</section>`);
+    }
+    VIEW_GROUPS.forEach(group => {
+      const items = VIEW_META.filter(v => v.group === group).map(v => menuItem(v, GROUP_COLORS[group])).join("");
+      sections.push(`<section class="vm-group"><h4 style="--vm-g:${GROUP_COLORS[group]}"><i></i>${group}<span>${VIEW_META.filter(v => v.group === group).length}</span></h4>${items}</section>`);
+    });
+    host.innerHTML = sections.join("");
+  }
+
+  function toggleFavorite(id) {
+    const i = state.favorites.indexOf(id);
+    if (i >= 0) state.favorites.splice(i, 1); else state.favorites.push(id);
+    try { localStorage.setItem("magpie.favorites", JSON.stringify(state.favorites)); } catch (_) {}
+    buildViewMenu();
+    const search = $("#view-search");
+    filterViewMenu(search ? search.value : "");
+    $$(".view-menu .vm-item").forEach(b => {
+      const on = b.dataset.hero === state.heroMode;
+      b.classList.toggle("active", on);
+      b.setAttribute("aria-selected", String(on));
+    });
+    const meta = viewMeta(id);
+    toast(state.favorites.includes(id) ? `已收藏「${meta.title}」` : `已取消收藏「${meta.title}」`);
   }
 
   function filterViewMenu(query) {
@@ -130,6 +168,10 @@
       const on = !needle || b.dataset.search.includes(needle);
       b.hidden = !on;
       if (on) shown++;
+    });
+    $$(".view-menu .vm-row").forEach(r => {
+      const item = r.querySelector(".vm-item");
+      r.hidden = !item || item.hidden;
     });
     $$(".view-menu .vm-group").forEach(g => {
       g.hidden = !Array.from(g.querySelectorAll(".vm-item")).some(b => !b.hidden);
@@ -220,13 +262,14 @@
     state.tour = true;
     updateTourUi();
     clearInterval(state.tourTimer);
+    const secs = Math.max(3, Number(document.documentElement.dataset.tour) || 10);
     state.tourTimer = setInterval(() => {
       if (document.hidden || state.paused) return;
       const idx = VIEW_META.findIndex(v => v.id === state.heroMode);
       const next = VIEW_META[(idx + 1) % VIEW_META.length].id;
       setHeroMode(next);
-    }, 8000);
-    toast("巡游开始 · 每 8 秒切换视图");
+    }, secs * 1000);
+    toast(`巡游开始 · 每 ${secs} 秒切换视图`);
   }
 
   function openHelp() {
@@ -1340,8 +1383,21 @@
   function renderSessions() {
     const list = visibleSessions();
     const live = activeSessions();
-    $("#active-count").textContent = String(live.length);
     const host = $("#session-list");
+    const extra = state.sessionTab === "active"
+      ? state.data.recent.filter(s => !list.some(x => x.id === s.id) && matchFilter(s)).slice(0, 3)
+      : [];
+    // Rebuild only when the rendered set changed; the age text refreshes on
+    // the 30-second bucket so a streaming card never looks frozen.
+    const sig = [state.sessionTab,
+      state.filter ? state.filter.type + ":" + state.filter.value : "",
+      state.selectedSession || "", live.length, Math.floor(Date.now() / 30000),
+      list.concat(extra).map(s => [s.id, s.status, s.title, s.model, s.provider, s.group,
+        s.tokens, s.tps && s.tps.toFixed(1), s.fallbacks, s.startedAt, (s.subagents || []).length].join(",")).join("\u0001")
+    ].join("\u0002");
+    if (host.dataset.sig === sig) return;
+    host.dataset.sig = sig;
+    $("#active-count").textContent = String(live.length);
     const scroll = host.scrollTop;
     host.dataset.tab = state.sessionTab;
     let html = list.map(sessionCard).join("");
@@ -1364,6 +1420,13 @@
   function renderQuotas() {
     const list = state.data.quotas;
     const host = $("#quota-list");
+    const sig = [state.mode, Math.round(host.clientWidth), window.innerWidth,
+      list.map(q => [q.provider, q.name, q.user, q.plan, q.balance,
+        (q.windows || []).map(w => [w.name, Math.round(w.used || 0), w.resetsIn == null ? "" : Math.round(w.resetsIn / 5) * 5].join(":")).join("|")
+      ].join(",")).join("\u0001")
+    ].join("\u0002");
+    if (host.dataset.sig === sig) return;
+    host.dataset.sig = sig;
     // Few accounts should not leave an empty third column; four read well
     // as a 2×2, five or six as the CSS 3-column grid.
     const qw = host.clientWidth || 800;
@@ -1567,7 +1630,12 @@
       if (!q) return true;
       return [r.session, r.model, r.provider, r.agent].join(" ").toLowerCase().includes(q);
     }).slice(0, 22);
-    $("#log-body").innerHTML = logs.map(r => {
+    const host = $("#log-body");
+    const sig = q + "\u0002" + logs.map(r => [r.at, r.status, r.model, r.provider, r.agent, r.session,
+      r.tokens, r.ttft, r.tps == null ? "" : r.tps.toFixed(0), r.cost].join(",")).join("\u0001");
+    if (host.dataset.sig === sig) return;
+    host.dataset.sig = sig;
+    host.innerHTML = logs.map(r => {
       const meta = D.agentMeta(r.agent);
       const dt = new Date(r.at);
       const time = `${pad2(dt.getHours())}:${pad2(dt.getMinutes())}:${pad2(dt.getSeconds())}`;
@@ -1758,11 +1826,12 @@
       syncSettingsMenu();
     });
     $("#settings-menu").addEventListener("click", e => {
-      const b = e.target.closest("button[data-layout],button[data-density],button[data-motion]");
+      const b = e.target.closest("button[data-layout],button[data-density],button[data-motion],button[data-tour]");
       if (!b) return;
       if (b.dataset.layout) applySetting("layout", b.dataset.layout);
       if (b.dataset.density) applySetting("density", b.dataset.density);
       if (b.dataset.motion) applySetting("motion", b.dataset.motion);
+      if (b.dataset.tour) applySetting("tour", b.dataset.tour);
     });
     $("#style-menu").addEventListener("click", e => {
       const b = e.target.closest(".style-item");
@@ -1838,6 +1907,8 @@
       toggleViewMenu();
     });
     $("#view-menu").addEventListener("click", e => {
+      const star = e.target.closest(".vm-star");
+      if (star) { e.preventDefault(); toggleFavorite(star.dataset.fav); return; }
       const b = e.target.closest("button[data-hero]");
       if (b) { if (state.tour) stopTour(true); setHeroMode(b.dataset.hero); closeViewMenu(); }
     });
@@ -2002,6 +2073,7 @@
       if (e.key.toLowerCase() === "v" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); toggleViewMenu(); }
       if (e.key.toLowerCase() === "r" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); randomView(); }
       if (e.key.toLowerCase() === "g" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); if (state.tour) stopTour(); else { closeViewMenu(); startTour(); } }
+      if (e.key.toLowerCase() === "f" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); toggleFavorite(state.heroMode); }
       if (e.key === "?") { e.preventDefault(); toggleHelp(); }
     });
 
@@ -2096,6 +2168,7 @@
     $$("#layout-seg button").forEach(b => b.classList.toggle("active", b.dataset.layout === (root.dataset.layout || "auto")));
     $$("#density-seg button").forEach(b => b.classList.toggle("active", b.dataset.density === (root.dataset.density || "cozy")));
     $$("#motion-seg button").forEach(b => b.classList.toggle("active", b.dataset.motion === (root.dataset.motion || "full")));
+    $$("#tour-seg button").forEach(b => b.classList.toggle("active", b.dataset.tour === (root.dataset.tour || "10")));
   }
   function applySetting(kind, value) {
     const root = document.documentElement;
@@ -2105,9 +2178,11 @@
     renderAll();
     requestAnimationFrame(drawWires);
     ensureFlightLoop();
-    const names = { layout: { auto: "自动", fit: "一屏", comfort: "舒展" }, density: { compact: "紧凑", cozy: "标准", spacious: "宽松" }, motion: { full: "全部", soft: "轻柔", off: "关闭" } };
+    const names = { layout: { auto: "自动", fit: "一屏", comfort: "舒展" }, density: { compact: "紧凑", cozy: "标准", spacious: "宽松" }, motion: { full: "全部", soft: "轻柔", off: "关闭" }, tour: { 5: "5 秒", 10: "10 秒", 30: "30 秒" } };
+    const prefix = { layout: "布局：", density: "密度：", motion: "动效：", tour: "巡游：" };
+    if (kind === "tour" && state.tour) { stopTour(true); startTour(); }
     const fallback = kind === "layout" && value === "fit" && (window.innerWidth < 1200 || window.innerHeight < 900);
-    toast((kind === "layout" ? "布局：" : kind === "density" ? "密度：" : "动效：") + ((names[kind] || {})[value] || value)
+    toast((prefix[kind] || "") + ((names[kind] || {})[value] || value)
       + (fallback ? "（当前尺寸改用滚动）" : ""));
   }
 
@@ -2142,7 +2217,7 @@
 
   /* ------------------------------------------------------------------ init --- */
   function init() {
-    try { console.info("%c Magpie Observatory v0.15.1 · twenty-one views · 4 styles · layout settings", "color:#8b7cf6;font-weight:bold"); } catch (_) {}
+    try { console.info("%c Magpie Observatory v0.16.0 · twenty-one views · 4 styles · layout settings", "color:#8b7cf6;font-weight:bold"); } catch (_) {}
     try {
       const hostTheme = new URLSearchParams(location.search).get("hostTheme");
       if (hostTheme === "light" || hostTheme === "dark") {
@@ -2153,7 +2228,7 @@
       if (saved === "dark") document.documentElement.dataset.theme = "dark";
       const savedStyle = localStorage.getItem("magpie.style");
       if (savedStyle) document.documentElement.dataset.style = savedStyle;
-      ["layout", "density", "motion"].forEach(k => {
+      ["layout", "density", "motion", "tour"].forEach(k => {
         const v = localStorage.getItem("magpie." + k);
         if (v) document.documentElement.dataset[k] = v;
       });
