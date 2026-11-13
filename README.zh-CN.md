@@ -14,7 +14,7 @@ Magpie 已经知道每个请求走的是哪个 provider、账号和模型。Obse
 
 - **实时路由**：Agent → Magpie → Provider/Account；实心喜鹊带请求飞出去，
   镜像描边喜鹊带回答飞回来；失败改道保留“已改道”标记。
-- **十六种视图**：`路由` / `雷达` / `织机` / `节奏` / `年轮` / `额度` / `瀑布` / `蜂群` / `成本` / `流向` / `漏斗` / `热力` / `星图` / `预算` / `结构` / `和弦`。
+- **十九种视图**：`路由` / `雷达` / `织机` / `节奏` / `年轮` / `额度` / `瀑布` / `蜂群` / `成本` / `流向` / `漏斗` / `热力` / `星图` / `预算` / `结构` / `和弦` / `网络` / `河流` / `连击`。
 - **四套风格**：`控制室` / `像素` / `纸感` / `霓虹`，每套都有明暗两版；
   明暗和风格互相独立。
 - **布局设置**：自动 / 一屏 / 舒展；密度 紧凑 / 标准 / 宽松；动效 全部 / 轻柔 / 关闭。
@@ -80,7 +80,7 @@ MAGPIE_URL=http://127.0.0.1:3425 MAGPIE_KEY=... node preview.mjs
 
 预览只用于开发；插件内部使用同一个服务。
 
-## 十六种视图
+## 十九种视图
 
 | 路由 · 双向喜鹊 | 雷达 · Provider 环与额度 |
 | --- | --- |
@@ -114,6 +114,12 @@ MAGPIE_URL=http://127.0.0.1:3425 MAGPIE_KEY=... node preview.mjs
 
 ![和弦 · Agent ↔ Provider 彩带](docs/mode-chord.png)
 
+| 网络 · Agent ↔ Provider 关系图 | 河流 · Provider 流量随时间 |
+| --- | --- |
+| ![network](docs/mode-network.png) | ![stream](docs/mode-stream.png) |
+
+![连击 · 卡牌组合](docs/mode-chips.png)
+
 - **路由**：默认视图。喜鹊沿整条 `Agent → Magpie → Provider` 路径飞行，
   失败尝试仍然留在画面上。
 - **雷达**：Provider 在环上，外圈是额度；左边是 In-flight 会话，右边是
@@ -142,6 +148,12 @@ MAGPIE_URL=http://127.0.0.1:3425 MAGPIE_KEY=... node preview.mjs
 - **结构**：列宽 = Provider 占比，带高 = 模型占比；点击 Provider 展开该列。
 - **和弦**：Agent 在左弧、Provider 在右弧；彩带面积 = Token，悬停高亮整条流向，
   侧栏列出 top 路由。
+- **网络**：Agent → Provider → 模型的力导向关系图；节点大小 = Token，
+  悬停/点击高亮邻居。
+- **河流**：Provider Token 增量随缓冲快照的 streamgraph，可切换 Horizon
+  紧凑读数。
+- **连击**：游戏化可选视图；每个请求是一张卡，连续成功累积 combo，
+  分数和倍率都来自真实账本。
 
 ## 风格与明暗
 
@@ -229,6 +241,7 @@ page/index.html        Magpie 插件启动页
 page/boot.js           读取 magpie.service / port 并导航
 page/icon.svg          插件图标
 public/                仪表板（index.html、assets/）
+public/assets/views/   独立 hero 视图模块
 docs/research.md       调研与设计（简体中文）
 docs/research.en.md    调研与设计（English）
 docs/publishing.md     GitHub 发布 + Magpie 商店 topics

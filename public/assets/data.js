@@ -94,11 +94,17 @@
   }
 
   function iconUrl(file) { return ICON_BASE + file; }
+  function trimZeros(s) {
+    // Only decimals lose trailing zeros: "500" stays 500, "1.20" becomes 1.2.
+    return s.indexOf(".") >= 0 ? s.replace(/0+$/, "").replace(/\.$/, "") : s;
+  }
   function fmtTokens(n) {
     n = Number(n) || 0;
-    if (n >= 1e9) return (n / 1e9).toFixed(2).replace(/\.?0+$/, "") + "B";
-    if (n >= 1e6) return (n / 1e6).toFixed(n >= 1e7 ? 1 : 2).replace(/\.?0+$/, "") + "M";
-    if (n >= 1e3) return (n / 1e3).toFixed(n >= 1e4 ? 0 : 1).replace(/\.?0+$/, "") + "K";
+    if (n >= 1e9) return trimZeros((n / 1e9).toFixed(2)) + "B";
+    if (n >= 999.5e6) return trimZeros((n / 1e9).toFixed(2)) + "B";
+    if (n >= 1e6) return trimZeros((n / 1e6).toFixed(n >= 1e7 ? 1 : 2)) + "M";
+    if (n >= 999.5e3) return trimZeros((n / 1e6).toFixed(2)) + "M";
+    if (n >= 1e3) return trimZeros((n / 1e3).toFixed(n >= 1e4 ? 0 : 1)) + "K";
     return String(Math.round(n));
   }
   function fmtMoney(n, digits) {

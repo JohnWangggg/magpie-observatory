@@ -169,24 +169,23 @@ provider → account → model → agent
 | bullet / 预算阈值 | ✅ v0.10.0 | `#view-budget` |
 | Marimekko / 马赛克 | ✅ v0.10.0 | `#view-marimekko` |
 | Chord / 弦图 | ✅ v0.10.0 | `#view-chord` |
+| 力导向网络 | ✅ v0.11.0 | `#view-network` |
+| Streamgraph / Horizon | ✅ v0.11.0 | `#view-stream` |
+| Chips / 连击 | ✅ v0.11.0 | `#view-chips` |
 
-仍未实现、值得继续做的：
+仍未实现：
 
-- **力导向网络**——Agent ↔ Provider 关系，但布局稳定性一般；
-- **火焰图 / streamgraph / horizon**——等 Magpie 开放 span 嵌套或
-  `usage?by=provider` 的堆叠序列；
-- **Factory / Chips / Bees** 等游戏化形式——更适合作为可选主题，而不是默认监控视图。
+- **火焰图**——需要 span / tool 调用嵌套；当前账本只有扁平的请求行；
+- **Factory / Bees**——游戏化主题，可作为可选项继续扩展。
 
 ## 8. 推荐路线
 
-已完成：额度燃尽、会话瀑布、延迟蜂群、成本树图、流向、漏斗、延迟热力、星图、预算、结构、和弦。
+已完成：额度燃尽、会话瀑布、延迟蜂群、成本树图、流向、漏斗、延迟热力、星图、预算、结构、和弦、网络、河流、连击。
 
-下一步：
+剩余：
 
-1. **力导向网络**：Agent ↔ Provider 的关系图，适合探索而非默认视图；
-2. **未来**：如果 Magpie 开放 span/tool 调用或 `usage?by=provider` 的堆叠序列，
-   再上火焰图、streamgraph、horizon；
-3. **游戏化**：Factory / Chips / Bees 作为可选主题。
+1. **火焰图**：等 Magpie 开放 span/tool 嵌套；
+2. **Factory / Bees**：游戏化主题可按需扩展。
 
 ---
 

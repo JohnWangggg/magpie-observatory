@@ -175,25 +175,25 @@ Shipped from this list as hero views:
 | Bullet / budget threshold | ✅ v0.10.0 | `#view-budget` |
 | Marimekko / mosaic | ✅ v0.10.0 | `#view-marimekko` |
 | Chord diagram | ✅ v0.10.0 | `#view-chord` |
+| Force-directed network | ✅ v0.11.0 | `#view-network` |
+| Streamgraph / horizon | ✅ v0.11.0 | `#view-stream` |
+| Chips / combo | ✅ v0.11.0 | `#view-chips` |
 
-Still open and worth doing:
+Still open:
 
-- **Force-directed network**: agent ↔ provider relations, but layout stability is weaker;
-- **Flame graph / streamgraph / horizon**: blocked until Magpie exposes span
-  nesting or stacked `usage?by=provider` series;
-- **Factory / Chips / Bees** game-like forms: better as optional themes than default views.
+- **Flame graph**: needs span / tool-call nesting; the current ledger is flat;
+- **Factory / Bees**: optional game-like themes.
 
 ## 8. Recommended order
 
 Done: quota burn-down, session waterfall, latency beeswarm, cost treemap, Sankey,
-funnel, latency heatmap, orrery, budget bullets, Marimekko, chord.
+funnel, latency heatmap, orrery, budget bullets, Marimekko, chord, network,
+streamgraph/horizon, chips.
 
-Next:
+Remaining:
 
-1. **Force-directed network**: an exploratory agent ↔ provider graph;
-2. **Later**: flame graphs, streamgraphs and horizon charts once Magpie exposes
-   span/tool nesting or stacked `usage?by=provider` series;
-3. **Game-like forms** (Factory / Chips / Bees) as optional themes.
+1. **Flame graph**: once Magpie exposes span/tool nesting;
+2. **Factory / Bees**: optional game-like themes.
 
 ---
 

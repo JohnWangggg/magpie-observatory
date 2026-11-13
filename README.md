@@ -16,7 +16,7 @@ Observatory turns that stream into something you can *watch*:
 - **Live routing** — Agent → Magpie → Provider/Account, with a filled magpie
   carrying the request out and a mirrored outlined magpie bringing the answer
   back. Failed attempts stay visible as “rerouted”.
-- **Sixteen views** — `Route`, `Radar`, `Loom`, `Rhythm`, `Rings`, `Quota`, `Waterfall`, `Swarm`, `Treemap`, `Sankey`, `Funnel`, `Latency`, `Orrery`, `Budget`, `Marimekko`, `Chord`.
+- **Nineteen views** — `Route`, `Radar`, `Loom`, `Rhythm`, `Rings`, `Quota`, `Waterfall`, `Swarm`, `Treemap`, `Sankey`, `Funnel`, `Latency`, `Orrery`, `Budget`, `Marimekko`, `Chord`, `Network`, `Stream`, `Chips`.
 - **Four style packs** — `Control`, `Pixel`, `Paper`, `Neon`; each with a light
   and dark variant. Light/dark and style are independent.
 - **Layout settings** — Auto / One screen / Comfort, density Compact / Standard /
@@ -89,7 +89,7 @@ MAGPIE_URL=http://127.0.0.1:3425 MAGPIE_KEY=... node preview.mjs
 
 The preview is for development only; the plugin uses the same service internally.
 
-## The sixteen views
+## The nineteen views
 
 | Route · two-way magpies | Radar · provider ring and quotas |
 | --- | --- |
@@ -122,6 +122,12 @@ The preview is for development only; the plugin uses the same service internally
 | ![budget](docs/mode-budget.png) | ![marimekko](docs/mode-marimekko.png) |
 
 ![Chord · agent ↔ provider ribbons](docs/mode-chord.png)
+
+| Network · agent ↔ provider graph | Stream · provider flow over time |
+| --- | --- |
+| ![network](docs/mode-network.png) | ![stream](docs/mode-stream.png) |
+
+![Chips · combo cards](docs/mode-chips.png)
 
 - **Route**: the default. Magpies fly the whole `Agent → Magpie → Provider`
   path; failures remain visible.
@@ -156,6 +162,12 @@ The preview is for development only; the plugin uses the same service internally
   a provider to expand its column.
 - **Chord**: agents on one arc, providers on the other; ribbon area = tokens;
   hover highlights the flow and side panel lists the top routes.
+- **Network**: a force-directed agent → provider → model graph; node size =
+  tokens, hover/focus highlights neighbours.
+- **Stream**: provider token deltas over buffered snapshots as a streamgraph,
+  with a Horizon toggle for a compact per-provider reading.
+- **Chips**: an optional game-like view; each request is a card, consecutive
+  successes build a combo, and score/multipliers come from the real ledger.
 
 ## Styles and themes
 
@@ -251,6 +263,7 @@ page/index.html        Magpie plugin launcher page
 page/boot.js           reads magpie.service / port and navigates the frame
 page/icon.svg          plugin icon
 public/                the dashboard (index.html, assets/)
+public/assets/views/   standalone hero-view modules
 docs/research.md       research & design notes (简体中文)
 docs/research.en.md    research & design notes (English)
 docs/publishing.md     GitHub release + Magpie store topics

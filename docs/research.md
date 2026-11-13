@@ -429,7 +429,7 @@ v2 改成：
 | 卡牌 / 计分 | 缓存命中、改道、TPS 组合 | Chips：combo × multiplier |
 | 蜂群 / 轨道 | 子 Agent、并行会话 | Bees：每个子 Agent 一只蜂 |
 
-本次原型实现十六种视图，共用同一份数据（更多候选形式见
+本次原型实现十九种视图，共用同一份数据（更多候选形式见
 [`visual-forms.md`](visual-forms.md)）：
 
 - **路由**：Agent → magpie → Provider 的双向喜鹊。
@@ -457,6 +457,9 @@ v2 改成：
 - **预算**：每个账号窗口一条 bullet；70/88 阈值、历史配速三角、预计期末值。
 - **结构**：Marimekko，列宽 = Provider 占比，带高 = 模型占比；点击展开。
 - **和弦**：Agent 左弧、Provider 右弧的 chord 图，彩带面积 = Token。
+- **网络**：Agent → Provider → 模型的力导向关系图，节点大小 = Token。
+- **河流**：Provider Token 增量的 streamgraph / horizon 双模式。
+- **连击**：游戏化卡牌视图，combo、倍率与分数来自真实账本。
 
 后续可以继续做 **Factory**（排队/流式包裹）和 **Chips**（combo × multiplier），
 但不应同时堆在一屏；用模式切换保留“默认路由视图”的可读性。
