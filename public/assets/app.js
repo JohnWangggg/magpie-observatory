@@ -151,13 +151,21 @@
   function openViewMenu() {
     const menu = $("#view-menu"), picker = $("#view-picker");
     if (!menu || !picker || !menu.hidden) return;
+    const styleMenu = $("#style-menu"), settings = $("#settings-menu");
+    if (styleMenu) styleMenu.hidden = true;
+    if (settings) settings.hidden = true;
     menu.hidden = false;
     picker.setAttribute("aria-expanded", "true");
     const search = $("#view-search");
     if (search) search.value = "";
     filterViewMenu("");
     positionViewMenu();
-    setTimeout(() => { const s = $("#view-search"); if (s) s.focus(); }, 30);
+    setTimeout(() => {
+      const active = $(".view-menu .vm-item.active");
+      if (active) active.scrollIntoView({ block: "nearest" });
+      const s = $("#view-search");
+      if (s) s.focus();
+    }, 30);
   }
 
   function closeViewMenu(focus) {
@@ -1245,7 +1253,7 @@
       </div>
       <div class="session-meta"><span class="session-model">${esc(s.model)}</span><span class="session-route">→ ${s.group === "最近完成" ? "最近完成" : "group/" + esc(s.group || "direct")}</span></div>
       <div class="session-bottom">
-        <span><b>${fmtTokens(s.tokens)}</b> TOK</span>
+        <span><b>${s.tokens ? fmtTokens(s.tokens) : "—"}</b> TOK</span>
         <span>${fmtAge(age)}</span>
         ${s.fallbacks ? `<span class="chip amber">${s.fallbacks} 改道</span>` : ""}
         <span class="tps ${tpsClass(s.tps)}">${tps}</span>
@@ -1558,7 +1566,7 @@
   ];
 
   function demoTick() {
-    if (state.paused || state.mode !== "demo" || window.__OBS_FREEZE) return;
+    if (state.paused || state.mode !== "demo" || window.__OBS_FREEZE || document.hidden) return;
     const now = Date.now();
     state.lastTick = now;
     let completed = 0;
@@ -1648,6 +1656,7 @@
     $("#style-toggle").addEventListener("click", (e) => {
       e.stopPropagation();
       const menu = $("#style-menu");
+      closeViewMenu();
       $("#settings-menu").hidden = true;
       menu.hidden = !menu.hidden;
       syncStyleMenu();
@@ -1655,6 +1664,7 @@
     $("#settings-toggle").addEventListener("click", (e) => {
       e.stopPropagation();
       const menu = $("#settings-menu");
+      closeViewMenu();
       $("#style-menu").hidden = true;
       menu.hidden = !menu.hidden;
       syncSettingsMenu();
@@ -1764,6 +1774,22 @@
       items[next].focus();
     });
     $("#vm-random").addEventListener("click", randomView);
+    $("#view-menu").addEventListener("keydown", e => {
+      if (e.key !== "Tab") return;
+      const items = $$("#view-menu button, #view-menu input").filter(el => !el.hidden && el.offsetParent !== null);
+      if (!items.length) return;
+      const first = items[0], last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
+    const ticker = $(".status-item.ticker");
+    if (ticker) ticker.addEventListener("click", () => {
+      state.tickerIndex = (state.tickerIndex || 0) + 1;
+      const el = $("#ticker-text");
+      if (!el) return;
+      el.classList.add("swap");
+      setTimeout(() => { renderTicker(); el.classList.remove("swap"); }, 180);
+    });
 
     $("#trend-seg").addEventListener("click", e => {
       const b = e.target.closest("button[data-metric]");
@@ -1904,6 +1930,7 @@
 
   /* ----------------------------------------------------------------- live --- */
   async function connectLive(silent) {
+    if (silent && document.hidden) return;
     try {
       if (!silent) toast("正在连接 Magpie…");
       const period = state.range === "7d" ? "week" : state.range === "30d" ? "month" : "today";
@@ -2003,7 +2030,7 @@
 
   /* ------------------------------------------------------------------ init --- */
   function init() {
-    try { console.info("%c Magpie Observatory v0.13.0 · twenty-one views · 4 styles · layout settings", "color:#8b7cf6;font-weight:bold"); } catch (_) {}
+    try { console.info("%c Magpie Observatory v0.14.0 · twenty-one views · 4 styles · layout settings", "color:#8b7cf6;font-weight:bold"); } catch (_) {}
     try {
       const hostTheme = new URLSearchParams(location.search).get("hostTheme");
       if (hostTheme === "light" || hostTheme === "dark") {

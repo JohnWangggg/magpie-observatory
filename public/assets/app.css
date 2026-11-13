@@ -1136,7 +1136,7 @@ img { display: block; }
   .qp-id b { font-size: 8px; }
   .qp-id small { display: none; }
   .qp-left small { display: none; }
-  .qp-side { flex-direction: column; }
+  .qp-side { flex-direction: column; flex-wrap: nowrap; }
   .qp-list { flex-direction: column; overflow-x: hidden; }
   .qp-item { min-width: 0; }
   .qp-legend-note { display: none; }

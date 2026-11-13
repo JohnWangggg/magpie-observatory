@@ -8,8 +8,10 @@
   inset: 0;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 236px;
+  grid-template-rows: minmax(0, 1fr);
   gap: 14px;
   min-height: 0;
+  overflow: hidden;
   color: var(--fg);
   --funnel-anim: .5s;
   --funnel-rail: 132px;
@@ -190,6 +192,8 @@
   min-height: 0;
   padding-left: 14px;
   border-left: 1px solid var(--line);
+  overflow-y: auto;
+  scrollbar-gutter: stable;
 }
 .funnel-side-title {
   flex: none;

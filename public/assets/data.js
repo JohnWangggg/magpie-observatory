@@ -501,6 +501,23 @@
         cost: r.cost || 0
       };
     });
+    // The ledger is the only place with per-request tokens; fold it back onto
+    // the route sessions so active cards do not show a misleading 0 TOK.
+    const sessionTotals = new Map();
+    logs.forEach(l => {
+      if (!l.session || l.session === "—") return;
+      const t = sessionTotals.get(l.session) || { tokens: 0, tps: 0, n: 0 };
+      t.tokens += l.tokens || 0;
+      if (l.tps > 0) { t.tps += l.tps; t.n++; }
+      sessionTotals.set(l.session, t);
+    });
+    sessions.forEach(s => {
+      const t = sessionTotals.get(s.id);
+      if (!t) return;
+      s.tokens = t.tokens;
+      s.tps = t.n ? t.tps / t.n : 0;
+    });
+
     let heatmap = ((raw.heatmap && raw.heatmap.days) || []).map(d => ({
       date: d.date, tokens: d.tokens || 0, calls: d.calls || 0
     }));
