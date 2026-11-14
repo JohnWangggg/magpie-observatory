@@ -3073,3 +3073,7 @@ body.mini .route-stage { min-height: 0 !important; }
 .fav-btn.drop-hint { box-shadow: -3px 0 0 0 var(--accent); }
 .fav-btn[draggable="true"] { cursor: grab; }
 .fav-btn[draggable="true"]:active { cursor: grabbing; }
+
+/* view lightbox — clicking a menu thumbnail pops the full shot big */
+.vlight { position: fixed; inset: 0; z-index: 500; display: grid; place-items: center; background: color-mix(in srgb, var(--bg) 72%, transparent); backdrop-filter: blur(8px); }
+.vlight img { max-width: min(720px, 86vw); max-height: 60vh; border-radius: 14px; border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--line)); box-shadow: 0 30px 80px rgba(0,0,0,.6); }

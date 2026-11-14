@@ -546,6 +546,23 @@
       });
     }
   }
+  // Clicking a menu thumbnail pops the shot big while the view loads behind it.
+  function showVlight(id) {
+    const box = $("#vlight");
+    if (!box) return;
+    const img = box.querySelector("img");
+    img.src = `shots/${id}.png`;
+    img.alt = id;
+    box.hidden = false;
+    box.setAttribute("aria-hidden", "false");
+    clearTimeout(box._t);
+    box._t = setTimeout(hideVlight, 2400);
+  }
+  function hideVlight() {
+    const box = $("#vlight");
+    if (box) { box.hidden = true; box.setAttribute("aria-hidden", "true"); }
+  }
+
 
   function toggleFavorite(id) {
     const i = state.favorites.indexOf(id);
@@ -2807,9 +2824,16 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
       const star = e.target.closest(".vm-star");
       if (star) { e.preventDefault(); toggleFavorite(star.dataset.fav); return; }
       const b = e.target.closest("button[data-hero]");
-      if (b) { if (state.tour) stopTour(true); setHeroMode(b.dataset.hero); closeViewMenu(); }
+      if (b) {
+        if (state.tour) stopTour(true);
+        setHeroMode(b.dataset.hero);
+        if (e.target.closest(".vm-thumb")) showVlight(b.dataset.hero);
+        closeViewMenu();
+      }
     });
     $("#view-menu-close").addEventListener("click", () => closeViewMenu(true));
+    const vlight = $("#vlight");
+    if (vlight) vlight.addEventListener("click", e => { if (e.target === vlight) hideVlight(); });
     $("#view-search").addEventListener("input", e => filterViewMenu(e.target.value));
     const vmNew = $("#vm-new");
     if (vmNew) vmNew.addEventListener("click", () => {
