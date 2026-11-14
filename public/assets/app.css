@@ -2924,6 +2924,11 @@ body.mini .route-stage { min-height: 0 !important; }
 .dex-bar { height: 5px; border-radius: 3px; background: color-mix(in srgb, var(--line) 50%, transparent); overflow: hidden; }
 .dex-bar i { display: block; height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--accent), var(--accent-strong)); transition: width .5s; }
 .dex-legend { margin-top: 4px; font-size: 9px; color: var(--muted); }
+.dex-legend b { display: block; font-size: 9px; font-weight: 700; color: var(--fg-2); margin-bottom: 3px; }
+.dex-item { display: flex; justify-content: space-between; align-items: baseline; padding: 2px 0; font-size: 9px; color: var(--muted); border-bottom: 1px dashed color-mix(in srgb, var(--line) 40%, transparent); }
+.dex-item:last-child { border-bottom: 0; }
+.dex-item b { font-size: 9px; font-weight: 600; color: var(--fg-2); }
+.dex-item span { font: 600 8px var(--mono); color: var(--faint); }
 
 /* daily-goal ring on the tokens KPI card */
 .kpi-goal { display: inline-flex; align-items: center; gap: 4px; margin-left: 8px; vertical-align: middle; }

@@ -1117,6 +1117,19 @@ show(F.length-1);
             <div class="dex-legend">${total ? "已看过 " + seen.length + " 个不同视图" : ""}</div></div>`;
         } catch (_) { return ""; }
       })()}
+      ${(() => {
+        try {
+          const seen = JSON.parse(localStorage.getItem("magpie.viewSeen") || "[]");
+          const at = JSON.parse(localStorage.getItem("magpie.viewSeenAt") || "{}");
+          const recent = seen.slice(-5).reverse().map(id => {
+            const meta = (Obs.api.VIEW_META || []).find(v => v.id === id);
+            const d = at[id] || "";
+            const when = d.length > 10 ? `${d.slice(5, 10)} ${d.slice(11, 16)}` : d.slice(5);
+            return `<div class="dex-item"><b>${esc(meta ? meta.title : id)}</b><span>${when}</span></div>`;
+          }).join("");
+          return `<div class="dex-legend"><b>最近收集</b>${recent || "—"}</div>`;
+        } catch (_) { return ""; }
+      })()}
       <div class="badge-wall">${badges}</div>`;
     card.addEventListener("click", () => card.remove());
     document.body.appendChild(card);
