@@ -1,0 +1,15 @@
+/* vaults */
+.vu-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.vu-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.vu-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.vu-head span { font-size: 8px; color: var(--muted); }
+.vu-wrap svg { flex: 1; width: 100%; }
+.vu-num { font: 700 7px var(--num); fill: var(--fg); }
+.vu-name { font: 600 7.5px var(--mono); fill: var(--fg); }
+.vu-prov { font: 7px var(--mono); fill: var(--muted); }
+.vu-k { font: 700 10px var(--num); fill: var(--fg); }
+.vu-ksub { font: 7.5px var(--mono); fill: var(--muted); }
+.vu-box { transform-box: fill-box; }
+.vu-box.hot { filter: drop-shadow(0 0 4px rgba(240,200,100,.4)); }
+.vu-trolley { transform-box: fill-box; }
+.vu-trolley.dead { opacity: .85; }
