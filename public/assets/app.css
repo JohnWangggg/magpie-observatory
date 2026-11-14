@@ -2830,3 +2830,12 @@ body.layout-edit .card:hover { transform: none; }
 .filter-chip span::before { content: "筛选 · "; color: var(--muted); font-weight: 400; }
 .filter-chip button { border: 0; background: none; color: var(--muted); font-size: 14px; line-height: 1; cursor: pointer; padding: 0 2px; }
 .filter-chip button:hover { color: var(--fg); }
+
+/* body.mini — the ?mode=mini PiP widget. Cinema + a single shrunken HUD;
+   every view's own side panel / stats / legend collapses so the art carries
+   the whole 320×180. */
+body.mini .orr-side, body.mini .net-side, body.mini .bee-side, body.mini .side,
+body.mini .stats, body.mini .legend, body.mini .tip { display: none !important; }
+body.mini .orr-board, body.mini .net-board, body.mini .bee-board { grid-template-columns: 1fr; }
+body.mini .cinema-hud { left: 50%; transform: translateX(-50%); bottom: 8px; }
+body.mini .route-stage { min-height: 0 !important; }
