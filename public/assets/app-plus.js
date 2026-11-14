@@ -1244,6 +1244,15 @@ show(F.length-1);
             return `<div><small>图鉴</small><b>${seen.length}/${total} <em class="dig">${pct}%</em></b></div>`;
           } catch (_) { return ""; }
         })()}
+        ${(() => {
+          try {
+            const seen = JSON.parse(localStorage.getItem("magpie.viewSeen") || "[]");
+            const at = JSON.parse(localStorage.getItem("magpie.viewSeenAt") || "{}");
+            const week = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10);
+            const recent = seen.filter(id => at[id] && at[id] >= week).length;
+            return `<div><small>本周收集</small><b>${recent} <em class="dig">新视图</em></b></div>`;
+          } catch (_) { return ""; }
+        })()}
       </div>
       <div class="digest-foot">连续使用 ${dayStreak()} 天 · ${dTok != null ? (dTok >= 0 ? "较前日 +" + dTok + "%" : "较前日 " + dTok + "%") : "保持热度"}
         <button class="mini-btn digest-week" type="button">看周报 →</button></div>`;
