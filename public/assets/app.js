@@ -236,6 +236,7 @@
     { id: "solarwind", title: "太阳风", eyebrow: "SOLAR WIND", group: "天象", icon: "i-magpie", hint: "冕=配额窗 珥=用量 粒=会话" },
     { id: "mangrove", title: "红树林", eyebrow: "MANGROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 根=用量 鱼=会话" },
     { id: "heath", title: "石楠原", eyebrow: "HEATH", group: "生态", icon: "i-magpie", hint: "丛=配额窗 铃=用量 蜂=会话" },
+    { id: "steppe", title: "草原", eyebrow: "STEPPE", group: "场景", icon: "i-magpie", hint: "浪=配额窗 高=用量 马=会话" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
     { id: "grove", title: "果园", eyebrow: "GROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 果=用量 人=会话" },
     { id: "pond", title: "荷塘", eyebrow: "POND", group: "生态", icon: "i-magpie", hint: "莲=配额窗 漪=用量 蛙=会话" },
