@@ -16,7 +16,7 @@
   ],
   "scripts": {
     "preview": "node preview.mjs",
-    "check": "node --check index.mjs && node --check server.mjs && node --check preview.mjs && node --check public/assets/app.js && node --check public/assets/app-plus.js && node --check public/assets/data.js && node --check public/assets/views/waterfall.js && node --check public/assets/views/swarm.js && node --check public/assets/views/treemap.js && node --check public/assets/views/sankey.js && node --check public/assets/views/funnel.js && node --check public/assets/views/latency.js && node --check public/assets/views/orrery.js && node --check public/assets/views/budget.js && node --check public/assets/views/marimekko.js && node --check public/assets/views/chord.js && node --check public/assets/views/network.js && node --check public/assets/views/stream.js && node --check public/assets/views/chips.js && node --check public/assets/views/factory.js && node --check public/assets/views/bees.js && node --check public/assets/views/stellar.js",
+    "check": "npm run lint-data && npm run sync-views",
     "publish:github": "bash scripts/publish-github.sh",
     "sync-views": "node scripts/sync-views.mjs",
     "thumbs": "python3 scripts/thumb-views.py",
