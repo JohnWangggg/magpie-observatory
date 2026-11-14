@@ -206,6 +206,7 @@
     { id: "rain", title: "雨窗", eyebrow: "RAIN", group: "场景", icon: "i-magpie", hint: "格=配额窗 雨=用量 痕=会话" },
     { id: "tank", title: "水族馆", eyebrow: "TANK", group: "场景", icon: "i-magpie", hint: "缸=配额窗 水=用量 鱼=会话" },
     { id: "camp", title: "营地", eyebrow: "CAMP", group: "场景", icon: "i-magpie", hint: "火=配额窗 焰=用量 帐=会话" },
+    { id: "harbor", title: "灯塔港", eyebrow: "HARBOR", group: "场景", icon: "i-magpie", hint: "塔=配额窗 扫=用量 船=会话" },
     { id: "play", title: "开局", eyebrow: "PLAY · EVERY CALL IS A BEAT", group: "趣味", icon: "i-zap", hint: "转盘 + 判定 + 连击" }
   ];
 
