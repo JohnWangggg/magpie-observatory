@@ -1,12 +1,17 @@
 /* Magpie Observatory — minimal service worker.
    Enough for PWA installability: precaches the app shell once, then serves
    network-first with a cache fallback. The snapshot APIs stay uncached. */
-const CACHE = "magpie-observatory-v2";
+const CACHE = "magpie-observatory-v3";
 const SHELL = [
   "./", "index.html", "manifest.webmanifest",
   "assets/app.css", "assets/app.js", "assets/app-plus.js", "assets/data.js",
-  "assets/icon.svg", "assets/icon.png"
+  "assets/icon.svg", "assets/icon.png",
+  // precache the manifest + first-party icons so the shell paints offline
+  "assets/views/manifest.js",
+  "assets/icons/magpie.svg"
 ];
+// View modules are lazy: the fetch handler below caches each views/*.js/.css
+// on first request, so installed views keep working offline after one visit.
 
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
