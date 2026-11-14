@@ -1,0 +1,29 @@
+/* beehive.css — 蜂巢 */
+
+.bh-wrap { height: 100%; display: flex; flex-direction: column; min-height: 0; }
+.bh-legend {
+  padding: 0 6px 6px; font-size: 10px; color: var(--dim);
+  display: flex; gap: 10px; flex: 0 0 auto; flex-wrap: wrap; align-items: center;
+}
+.bh-legend .bl-item { display: flex; align-items: center; gap: 4px; }
+.bh-legend .bl-item i { width: 6px; height: 6px; border-radius: 50%; }
+.bh-legend .bl-item.bad { color: #f26d7f; }
+.bh-legend .bl-tip { margin-left: auto; font-size: 9px; opacity: .6; }
+
+.bh-svg { flex: 1; width: 100%; min-height: 0; }
+
+.bh-cell { animation: bh-pop .5s cubic-bezier(.3,1.4,.4,1) both; transform-origin: center; transform-box: fill-box; }
+.bh-cell.cracked { animation: bh-wob 2.4s ease-in-out infinite; }
+.bh-fill { animation: bh-hum 3.2s ease-in-out infinite; }
+.bh-bee { animation: bh-orbit linear infinite; }
+
+@keyframes bh-pop { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes bh-wob { 0%, 100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg); } }
+@keyframes bh-hum { 0%, 100% { opacity: .5; } 50% { opacity: .8; } }
+@keyframes bh-orbit { to { transform: rotate(360deg); } }
+
+.bh-empty { height: 100%; display: flex; align-items: center; justify-content: center; color: var(--dim); font-size: 13px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .bh-cell, .bh-fill, .bh-bee { animation-duration: .001ms !important; }
+}

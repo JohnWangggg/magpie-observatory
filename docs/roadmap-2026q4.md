@@ -1112,3 +1112,12 @@ decision/palette）+ 复制/跳转/过滤/记忆/导出 全覆盖。审计完毕
 - **VIEW_META 趣味组** + `view-aurora2` + `60 VIEWS`；
   README×2 + `docs/mode-aurora2.png`。
 
+---
+
+## Phase 97 — 第 61 个视图 `beehive`（2026-11-15 · v0.99.0）
+
+- **`beehive.js/css`**：蜂巢——格=会话（满=Token、色=Agent、
+  裂=失败）+ 错位行网格 + 小蜂椭圆轨道；`bh-pop`/`bh-hum`/`bh-orbit`。
+- **VIEW_META 趣味组** + `view-beehive` + `61 VIEWS`；
+  README×2 + `docs/mode-beehive.png`。
+
