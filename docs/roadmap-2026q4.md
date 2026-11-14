@@ -974,3 +974,12 @@ decision/palette）+ 复制/跳转/过滤/记忆/导出 全覆盖。审计完毕
 - **VIEW_META 用量组** + `view-spectrum` + `45 VIEWS`；
   README×2 + `docs/mode-spectrum.png`。
 
+---
+
+## Phase 82 — 第 46 个视图 `wave`（2026-11-15 · v0.84.0）
+
+- **`wave.js/css`**：双轨波形——上波=Token 峰（色=Agent）、
+  下波=回声镜像、扫描光标、失败=刺。`wv-slide`/`wv-scan`/`wv-pop`/`wv-blink`。
+- **VIEW_META 用量组** + `view-wave` + `46 VIEWS`；
+  README×2 + `docs/mode-wave.png`。
+
