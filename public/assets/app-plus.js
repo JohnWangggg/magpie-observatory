@@ -1558,6 +1558,97 @@ show(F.length-1);
     }
   });
 
+
+  /* ====================================================== session notes === */
+  // A "✎" corner chip on every session card; click opens a floating
+  // textarea, blur/Ctrl+Enter saves to localStorage keyed by session id.
+  // Re-renders keep the note on the card via the has-note class.
+  const NOTES_KEY = "magpie.sessionNotes";
+  const notes = () => { try { return JSON.parse(localStorage.getItem(NOTES_KEY) || "{}"); } catch (_) { return {}; } };
+  const setNote = (id, txt) => {
+    const n = notes();
+    if (txt && txt.trim()) n[id] = txt.trim().slice(0, 200); else delete n[id];
+    try { localStorage.setItem(NOTES_KEY, JSON.stringify(n)); } catch (_) {}
+    syncNoteBadges();
+  };
+  function syncNoteBadges() {
+    const n = notes();
+    $$(".session-card").forEach(c => {
+      const has = !!(n[c.dataset.session] || "").trim();
+      c.classList.toggle("has-note", has);
+      let chip = c.querySelector(".sess-note");
+      if (has && !chip) {
+        chip = document.createElement("i");
+        chip.className = "sess-note"; chip.textContent = "✎";
+        chip.title = "有笔记 — 点击编辑";
+        c.appendChild(chip);
+      }
+      if (chip) chip.hidden = !has;
+    });
+  }
+  // GC: sessions are ephemeral (demo ids rotate) — drop notes whose session
+  // is neither live nor in `recent`.
+  function gcNotes() {
+    const n = notes();
+    const alive = new Set();
+    ((state() && state().data.sessions) || []).forEach(s => alive.add(s.id));
+    ((state() && state().data.recent) || []).forEach(s => alive.add(s.id));
+    let dirty = false;
+    Object.keys(n).forEach(id => { if (!alive.has(id)) { delete n[id]; dirty = true; } });
+    if (dirty) try { localStorage.setItem(NOTES_KEY, JSON.stringify(n)); } catch (_) {}
+  }
+  Obs.hooks.init.push(() => setTimeout(gcNotes, 3000));
+  let notePop = null, noteTarget = null;
+  function openNote(card) {
+    closeNote();
+    noteTarget = card.dataset.session;
+    const s = (state().data.sessions || []).concat(state().data.recent || []).find(x => x.id === noteTarget);
+    notePop = document.createElement("div");
+    notePop.className = "session-pop note-pop";
+    const cur = (notes()[noteTarget] || "");
+    notePop.innerHTML = `
+      <div class="pop-head"><b>${esc(s ? s.title : noteTarget)}</b><span>笔记</span></div>
+      <textarea class="note-ta" rows="3" maxlength="200" placeholder="这个会话在做什么… (Ctrl+Enter 保存)">${esc(cur)}</textarea>
+      <div class="pop-meta"><span class="note-hint">Enter 换行 · Ctrl+Enter/Esc 关闭</span><span class="note-count">${cur.length}/200</span></div>`;
+    document.body.appendChild(notePop);
+    const r = card.getBoundingClientRect();
+    notePop.style.left = Math.max(8, Math.min(window.innerWidth - 280 - 8, r.left)) + "px";
+    notePop.style.top = (r.bottom + 6 + 170 > window.innerHeight ? r.top - 170 - 6 : r.bottom + 6) + "px";
+    const ta = notePop.querySelector(".note-ta");
+    const cnt = notePop.querySelector(".note-count");
+    ta.addEventListener("input", () => { cnt.textContent = ta.value.length + "/200"; });
+    ta.addEventListener("keydown", e => {
+      if (e.key === "Escape") { e.stopPropagation(); closeNote(true); }
+      if ((e.ctrlKey || e.metaKey) && e.key === "Enter") { e.preventDefault(); closeNote(true); }
+      e.stopPropagation();
+    });
+    ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length);
+  }
+  function closeNote(save) {
+    if (!notePop) return;
+    if (save !== false) setNote(noteTarget, notePop.querySelector(".note-ta").value);
+    notePop.remove(); notePop = null; noteTarget = null;
+  }
+  Obs.hooks.afterRender.push(syncNoteBadges);
+  Obs.hooks.bind.push(() => {
+    $("#session-list").addEventListener("click", e => {
+      const chip = e.target.closest(".sess-note");
+      if (chip) { e.stopPropagation(); openNote(chip.closest(".session-card")); return; }
+      const card = e.target.closest(".session-card");
+      if (card && noteTarget === card.dataset.session) { /* keep open */ }
+    });
+    document.addEventListener("click", e => {
+      if (notePop && !e.target.closest(".note-pop") && !e.target.closest(".sess-note")) closeNote();
+    });
+    document.addEventListener("keydown", e => {
+      if (e.key !== "n" && e.key !== "N") return;
+      if (e.target.matches("input, textarea, select, [contenteditable]")) return;
+      const card = document.querySelector(".session-card.kb-focus") || document.querySelector(".session-card:hover");
+      if (card) { e.preventDefault(); openNote(card); }
+    });
+  });
+
+
   /* ====================================================== ambient particles ====== */
   // A quiet canvas of drifting motes behind the whole dashboard; its density
   // tracks live session count, its hue follows --accent, and it pauses when

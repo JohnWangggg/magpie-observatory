@@ -2962,6 +2962,17 @@ body.mini .route-stage { min-height: 0 !important; }
 .session-pop .pop-try em.ok { color: var(--good); }
 .session-pop .pop-try em.fail { color: var(--bad); }
 
+/* session notes — "✎" badge + floating textarea popover */
+.sess-note { position: absolute; right: 6px; bottom: 6px; z-index: 5; width: 16px; height: 16px; display: grid; place-items: center; font: 11px/1 var(--mono); font-style: normal; color: var(--amber); background: color-mix(in srgb, var(--card-3) 80%, transparent); border: 1px solid color-mix(in srgb, var(--amber) 40%, var(--line)); border-radius: 50%; cursor: pointer; transition: transform .15s; }
+.sess-note:hover { transform: scale(1.18); }
+.session-card.has-note::after { content: ""; position: absolute; right: 4px; top: 4px; width: 4px; height: 4px; border-radius: 50%; background: var(--amber); }
+.note-pop { width: 280px; pointer-events: auto; }
+.note-pop .note-ta { width: 100%; margin-top: 6px; padding: 6px 8px; background: var(--card); border: 1px solid var(--line-2); border-radius: 6px; color: var(--fg); font: 10.5px/1.5 var(--sans); resize: vertical; min-height: 52px; }
+.note-pop .note-ta:focus { outline: none; border-color: var(--accent); }
+.note-pop .pop-meta { display: flex; justify-content: space-between; margin-top: 4px; margin-bottom: 0; font-size: 8.5px; }
+.note-pop .note-count { font-family: var(--num); color: var(--muted); }
+
+
 /* accent picker — swaps only --accent / --accent-strong / --accent-soft,
    every style pack keeps its own vibe. */
 :root[data-accent="ember"] { --accent: #f59e0b; --accent-strong: #fbbf24; --accent-soft: rgba(245, 158, 11, .13); }
