@@ -1863,10 +1863,26 @@
 
   function renderLogs() {
     const q = state.logQuery.toLowerCase();
-    const logs = state.data.logs.filter(r => {
+    let logs = state.data.logs.filter(r => {
       if (!q) return true;
       return [r.session, r.model, r.provider, r.agent, (r.at || "").slice(0, 10)].join(" ").toLowerCase().includes(q);
-    }).slice(0, 22);
+    });
+    if (state.logSort && state.logSort.key) {
+      const { key, dir } = state.logSort;
+      logs = logs.slice().sort((a, b) => {
+        const va = a[key] == null ? (dir === 1 ? Infinity : -Infinity) : a[key];
+        const vb = b[key] == null ? (dir === 1 ? Infinity : -Infinity) : b[key];
+        if (typeof va === "string" || typeof vb === "string") return String(va).localeCompare(String(vb)) * dir;
+        return (va - vb) * dir;
+      });
+    }
+    logs = logs.slice(0, 22);
+    // reflect sort on th
+    $$(".log-table th[data-sort]").forEach(th => {
+      const on = state.logSort && state.logSort.key === th.dataset.sort;
+      th.classList.toggle("sort-on", !!on);
+      th.dataset.dir = on ? (state.logSort.dir === 1 ? "asc" : "desc") : "";
+    });
     const host = $("#log-body");
     const sig = q + "\u0002" + logs.map(r => [r.at, r.status, r.model, r.provider, r.agent, r.session,
       r.tokens, r.ttft, r.tps == null ? "" : r.tps.toFixed(0), r.cost].join(",")).join("\u0001");
@@ -2709,6 +2725,17 @@
         const n = e.target.closest(".agent-node,.provider-node");
         if (n) { e.preventDefault(); n.click(); }
       }
+    });
+
+    // column sort on thead click
+    document.querySelector(".log-table thead")?.addEventListener("click", e => {
+      const th = e.target.closest("th[data-sort]");
+      if (!th) return;
+      const k = th.dataset.sort;
+      if (!state.logSort) state.logSort = { key: "at", dir: -1 };
+      if (state.logSort.key === k) state.logSort.dir *= -1;
+      else state.logSort = { key: k, dir: -1 };
+      renderLogs();
     });
 
     $("#log-search").addEventListener("input", e => {
