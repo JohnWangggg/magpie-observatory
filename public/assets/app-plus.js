@@ -160,6 +160,22 @@
     } catch (_) { toast("链接生成失败"); }
   }
 
+  // Copy a link that re-opens the board in exactly this state: hero view,
+  // range, and cinema flag. The inverse of applyUrlState().
+  async function shareStateLink() {
+    const s = state();
+    if (!s) return;
+    const p = new URLSearchParams();
+    if (s.heroMode && s.heroMode !== "route") p.set("view", s.heroMode);
+    if (s.range && s.range !== "today") p.set("range", s.range);
+    if (s.cinema) p.set("cinema", "1");
+    const url = location.origin + location.pathname + (p.size ? "?" + p : "");
+    try {
+      await navigator.clipboard.writeText(url);
+      toast("状态链接已复制" + (s.heroMode && s.heroMode !== "route" ? ` · ${Obs.api.viewMeta(s.heroMode).title}` : ""));
+    } catch (_) { toast("复制失败"); }
+  }
+
   // Export the buffer as a fully standalone HTML player: frames embedded,
   // own scrubber + play button + KPI readout + per-frame log table. No
   // dependencies — file opens anywhere, even offline.
@@ -1367,6 +1383,7 @@ show(F.length-1);
       if (e.key.toLowerCase() === "a" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); toggleAmbient(); }
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") { e.preventDefault(); openPalette(); }
       if (e.key.toLowerCase() === "e" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); exportPNG(); }
+      if (e.key.toLowerCase() === "s" && (e.metaKey || e.ctrlKey) && !e.altKey) { e.preventDefault(); shareStateLink(); }
       // Esc while a palette item has focus but the input doesn't: close.
       if (e.key === "Escape") { const pal = $("#cmd-palette"); if (pal && !pal.hidden) closePalette(); }
     });
@@ -1555,6 +1572,7 @@ ${quota || "| — | — | — |"}
       { kind: "动作", icon: "i-expand", title: "影院模式", sub: "O · 全屏只看这一个视图", search: "cinema 影院 全屏".toLowerCase(), run: toggleCinema },
       { kind: "动作", icon: "i-pause", title: s && s.paused ? "继续演示" : "暂停演示", sub: "快捷键 Space", search: "pause 暂停 播放".toLowerCase(), run: () => $("#demo-toggle").click() },
       { kind: "动作", icon: "i-clock", title: "回放最近3分钟", sub: "快捷键 R", search: "replay 回放 时间轴".toLowerCase(), run: () => { state() && state().replay ? exitReplay() : startReplay(); } },
+      { kind: "动作", icon: "i-link", title: "复制状态链接", sub: "?view&range&cinema 快照 URL · ⌘S", search: "share 分享 链接 状态 url".toLowerCase(), run: shareStateLink },
       { kind: "动作", icon: "i-arrow", title: "导出今日分享图", sub: "1200×630 PNG", search: "share 分享 导出 截图".toLowerCase(), run: () => shareToday() },
       { kind: "动作", icon: "i-arrow", title: "导出本周分享图", sub: "1200×630 PNG · 近7天", search: "share 分享 导出 周 截图 week".toLowerCase(), run: () => shareToday("week") },
       { kind: "动作", icon: "i-arrow", title: "导出对比分享图", sub: "今日 vs 昨日 · 1200×630 PNG", search: "share 分享 对比 导出 compare".toLowerCase(), run: shareCompare },
