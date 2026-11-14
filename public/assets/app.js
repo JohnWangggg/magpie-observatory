@@ -102,8 +102,8 @@
   /* ----------------------------------------------------------- view picker --- */
   // One catalog feeds the hero picker, the menu, the active title and each
   // group's accent. Views registered by modules override title/eyebrow.
-  const VIEW_GROUPS = ["实时", "用量", "结构", "趣味", "天象", "生态", "几何", "场景"];
-  const GROUP_COLORS = { "实时": "#56d4dd", "用量": "#8b7cf6", "结构": "#4ade80", "趣味": "#fbbf24", "天象": "#7c9ef8", "生态": "#34d399", "几何": "#e879f9", "场景": "#fb923c" };
+  const VIEW_GROUPS = ["实时", "用量", "结构", "趣味", "天象", "生态", "几何", "场景", "洞察", "配额", "抽象"];
+  const GROUP_COLORS = { "实时": "#56d4dd", "用量": "#8b7cf6", "结构": "#4ade80", "趣味": "#fbbf24", "天象": "#7c9ef8", "生态": "#34d399", "几何": "#e879f9", "场景": "#fb923c", "洞察": "#f472b6", "配额": "#facc15", "抽象": "#94a3b8" };
   const VIEW_META = [
     { id: "route", title: "实时路由", eyebrow: "LIVE ROUTING", group: "实时", icon: "i-route", hint: "Agent → Provider" },
     { id: "waterfall", title: "会话瀑布", eyebrow: "SESSION WATERFALL", group: "实时", icon: "i-stack", hint: "一次会话的时间轴" },
