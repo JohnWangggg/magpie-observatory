@@ -394,7 +394,7 @@ The preview is for development only; the plugin uses the same service internally
 
 The hero header has a view picker instead of a wall of tabs. Press **V** (or
 click it), type to filter by name / eyebrow / group, press Enter to switch, or
-hit **随机一个** for a random view. The 104 views are grouped into eight sections —
+hit **随机一个** for a random view. The 103 views are grouped into nine sections —
 `实时` / `用量` / `结构` / `趣味` / `天象` / `生态` / `几何` / `场景`, and the hero accent follows the group.
 **G** starts or stops an auto tour (5 / 10 / 30-second interval in settings),
 **R** picks a random view, **F** stars the current view (favourites pin to the
