@@ -2988,6 +2988,20 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
       else if (e.key.toLowerCase() === "r" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); (window.Obs && window.Obs.onKeyR ? window.Obs.onKeyR(e) : randomView()); }
       if (e.key.toLowerCase() === "g" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); if (state.tour) stopTour(); else { closeViewMenu(); startTour(); } }
       if (e.key.toLowerCase() === "f" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); toggleFavorite(state.heroMode); }
+      if (e.key.toLowerCase() === "n" && !e.metaKey && !e.ctrlKey && !e.altKey) {
+        e.preventDefault();
+        try {
+          const seen = JSON.parse(localStorage.getItem("magpie.viewSeen") || "[]");
+          const idx = VIEW_META.findIndex(v => v.id === state.heroMode);
+          let next = null;
+          for (let i = 1; i <= VIEW_META.length; i++) {
+            const cand = VIEW_META[(idx + i) % VIEW_META.length];
+            if (!seen.includes(cand.id)) { next = cand; break; }
+          }
+          if (next) { setHeroMode(next.id); toast("下一个未看：「" + (next.title || next.id) + "」"); }
+          else toast("图鉴已集齐 · 全图鉴达成");
+        } catch (_) {}
+      }
       if (e.key === "?") { e.preventDefault(); toggleHelp(); }
       if (e.key === "\`" && !e.metaKey && !e.ctrlKey && !e.altKey) {
         e.preventDefault();
