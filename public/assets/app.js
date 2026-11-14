@@ -180,6 +180,7 @@
     { id: "station", title: "车站", eyebrow: "STATION", group: "场景", icon: "i-route", hint: "灯=配额窗 车=会话 钟=当前" },
     { id: "circus", title: "马戏团", eyebrow: "CIRCUS", group: "场景", icon: "i-magpie", hint: "索=会话 杆=token 球=配额" },
     { id: "subway", title: "地铁图", eyebrow: "SUBWAY", group: "场景", icon: "i-route", hint: "站=配额窗 车=会话" },
+    { id: "windmill", title: "风车塔", eyebrow: "WINDMILL", group: "场景", icon: "i-magpie", hint: "塔=配额窗 叶=热度 鸟=会话" },
     { id: "vine", title: "藤蔓", eyebrow: "VINE", group: "生态", icon: "i-magpie", hint: "叶=会话 大=Token" },
     { id: "play", title: "开局", eyebrow: "PLAY · EVERY CALL IS A BEAT", group: "趣味", icon: "i-zap", hint: "转盘 + 判定 + 连击" }
   ];
