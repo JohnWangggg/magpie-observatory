@@ -473,6 +473,7 @@
         <span class="vm-ic"><svg><use href="#${v.icon}"/></svg></span>
         <span class="vm-copy"><b>${esc(v.title)}</b><small>${esc(v.eyebrow)}</small></span>
         <span class="vm-hint">${esc(v.hint)}</span>${flame}${dot}
+        <span class="vm-thumb" aria-hidden="true"><img src="shots/${v.id}.png" alt="" onerror="this.closest('.vm-thumb').remove()"></span>
       </button>
       <button class="vm-star${on ? " on" : ""}" type="button" data-fav="${v.id}" aria-pressed="${on}" aria-label="${on ? "取消收藏" : "收藏"} ${esc(v.title)}" title="${on ? "取消收藏" : "收藏"}">
         <svg><use href="#i-star"/></svg>
@@ -514,6 +515,21 @@
         dex.textContent = `图鉴 ${seen.length}/${VIEW_META.length} · ${pct}%${recent ? ` · +${recent}` : ""}`;
         dex.title = recent ? `最近 7 天收集了 ${recent} 个新视图` : "图鉴进度";
       } catch (_) { dex.textContent = ""; }
+    }
+    // Thumb preview: pointerenter/leave (works regardless of :hover quirks
+    // inside transformed or filter parents).
+    if (!host.dataset.thumbBound) {
+      host.dataset.thumbBound = "1";
+      host.addEventListener("pointerover", e => {
+        const item = e.target.closest(".vm-item");
+        const thumb = item && item.querySelector(".vm-thumb");
+        if (thumb) { thumb.classList.add("on"); thumb.style.opacity = "1"; }
+      });
+      host.addEventListener("pointerout", e => {
+        const item = e.target.closest(".vm-item");
+        const thumb = item && item.querySelector(".vm-thumb");
+        if (thumb && !item.contains(e.relatedTarget)) { thumb.classList.remove("on"); thumb.style.opacity = ""; }
+      });
     }
   }
 
