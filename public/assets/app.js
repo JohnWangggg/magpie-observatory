@@ -321,6 +321,7 @@
     { id: "harbours", title: "渔港", eyebrow: "HARBOURS", group: "场景", icon: "i-magpie", hint: "船=配额窗 桅高=用量 鸥=会话" },
     { id: "fjords", title: "峡湾", eyebrow: "FJORDS", group: "场景", icon: "i-magpie", hint: "峡壁=配额窗 高=用量 鹰=会话" },
     { id: "lochs", title: "湖群", eyebrow: "LOCHS", group: "场景", icon: "i-magpie", hint: "岛=配额窗 树高=用量 水獭=会话" },
+    { id: "geysers", title: "间歇泉", eyebrow: "GEYSERS", group: "场景", icon: "i-magpie", hint: "泉=配额窗 柱高=用量 蜻蜓=会话" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
     { id: "grove", title: "果园", eyebrow: "GROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 果=用量 人=会话" },
     { id: "pond", title: "荷塘", eyebrow: "POND", group: "生态", icon: "i-magpie", hint: "莲=配额窗 漪=用量 蛙=会话" },
