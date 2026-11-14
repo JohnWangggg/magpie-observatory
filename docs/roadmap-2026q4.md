@@ -1038,3 +1038,12 @@ decision/palette）+ 复制/跳转/过滤/记忆/导出 全覆盖。审计完毕
 - **VIEW_META 趣味组** + `view-quartz` + `52 VIEWS`；
   README×2 + `docs/mode-quartz.png`。
 
+---
+
+## Phase 89 — 第 53 个视图 `ripple`（2026-11-15 · v0.91.0）
+
+- **`ripple.js/css`**：涟漪——滴=会话（大=Token、色=Agent、
+  断环=失败）、三环错开扩散、水面虚线。
+- **VIEW_META 趣味组** + `view-ripple` + `53 VIEWS`；
+  README×2 + `docs/mode-ripple.png`。
+
