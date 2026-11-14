@@ -291,6 +291,34 @@ show(F.length-1);
       setCinema(false);
     }
   }
+  /* --------------------------------------------- new-session magpie call
+   * The mascot announces arrivals: when a session id appears that was not
+   * in the previous live set, the bird hops once (and chirps if sound on).
+   * Runs on a 1.5s beat — cheap, two Set diffs. */
+  function startSessionWatch() {
+    if (!state()) return;
+    state()._prevSessions = new Set(
+      (state().data.sessions || []).filter(x => x.status !== "done").map(x => x.id));
+    if (state()._sessWatch) clearInterval(state()._sessWatch);
+    state()._sessWatch = setInterval(() => {
+      const s = state();
+      if (!s || s.paused || s.replay) return;
+      const cur = new Set((s.data.sessions || []).filter(x => x.status !== "done").map(x => x.id));
+      let arrived = false;
+      cur.forEach(id => { if (!s._prevSessions.has(id)) arrived = true; });
+      s._prevSessions = cur;
+      if (!arrived) return;
+      const mc = $("#mascot");
+      if (mc) {
+        mc.classList.remove("mascot-hop");
+        void mc.offsetWidth;
+        mc.classList.add("mascot-hop");
+        setTimeout(() => mc.classList.remove("mascot-hop"), 520);
+      }
+      beep("ok");
+    }, 1500);
+  }
+
   function toggleAmbient() { setAmbient(!(state() && state().ambient)); }
   // Expose for the core's keyboard layer — Esc/O/E in app.js delegate here.
   Obs.toggleCinema = toggleCinema;
@@ -1368,7 +1396,8 @@ show(F.length-1);
     applyUrlState();
     loadReplayHash();
     setTimeout(maybeShowDigest, 1600);
-    startParticles();
+    try { startParticles(); } catch (e) { console.log("[watch] particles threw:", e.message); }
+    try { startSessionWatch(); } catch (e) { console.log("[watch] watch threw:", e.message); }
     // PWA: register the shell-cache service worker (Phase 2 deliverable,
     // re-added after the refactor — registration was lost in the rollback).
     if ("serviceWorker" in navigator && location.protocol !== "file:") {
@@ -1397,7 +1426,7 @@ show(F.length-1);
     let W = 0, H = 0, parts = [], raf = null;
     function resize() {
       W = cv.width = innerWidth; H = cv.height = innerHeight;
-      const target = Math.min(160, Math.max(18, (state()?.data.sessions.length || 4) * 12 + innerWidth / 60));
+      const target = Math.round(Math.min(160, Math.max(18, (state()?.data.sessions.length || 4) * 12 + innerWidth / 60)));
       while (parts.length < target) parts.push(spawn());
       parts.length = target;
     }
