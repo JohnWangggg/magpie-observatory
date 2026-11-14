@@ -39,7 +39,7 @@
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
 | `compass` | 罗盘 | QUOTA COMPASS | 窗=表盘 针=燃速 环=余量 | ![compass](../public/shots/compass.png) |
-| `barometer` | 气压计 | BURN BAROMETER | 燃速=气压 错=风暴 | — |
+| `barometer` | 气压计 | BURN BAROMETER | 燃速=气压 错=风暴 | ![barometer](../public/shots/barometer.png) |
 | `rosetta` | 罗塞塔 | ROSETTA | 环带=配额 刻痕=会话 | ![rosetta](../public/shots/rosetta.png) |
 | `eclipse` | 日蚀 | ECLIPSE | 暗盘=量 冕=会话 沿=窗 | ![eclipse](../public/shots/eclipse.png) |
 | `tapestry` | 织锦 | TAPESTRY | 经=配额 纬=会话 | ![tapestry](../public/shots/tapestry.png) |

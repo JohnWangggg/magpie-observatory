@@ -940,3 +940,15 @@ CI `.github/workflows/check.yml` 跑 `npm run check`（lint-data + lint-views + 
 
 实现：`app.js` 主 keydown 层 + `Obs.onKeyR` 让 `app-plus.js` 接管 replay——
 `e.target instanceof Element` 兜底，因为合成事件可能以 `document` 为 target。
+
+
+---
+
+## 23. 新视图：气压计 (barometer, v1.10.129+)
+
+配额窗→船用气压计表盘：`pressure = 960 + burn% * 80 + liveSessions * 4`（截 960–1040 hPa），
+针角 -120°…+120°。外环 tint 同 compass（绿>50 / 黄>20 / 红其余）。provider 错误率
+>15% 时在表盘右肩加一个红色风暴云+琥珀闪电 (`.ba-storm`)。两排布局 `cols = min(3, n)`。
+
+气压计表达的是"当前负载"——针偏右=烧得凶，误差风暴=该 provider 正在漏气。
+文件：`views/barometer.js` + `.css` + `VIEW_META`（配额组）+ `shots/barometer.png`。
