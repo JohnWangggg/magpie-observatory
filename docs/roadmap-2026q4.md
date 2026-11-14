@@ -1011,3 +1011,12 @@ decision/palette）+ 复制/跳转/过滤/记忆/导出 全覆盖。审计完毕
 - **VIEW_META 趣味组** + `view-nebula` + `49 VIEWS`；
   README×2 + `docs/mode-nebula.png`。
 
+---
+
+## Phase 86 — 第 50 个视图 `tide`（2026-11-15 · v0.88.0）
+
+- **`tide.js/css`**：潮汐——海面=今日 Token 占软顶、
+  浮标=会话、暗=失败、月亮牵引；`td-sway`/`td-roll`/`td-bob`/`td-sink`。
+- **VIEW_META 趣味组** + `view-tide` + `50 VIEWS`；
+  README×2 + `docs/mode-tide.png`。
+

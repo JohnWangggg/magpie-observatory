@@ -1,84 +1,86 @@
-/* ----------------------------------------------------------------- tide
- * Tide view — provider throughput as rolling waves:
- *   each provider is a sine-wave band; amplitude = its token share,
- *   phase drifts over time. Waves lap onto a shore line; a moon pulls
- *   the biggest wave's crest.
+/* -------------------------------------------------------------------- tide
+ * Tide view — the day's quota as a rising tide against a coastline:
+ *   the sea level is today's total tokens as a share of a soft cap,
+ *   waves roll in (session rhythm), a moon pulls them. Failed requests
+ *   darken the water.
  * ----------------------------------------------------------------- */
 
 (() => {
   const VIEW = "tide";
   const esc = x => String(x ?? "").replace(/[<>&"]/g, c => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;", '"': "&quot;" }[c]));
 
-  let seed = 17;
+  let seed = 97;
   const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
 
-  function wavePath(W, base, amp, freq, phase, dir) {
-    let d = `M0,${base}`;
-    for (let x = 0; x <= W; x += 8) {
-      const y = base + Math.sin((x / W) * freq * Math.PI * 2 + phase) * amp * dir;
-      d += ` L${x},${y.toFixed(1)}`;
-    }
-    return d;
-  }
-
   function render(host, ctx) {
-    const series = (ctx.data.series || []).slice(-24);
-    const sessions = ctx.data.sessions || [];
-    const meta = ctx.providerMeta || {}; const metaOf = k => (typeof meta === "function" ? meta(k) : (meta[k] || {}));
+    const sessions = (ctx.data.sessions || []).concat(ctx.data.recent || []).slice(0, 14);
+    const ameta = ctx.agentMeta || {};
+    const ametaOf = k => (typeof ameta === "function" ? ameta(k) : (ameta[k] || {}));
     const W = host.clientWidth || 800, H = host.clientHeight || 300;
-    const shore = H - 50;
+    const cx = W / 2, shore = H * 0.62;
 
-    // provider → tokens share from sessions
-    const provTok = {};
-    sessions.forEach(s => { provTok[s.provider] = (provTok[s.provider] || 0) + (s.tokens || 0); });
-    const total = Object.values(provTok).reduce((a, b) => a + b, 0) || 1;
-    const provs = Object.entries(provTok).sort((a, b) => b[1] - a[1]).slice(0, 6);
+    seed = 97;
+    const today = (ctx.data.today || []);
+    const totTok = today.reduce((s, t) => s + (t.tokens || 0), 0) || sessions.reduce((s, x) => s + (x.tokens || 0), 0) || 1;
+    const softCap = 5_000_000;
+    const level = Math.min(0.95, totTok / softCap);
+    const seaY = shore - level * (H - shore + 20);
+    const failed = sessions.filter(s => s.status === "error" || s.status === "failed").length;
+    const dim = failed > 0;
 
-    seed = 17;
-    let waves = "", crestX = 0, crestY = 0, crestCol = "#8b7cf6", crestShare = 0;
-    provs.forEach(([prov, tok], i) => {
-      const share = tok / total;
-      const col = metaOf(prov).color || "#8b7cf6";
-      const amp = 14 + share * 90;
-      const freq = 1.2 + i * 0.4;
-      const phase = i * 0.9;
-      const base = shore - i * 4;
-      // fill under wave
-      const path = wavePath(W, base, amp, freq, phase, 1);
-      const fill = `${path} L${W},${shore} L0,${shore} Z`;
-      waves += `<path class="tide-fill" d="${fill}" fill="${col}" opacity="${0.12 + share * 0.18}" style="animation-delay:${i * 90}ms"/>`;
-      waves += `<path class="tide-line" d="${path}" fill="none" stroke="${col}" stroke-width="1.6" opacity=".85" style="animation-delay:${i * 90}ms"/>`;
-      // foam dots on crest
-      const crestI = Math.floor(rnd() * W / 8) * 8;
-      const crestXl = crestI;
-      const crestYl = base - amp * 0.95;
-      for (let f = 0; f < 3; f++) {
-        waves += `<circle class="tide-foam" cx="${crestXl + f * 6}" cy="${crestYl - f * 3}" r="${1.5 - f * 0.4}" fill="${col}" opacity=".7" style="animation-delay:${i * 90 + f * 120}ms"/>`;
-      }
-      if (share > crestShare) { crestShare = share; crestX = crestXl; crestY = crestYl; crestCol = col; }
+    // moon
+    const moonY = H * 0.12;
+    const moon = `<circle class="td-moon" cx="${W * 0.82}" cy="${moonY}" r="16" fill="rgba(240,220,180,.9)"/>
+      <circle class="td-moon2" cx="${W * 0.82}" cy="${moonY}" r="26" fill="rgba(240,220,180,.06)"/>
+      <path class="td-beam" d="M${W * 0.82 - 4},${moonY + 14} L${W * 0.82 - 20},${H} M${W * 0.82 + 4},${moonY + 14} L${W * 0.82 + 30},${H}"
+        stroke="rgba(240,220,180,.08)" stroke-width="1"/>`;
+
+    // coastline silhouette
+    const coast = `<path class="td-coast" d="M0,${shore} Q${W * 0.2},${shore - 6} ${W * 0.4},${shore} T${W * 0.8},${shore - 8} T${W},${shore} V${H} H0 Z"
+      fill="rgba(30,36,52,.6)"/>`;
+
+    // sea
+    const sea = `<rect class="td-sea ${dim ? "dim" : ""}" x="0" y="${seaY.toFixed(0)}" width="${W}" height="${(H - seaY).toFixed(0)}"
+      fill="rgba(60,110,160,.55)"/>`;
+
+    // wave crests
+    let waves = "";
+    for (let i = 0; i < 3; i++) {
+      const wy = seaY + i * 4;
+      const amp2 = 4 + i * 2;
+      waves += `<path class="td-wave" d="M0,${wy.toFixed(0)} Q${W * 0.25},${wy - amp2} ${W * 0.5},${wy} T${W},${wy}"
+          fill="none" stroke="rgba(150,200,230,.5)" stroke-width="1.4" stroke-linecap="round"
+          style="animation-delay:${i * 500}ms"/>`;
+    }
+
+    // session buoys
+    let buoys = "";
+    sessions.slice(0, 8).forEach((s, i) => {
+      const col = ametaOf(s.agent).color || "#8b7cf6";
+      const x = W * 0.1 + (i / 8) * W * 0.8;
+      const y = seaY - 2 + rnd() * 6;
+      const failed2 = s.status === "error" || s.status === "failed";
+      buoys += `<g class="td-buoy ${failed2 ? "sink" : ""}" style="animation-delay:${i * 150}ms">
+          <line x1="${x.toFixed(0)}" y1="${y.toFixed(0)}" x2="${x.toFixed(0)}" y2="${y - 8}" stroke="${col}" stroke-width="1"/>
+          <circle cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" r="${failed2 ? 1.8 : 2.4}" fill="${col}"/>
+          <title>${esc(s.title)} · ${s.agent}</title>
+        </g>`;
     });
 
-    // moon over the biggest wave
-    const moonY = crestY - 60;
-    const moon = `
-      <circle class="tide-moon-glow" cx="${crestX}" cy="${moonY}" r="30" fill="${crestCol}" opacity=".08"/>
-      <circle class="tide-moon" cx="${crestX}" cy="${moonY}" r="14" fill="${crestCol}" opacity=".85"/>
-      <circle cx="${crestX - 4}" cy="${moonY - 3}" r="2.5" fill="rgba(0,0,0,.2)"/>
-      <circle cx="${crestX + 4}" cy="${moonY + 3}" r="1.8" fill="rgba(0,0,0,.15)"/>`;
-
-    // legend
-    const legend = provs.map(([prov, tok]) => {
-      const col = metaOf(prov).color || "#8b7cf6";
-      const pct = Math.round((tok / total) * 100);
-      return `<span class="tl-item"><i style="background:${col}"></i>${esc(metaOf(prov).name || prov)} ${pct}%</span>`;
+    const legend = sessions.map(s => {
+      const col = ametaOf(s.agent).color || "#8b7cf6";
+      const failed2 = s.status === "error" || s.status === "failed";
+      return `<span class="tl-item ${failed2 ? "bad" : ""}"><i style="background:${col}"></i>${esc((s.title || "").slice(0, 9))}</span>`;
     }).join("");
 
     host.innerHTML = `
-      <div class="tide-wrap">
-        <div class="tide-legend">${legend}<span class="tl-tip">幅=Token份额 · 位=时间序</span></div>
-        <svg class="tide-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMax slice">
-          ${moon}${waves}
-          <line x1="0" y1="${shore}" x2="${W}" y2="${shore}" stroke="rgba(255,255,255,.18)" stroke-width="1"/>
+      <div class="td-wrap">
+        <div class="td-legend">${legend}<span class="tl-tip">潮=今日量 · 标=会话 · 暗=失败</span></div>
+        <svg class="td-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+          ${moon}${coast}${sea}${waves}${buoys}
+          <text x="${W * 0.5}" y="${seaY - 12}" class="td-label" text-anchor="middle" fill="rgba(200,220,240,.5)">
+            ${(totTok / 1e6).toFixed(1)}M · ${(level * 100).toFixed(0)}%
+          </text>
         </svg>
       </div>`;
   }
