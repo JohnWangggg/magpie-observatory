@@ -1263,6 +1263,8 @@ show(F.length-1);
       if (e.key.toLowerCase() === "o" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); toggleCinema(); }
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") { e.preventDefault(); openPalette(); }
       if (e.key.toLowerCase() === "e" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); exportPNG(); }
+      // Esc while a palette item has focus but the input doesn't: close.
+      if (e.key === "Escape") { const pal = $("#cmd-palette"); if (pal && !pal.hidden) closePalette(); }
     });
     document.addEventListener("click", e => {
       const pal = $("#cmd-palette");

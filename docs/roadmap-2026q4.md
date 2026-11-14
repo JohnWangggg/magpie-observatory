@@ -921,3 +921,16 @@ decision/palette）+ 复制/跳转/过滤/记忆/导出 全覆盖。审计完毕
 - **验证**：cinema O/Esc ✓、sound 开 + `magpie.sound=1` ✓、
   layout-edit 拖 + `.slot-x` ✓、导出 `magpie-kaleido-2026-11-14.png` 387KB ✓。
 
+---
+
+## Phase 77 — app-plus 全量实测 + 收尾（2026-11-15 · v0.79.0）
+
+- **全绿**：cinema ✓、⌘K palette 56 项搜索 ✓、replay 帧缓冲 + scrub ✓、
+  attn-strip 3 项（配额/错误/今日）✓、layout-edit 拖 + × 隐藏 +
+  `magpie.hidden` 持久 ✓、notify 权限 denied 正确拒绝 ✓。
+- **修**：palette Esc 只在 input 聚焦时关——全局 keydown 兜底
+  `!pal.hidden → closePalette()`。
+- **复盘**：`app-plus.js` 1364 行早已实现全部"死按钮"——真缺口只有
+  `#extras-seg` 未绑 `data-extra`。教训：查死代码先查 hook/委托链，
+  别看 `#id` 无 grep 命中就下结论。
+
