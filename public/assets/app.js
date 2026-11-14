@@ -212,6 +212,7 @@
     { id: "volcano", title: "火山", eyebrow: "VOLCANO", group: "场景", icon: "i-magpie", hint: "锥=配额窗 烟=用量 鸟=会话" },
     { id: "canyon", title: "峡谷", eyebrow: "CANYON", group: "场景", icon: "i-magpie", hint: "层=配额窗 深=用量 客=会话" },
     { id: "lake", title: "湖泊", eyebrow: "LAKE", group: "场景", icon: "i-magpie", hint: "莲=配额窗 沉=用量 黾=会话" },
+    { id: "harvest2", title: "麦田", eyebrow: "HARVEST", group: "场景", icon: "i-magpie", hint: "垄=配额窗 穗=用量 农=会话" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
     { id: "grove", title: "果园", eyebrow: "GROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 果=用量 人=会话" },
     { id: "pond", title: "荷塘", eyebrow: "POND", group: "生态", icon: "i-magpie", hint: "莲=配额窗 漪=用量 蛙=会话" },
