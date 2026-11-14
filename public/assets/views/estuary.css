@@ -1,0 +1,14 @@
+/* estuary */
+.ea-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.ea-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.ea-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.ea-head span { font-size: 8px; color: var(--muted); }
+.ea-wrap svg { flex: 1; width: 100%; }
+.ea-spit { transform-box: fill-box; }
+.ea-spit.hot path { filter: drop-shadow(0 0 4px rgba(240,200,100,.4)); }
+.ea-bird { transform-box: fill-box; }
+.ea-bird.dead { opacity: .85; }
+.ea-pct { font: 700 9px var(--num); fill: #b0b8a0; }
+.ea-name { font: 600 7px var(--mono); fill: #808878; }
+.ea-k { font: 700 10px var(--num); fill: var(--fg); }
+.ea-ksub { font: 7px var(--mono); fill: var(--muted); }
