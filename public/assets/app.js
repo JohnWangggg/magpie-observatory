@@ -304,6 +304,7 @@
     { id: "chimneys", title: "烟囱", eyebrow: "CHIMNEYS", group: "场景", icon: "i-magpie", hint: "烟囱=配额窗 高=用量 麻雀=会话" },
     { id: "arches", title: "拱门群", eyebrow: "ARCHES", group: "场景", icon: "i-magpie", hint: "石拱=配额窗 跨度=用量 雨燕=会话" },
     { id: "lighthouses", title: "灯塔群", eyebrow: "LIGHTHOUSES", group: "场景", icon: "i-magpie", hint: "灯塔=配额窗 光程=用量 海鸥=会话" },
+    { id: "castles", title: "城堡群", eyebrow: "CASTLES", group: "场景", icon: "i-magpie", hint: "城堡=配额窗 高=用量 骑士=会话" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
     { id: "grove", title: "果园", eyebrow: "GROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 果=用量 人=会话" },
     { id: "pond", title: "荷塘", eyebrow: "POND", group: "生态", icon: "i-magpie", hint: "莲=配额窗 漪=用量 蛙=会话" },
