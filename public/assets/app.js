@@ -307,6 +307,7 @@
     { id: "castles", title: "城堡群", eyebrow: "CASTLES", group: "场景", icon: "i-magpie", hint: "城堡=配额窗 高=用量 骑士=会话" },
     { id: "ridges", title: "山脊群", eyebrow: "RIDGES", group: "场景", icon: "i-magpie", hint: "山脊=配额窗 高=用量 徒步者=会话" },
     { id: "terraces", title: "梯田", eyebrow: "TERRACES", group: "场景", icon: "i-magpie", hint: "梯田=配额窗 水宽=用量 白鹭=会话" },
+    { id: "waterwheels", title: "水车群", eyebrow: "WATERWHEELS", group: "场景", icon: "i-magpie", hint: "水车=配额窗 直径=用量 游鱼=会话" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
     { id: "grove", title: "果园", eyebrow: "GROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 果=用量 人=会话" },
     { id: "pond", title: "荷塘", eyebrow: "POND", group: "生态", icon: "i-magpie", hint: "莲=配额窗 漪=用量 蛙=会话" },
