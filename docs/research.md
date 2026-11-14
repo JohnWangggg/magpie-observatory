@@ -901,3 +901,17 @@ CI `.github/workflows/check.yml` 跑 `npm run check`（lint-data + lint-views + 
 2. `npm run check` → 结构+注册+图标+shot 占位全过
 3. `npm run thumbs -- --ids <id>` → 单点重截缩略图
 4. `npm run smoke -- --errors-only` → 渲染健康确认
+
+
+---
+
+## 21. 新视图：罗盘 (compass, v1.10.129+)
+
+配额窗口→罗盘表盘：针摆幅度 `used%` 映射 -150°…+150°（北=空，南=满），
+外环弧长=`remaining%`（绿>50 / 黄>20 / 红其余），表盘外圈撒 provider 的 live
+会话点。`cols = min(4, rows)` 自适应网格，`r = min(W/cols/2-24, H/rowsN/2-30, 60)`。
+
+配额窗口不带 `sessions` 字段，渲染时把 `data.sessions` 按 `provider` 分发进
+`w._sessions`——这样表盘不只显示数字，还显示"此刻谁在烧"。
+
+文件：`views/compass.js` + `.css` + `VIEW_META`（配额组）+ `shots/compass.png`。
