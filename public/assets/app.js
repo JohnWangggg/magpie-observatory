@@ -75,6 +75,13 @@
     const host = $("#view-" + mode);
     if (!view || !host) return;
     view.render(host, buildViewCtx());
+    // After the view rebuilds its DOM, re-light any legend chip matching the
+    // active session filter so the visual state survives every re-render.
+    if (state.filter) {
+      const key = state.filter.type === "agent" ? "agent" : state.filter.type === "provider" ? "provider" : null;
+      if (key) $$(`[data-${key}]`, host).forEach(el =>
+        el.classList.toggle("legend-on", el.dataset[key] === state.filter.value));
+    }
   }
 
   /* ----------------------------------------------------------- view picker --- */
@@ -2315,6 +2322,17 @@
         renderDecision();
         renderCustomView(state.heroMode, true);
         toast(state.filter ? "已筛选：" + D.agentMeta(v).name : "筛选已清除");
+        return;
+      }
+      const lgProv = e.target.closest("[data-provider]");
+      if (lgProv) {
+        const v = lgProv.dataset.provider;
+        state.filter = state.filter && state.filter.type === "provider" && state.filter.value === v ? null : { type: "provider", value: v };
+        state.selectedSession = null;
+        renderSessions();
+        renderDecision();
+        renderCustomView(state.heroMode, true);
+        toast(state.filter ? "已筛选：" + D.providerMeta(v).name : "筛选已清除");
         return;
       }
       const radarNode = e.target.closest(".radar-node");

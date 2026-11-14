@@ -2816,3 +2816,8 @@ body.layout-edit .card:hover { transform: none; }
   .burn-tip, .burn-ptip { display: none; }
   .ld-strip { flex-direction: column; align-items: flex-start; gap: 4px; }
 }
+
+/* legend chips: interactive affordance for the data-agent filter delegate */
+.route-stage [data-agent] { cursor: pointer; border-radius: 4px; padding: 1px 4px; margin: -1px -4px; transition: background .15s, color .15s; }
+.route-stage [data-agent]:hover { background: color-mix(in srgb, var(--accent) 14%, transparent); }
+.route-stage [data-agent].legend-on { background: color-mix(in srgb, var(--accent) 20%, transparent); color: var(--fg); }

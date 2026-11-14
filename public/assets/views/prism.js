@@ -73,7 +73,7 @@
     const legend = provs.map(([prov, tok], i) => {
       const col = metaOf(prov).color || "#8b7cf6";
       const pct = Math.round((tok / total) * 100);
-      return `<span class="pl-item" data-agent="${s.agent}"><i style="background:${col}"></i>${esc(metaOf(prov).name || prov)} ${pct}%</span>`;
+      return `<span class="pl-item" data-provider="${esc(prov)}"><i style="background:${col}"></i>${esc(metaOf(prov).name || prov)} ${pct}%</span>`;
     }).join("");
 
     host.innerHTML = `
