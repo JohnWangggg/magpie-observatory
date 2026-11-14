@@ -16,7 +16,7 @@ Observatory turns that stream into something you can *watch*:
 - **Live routing** — Agent → Magpie → Provider/Account, with a filled magpie
   carrying the request out and a mirrored outlined magpie bringing the answer
   back. Failed attempts stay visible as “rerouted”.
-- **One hundred and four views** — one for routing, sixty-one ways to look at the
+- **One hundred and three views** — one for routing, sixty-one ways to look at the
   same data: charts, games, ambient fields.
 - **Seven style packs** — `Control`, `Pixel`, `Paper`, `Neon`, `Terminal`,
   `Blueprint`, `Zine`; each with a light and dark variant. Light/dark and
