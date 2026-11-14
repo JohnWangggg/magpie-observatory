@@ -219,6 +219,7 @@
     { id: "village", title: "村落", eyebrow: "VILLAGE", group: "场景", icon: "i-magpie", hint: "屋=配额窗 烟=用量 人=会话" },
     { id: "beach", title: "海滩", eyebrow: "BEACH", group: "场景", icon: "i-magpie", hint: "浪=配额窗 高=用量 蟹=会话" },
     { id: "skyline", title: "天际线", eyebrow: "SKYLINE", group: "场景", icon: "i-magpie", hint: "楼=配额窗 高=用量 星=会话" },
+    { id: "pasture", title: "牧场", eyebrow: "PASTURE", group: "场景", icon: "i-magpie", hint: "坡=配额窗 高=用量 畜=会话" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
     { id: "grove", title: "果园", eyebrow: "GROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 果=用量 人=会话" },
     { id: "pond", title: "荷塘", eyebrow: "POND", group: "生态", icon: "i-magpie", hint: "莲=配额窗 漪=用量 蛙=会话" },
