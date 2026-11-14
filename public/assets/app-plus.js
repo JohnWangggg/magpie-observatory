@@ -1114,7 +1114,17 @@ show(F.length-1);
           const pct = total ? Math.min(100, Math.round(seen.length / total * 100)) : 0;
           return `<div class="dex"><div class="dex-row"><b>图鉴</b><span>${seen.length}/${total} · ${pct}%</span></div>
             <div class="dex-bar"><i style="width:${pct}%"></i></div>
-            <div class="dex-legend">${total ? "已看过 " + seen.length + " 个不同视图" : ""}</div></div>`;
+            <div class="dex-legend">${total ? "已看过 " + seen.length + " 个不同视图" : ""}</div>
+            <div class="dex-legend">${(() => {
+              try {
+                const at = JSON.parse(localStorage.getItem("magpie.viewSeenAt") || "{}");
+                const first = Object.values(at).sort()[0];
+                if (!first) return "";
+                const days = Math.max(1, Math.round((Date.now() - new Date(first).getTime()) / 86400000));
+                return `收集了 ${days} 天`;
+              } catch (_) { return ""; }
+            })()}</div>
+          </div>`;
         } catch (_) { return ""; }
       })()}
       ${(() => {
