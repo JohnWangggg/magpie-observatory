@@ -166,6 +166,7 @@
     { id: "campfire", title: "篝火", eyebrow: "CAMPFIRE", group: "趣味", icon: "i-flame", hint: "火=会话 石=agent 柴=配额余" },
     { id: "aquarium", title: "水族箱", eyebrow: "AQUARIUM", group: "趣味", icon: "i-magpie", hint: "泡=agent 鱼=会话 水线=配额" },
     { id: "dojo", title: "道场", eyebrow: "DOJO", group: "趣味", icon: "i-zap", hint: "桩=agent 痕=tries 卷=配额" },
+    { id: "library", title: "图书馆", eyebrow: "LIBRARY", group: "趣味", icon: "i-doc", hint: "架=配额窗 书=余量 桌=会话" },
     { id: "vine", title: "藤蔓", eyebrow: "VINE", group: "趣味", icon: "i-magpie", hint: "叶=会话 大=Token" },
     { id: "play", title: "开局", eyebrow: "PLAY · EVERY CALL IS A BEAT", group: "趣味", icon: "i-zap", hint: "转盘 + 判定 + 连击" }
   ];
