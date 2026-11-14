@@ -577,6 +577,7 @@
   function renderAll() {
     computeView();
     renderKPIs();
+    renderVs();
     renderRouteStage();
     renderDecision();
     renderSessions();
@@ -658,6 +659,26 @@
         if (viewRegistry()[target]) { setHeroMode(target); document.querySelector(".hero").scrollIntoView({ behavior: "smooth", block: "start" }); toast(`已切到 ${D.providerMeta ? "" : ""}${target}`); }
       });
     });
+  }
+
+  function renderVs() {
+    const k = (state.view && state.view.kpis) || state.data.kpis;
+    const heat = state.data.heatmap || [];
+    const yd = heat.length >= 2 ? heat[heat.length - 2] : null;
+    const td = heat.length >= 1 ? heat[heat.length - 1] : null;
+    if (!td || !yd) { const c = $("#vs-t-num"), c2 = $("#vs-c-num"); if (c) c.textContent = "—"; if (c2) c2.textContent = "—"; return; }
+    const tT = td.tokens || 0, yT = yd.tokens || 0, tC = (td.tokens || 0) / 1e6 * 1.32, yC = (yd.tokens || 0) / 1e6 * 1.32;
+    const maxT = Math.max(tT, yT, 1), maxC = Math.max(tC, yC, .01);
+    const tEl = $("#vs-today-t"), yEl = $("#vs-yest-t"), cEl = $("#vs-today-c"), cyEl = $("#vs-yest-c");
+    const nT = $("#vs-t-num"), nC = $("#vs-c-num");
+    if (tEl) tEl.style.setProperty("--vs", Math.round(tT / maxT * 100) + "%");
+    if (yEl) yEl.style.setProperty("--vs", Math.round(yT / maxT * 100) + "%");
+    if (cEl) cEl.style.setProperty("--vs", Math.round(tC / maxC * 100) + "%");
+    if (cyEl) cyEl.style.setProperty("--vs", Math.round(yC / maxC * 100) + "%");
+    const pctT = yT ? Math.round((tT - yT) / yT * 100) : null;
+    const pctC = yC ? Math.round((tC - yC) / yC * 100) : null;
+    if (nT) nT.innerHTML = fmtTokens(tT) + (pctT != null ? `<em>${pctT >= 0 ? "+" : ""}${pctT}%</em>` : "");
+    if (nC) nC.innerHTML = fmtMoney(tC) + (pctC != null ? `<em>${pctC >= 0 ? "+" : ""}${pctC}%</em>` : "");
   }
 
   function sparkPath(vals) {

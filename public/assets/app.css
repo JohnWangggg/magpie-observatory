@@ -518,6 +518,15 @@ img { display: block; }
   100% { transform: translateX(140%) translateY(-58px) scale(.6) rotate(14deg); opacity: 0; }
 }
 .session-ghost.ghost-pop { overflow: visible; }
+/* vs-card — today vs yesterday twin-track */
+.vs-card { grid-column: span 12; display: flex; flex-direction: column; gap: 8px; padding: 10px 14px; }
+.vs-row { display: grid; grid-template-columns: 48px 1fr 70px; align-items: center; gap: 10px; }
+.vs-tag { font: 700 9px var(--mono); color: var(--muted); }
+.vs-track { position: relative; height: 10px; background: var(--card-2); border-radius: 5px; overflow: hidden; }
+.vs-track i { position: absolute; left: 0; top: 0; bottom: 0; width: var(--vs); border-radius: 5px; background: var(--accent); transition: width .5s ease; }
+.vs-track i.y { top: 5px; background: var(--faint); opacity: .5; }
+.vs-num { font: 700 10px var(--num); color: var(--fg); text-align: right; }
+.vs-num em { font-style: normal; font-size: 8px; color: var(--muted); margin-left: 4px; }
 .view-picker.touring::after { content: ""; position: absolute; top: 5px; right: 6px; width: 5px; height: 5px; border-radius: 50%; background: var(--green); box-shadow: 0 0 7px var(--green); animation: breathe 1.8s ease-in-out infinite; }
 .view-picker { position: relative; }
 
