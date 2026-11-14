@@ -915,3 +915,28 @@ CI `.github/workflows/check.yml` 跑 `npm run check`（lint-data + lint-views + 
 `w._sessions`——这样表盘不只显示数字，还显示"此刻谁在烧"。
 
 文件：`views/compass.js` + `.css` + `VIEW_META`（配额组）+ `shots/compass.png`。
+
+
+---
+
+## 22. 键位图 (v1.10.129+)
+
+| 键 | 动作 |
+|---|---|
+| `/` | 聚焦日志搜索 |
+| `space` | 暂停/继续 demo tick |
+| `T` | 主题切换 |
+| `V` | 视图菜单 |
+| `R` | 回放最近 3 分钟（或 `Shift+R` randomView） |
+| `G` | 巡回模式（attract/tour） |
+| `F` | 收藏当前视图 |
+| `N` | 下一个未看视图 |
+| `U` | 只看未看视图筛选 |
+| `D` | 今日统计 |
+| `O` | 影院模式 |
+| `Esc` | 关菜单/帮助/vlight/replay ctx |
+| `↑↓` | 菜单/收藏/日志行导航 |
+| `Enter` | 激活当前行 |
+
+实现：`app.js` 主 keydown 层 + `Obs.onKeyR` 让 `app-plus.js` 接管 replay——
+`e.target instanceof Element` 兜底，因为合成事件可能以 `document` 为 target。
