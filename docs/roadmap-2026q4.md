@@ -1057,3 +1057,12 @@ decision/palette）+ 复制/跳转/过滤/记忆/导出 全覆盖。审计完毕
 - **VIEW_META 趣味组** + `view-lantern` + `54 VIEWS`；
   README×2 + `docs/mode-lantern.png`。
 
+---
+
+## Phase 91 — 第 55 个视图 `pinwheel`（2026-11-15 · v0.93.0）
+
+- **`pinwheel.js/css`**：风车——轮=会话（叶展=Token、色=Agent、
+  反转=失败）、园边竖杆；`pw-spin`/`pw-pulse`。
+- **VIEW_META 趣味组** + `view-pinwheel` + `55 VIEWS`；
+  README×2 + `docs/mode-pinwheel.png`。
+
