@@ -1167,6 +1167,14 @@ show(F.length-1);
         items.push({ cls: "good", icon: "i-star", text: `🏅 ${a.name}`, sub: a.sub, goto: "records", aid: `badge-${a.id}` });
       }
     } catch (_) {}
+    // today's new-collection chip — keeps the strip playful
+    try {
+      const seen = JSON.parse(localStorage.getItem("magpie.viewSeen") || "[]");
+      const at = JSON.parse(localStorage.getItem("magpie.viewSeenAt") || "{}");
+      const today = new Date().toISOString().slice(0, 10);
+      const fresh = seen.filter(id => at[id] && at[id].slice(0, 10) === today).length;
+      if (fresh) items.push({ cls: "good", icon: "i-sparkle", text: `今日收集 ${fresh} 个新视图`, sub: "去图鉴看看", goto: "records", aid: "dex-today" });
+    } catch (_) {}
     // daily goal chip — click cycles 0.5M → 1M → 2M → 5M → off
     const GOALS = [0, 500000, 1000000, 2000000, 5000000];
     let goal = 0;
