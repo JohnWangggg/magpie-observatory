@@ -57,6 +57,8 @@
   function buildViewCtx() {
     return {
       data: state.data,
+      view: state.view,
+      metric: state.metric,
       logs: state.data.logs || [],
       quotas: state.data.quotas || [],
       kpis: state.data.kpis || {},
@@ -64,7 +66,8 @@
       providerMeta: D.providerMeta,
       providerOfModel: D.providerOfModel,
       providerIcon, agentMeta: D.agentMeta, agentIcon,
-      motion: document.documentElement.dataset.motion || "full"
+      motion: document.documentElement.dataset.motion || "full",
+      game: window.Obs && window.Obs.game
     };
   }
   function renderCustomView(mode, force) {
@@ -100,7 +103,27 @@
     { id: "orrery", title: "轨道星图", eyebrow: "ORRERY", group: "趣味", icon: "i-magpie", hint: "行星与卫星" },
     { id: "chips", title: "连击卡牌", eyebrow: "COMBO CHIPS", group: "趣味", icon: "i-zap", hint: "游戏化连击" },
     { id: "factory", title: "请求工厂", eyebrow: "REQUEST FACTORY", group: "趣味", icon: "i-server", hint: "排队 → 完成" },
-    { id: "bees", title: "蜂巢", eyebrow: "BEEHIVE", group: "趣味", icon: "i-magpie", hint: "会话绕着 Provider" }
+    { id: "bees", title: "蜂巢", eyebrow: "BEEHIVE", group: "趣味", icon: "i-magpie", hint: "会话绕着 Provider" },
+    { id: "stellar", title: "夜航", eyebrow: "STELLAR DRIFT", group: "趣味", icon: "i-sparkle", hint: "星空与流星 · 陪伴首选" },
+    { id: "burn", title: "燃烧速率", eyebrow: "BURN RATE", group: "实时", icon: "i-flame", hint: "配额窗口烧速 / 预测重置" },
+    { id: "candle", title: "K线吞吐", eyebrow: "CANDLE THROUGHPUT", group: "用量", icon: "i-chart", hint: "OHLC·涨跌K线" },
+    { id: "gauge", title: "仪表盘", eyebrow: "GAUGE MATRIX", group: "实时", icon: "i-pulse", hint: "KPI/配额仪表" },
+    { id: "bloom", title: "绽放", eyebrow: "REQUEST BLOOM", group: "趣味", icon: "i-sparkle", hint: "请求开花·藤蔓生长" },
+    { id: "petri", title: "培养皿", eyebrow: "PETRI DISH", group: "趣味", icon: "i-magpie", hint: "请求=活细胞" },
+    { id: "aurora", title: "极光", eyebrow: "AURORA", group: "趣味", icon: "i-sparkle", hint: "请求=天空光带" },
+    { id: "constellation", title: "星座", eyebrow: "CONSTELLATION", group: "趣味", icon: "i-magpie", hint: "会话=星图" },
+    { id: "tide", title: "潮汐", eyebrow: "TIDE", group: "用量", icon: "i-chart", hint: "Provider波浪" },
+    { id: "prism", title: "棱镜", eyebrow: "PRISM", group: "结构", icon: "i-route", hint: "白光分成Provider份额" },
+    { id: "terrarium", title: "玻璃缸", eyebrow: "TERRARIUM", group: "趣味", icon: "i-magpie", hint: "会话=植物生态" },
+    { id: "echo", title: "回声", eyebrow: "ECHO", group: "趣味", icon: "i-magpie", hint: "涟漪=Token" },
+    { id: "mosaic", title: "马赛克", eyebrow: "MOSAIC", group: "用量", icon: "i-chart", hint: "每请求一块砖" },
+    { id: "origami", title: "折纸", eyebrow: "ORIGAMI", group: "趣味", icon: "i-magpie", hint: "纸鹤=会话" },
+    { id: "firefly", title: "萤火虫", eyebrow: "FIREFLY", group: "趣味", icon: "i-magpie", hint: "萤火=会话" },
+    { id: "mandala", title: "曼陀罗", eyebrow: "MANDALA", group: "趣味", icon: "i-magpie", hint: "瓣=会话 环=尝试" },
+    { id: "quilt", title: "拼布", eyebrow: "QUILT", group: "用量", icon: "i-chart", hint: "每会话一块布" },
+    { id: "vortex", title: "漩涡", eyebrow: "VORTEX", group: "趣味", icon: "i-magpie", hint: "螺旋=会话" },
+    { id: "kaleido", title: "万花筒", eyebrow: "KALEIDO", group: "趣味", icon: "i-magpie", hint: "楔=会话 12折" },
+    { id: "play", title: "开局", eyebrow: "PLAY · EVERY CALL IS A BEAT", group: "趣味", icon: "i-zap", hint: "转盘 + 判定 + 连击" }
   ];
 
   function viewMeta(mode) {
@@ -162,7 +185,21 @@
       b.setAttribute("aria-selected", String(on));
     });
     const meta = viewMeta(id);
+    renderRailFavs();
     toast(state.favorites.includes(id) ? `已收藏「${meta.title}」` : `已取消收藏「${meta.title}」`);
+  }
+
+  // Starred views get a permanent icon column on the left rail — the
+  // "one click to switch" promised in the README. Rebuilt on toggle/init.
+  function renderRailFavs() {
+    const host = $("#rail-favs");
+    if (!host) return;
+    const favs = state.favorites.map(id => VIEW_META.find(v => v.id === id)).filter(Boolean);
+    host.hidden = !favs.length;
+    host.innerHTML = favs.map(v => `
+      <button class="fav-btn${v.id === state.heroMode ? " active" : ""}${v.id === (localStorage.getItem("magpie.defaultView") || "") ? " default" : ""}" data-fav-view="${v.id}" title="${v.title}${v.id === (localStorage.getItem("magpie.defaultView") || "") ? " · 默认视图" : ""}">
+        <svg><use href="#${v.icon || "i-sparkle"}"/></svg>
+      </button>`).join("");
   }
 
   function filterViewMenu(query) {
@@ -423,8 +460,11 @@
     renderDonut();
     renderHeatmap();
     renderLogs();
+    bindLogExpand();
+    bindDecisionJump();
     renderStatus();
     renderMode();
+    (window.Obs && window.Obs.hooks.afterRender || []).forEach(fn => { try { fn(apiObj); } catch (_) {} });
   }
 
   function renderMode() {
@@ -1337,6 +1377,17 @@
       b.classList.toggle("active", on);
       b.setAttribute("aria-selected", String(on));
     });
+    $$("#rail-favs .fav-btn").forEach(b => b.classList.toggle("active", b.dataset.favView === mode));
+    // Scroll-position memory: stash the outgoing scrollable view's scrollTop
+    // and restore it when the mode comes back — long lists don't reset.
+    const prev = $(".stage-view:not([hidden])");
+    if (prev) {
+      const sc = prev.scrollHeight > prev.clientHeight ? prev : [...prev.children].find(k => k.scrollHeight > k.clientHeight);
+      if (sc && sc.scrollTop > 0) {
+        state.viewScroll = state.viewScroll || {};
+        state.viewScroll[prev.id.replace("view-", "")] = sc.scrollTop;
+      }
+    }
     $$(".stage-view").forEach(v => { v.hidden = true; });
     const host = $("#view-" + mode);
     if (host) {
@@ -1345,6 +1396,12 @@
       void host.offsetWidth;
       host.classList.add("view-enter");
       setTimeout(() => host.classList.remove("view-enter"), 340);
+    }
+    if (host && state.viewScroll && state.viewScroll[mode] != null) {
+      requestAnimationFrame(() => {
+        const sc = host.scrollHeight > host.clientHeight ? host : [...host.children].find(k => k.scrollHeight > k.clientHeight);
+        (sc || host).scrollTop = state.viewScroll[mode];
+      });
     }
     if (custom) { renderCustomView(mode, true); return; }
     if (mode === "route") { requestAnimationFrame(drawWires); ensureFlightLoop(); }
@@ -1362,7 +1419,7 @@
     const st = STATUS_CLASS[s.status] || "";
     const tps = s.tps ? `${s.tps.toFixed(1)} tok/s` : "— tok/s";
     const subs = (s.subagents || []).map(sub => `<div class="subagent-row"><b>${esc(sub.name)}</b><span>${esc(STATUS_TEXT[sub.status] || sub.status)}</span><span class="sub-model">${esc(sub.model)} · ${sub.tps ? sub.tps.toFixed(0) : "—"} TPS</span></div>`).join("");
-    return `<article class="session-card${sel ? " selected" : ""}${s.status === "streaming" ? " streaming" : ""}" data-session="${esc(s.id)}" style="--s-c:${meta.color}" tabindex="0">
+    return `<article class="session-card${sel ? " selected" : ""}${s.status === "streaming" ? " streaming" : ""}" role="button" aria-selected="${sel}" aria-label="${esc(s.title)} · ${esc(s.model)} · ${esc(STATUS_TEXT[s.status] || s.status)}" data-session="${esc(s.id)}" style="--s-c:${meta.color}" tabindex="0">
       <div class="session-top">
         <span class="session-agent"><img src="${agentIcon(s.agent)}" alt=""></span>
         <span class="session-title" title="${esc(s.title)}">${esc(s.title)}</span>
@@ -1452,7 +1509,7 @@
       const detail = q.windows.map(win => `${win.name} ${Math.round(win.used || 0)}%`).join(" · ");
       const value = q.balance ? q.balance : used + "%";
       const reset = q.balance ? "余额" : fmtReset(w.resetsIn);
-      return `<div class="quota-item" style="--q-c:${color}" title="${esc(q.name)} · ${esc(q.user || "")} · ${esc(q.plan || "")} · ${esc(detail)}">
+      return `<div class="quota-item goto" role="button" tabindex="0" aria-label="${esc(q.name)} · ${esc(detail)} · 点击查看烧速" data-goto="burn" data-prov="${esc(q.provider)}" style="--q-c:${color}" title="${esc(q.name)} · ${esc(q.user || "")} · ${esc(q.plan || "")} · ${esc(detail)} · 点击看烧速">
         <span class="quota-ring" style="--used:${clamp(used, 0, 100)}"><img src="${providerIcon(q.provider)}" alt=""></span>
         <span class="quota-copy">
           <span class="quota-top"><b>${esc(q.name)}</b><em>${esc(q.plan || "")}</em></span>
@@ -1632,7 +1689,7 @@
     const q = state.logQuery.toLowerCase();
     const logs = state.data.logs.filter(r => {
       if (!q) return true;
-      return [r.session, r.model, r.provider, r.agent].join(" ").toLowerCase().includes(q);
+      return [r.session, r.model, r.provider, r.agent, (r.at || "").slice(0, 10)].join(" ").toLowerCase().includes(q);
     }).slice(0, 22);
     const host = $("#log-body");
     const sig = q + "\u0002" + logs.map(r => [r.at, r.status, r.model, r.provider, r.agent, r.session,
@@ -1644,7 +1701,7 @@
       const dt = new Date(r.at);
       const time = `${pad2(dt.getHours())}:${pad2(dt.getMinutes())}:${pad2(dt.getSeconds())}`;
       const pm = D.providerMeta(r.provider);
-      return `<tr>
+      return `<tr class="log-tr" data-idx="${logs.indexOf(r)}" role="button" aria-expanded="false">
         <td><span class="t">${time}</span></td>
         <td><span class="log-agent"><img src="${agentIcon(r.agent)}" alt=""><span><b>${esc(meta.name)}</b><small>${esc(r.session || "—")}</small></span></span></td>
         <td><span class="route-cell"><img src="${providerIcon(r.provider)}" alt=""><code>${esc(r.model)}</code><span class="arrow">·</span><span style="font-size:8px;color:var(--faint)">${esc(pm.name)}</span></span></td>
@@ -1655,6 +1712,90 @@
         <td class="num money">${r.cost != null ? fmtMoney(r.cost) : "—"}</td>
       </tr>`;
     }).join("") || `<tr><td colspan="8" class="empty-row">没有匹配的请求</td></tr>`;
+  }
+
+  // Click a log row → inline detail strip: session / provider / model / TTFT /
+  // TPS / tokens / cost, plus a route-try pill trail if the log carried one.
+  let logExpandBound = false;
+  function bindLogExpand() {
+    const body = $("#log-body");
+    if (!body || logExpandBound) return;
+    logExpandBound = true;
+    body.addEventListener("click", e => {
+      const tr = e.target.closest(".log-tr");
+      if (!tr) return;
+      const was = tr.classList.contains("open");
+      body.querySelectorAll(".log-detail").forEach(d => d.remove());
+      body.querySelectorAll(".log-tr").forEach(x => { x.classList.remove("open"); x.setAttribute("aria-expanded", "false"); });
+      if (was) return;
+      tr.classList.add("open");
+      tr.setAttribute("aria-expanded", "true");
+      const logs = state.data.logs.filter(r => {
+        const q = state.logQuery.toLowerCase();
+        if (!q) return true;
+        return [r.session, r.model, r.provider, r.agent, (r.at || "").slice(0, 10)].join(" ").toLowerCase().includes(q);
+      }).slice(0, 22);
+      const r = logs[+tr.dataset.idx];
+      if (!r) return;
+      const meta = D.agentMeta(r.agent);
+      const pm = D.providerMeta(r.provider);
+      const tries = (r.tries || []).map(t => {
+        const tp = D.providerMeta(t.provider);
+        const cls = t.state === "ok" ? "ok" : t.state === "fail" ? "fail" : "pending";
+        return `<span class="try-pill ${cls}" title="${esc(t.why || "")}"><img src="${providerIcon(t.provider)}" alt="">${esc((t.model || "").split("/").pop())}${t.state === "fail" ? " ✕" : t.state === "pending" ? " …" : ""}</span>`;
+      }).join("");
+      const det = document.createElement("tr");
+      det.className = "log-detail";
+      det.innerHTML = `<td colspan="8"><div class="ld-strip">
+        <span><b>${esc(meta.name)}</b>${r.session ? ` · ${esc(r.session)}` : ""}</span>
+        <span>${esc(pm.name)} / ${esc(r.model)}</span>
+        <span>ttft ${r.ttft != null ? r.ttft + "ms" : "—"} · tps ${r.tps != null ? r.tps.toFixed(1) : "—"}</span>
+        <span>${fmtTokens(r.tokens)} tok · ${r.cost != null ? fmtMoney(r.cost) : "—"}</span>
+        ${tries ? `<span class="ld-tries">${tries}</span>` : ""}
+      </div></td>`;
+      tr.after(det);
+    });
+    body.addEventListener("contextmenu", e => {
+      const tr = e.target.closest(".log-tr");
+      if (!tr) return;
+      e.preventDefault();
+      const logs = state.data.logs.filter(r => {
+        const q = state.logQuery.toLowerCase();
+        if (!q) return true;
+        return [r.session, r.model, r.provider, r.agent, (r.at || "").slice(0, 10)].join(" ").toLowerCase().includes(q);
+      }).slice(0, 22);
+      const r = logs[+tr.dataset.idx];
+      if (!r) return;
+      const csv = [r.at, r.session || "", r.agent, r.provider, r.model, r.status, r.tokens, r.ttft || "", r.tps || "", r.cost || ""].join(",");
+      navigator.clipboard?.writeText(csv).then(() => toast("该行已复制为 CSV"));
+    });
+    body.addEventListener("dblclick", e => {
+      const tr = e.target.closest(".log-tr");
+      if (!tr) return;
+      const logs = state.data.logs.filter(r => {
+        const q = state.logQuery.toLowerCase();
+        if (!q) return true;
+        return [r.session, r.model, r.provider, r.agent, (r.at || "").slice(0, 10)].join(" ").toLowerCase().includes(q);
+      }).slice(0, 22);
+      const r = logs[+tr.dataset.idx];
+      if (!r) return;
+      navigator.clipboard?.writeText(JSON.stringify(r, null, 2)).then(() => toast("该行已复制为 JSON"));
+    });
+    // ↑↓/Enter on the log table — same pattern as burn rows.
+    body.tabIndex = 0;
+    let logKb = -1;
+    body.addEventListener("keydown", e => {
+      const rows = [...body.querySelectorAll(".log-tr")];
+      if (!rows.length) return;
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        e.preventDefault();
+        logKb = e.key === "ArrowDown" ? Math.min(rows.length - 1, logKb + 1) : Math.max(0, logKb - 1);
+        rows.forEach((r, i) => r.classList.toggle("kb-focus", i === logKb));
+        rows[logKb]?.scrollIntoView({ block: "nearest" });
+      }
+      if (e.key === "Enter" && logKb >= 0) rows[logKb]?.click();
+      if (e.key === "Escape") { body.querySelectorAll(".log-detail").forEach(d => d.remove()); rows.forEach(r => r.classList.remove("open", "kb-focus")); logKb = -1; }
+    });
   }
 
   function renderDecision() {
@@ -1676,8 +1817,50 @@
       const pm = D.providerMeta(t.provider);
       const cls = t.state === "ok" ? "ok" : t.state === "fail" ? "fail" : "pending";
       const arrow = i ? `<span class="try-arrow">›</span>` : "";
-      return `${arrow}<span class="try-pill ${cls}" title="${esc(t.why || "")}"><img src="${providerIcon(t.provider)}" alt="">${esc((t.model || "").split("/").pop())}${t.state === "fail" ? " ✕" : t.state === "pending" ? " …" : ""}</span>`;
+      return `${arrow}<span class="try-pill ${cls} goto" data-prov="${esc(t.provider)}" data-model="${esc(t.model || "")}" title="${esc(t.why || "")} · 左键看配额 · 右键复制模型"><img src="${providerIcon(t.provider)}" alt="">${esc((t.model || "").split("/").pop())}${t.state === "fail" ? " ✕" : t.state === "pending" ? " …" : ""}</span>`;
     }).join("");
+  }
+
+  // Click the decision strip → find that session's card, select it, scroll it
+  // into view. Decision ↔ session card two-way.
+  let decJumpBound = false;
+  function bindDecisionJump() {
+    const strip = document.querySelector(".decision-strip");
+    if (!strip || decJumpBound) return;
+    decJumpBound = true;
+    strip.tabIndex = 0;
+    strip.addEventListener("keydown", e => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        strip.click();
+      }
+    });
+    strip.addEventListener("contextmenu", e => {
+      const pill = e.target.closest(".try-pill.goto");
+      if (!pill) return;
+      e.preventDefault();
+      navigator.clipboard?.writeText(pill.dataset.model || pill.dataset.prov).then(() => toast(`模型已复制：${pill.dataset.model}`));
+    });
+    strip.addEventListener("click", e => {
+      const pill = e.target.closest(".try-pill.goto");
+      if (pill) {
+        const prov = pill.dataset.prov;
+        const card = document.querySelector(`.quota-item.goto[data-prov="${CSS.escape(prov)}"]`);
+        if (card) { card.scrollIntoView({ behavior: "smooth", block: "nearest" }); card.classList.add("pulse"); setTimeout(() => card.classList.remove("pulse"), 1200); }
+        else toast("配额卡无此 provider");
+        return;
+      }
+      const dec = effectiveDecision();
+      const sid = dec && dec.session && dec.session.id;
+      if (!sid) return;
+      const card = document.querySelector(`.session-card[data-session="${CSS.escape(sid)}"]`);
+      if (!card) { toast("该会话不在当前列表"); return; }
+      state.selectedSession = sid;
+      state.filter = null;
+      renderSessions(); renderRouteStage(); renderDecision();
+      card.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      toast(`已定位：${dec.session.title || sid}`);
+    });
   }
 
   function renderStatus() {
@@ -1783,6 +1966,7 @@
     renderTrend();
     renderDonut();
     renderStatus();
+    (window.Obs && window.Obs.hooks.afterTick || []).forEach(fn => { try { fn(apiObj, completed); } catch (_) {} });
   }
 
   function spawnSession() {
@@ -1906,6 +2090,47 @@
       if (state.mode === "live") connectLive(true);
     });
 
+    $("#rail-favs").addEventListener("click", e => {
+      const b = e.target.closest(".fav-btn[data-fav-view]");
+      if (!b) return;
+      if (state.tour) stopTour(true);
+      setHeroMode(b.dataset.favView);
+    });
+
+    // Right-click a rail fav → remove it from favorites without opening the menu.
+    $("#rail-favs").addEventListener("contextmenu", e => {
+      const b = e.target.closest(".fav-btn[data-fav-view]");
+      if (!b) return;
+      e.preventDefault();
+      toggleFavorite(b.dataset.favView);
+    });
+    // ↑↓ on the rail → move between favs and switch views.
+    $("#rail-favs").tabIndex = 0;
+    $("#rail-favs").addEventListener("keydown", e => {
+      const btns = [...document.querySelectorAll("#rail-favs .fav-btn")];
+      if (!btns.length) return;
+      const cur = btns.findIndex(b => b.classList.contains("kb-focus"));
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        e.preventDefault();
+        const next = e.key === "ArrowDown" ? Math.min(btns.length - 1, cur + 1) : Math.max(0, cur < 0 ? 0 : cur - 1);
+        btns.forEach((b, i) => b.classList.toggle("kb-focus", i === next));
+      }
+      if (e.key === "Enter" && cur >= 0) btns[cur]?.click();
+      if (e.key === "Escape") btns.forEach(b => b.classList.remove("kb-focus"));
+    });
+
+    // Double-click a rail fav → make it the startup view (unless ?view= is set).
+    $("#rail-favs").addEventListener("dblclick", e => {
+      const b = e.target.closest(".fav-btn[data-fav-view]");
+      if (!b) return;
+      const id = b.dataset.favView;
+      try {
+        localStorage.setItem("magpie.defaultView", id);
+        toast(`默认视图：${viewMeta(id).title} · 下次打开直达`);
+      } catch (_) {}
+      renderRailFavs();
+    });
+
     $("#view-picker").addEventListener("click", e => {
       e.stopPropagation();
       toggleViewMenu();
@@ -1979,16 +2204,57 @@
       renderSessions();
       renderRouteStage();
       renderDecision();
+      const qs = $("#log-search");
+      if (state.selectedSession) {
+        if (qs) qs.value = id;
+        state.logQuery = id;
+      } else {
+        if (qs) qs.value = "";
+        state.logQuery = "";
+      }
+      renderLogs();
       if (state.selectedSession) {
         const s = selectedSession();
         if (s) toast(`正在查看：${s.title}`);
       }
     });
     $("#session-list").addEventListener("keydown", e => {
+      const cards = [...document.querySelectorAll(".session-card")];
+      const cur = cards.findIndex(c => c.classList.contains("kb-focus"));
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        e.preventDefault();
+        const next = e.key === "ArrowDown" ? Math.min(cards.length - 1, cur + 1) : Math.max(0, cur < 0 ? 0 : cur - 1);
+        cards.forEach((c, i) => c.classList.toggle("kb-focus", i === next));
+        cards[next]?.scrollIntoView({ block: "nearest" });
+        return;
+      }
       if (e.key === "Enter" || e.key === " ") {
-        const card = e.target.closest(".session-card");
+        const card = cur >= 0 ? cards[cur] : e.target.closest(".session-card");
         if (card) { e.preventDefault(); card.click(); }
       }
+      if (e.key === "Escape") cards.forEach(c => c.classList.remove("kb-focus"));
+    });
+
+    // Right-click a session card → copy its id to clipboard (session↔log
+    // searches, support tickets). Long-press on touch also lands here.
+    $("#session-list").addEventListener("contextmenu", e => {
+      const card = e.target.closest(".session-card");
+      if (!card) return;
+      e.preventDefault();
+      const id = card.dataset.session;
+      navigator.clipboard?.writeText(id).then(() => toast(`session id 已复制：${id}`));
+    });
+
+    // Double-click a session card → copy its try chain summary
+    // (provider/model ✓✕ trail) for bug reports.
+    $("#session-list").addEventListener("dblclick", e => {
+      const card = e.target.closest(".session-card");
+      if (!card) return;
+      const s = (state.data.sessions || []).concat(state.data.recent || []).find(x => x.id === card.dataset.session);
+      if (!s) return;
+      const tries = (s.tries || []).map(t => `${D.providerMeta(t.provider).name}/${t.model.split("/").pop()} ${t.state === "ok" ? "✓" : t.state === "fail" ? "✕" : "…"}`).join(" → ");
+      const txt = `${s.title} | ${s.tokens ? fmtTokens(s.tokens) + " tok" : "—"} | ${tries || s.model}`;
+      navigator.clipboard?.writeText(txt).then(() => toast("tries 摘要已复制"));
     });
 
     $$(".mini-tab[data-session-tab]").forEach(b => b.addEventListener("click", () => {
@@ -1996,6 +2262,26 @@
       $$(".mini-tab[data-session-tab]").forEach(x => x.classList.toggle("active", x === b));
       renderSessions();
     }));
+
+    // Right-click the hero card → toggle its favorite slot on the rail.
+    $(".hero").addEventListener("contextmenu", e => {
+      if (e.target.closest("button, a, input, select, .decision-strip, .attn-item")) return;
+      e.preventDefault();
+      toggleFavorite(state.heroMode);
+    });
+
+    // Double-click the hero title → copy the view's name.
+    $("#hero-title").addEventListener("dblclick", () => {
+      const meta = viewMeta(state.heroMode);
+      navigator.clipboard?.writeText(meta.title).then(() => toast(`视图名已复制：${meta.title}`));
+    });
+
+    // Double-click the decision strip title → copy the session title.
+    $("#decision-title").addEventListener("dblclick", e => {
+      e.stopPropagation();
+      const t = $("#decision-title").textContent.trim();
+      if (t && t !== "等待请求") navigator.clipboard?.writeText(t).then(() => toast(`标题已复制：${t}`));
+    });
 
     $("#route-stage").addEventListener("click", e => {
       const radarNode = e.target.closest(".radar-node");
@@ -2075,7 +2361,8 @@
       if (e.key === " ") { e.preventDefault(); $("#demo-toggle").click(); }
       if (e.key.toLowerCase() === "t") { e.preventDefault(); $("#theme-toggle").click(); }
       if (e.key.toLowerCase() === "v" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); toggleViewMenu(); }
-      if (e.key.toLowerCase() === "r" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); randomView(); }
+      if (e.key.toLowerCase() === "r" && e.shiftKey && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); randomView(); }
+      else if (e.key.toLowerCase() === "r" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); (window.Obs && window.Obs.onKeyR ? window.Obs.onKeyR(e) : randomView()); }
       if (e.key.toLowerCase() === "g" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); if (state.tour) stopTour(); else { closeViewMenu(); startTour(); } }
       if (e.key.toLowerCase() === "f" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); toggleFavorite(state.heroMode); }
       if (e.key === "?") { e.preventDefault(); toggleHelp(); }
@@ -2109,6 +2396,7 @@
         });
       }
     }, 1000);
+    (window.Obs && window.Obs.hooks.bind || []).forEach(fn => { try { fn(apiObj); } catch (_) {} });
   }
 
   /* ----------------------------------------------------------------- live --- */
@@ -2272,7 +2560,8 @@
 
   /* ------------------------------------------------------------------ init --- */
   function init() {
-    try { console.info("%c Magpie Observatory v0.18.0 · twenty-one views · 7 styles · layout settings", "color:#8b7cf6;font-weight:bold"); } catch (_) {}
+    try { console.info("%c Magpie Observatory v0.78.0 · twenty-five views · 7 styles · layout settings", "color:#8b7cf6;font-weight:bold"); } catch (_) {}
+    (window.Obs && window.Obs.hooks.init || []).forEach(fn => { try { fn(apiObj); } catch (_) {} });
     try {
       const hostTheme = new URLSearchParams(location.search).get("hostTheme");
       if (hostTheme === "light" || hostTheme === "dark") {
@@ -2291,6 +2580,7 @@
     syncStyleMenu();
     syncSettingsMenu();
     buildViewMenu();
+    renderRailFavs();
     computeView();
     renderAll();
     bindEvents();
@@ -2315,6 +2605,17 @@
     // A small delayed redraw catches web-font/layout settling.
     setTimeout(() => { renderTrend(); drawWires(); }, 120);
   }
+
+  /* -------------------------------------------------------------- api ------ */
+  // The surface app-plus.js builds on. Kept tiny and stable.
+  window.Obs = window.Obs || { hooks: { afterRender: [], afterTick: [], bind: [], init: [] }, game: {} };
+  var apiObj = {
+    state, toast, setHeroMode, renderAll, fmtTokens, fmtMoney, fmtReset,
+    computeView, drawWires, randomView, startTour, stopTour, connectLive,
+    apiHeaders, viewMeta, providerMeta: D.providerMeta, agentMeta: D.agentMeta,
+    agentIcon, providerIcon, esc, clamp
+  };
+  window.Obs.api = apiObj;
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
   else init();

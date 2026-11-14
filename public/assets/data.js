@@ -450,6 +450,8 @@
     if (liveTrace.seq) params.set("since", String(liveTrace.seq));
     if (liveQuota.token) params.set("qh", liveQuota.token);
     if (liveRequests.cursor) params.set("rq", liveRequests.cursor);
+    const gw = (typeof localStorage !== "undefined") && localStorage.getItem("magpie.gw");
+    if (gw) params.set("gw", gw);
     const qs = params.toString();
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), 8000);

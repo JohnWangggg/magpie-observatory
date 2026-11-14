@@ -1,0 +1,30 @@
+/* mandala.css — 曼陀罗 */
+
+.md-wrap { height: 100%; display: flex; flex-direction: column; min-height: 0; }
+.md-legend {
+  padding: 0 6px 6px; font-size: 10px; color: var(--dim);
+  display: flex; gap: 10px; flex: 0 0 auto; flex-wrap: wrap; align-items: center;
+}
+.md-legend .ml-item { display: flex; align-items: center; gap: 4px; }
+.md-legend .ml-item i { width: 6px; height: 6px; border-radius: 50%; }
+.md-legend .ml-item.bad { color: #f26d7f; }
+.md-legend .ml-tip { margin-left: auto; font-size: 9px; opacity: .6; }
+
+.md-svg { flex: 1; width: 100%; min-height: 0; }
+
+.md-petal { animation: md-bloom .6s ease-out both; }
+.md-petal.broken { opacity: .5; }
+.md-petal:hover ellipse { opacity: 1; }
+.md-try { animation: md-spin 4s linear infinite; transform-origin: center; transform-box: fill-box; }
+.md-bindu { animation: md-pulse 3s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+.md-ring { animation: md-spin 12s linear infinite; transform-origin: center; transform-box: fill-box; }
+
+@keyframes md-bloom { from { opacity: 0; } to { opacity: 1; } }
+@keyframes md-spin { to { transform: rotate(360deg); } }
+@keyframes md-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+
+.md-empty { height: 100%; display: flex; align-items: center; justify-content: center; color: var(--dim); font-size: 13px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .md-petal, .md-try, .md-bindu, .md-ring { animation-duration: .001ms !important; }
+}

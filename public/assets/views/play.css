@@ -1,0 +1,236 @@
+/* ==========================================================================
+   Phase 4 — play view (Westworld dial + call stream + combo)
+   ========================================================================== */
+.view-play {
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(0, 1.4fr);
+  gap: 18px;
+  height: 100%;
+  min-height: 0;
+}
+.play-dial-wrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+}
+.play-dial {
+  width: min(100%, 340px);
+  height: auto;
+  flex: 0 0 auto;
+  filter: drop-shadow(0 0 24px rgba(127, 243, 255, .08));
+}
+.play-tick {
+  stroke: #8b7cf6;
+  stroke-width: 1.5;
+  opacity: .16;
+  transition: opacity .12s linear, stroke-width .12s linear;
+}
+.play-needle-g {
+  transform-origin: 200px 200px;
+  transition: none;
+}
+.play-needle-tip {
+  filter: drop-shadow(0 0 8px var(--accent));
+}
+.play-hub-ring {
+  fill: color-mix(in srgb, var(--card-2) 78%, transparent);
+  stroke: var(--line-2);
+  stroke-width: 1.5;
+}
+.play-hub-label {
+  font: 700 11px var(--mono);
+  fill: var(--muted);
+  letter-spacing: .18em;
+}
+.play-hub-num {
+  font: 800 34px var(--num);
+  fill: var(--text);
+}
+.play-hub-mult {
+  font: 600 12px var(--mono);
+  fill: var(--violet);
+}
+.play-dial-foot {
+  margin-top: 14px;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-family: var(--mono);
+}
+.play-foot-label {
+  font-size: 10px;
+  letter-spacing: .16em;
+  color: var(--muted);
+}
+.play-foot-num {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--text);
+}
+/* right column ----------------------------------------------------------- */
+.play-right {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 0;
+  min-width: 0;
+}
+.play-score {
+  border: 1px solid var(--line-2);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--card-2) 64%, transparent);
+  padding: 12px 16px;
+}
+.play-score-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.play-judge {
+  font: 800 30px var(--num);
+  letter-spacing: .04em;
+  min-width: 5.5ch;
+  transition: color .18s;
+}
+.judge-flash {
+  animation: judgeFlash .5s cubic-bezier(.34, 1.56, .64, 1);
+}
+@keyframes judgeFlash {
+  0% { transform: scale(1.35); filter: drop-shadow(0 0 18px currentColor); }
+  100% { transform: scale(1); }
+}
+.play-combo-box,
+.play-best-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.play-combo-label,
+.play-best-label {
+  font: 700 9px var(--mono);
+  letter-spacing: .16em;
+  color: var(--muted);
+}
+.play-combo-num b {
+  font: 800 26px var(--num);
+  color: var(--accent);
+}
+.play-combo-num small {
+  font: 600 12px var(--mono);
+  color: var(--violet);
+  margin-left: 4px;
+}
+.play-best-num {
+  font: 700 20px var(--num);
+  color: var(--text-2);
+}
+.play-judge-dots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  margin-top: 12px;
+  max-height: 20px;
+  overflow: hidden;
+}
+.play-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  opacity: .85;
+}
+/* call stream ------------------------------------------------------------- */
+.play-stream-wrap {
+  flex: 1;
+  min-height: 0;
+  border: 1px solid var(--line-2);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--card-2) 52%, transparent);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.play-stream-head {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 14px 8px;
+  font: 700 10px var(--mono);
+  letter-spacing: .16em;
+  color: var(--muted);
+  border-bottom: 1px solid var(--line);
+}
+.play-stream {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 10px;
+  font: 12px var(--mono);
+}
+.play-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 6px;
+  border-radius: 6px;
+  line-height: 1.5;
+  animation: lineIn .22s ease;
+}
+.play-line.miss {
+  background: color-mix(in srgb, var(--red) 8%, transparent);
+}
+.play-line-judge {
+  width: 14px;
+  flex: 0 0 auto;
+  font-weight: 800;
+}
+.play-line-tool {
+  color: var(--accent);
+  font-weight: 600;
+  min-width: 5ch;
+}
+.play-line-arrow { color: var(--muted); }
+.play-line-target {
+  font-weight: 600;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.play-line-model {
+  color: var(--muted);
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.play-line-ms,
+.play-line-tok {
+  flex: 0 0 auto;
+  color: var(--text-2);
+}
+@keyframes lineIn {
+  from { opacity: 0; transform: translateX(-8px); }
+  to { opacity: 1; transform: none; }
+}
+@media (max-width: 1100px) {
+  .view-play { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+  .play-dial { width: min(100%, 240px); }
+}
+
+/* PERFECT — golden pulse on the dial hub */
+.play-dial-wrap.perfect-flash .play-hub-ring {
+  stroke: #fbbf24;
+  filter: drop-shadow(0 0 20px #fbbf24);
+}
+.play-dial-wrap.perfect-flash .play-hub-num {
+  fill: #fbbf24;
+}
+
+/* Phase 7 — stepped call line */
+.play-line.stepped {
+  background: linear-gradient(90deg, rgba(139,124,246,.22), transparent 70%);
+  box-shadow: inset 0 0 0 1px rgba(139,124,246,.35), 0 0 18px -6px rgba(139,124,246,.45);
+}

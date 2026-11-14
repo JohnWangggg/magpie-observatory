@@ -1,0 +1,21 @@
+/* ==========================================================================
+   Magpie Observatory — hero view: 夜航 (STELLAR DRIFT)
+   The ambient starfield: canvas fills the whole stage, no panels, no chrome.
+   ========================================================================== */
+
+.stellar-host {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.stellar-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* The stellar view wants the stage to breathe — kill the default padding. */
+.route-stage:has(.stellar-host:not([hidden])) { padding: 0; }
+.route-stage:has(.stellar-host:not([hidden])) .stage-view { position: absolute; inset: 0; }

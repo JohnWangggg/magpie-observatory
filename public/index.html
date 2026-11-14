@@ -7,6 +7,7 @@
 <title>Magpie Observatory · 喜鹊观测台</title>
 <link rel="icon" href="assets/icon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="assets/app.css">
+<link rel="manifest" href="manifest.webmanifest">
 <link rel="stylesheet" href="assets/views/waterfall.css">
 <link rel="stylesheet" href="assets/views/swarm.css">
 <link rel="stylesheet" href="assets/views/treemap.css">
@@ -22,7 +23,26 @@
 <link rel="stylesheet" href="assets/views/chips.css">
 <link rel="stylesheet" href="assets/views/factory.css">
 <link rel="stylesheet" href="assets/views/bees.css">
-</head>
+<link rel="stylesheet" href="assets/views/stellar.css">
+<link rel="stylesheet" href="assets/views/play.css">
+<link rel="stylesheet" href="assets/views/burn.css">
+<link rel="stylesheet" href="assets/views/candle.css">
+<link rel="stylesheet" href="assets/views/gauge.css">
+<link rel="stylesheet" href="assets/views/bloom.css">
+<link rel="stylesheet" href="assets/views/petri.css">
+<link rel="stylesheet" href="assets/views/aurora.css">
+<link rel="stylesheet" href="assets/views/constellation.css">
+<link rel="stylesheet" href="assets/views/tide.css">
+<link rel="stylesheet" href="assets/views/prism.css">
+<link rel="stylesheet" href="assets/views/terrarium.css">
+<link rel="stylesheet" href="assets/views/echo.css">
+<link rel="stylesheet" href="assets/views/mosaic.css">
+<link rel="stylesheet" href="assets/views/origami.css">
+<link rel="stylesheet" href="assets/views/firefly.css">
+<link rel="stylesheet" href="assets/views/mandala.css">
+<link rel="stylesheet" href="assets/views/quilt.css">
+<link rel="stylesheet" href="assets/views/vortex.css">
+<link rel="stylesheet" href="assets/views/kaleido.css">
 <body>
 <svg class="sprite" aria-hidden="true">
   <symbol id="i-overview" viewBox="0 0 24 24"><path d="M4 13h6V4H4v9Zm0 7h6v-4H4v4Zm10 0h6v-9h-6v9Zm0-16v4h6V4h-6Z"/></symbol>
@@ -38,6 +58,7 @@
   <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7"/></symbol>
   <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></symbol>
   <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></symbol>
+ <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></symbol>
   <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
   <symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="5.5" rx="8" ry="3"/><path d="M4 5.5v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6M4 11.5v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></symbol>
   <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M5 12h4l2-7 3 14 2-7h3"/></symbol>
@@ -53,6 +74,11 @@
   <symbol id="i-pulse" viewBox="0 0 24 24"><path d="M3 12h4l2-6 4 12 2-6h6"/></symbol>
   <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 4 2.35 4.76 5.25.76-3.8 3.7.9 5.23L12 16l-4.7 2.45.9-5.23-3.8-3.7 5.25-.76L12 4Z"/></symbol>
   <symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0 0 18h1.3a2.6 2.6 0 0 0 0-5.2H12a2 2 0 0 1 0-4h4.2A4.8 4.8 0 0 0 21 7.2 9 9 0 0 0 12 3Z"/><circle cx="7.5" cy="9" r="1"/><circle cx="10" cy="6.4" r="1"/><circle cx="14" cy="6.4" r="1"/></symbol>
+  <symbol id="i-expand" viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></symbol>
+  <symbol id="i-cmd" viewBox="0 0 24 24"><path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3Z"/></symbol>
+  <symbol id="i-flame" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5Z"/></symbol>
+  <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3Zm7 11 1 3 3 1-3 1-1 3-1-3-3-1 3-1 1-3ZM5 15l.8 2.2L8 18l-2.2.8L5 21l-.8-2.2L2 18l2.2-.8L5 15Z"/></symbol>
+  <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M8 21h8m-4-4v4M7 4h10v6a5 5 0 0 1-10 0V4Z"/><path d="M7 6H4a2 2 0 0 0 2 4h1m10-4h3a2 2 0 0 1-2 4h-1"/></symbol>
 </svg>
 
 <div class="app">
@@ -67,12 +93,14 @@
       <button class="nav-item" data-view="usage" title="用量"><svg><use href="#i-chart"/></svg><span>用量</span></button>
       <button class="nav-item" data-view="sessions" title="会话"><svg><use href="#i-stack"/></svg><span>会话</span></button>
       <button class="nav-item" data-view="providers" title="服务商"><svg><use href="#i-server"/></svg><span>服务商</span></button>
+      <button class="nav-item" id="replay-toggle" title="回放最近3分钟"><svg><use href="#i-clock"/></svg><span>回放</span></button>
     </nav>
+    <div class="rail-favs" id="rail-favs" hidden aria-label="收藏的视图"></div>
     <div class="rail-foot">
       <button class="nav-item" id="theme-toggle" title="明暗模式"><svg class="icon-moon"><use href="#i-moon"/></svg><svg class="icon-sun"><use href="#i-sun"/></svg><span>明暗</span></button>
       <button class="nav-item" id="style-toggle" title="界面风格"><svg><use href="#i-palette"/></svg><span>风格</span></button>
       <button class="nav-item" id="settings-toggle" title="布局与动效"><svg><use href="#i-settings"/></svg><span>设置</span></button>
-      <div class="rail-version">v0.18.0 <i></i> plugin</div>
+      <div class="rail-version">v0.78.0 <i></i> plugin</div>
     </div>
   </aside>
 
@@ -90,6 +118,10 @@
           <span id="conn-label">演示数据</span>
           <span class="conn-host" id="conn-host">mock://local</span>
         </button>
+        <button class="xp-chip" id="xp-chip" title="等级与经验 · 点击看战绩">
+          <svg class="xp-ring" viewBox="0 0 36 36"><circle class="xp-ring-bg" cx="18" cy="18" r="15.5"/><circle class="xp-ring-fill" id="xp-ring-fill" cx="18" cy="18" r="15.5"/></svg>
+          <span class="xp-copy"><b id="xp-level">Lv 0</b><small id="xp-name">观测员</small></span>
+        </button>
         <div class="seg" id="range-seg" role="group" aria-label="时间范围">
           <button data-range="today" class="active">今天</button>
           <button data-range="7d">7 天</button>
@@ -97,12 +129,13 @@
         </div>
         <button class="icon-btn" id="demo-toggle" title="暂停 / 继续实时演示" aria-label="暂停实时演示"><svg><use href="#i-pause"/></svg></button>
         <button class="icon-btn" id="refresh" title="刷新" aria-label="刷新"><svg><use href="#i-refresh"/></svg></button>
+        <button class="icon-btn" id="cmd-open" title="命令面板（⌘K）" aria-label="命令面板"><svg><use href="#i-cmd"/></svg></button>
       </div>
     </header>
 
     <main class="grid" id="grid">
       <!-- 实时路由 -->
-      <section class="card hero" aria-labelledby="hero-title">
+      <section class="card hero" data-slot="hero" aria-labelledby="hero-title">
         <div class="card-head hero-head">
           <div>
             <div class="eyebrow"><span class="live-ring"></span> LIVE ROUTING</div>
@@ -114,6 +147,7 @@
               <span class="vp-copy"><b id="vp-title">实时路由</b><small id="vp-eyebrow">LIVE ROUTING</small></span>
               <svg class="vp-chevron"><use href="#i-chevron"/></svg>
             </button>
+            <button class="cinema-btn" id="cinema-toggle" type="button" title="影院模式（O）· 全屏只看这一个视图" aria-label="进入影院模式"><svg><use href="#i-expand"/></svg></button>
             <div class="hero-stat"><b id="hero-requests">0</b><span>请求</span></div>
             <div class="hero-stat warn"><b id="hero-fallbacks">0</b><span>改道</span></div>
             <div class="hero-stat bad"><b id="hero-errors">0</b><span>错误</span></div>
@@ -159,6 +193,26 @@
           <div class="stage-view" id="view-chips" hidden></div>
           <div class="stage-view" id="view-factory" hidden></div>
           <div class="stage-view" id="view-bees" hidden></div>
+          <div class="stage-view" id="view-stellar" hidden></div>
+          <div class="stage-view" id="view-play" hidden></div>
+          <div class="stage-view" id="view-burn" hidden></div>
+          <div class="stage-view" id="view-candle" hidden></div>
+          <div class="stage-view" id="view-gauge" hidden></div>
+          <div class="stage-view" id="view-bloom" hidden></div>
+          <div class="stage-view" id="view-petri" hidden></div>
+          <div class="stage-view" id="view-aurora" hidden></div>
+          <div class="stage-view" id="view-constellation" hidden></div>
+          <div class="stage-view" id="view-tide" hidden></div>
+          <div class="stage-view" id="view-prism" hidden></div>
+          <div class="stage-view" id="view-terrarium" hidden></div>
+          <div class="stage-view" id="view-echo" hidden></div>
+          <div class="stage-view" id="view-mosaic" hidden></div>
+          <div class="stage-view" id="view-origami" hidden></div>
+          <div class="stage-view" id="view-firefly" hidden></div>
+          <div class="stage-view" id="view-mandala" hidden></div>
+          <div class="stage-view" id="view-quilt" hidden></div>
+          <div class="stage-view" id="view-vortex" hidden></div>
+          <div class="stage-view" id="view-kaleido" hidden></div>
         </div>
         <div class="decision-strip">
           <div class="decision-icon"><svg><use href="#i-zap"/></svg></div>
@@ -168,10 +222,23 @@
           </div>
           <div class="decision-tries" id="decision-tries"></div>
         </div>
+        <div class="cinema-hud" aria-hidden="true">
+          <div class="ch-left"><span class="live-ring"></span><b id="ch-view">实时路由</b><span class="ch-sub" id="ch-eyebrow">LIVE ROUTING</span></div>
+          <div class="ch-right"><span id="ch-stats">—</span><kbd>Esc</kbd><span class="ch-hint">退出</span></div>
+        </div>
+        <div class="replay-bar" id="replay-bar" hidden>
+          <button class="replay-x" id="replay-x" type="button" title="退出回放（R）" aria-label="退出回放">×</button>
+          <span class="replay-label">回放</span>
+          <button class="replay-x" id="replay-play" type="button" title="自动播放" aria-label="自动播放">▶</button>
+          <button class="replay-x" id="replay-share" type="button" title="复制回放链接" aria-label="复制回放链接">⤴</button>
+          <input type="range" id="replay-range" min="0" max="0" step="1" value="0">
+          <span class="replay-time" id="replay-time">--:--:--</span>
+        </div>
+        <div class="attn-strip" id="attn-strip" aria-label="注意力条" hidden></div>
       </section>
 
       <!-- 实时会话 -->
-      <aside class="card live-panel" aria-labelledby="live-title">
+      <aside class="card live-panel" data-slot="live" aria-labelledby="live-title">
         <div class="card-head">
           <div class="eyebrow"><span class="pulse-dot"></span> SESSIONS</div>
           <h2 id="live-title">实时会话 <span class="count" id="active-count">0</span></h2>
@@ -188,10 +255,10 @@
       </aside>
 
       <!-- KPI -->
-      <section class="kpi-row" id="kpi-row" aria-label="核心指标"></section>
+      <section class="kpi-row" data-slot="kpi" id="kpi-row" aria-label="核心指标"></section>
 
       <!-- 24h -->
-      <section class="card chart-card" aria-labelledby="trend-title">
+      <section class="card chart-card" data-slot="chart" aria-labelledby="trend-title">
         <div class="card-head">
           <div><div class="eyebrow">THROUGHPUT</div><h2 id="trend-title">24 小时用量</h2></div>
           <div class="head-tools">
@@ -210,7 +277,7 @@
       </section>
 
       <!-- 额度 -->
-      <section class="card quota-card" aria-labelledby="quota-title">
+      <section class="card quota-card" data-slot="quota" aria-labelledby="quota-title">
         <div class="card-head">
           <div><div class="eyebrow">ALLOWANCES</div><h2 id="quota-title">账号额度</h2></div>
           <span class="stamp" id="quota-stamp">刚刚</span>
@@ -220,7 +287,7 @@
       </section>
 
       <!-- 模型分布 -->
-      <section class="card donut-card" aria-labelledby="model-title">
+      <section class="card donut-card" data-slot="donut" aria-labelledby="model-title">
         <div class="card-head">
           <div><div class="eyebrow">MIX</div><h2 id="model-title">模型占比</h2></div>
           <span class="stamp">今日</span>
@@ -235,7 +302,7 @@
       </section>
 
       <!-- 热力图 -->
-      <section class="card heat-card" aria-labelledby="heat-title">
+      <section class="card heat-card" data-slot="heat" aria-labelledby="heat-title">
         <div class="card-head">
           <div><div class="eyebrow">RHYTHM</div><h2 id="heat-title">活跃热力</h2></div>
           <span class="stamp">53 周</span>
@@ -248,7 +315,7 @@
       </section>
 
       <!-- 请求日志 -->
-      <section class="card table-card" aria-labelledby="log-title">
+      <section class="card table-card" data-slot="table" aria-labelledby="log-title">
         <div class="card-head">
           <div><div class="eyebrow">REQUEST LOG</div><h2 id="log-title">最近请求</h2></div>
           <div class="head-tools">
@@ -347,9 +414,31 @@
       <button data-motion="off">关闭</button>
     </div>
   </div>
+  <div class="setting-group">
+    <label>体验</label>
+    <div class="seg setting-seg" id="extras-seg">
+      <button data-extra="layout-edit" title="拖拽重排 / 隐藏卡片">排布</button>
+      <button data-extra="notify" title="配额告警 / 错误推送系统通知">通知</button>
+      <button data-extra="sound" title="请求完成 / 失败的极轻提示音">声音</button>
+    </div>
+    <small>排布：拖动卡片换位置、点 × 隐藏；通知：阈值告警走系统通知；声音：默认关。</small>
+    <div id="notify-rules" hidden>
+      <div class="rule-row"><span>配额告警 ≥</span><input id="rule-quota" type="range" min="50" max="99" step="1" value="88"><b id="rule-quota-v">88%</b></div>
+      <div class="rule-row"><span>失败条数 ≥</span><input id="rule-err" type="range" min="1" max="20" step="1" value="5"><b id="rule-err-v">5 条</b></div>
+    </div>
+  </div>
+  <div class="setting-group">
+    <label>网关 <code id="gw-current" style="float:right;font-size:10px;color:var(--muted)">—</code></label>
+    <div style="display:flex;gap:6px">
+      <input id="gw-input" type="text" placeholder="127.0.0.1:3425" style="flex:1;min-width:0;padding:5px 10px;border-radius:8px;border:1px solid var(--line);background:var(--card-2);color:var(--text);font:12px var(--mono)">
+      <button class="seg-btn" id="gw-save" type="button" style="flex:0 0 auto">连接</button>
+      <button class="seg-btn" id="gw-clear" type="button" style="flex:0 0 auto" title="用默认本地网关">自动</button>
+    </div>
+    <small>留空/点"自动"=按 gateway.json 探测；填地址 = 锁定该实例（多网关、家里/公司）。</small>
+  </div>
 </div>
 <div class="view-menu" id="view-menu" hidden role="dialog" aria-label="切换视图">
-  <div class="vm-head"><div><b>切换视图</b><small>21 VIEWS</small></div><button class="vm-close" id="view-menu-close" type="button" aria-label="关闭"><svg><use href="#i-x"/></svg></button></div>
+  <div class="vm-head"><div><b>切换视图</b><small>41 VIEWS</small></div><button class="vm-close" id="view-menu-close" type="button" aria-label="关闭"><svg><use href="#i-x"/></svg></button></div>
   <label class="vm-search"><svg><use href="#i-search"/></svg><input id="view-search" type="search" placeholder="搜索视图 / 分组 / 关键词" autocomplete="off"></label>
   <div class="vm-groups" id="vm-groups"></div>
   <div class="vm-none" id="vm-none" hidden>没有匹配的视图</div>
@@ -358,6 +447,7 @@
       <button class="vm-random" id="vm-random" type="button"><svg><use href="#i-refresh"/></svg>随机一个</button>
       <button class="vm-tour" id="vm-tour" type="button"><svg><use href="#i-play"/></svg>巡游</button>
       <button class="vm-help" id="vm-help" type="button"><svg><use href="#i-pulse"/></svg>快捷键</button>
+      <button class="vm-cinema" id="vm-cinema" type="button"><svg><use href="#i-expand"/></svg>影院</button>
     </div>
     <span>V 打开 · Esc 关闭</span>
   </div>
@@ -366,7 +456,8 @@
   <div class="hm-head"><div><b>快捷键</b><small>KEYBOARD</small></div><button class="hm-close" id="help-close" type="button" aria-label="关闭"><svg><use href="#i-x"/></svg></button></div>
   <div class="hm-grid">
     <kbd>V</kbd><span>切换视图</span>
-    <kbd>R</kbd><span>随机视图</span>
+    <kbd>Shift R</kbd><span>随机视图</span>
+    <kbd>R</kbd><span>回放最近3分钟</span>
     <kbd>/</kbd><span>搜索请求</span>
     <kbd>Space</kbd><span>暂停 / 继续</span>
     <kbd>T</kbd><span>明暗模式</span>
@@ -374,8 +465,25 @@
     <kbd>F</kbd><span>收藏当前视图</span>
     <kbd>?</kbd><span>打开 / 关闭帮助</span>
     <kbd>Esc</kbd><span>关闭弹层</span>
+    <kbd>O</kbd><span>影院模式</span>
+    <kbd>⌘K</kbd><span>命令面板</span>
   </div>
   <p>巡游按钮在视图菜单底部：间隔在 设置 → 巡游间隔 里选 5 / 10 / 30 秒。</p>
+</div>
+<div class="palette" id="cmd-palette" hidden role="dialog" aria-label="命令面板">
+  <div class="palette-box">
+    <label class="palette-search"><svg><use href="#i-search"/></svg><input id="palette-input" type="search" placeholder="输入命令或搜索视图、风格、动作…" autocomplete="off"><kbd>Esc</kbd></label>
+    <div class="palette-list" id="palette-list" role="listbox"></div>
+    <div class="palette-foot"><span>↑↓ 选择 · Enter 执行</span><span>⌘K 随时呼出</span></div>
+  </div>
+</div>
+<div class="digest" id="digest" hidden role="dialog" aria-label="每日摘要">
+  <div class="digest-card">
+    <div class="digest-head"><b>昨日观测报告</b><span id="digest-date">—</span></div>
+    <div class="digest-stats" id="digest-stats"></div>
+    <p class="digest-note" id="digest-note"></p>
+    <div class="digest-foot"><button class="mini-btn" id="digest-close">知道了</button></div>
+  </div>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 <script src="assets/data.js"></script>
@@ -394,6 +502,27 @@
 <script src="assets/views/chips.js"></script>
 <script src="assets/views/factory.js"></script>
 <script src="assets/views/bees.js"></script>
+<script src="assets/views/stellar.js"></script>
+<script src="assets/views/play.js"></script>
+<script src="assets/views/burn.js"></script>
+<script src="assets/views/candle.js"></script>
+<script src="assets/views/gauge.js"></script>
+<script src="assets/views/bloom.js"></script>
+<script src="assets/views/petri.js"></script>
+<script src="assets/views/aurora.js"></script>
+<script src="assets/views/constellation.js"></script>
+<script src="assets/views/tide.js"></script>
+<script src="assets/views/prism.js"></script>
+<script src="assets/views/terrarium.js"></script>
+<script src="assets/views/echo.js"></script>
+<script src="assets/views/mosaic.js"></script>
+<script src="assets/views/origami.js"></script>
+<script src="assets/views/firefly.js"></script>
+<script src="assets/views/mandala.js"></script>
+<script src="assets/views/quilt.js"></script>
+<script src="assets/views/vortex.js"></script>
+<script src="assets/views/kaleido.js"></script>
+<script src="assets/app-plus.js"></script>
 <script src="assets/app.js"></script>
 </body>
 </html>

@@ -1,0 +1,32 @@
+/* bloom.css — 绽放·请求开花 */
+
+.bloom-wrap { height: 100%; display: flex; flex-direction: column; min-height: 0; }
+.bloom-legend {
+  padding: 0 6px 6px; font-size: 10px; color: var(--dim);
+  display: flex; gap: 14px; flex: 0 0 auto; flex-wrap: wrap;
+}
+.bloom-legend .bl-ok { color: #5ad4a6; }
+.bloom-legend .bl-fail { color: #f26d7f; }
+.bloom-legend .bl-tip { margin-left: auto; font-size: 9px; opacity: .6; }
+
+.bloom-svg { flex: 1; width: 100%; min-height: 0; }
+
+.bloom-fl { animation: bloom-grow .8s cubic-bezier(.2,.7,.3,1) both; transform-origin: bottom center; }
+.bloom-fl .bloom-stem { stroke-dasharray: 200; stroke-dashoffset: 200; animation: bloom-stem .6s ease-out both; animation-delay: inherit; }
+.bloom-fl .bloom-head { transform-box: fill-box; transform-origin: center; animation: bloom-pop .7s cubic-bezier(.3,1.4,.4,1) both; animation-delay: inherit; }
+.bloom-petal { transform-box: fill-box; transform-origin: center; }
+.bloom-leaf { transform-box: fill-box; opacity: .55; }
+
+@keyframes bloom-grow { from { opacity: 0; } to { opacity: 1; } }
+@keyframes bloom-stem { to { stroke-dashoffset: 0; } }
+@keyframes bloom-pop { from { transform: scale(0); opacity: 0; } 60% { transform: scale(1.15); } to { transform: scale(1); opacity: 1; } }
+
+.bloom-vine { stroke-linecap: round; }
+.bloom-fl:hover .bloom-head { filter: brightness(1.3); }
+.bloom-fl:hover .bloom-stem { stroke-width: 2.2; }
+
+.bloom-empty { height: 100%; display: flex; align-items: center; justify-content: center; color: var(--dim); font-size: 13px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .bloom-fl, .bloom-fl .bloom-stem, .bloom-fl .bloom-head { animation-duration: .001ms !important; }
+}

@@ -62,7 +62,11 @@ const GATEWAY_FILE = path.join(
 );
 let gateway = { url: "", at: 0 };
 
-async function gatewayBase(force) {
+async function gatewayBase(force, override) {
+  if (override) {
+    const url = /^https?:\/\//i.test(override) ? override.replace(/\/+$/, "") : `http://${override}`;
+    return url;
+  }
   if (ENV_MAGPIE_URL) return ENV_MAGPIE_URL;
   if (!force && gateway.url && Date.now() - gateway.at < 10000) return gateway.url;
   let addr = "";
@@ -79,7 +83,7 @@ async function gatewayBase(force) {
   return url;
 }
 const PERIODS = new Set(["today", "week", "month", "all"]);
-const VERSION = "0.18.0";
+const VERSION = "0.78.0";
 
 const TYPES = {
   ".html": "text/html; charset=utf-8",
@@ -96,8 +100,8 @@ const TYPES = {
   ".woff2": "font/woff2",
 };
 
-async function magpieGet(endpoint, timeout = 2500) {
-  const base = await gatewayBase();
+async function magpieGet(endpoint, timeout = 2500, base = null) {
+  base = base || await gatewayBase();
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), timeout);
   try {
@@ -123,11 +127,11 @@ async function magpieGet(endpoint, timeout = 2500) {
 // cheap to draw but not worth fetching every 2.5s.
 let heatmapFallback = { at: 0, days: [] };
 
-async function usageHeatmap() {
+async function usageHeatmap(base) {
   if (heatmapFallback.days.length && Date.now() - heatmapFallback.at < 300000) {
     return { days: heatmapFallback.days };
   }
-  const all = await magpieGet("/v1/magpie/usage?period=all", 4000);
+  const all = await magpieGet("/v1/magpie/usage?period=all", 4000, base);
   const days = (all.series || []).map(d => ({
     date: String(d.time || "").slice(0, 10),
     calls: d.calls || 0,
@@ -242,12 +246,12 @@ let quotaHistoryCache = { at: 0, body: null, token: "" };
 
 // `token` is a content hash: a client that sends back the hash it already has
 // gets a tiny `{delta:true}` instead of the whole ~59 KB series.
-async function quotaHistory(token) {
+async function quotaHistory(token, base) {
   if (quotaHistoryCache.body && Date.now() - quotaHistoryCache.at < 60000) {
     if (token && token === quotaHistoryCache.token) return { delta: true, token };
     return { ...quotaHistoryCache.body, token: quotaHistoryCache.token };
   }
-  const body = slimQuotaHistory(await magpieGet("/v1/magpie/quotas/history", 4000));
+  const body = slimQuotaHistory(await magpieGet("/v1/magpie/quotas/history", 4000, base));
   const json = JSON.stringify(body);
   const hash = createHash("sha1").update(json).digest("hex").slice(0, 12);
   quotaHistoryCache = { at: Date.now(), body, token: hash };
@@ -260,11 +264,11 @@ async function quotaHistory(token) {
 let traceCache = { seq: 0, routes: [], at: 0 };
 const TRACE_WINDOW = 60;
 
-async function tracePayload(since) {
+async function tracePayload(since, base) {
   const inSync = traceCache.seq > 0 && since === traceCache.seq && Date.now() - traceCache.at < 30000;
   let body = inSync
-    ? await magpieGet(`/v1/magpie/trace?after=${traceCache.seq}`)
-    : await magpieGet("/v1/magpie/trace?after=0");
+    ? await magpieGet(`/v1/magpie/trace?after=${traceCache.seq}`, 2500, base)
+    : await magpieGet("/v1/magpie/trace?after=0", 2500, base);
   const freshSeq = Number(body && body.seq) || 0;
   // A restarted gateway numbers from the other side; recover with a full read.
   let full = !inSync || !freshSeq || freshSeq < traceCache.seq;
@@ -286,8 +290,9 @@ async function tracePayload(since) {
   return { seq, delta: true, routes: added };
 }
 
-export async function snapshot(period = "today", since = 0, qh = "", rq = "") {
+export async function snapshot(period = "today", since = 0, qh = "", rq = "", gw = "") {
   if (!PERIODS.has(period)) period = "today";
+  const base = gw ? await gatewayBase(false, gw) : null;
   const calls = {
     trace: "/v1/magpie/trace?after=0",
     quotas: "/v1/magpie/quotas?kept=1",
@@ -302,20 +307,20 @@ export async function snapshot(period = "today", since = 0, qh = "", rq = "") {
   let requestsBody = null;
   await Promise.all(Object.entries(calls).map(async ([name, endpoint]) => {
     try {
-      if (name === "requests") requestsBody = await magpieGet(endpoint);
-      data[name] = name === "quotaHistory" ? await quotaHistory(qh)
-        : name === "trace" ? await tracePayload(since)
+      if (name === "requests") requestsBody = await magpieGet(endpoint, 2500, base);
+      data[name] = name === "quotaHistory" ? await quotaHistory(qh, base)
+        : name === "trace" ? await tracePayload(since, base)
         : name === "requests" ? (() => {
             const slim = slimRequests(requestsBody);
             return requestsDelta(slim, rq) || { ...slim, cursor: slim.rows && slim.rows.length ? requestKey(slim.rows[0]) : "" };
           })()
-        : await magpieGet(endpoint);
+        : await magpieGet(endpoint, 2500, base);
     }
     catch (err) { errors[name] = err?.message || String(err); }
   }));
   if (!data.heatmap) {
     try {
-      data.heatmap = await usageHeatmap();
+      data.heatmap = await usageHeatmap(base);
       delete errors.heatmap;
     } catch (err) {
       errors.heatmapFallback = err?.message || String(err);
@@ -323,7 +328,7 @@ export async function snapshot(period = "today", since = 0, qh = "", rq = "") {
   }
   return {
     ok: Boolean(data.trace || data.usage || data.quotas),
-    gateway: new URL(await gatewayBase()).host,
+    gateway: new URL(await gatewayBase(false, gw)).host,
     fetchedAt: Date.now(),
     period,
     data,
@@ -368,11 +373,12 @@ async function handler(req, res) {
   }
 
   if (pathname === "/api/health") {
+    const gw = url.searchParams.get("gw") || "";
     try {
-      await magpieGet("/v1/magpie/usage?period=today", 1500);
-      return sent(200, { ok: true, gateway: new URL(await gatewayBase()).host });
+      await magpieGet("/v1/magpie/usage?period=today", 1500, gw ? await gatewayBase(false, gw) : null);
+      return sent(200, { ok: true, gateway: new URL(await gatewayBase(false, gw)).host });
     } catch (err) {
-      return sent(503, { ok: false, gateway: new URL(await gatewayBase()).host, error: err?.message || String(err) });
+      return sent(503, { ok: false, gateway: new URL(await gatewayBase(false, gw)).host, error: err?.message || String(err) });
     }
   }
   if (pathname === "/api/snapshot") {
@@ -380,7 +386,8 @@ async function handler(req, res) {
     const since = Math.max(0, Number(url.searchParams.get("since")) || 0);
     const qh = String(url.searchParams.get("qh") || "").slice(0, 40);
     const rq = String(url.searchParams.get("rq") || "").slice(0, 60);
-    try { return sent(200, await snapshot(period, since, qh, rq)); }
+    const gw = String(url.searchParams.get("gw") || "").slice(0, 80);
+    try { return sent(200, await snapshot(period, since, qh, rq, gw)); }
     catch (err) { return sent(502, { ok: false, error: err?.message || String(err) }); }
   }
   if (pathname === "/api/version") {

@@ -16,9 +16,11 @@ Observatory turns that stream into something you can *watch*:
 - **Live routing** — Agent → Magpie → Provider/Account, with a filled magpie
   carrying the request out and a mirrored outlined magpie bringing the answer
   back. Failed attempts stay visible as “rerouted”.
-- **Twenty-one views** — the nineteen above plus `Factory` and `Bees`.
-- **Four style packs** — `Control`, `Pixel`, `Paper`, `Neon`; each with a light
-  and dark variant. Light/dark and style are independent.
+- **Forty-one views** — one for routing, forty ways to look at the
+  same data: charts, games, ambient fields.
+- **Seven style packs** — `Control`, `Pixel`, `Paper`, `Neon`, `Terminal`,
+  `Blueprint`, `Zine`; each with a light and dark variant. Light/dark and
+  style are independent.
 - **Layout settings** — Auto / One screen / Comfort, density Compact / Standard /
   Spacious, motion Full / Soft / Off.
 - **Quotas** — the shortest window per account in a 3-column ring-card grid
@@ -29,6 +31,36 @@ Observatory turns that stream into something you can *watch*:
   completed requests stay in the rail.
 - **Responsive** — one screen at desktop sizes, a single column with a compact
   rail on phones; the same data, no separate mobile build.
+- **Cinema mode** — `O` fills the window with the current view behind a slim
+  HUD; pair with `G` for a rotating ambient screen on a spare monitor.
+- **Command palette** — `⌘K` jumps to any view, style or action in one box.
+- **Daily digest** — the first open of the day shows yesterday's tokens,
+  calls, streak and top agent; dismissed dates are remembered.
+- **Achievements** — eight badges (streak days, 1M/10M token days, parallel
+  sessions, night owl) unlock with a toast and persist in localStorage.
+- **Attention strip** — a quiet chip rail over the hero's lower edge: quota
+  burn ≥80%, error bursts, your streak and a one-line "today".
+- **Favorites rail** — starred views (`F`) become permanent icons on the left
+  rail, one click to switch.
+- **Mini mode** — `?mode=mini&view=stellar` shrinks the page into a
+  picture-in-picture-ready widget.
+- **PWA** — installable to the home screen via `manifest.webmanifest` +
+  a minimal service worker (network-first, API uncached).
+- **Replay** — `R` freezes the feed into a 3-minute scrubbable timeline;
+  `▶` auto-plays, `⤴` copies a `#replay=` link, and the palette exports a
+  standalone HTML player with the frames embedded.
+- **Share cards** — `⌘K` → 1200×630 PNG exports for today, this week,
+  30 days, and a today-vs-yesterday compare card; `⌘K` → copy a page link
+  that restores view/range/cinema on open.
+- **Weekly report** — `⌘K` → 本周报告 drops a 7-day card with bars,
+  peak day and hottest route.
+- **Play view** — a Westworld dial where every request is a beat:
+  PERFECT/GREAT/GOOD/MISS judgements, combo ×multiplier, `←`/`→` steps
+  through the call stream.
+- **Gateway compare** — `⌘K` → 网关对比 pulls two `/api/snapshot`s
+  (auto-detected vs locked `magpie.gw`) side by side.
+- **XP & achievements** — requests earn XP into a topbar level chip;
+  eight badges + personal records persist across sessions.
 
 ## The mark
 
@@ -96,7 +128,7 @@ MAGPIE_URL=http://127.0.0.1:3425 MAGPIE_KEY=... node preview.mjs
 
 The preview is for development only; the plugin uses the same service internally.
 
-## The twenty-one views
+## The forty-one views
 
 | Route · two-way magpies | Radar · provider ring and quotas |
 | --- | --- |
@@ -139,6 +171,46 @@ The preview is for development only; the plugin uses the same service internally
 | Factory · queued → streaming → done | Bees · sessions around provider hives |
 | --- | --- |
 | ![factory](docs/mode-factory.png) | ![bees](docs/mode-bees.png) |
+
+| Stellar · providers as stars, requests as meteors | Burn · quota windows at pace |
+| --- | --- |
+| ![stellar](docs/mode-stellar.png) | ![burn](docs/mode-burn.png) |
+
+| Candle · hourly throughput as OHLC | Gauge · KPI and quota dials |
+| --- | --- |
+| ![candle](docs/mode-candle.png) | ![gauge](docs/mode-gauge.png) |
+
+| Bloom · requests grow as flowers | Petri · requests as living cells |
+| --- | --- |
+| ![bloom](docs/mode-bloom.png) | ![petri](docs/mode-petri.png) |
+
+| Aurora · requests as light-curtains | Constellation · sessions as star-maps |
+| --- | --- |
+| ![aurora](docs/mode-aurora.png) | ![constellation](docs/mode-constellation.png) |
+
+| Tide · provider waves on a shore | Prism · the stream split by provider |
+| --- | --- |
+| ![tide](docs/mode-tide.png) | ![prism](docs/mode-prism.png) |
+
+| Terrarium · sessions as a glass ecosystem | Echo · ripples on a pond |
+| --- | --- |
+| ![terrarium](docs/mode-terrarium.png) | ![echo](docs/mode-echo.png) |
+
+| Mosaic · requests as wall tiles | Origami · sessions as paper birds |
+| --- | --- |
+| ![mosaic](docs/mode-mosaic.png) | ![origami](docs/mode-origami.png) |
+
+| Firefly · sessions as glowing dots at night | Mandala · sessions as petals |
+| --- | --- |
+| ![firefly](docs/mode-firefly.png) | ![mandala](docs/mode-mandala.png) |
+
+| Quilt · sessions as fabric patches | Vortex · sessions on a spiral |
+| --- | --- |
+| ![quilt](docs/mode-quilt.png) | ![vortex](docs/mode-vortex.png) |
+
+| Kaleido · sessions as 12-fold wedges |
+| --- |
+| ![kaleido](docs/mode-kaleido.png) |
 
 - **Route**: the default. Magpies fly the whole `Agent → Magpie → Provider`
   path; failures remain visible.
@@ -183,21 +255,94 @@ The preview is for development only; the plugin uses the same service internally
   with a reject lane for errors; the belt and parcels animate, the counts are real.
 - **Bees**: providers as hives and sessions as bees; subagents become smaller
   bees, size follows tokens, and hovering a hive highlights its bees.
+- **Play**: a Westworld dial where every request is a beat — rounds arc the
+  token mix, the rim flashes on errors, streaks grow toward an "obsessed" ring.
+- **Candle**: every period as a candlestick — `open` is the previous period's
+  tokens, `close` is this one; green when throughput rose, red when it fell,
+  a dashed MA line, and up/down/streak/peak stats in the legend.
+- **Gauge**: every KPI and quota window as a 270° dial — requests, tokens,
+  cost, success rate, active sessions, in-flight, then one gauge per account
+  window (≤2 per account), needle + arc, green/amber/red risk.
+- **Bloom**: the last requests as a garden — provider = petal colour,
+  tokens = petal count, position = time; failures are buds that never open,
+  a vine trails along the ground.
+- **Petri**: the last requests as cells in a dish — provider = cytoplasm
+  colour, tokens = cell size, live cells pulse and breathe, failures fade to
+  ghosts; newest cluster near the dish centre.
+- **Aurora**: the last requests as light-curtains in a night sky — height =
+  tokens, width = tps, colour = provider; failures are thin grey streaks
+  above the horizon line, stars twinkle behind.
+- **Constellation**: each session as a small star-pattern — one star per try
+  (bright on success, dim on failure), ≥3 stars padded with aux points;
+  sessions link into a larger constellation map, colour = agent.
+- **Tide**: provider token share as rolling waves — amplitude = share,
+  phase drifts, foam on the biggest crest, a moon pulls it.
+- **Prism**: the request stream enters as one white beam; the glass triangle
+  splits it into each provider's ray — width = tokens, colour = provider,
+  angle = its order.
+- **Terrarium**: sessions as plants in a sealed jar — height = tokens,
+  colour = agent, moss on the soil, a mushroom per failed request,
+  droplets on the glass.
+- **Echo**: sessions drop onto a pond — rings = tokens, colour = agent,
+  dashed rings = failed, faded = older.
+- **Mosaic**: every request is a tile in a wall — size = tokens,
+  colour = agent, cracked = failed, grout lines between rows.
+- **Origami**: each session is a folded paper bird on a branch —
+  size = tokens, colour = agent, dashed crease = the fold;
+  failed requests droop lower.
+- **Firefly**: sessions drift as fireflies — glow = tokens, colour = agent,
+  blink = breathing; a faint moon + stars hang above.
+- **Mandala**: sessions bloom as petals around a bindu — length = tokens,
+  colour = agent, try-rings = attempts; a dashed mandala behind.
+- **Quilt**: sessions are fabric patches on a quilt — size = tokens,
+  colour = agent, dashed stitch = failed; a stitched border frames it.
+- **Vortex**: sessions ride a logarithmic spiral — size = tokens,
+  colour = agent, spin speed = recency; failed requests fall inward.
+- **Kaleido**: each session is a coloured wedge mirrored 12× around a
+  hexagonal frame — length = tokens, colour = agent, faded = failed.
+
+- **Burn**: every account window as a pace bar — fill shows used %, tick
+  marks flat pace, a dashed notch projects end-of-window; click a row for the
+  window's sparkline, `↑↓/Enter` keyboard nav, and a CSV export per window.
 
 ## Switching views
 
 The hero header has a view picker instead of a wall of tabs. Press **V** (or
 click it), type to filter by name / eyebrow / group, press Enter to switch, or
-hit **随机一个** for a random view. The 21 views are grouped into
+hit **随机一个** for a random view. The 41 views are grouped into
 `实时` / `用量` / `结构` / `趣味`, and the hero accent follows the group.
 **G** starts or stops an auto tour (5 / 10 / 30-second interval in settings),
 **R** picks a random view, **F** stars the current view (favourites pin to the
 top of the picker and survive reloads), **?** opens the shortcut sheet, and
 **Esc** closes the picker.
+Press **O** for **cinema mode**: the hero expands to fill the whole window
+with only a floating HUD (view name, live tokens/cost, Esc hint) — pair it
+with **G** for a rotating ambient screen on a spare monitor or tablet.
+**⌘K** opens a command palette that jumps to any view, any style pack, or
+toggles cinema/tour/theme in one keystroke. A quiet **attention strip** sits
+above the hero: quota burn warnings, error bursts, your daily streak and a
+one-line "today" summary, so the first glance tells you where to look.
 
 | View picker | Keyboard shortcuts |
 | --- | --- |
 | ![view menu](docs/view-menu.png) | ![shortcuts](docs/help.png) |
+
+## Every surface is live
+
+Beyond switching views, the cards themselves are wired:
+
+- **Click** — burn rows expand a sparkline, session cards select and filter the
+  log, heatmap cells filter by day, attention chips jump to their view.
+- **Right-click** — dismiss chips, copy ids / model names / CSV exports, un-fav
+  rail icons, favourite a view from its hero.
+- **Double-click** — copy session tries, copy provider key, filter by month,
+  set a rail icon as the default view, copy the view name.
+- **Keyboard** — `↑↓`/`←→` walk every list (burn rows, sessions, log, quotas,
+  favs, palette), `Enter` activates, `Esc` collapses; `/` focuses the log search.
+- **Hover** — sparklines show `left% · at`, burn bars show the pace tooltip,
+  quota items flip to `已用/剩余`, heatmap cells show `N 次 · Tok`.
+- **State** — scroll position per view, log query, burn selection, favourites,
+  and the default view all persist across reloads.
 
 ## Styles and themes
 

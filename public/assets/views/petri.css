@@ -1,0 +1,33 @@
+/* petri.css — 培养皿 */
+
+.petri-wrap { height: 100%; display: flex; flex-direction: column; min-height: 0; }
+.petri-legend {
+  padding: 0 6px 6px; font-size: 10px; color: var(--dim);
+  display: flex; gap: 14px; flex: 0 0 auto; flex-wrap: wrap;
+}
+.petri-legend .pl-ok { color: #5ad4a6; }
+.petri-legend .pl-fail { color: #f26d7f; }
+.petri-legend .pl-live { color: var(--accent); animation: petri-blink 1.2s infinite; }
+.petri-legend .pl-tip { margin-left: auto; font-size: 9px; opacity: .6; }
+
+.petri-svg { flex: 1; width: 100%; min-height: 0; }
+
+.petri-cell { animation: petri-in .6s cubic-bezier(.3,1.3,.4,1) both; transform-origin: center; transform-box: fill-box; }
+.petri-cell.live .petri-mem { animation: petri-breathe 2.4s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+.petri-cell.live .petri-nuc { animation: petri-pulse 1.6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+.petri-cell.failed { opacity: .55; }
+.petri-cell:hover .petri-mem { stroke-width: 2.4; fill-opacity: .22; }
+
+@keyframes petri-in { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes petri-breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+@keyframes petri-pulse { 0%, 100% { transform: scale(1); opacity: .9; } 50% { transform: scale(1.35); opacity: .6; } }
+@keyframes petri-blink { 50% { opacity: .4; } }
+
+.petri-rim { filter: drop-shadow(0 0 14px rgba(139,124,246,.12)); }
+.petri-shadow { filter: blur(4px); }
+
+.petri-empty { height: 100%; display: flex; align-items: center; justify-content: center; color: var(--dim); font-size: 13px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .petri-cell, .petri-cell .petri-mem, .petri-cell .petri-nuc { animation-duration: .001ms !important; }
+}

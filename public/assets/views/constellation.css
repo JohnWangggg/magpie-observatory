@@ -1,0 +1,32 @@
+/* constellation.css — 星座 */
+
+.cs-wrap { height: 100%; display: flex; flex-direction: column; min-height: 0; }
+.cs-legend {
+  padding: 0 6px 6px; font-size: 10px; color: var(--dim);
+  display: flex; gap: 14px; flex: 0 0 auto;
+}
+.cs-legend .cs-tip { margin-left: auto; font-size: 9px; opacity: .6; }
+
+.cs-svg { flex: 1; width: 100%; min-height: 0; }
+
+.cs-const { animation: cs-in .9s ease-out both; }
+.cs-const:hover .cs-star { filter: brightness(1.4); }
+.cs-const:hover .cs-halo { opacity: .3; }
+.cs-star { filter: drop-shadow(0 0 3px currentColor); }
+.cs-halo { animation: cs-pulse 2s ease-in-out infinite; }
+.cs-bg { animation: cs-twinkle 3s ease-in-out infinite; }
+.cs-big { animation: cs-dash 8s linear infinite; }
+
+@keyframes cs-in { from { opacity: 0; transform: scale(.7); } to { opacity: 1; transform: scale(1); } }
+@keyframes cs-pulse { 0%, 100% { opacity: .18; } 50% { opacity: .32; } }
+@keyframes cs-twinkle { 0%, 100% { opacity: .15; } 50% { opacity: .7; } }
+@keyframes cs-dash { to { stroke-dashoffset: -120; } }
+
+.cs-empty { height: 100%; display: flex; align-items: center; justify-content: center; color: var(--dim); font-size: 13px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .cs-const, .cs-halo, .cs-bg, .cs-big { animation-duration: .001ms !important; }
+}
+.cs-star { filter: drop-shadow(0 0 4px currentColor); }
+.cs-star { filter: drop-shadow(0 0 6px currentColor) drop-shadow(0 0 2px #fff); }
+.cs-link { opacity: .6 !important; }
