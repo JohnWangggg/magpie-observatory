@@ -1,0 +1,14 @@
+/* crags */
+.cj-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.cj-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.cj-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.cj-head span { font-size: 8px; color: var(--muted); }
+.cj-wrap svg { flex: 1; width: 100%; }
+.cj-crag { transform-box: fill-box; }
+.cj-crag.hot path { filter: drop-shadow(0 0 4px rgba(240,200,100,.4)); }
+.cj-bird { transform-box: fill-box; }
+.cj-bird.dead { opacity: .85; }
+.cj-pct { font: 700 9px var(--num); fill: #b0b8a0; }
+.cj-name { font: 600 7px var(--mono); fill: #808878; }
+.cj-k { font: 700 10px var(--num); fill: var(--fg); }
+.cj-ksub { font: 7px var(--mono); fill: var(--muted); }
