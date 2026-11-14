@@ -284,6 +284,7 @@
     { id: "understory", title: "林下", eyebrow: "UNDERSTORY", group: "场景", icon: "i-magpie", hint: "幼树=配额窗 冠密=用量 松鼠=会话" },
     { id: "butte", title: "孤丘", eyebrow: "BUTTE", group: "场景", icon: "i-magpie", hint: "岩柱=配额窗 高=用量 鹰=会话" },
     { id: "pinnacle", title: "石柱", eyebrow: "PINNACLE", group: "场景", icon: "i-magpie", hint: "石尖=配额窗 高=用量 鹰=会话" },
+    { id: "rainforest", title: "雨层林", eyebrow: "RAINFOREST", group: "场景", icon: "i-magpie", hint: "雨团=配额窗 雨强=用量 树懒=会话" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
     { id: "grove", title: "果园", eyebrow: "GROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 果=用量 人=会话" },
     { id: "pond", title: "荷塘", eyebrow: "POND", group: "生态", icon: "i-magpie", hint: "莲=配额窗 漪=用量 蛙=会话" },
