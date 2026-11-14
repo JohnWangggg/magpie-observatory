@@ -53,6 +53,16 @@ if (provs) for (const [k, p] of Object.entries(provs)) {
   if (p.icon && !have.has(p.icon)) errs.push(`provider:${k} icon '${p.icon}' not in assets/icons/`);
 }
 
+// shots coverage — every VIEW_META id should have a public/shots/<id>.png
+const appSrc = readFileSync(join(root, "public/assets/app.js"), "utf8");
+const metaBlock = appSrc.match(/VIEW_META\s*=\s*\[([\s\S]*?)\];/);
+if (metaBlock) {
+  const ids = [...metaBlock[1].matchAll(/\{\s*id:\s*"(\w+)"/g)].map(m => m[1]);
+  const shotDir = join(root, "public/shots");
+  const have2 = new Set(readdirSync(shotDir));
+  const missing = ids.filter(id => !have2.has(`${id}.png`));
+  if (missing.length) errs.push(`${missing.length} view(s) missing shots/<id>.png: ${missing.slice(0, 6).join(", ")}${missing.length > 6 ? "…" : ""}`);
+}
 if (errs.length) {
   console.error("lint-data: " + errs.length + " problem(s)");
   errs.forEach(e => console.error("  " + e));
