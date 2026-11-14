@@ -1,0 +1,13 @@
+/* latrank */
+.lr-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.lr-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.lr-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.lr-head span { font-size: 8px; color: var(--muted); }
+.lr-wrap svg { flex: 1; width: 100%; }
+.lr-name { font: 600 8.5px var(--mono); fill: var(--fg); }
+.lr-ttft { font: 700 8.5px var(--num); fill: var(--fg); }
+.lr-tps { font: 7.5px var(--num); fill: var(--muted); }
+.lr-legend { font: 8px var(--mono); fill: var(--muted); }
+.lr-k { font: 700 10px var(--num); fill: var(--fg); }
+.lr-lane { transform-box: fill-box; }
+.lr-snail { filter: drop-shadow(0 0 3px rgba(240,200,100,.5)); }

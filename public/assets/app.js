@@ -358,6 +358,7 @@
     { id: "trophies", title: "成就", eyebrow: "TROPHIES", group: "洞察", icon: "i-chart", hint: "徽章架 · 环=解锁进度" },
     { id: "burnrate", title: "燃尽", eyebrow: "BURNRATE", group: "洞察", icon: "i-chart", hint: "本月每日成本 · 虚线=月末预测" },
     { id: "scorecard", title: "计分卡", eyebrow: "SCORECARD", group: "洞察", icon: "i-chart", hint: "弧=成功率 针=延迟 V=回退" },
+    { id: "latrank", title: "延迟榜", eyebrow: "LATRANK", group: "洞察", icon: "i-chart", hint: "粗=TTFT 细=TPS · 奖牌/蜗牛" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
     { id: "grove", title: "果园", eyebrow: "GROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 果=用量 人=会话" },
     { id: "pond", title: "荷塘", eyebrow: "POND", group: "生态", icon: "i-magpie", hint: "莲=配额窗 漪=用量 蛙=会话" },
