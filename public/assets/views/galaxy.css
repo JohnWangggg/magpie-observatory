@@ -1,0 +1,29 @@
+/* galaxy.css — 螺旋星系 */
+
+.gx-wrap { height: 100%; display: flex; flex-direction: column; min-height: 0; }
+.gx-legend {
+  padding: 0 6px 6px; font-size: 10px; color: var(--dim);
+  display: flex; gap: 10px; flex: 0 0 auto; flex-wrap: wrap; align-items: center;
+}
+.gx-legend .gl-item { display: flex; align-items: center; gap: 4px; }
+.gx-legend .gl-item i { width: 6px; height: 6px; border-radius: 50%; }
+.gx-legend .gl-item.bad { color: #f26d7f; }
+.gx-legend .gl-tip { margin-left: auto; font-size: 9px; opacity: .6; }
+
+.gx-svg { flex: 1; width: 100%; min-height: 0; background: radial-gradient(ellipse at 50% 45%, rgba(15,20,40,.5), transparent 75%); border-radius: 8px; }
+
+.gx-star { animation: gx-twinkle 3.4s ease-in-out infinite; transform-origin: center; }
+.gx-star.drift { animation: gx-drift 6s ease-in-out infinite alternate; }
+.gx-center { animation: gx-breath 4s ease-in-out infinite; transform-origin: center; }
+.gx-glow { animation: gx-breath 4s ease-in-out infinite .5s; transform-origin: center; }
+.gx-glow2 { animation: gx-breath 4s ease-in-out infinite 1s; transform-origin: center; }
+
+@keyframes gx-twinkle { 0%, 100% { opacity: .75; transform: scale(1); } 50% { opacity: 1; transform: scale(1.08); } }
+@keyframes gx-drift { 0% { transform: translate(0,0); opacity: .4; } 100% { transform: translate(8px, -6px); opacity: .15; } }
+@keyframes gx-breath { 0%, 100% { transform: scale(1); opacity: .6; } 50% { transform: scale(1.08); opacity: .8; } }
+
+.gx-empty { height: 100%; display: flex; align-items: center; justify-content: center; color: var(--dim); font-size: 13px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .gx-star, .gx-center, .gx-glow, .gx-glow2 { animation-duration: .001ms !important; }
+}

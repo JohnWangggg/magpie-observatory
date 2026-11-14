@@ -983,3 +983,13 @@ decision/palette）+ 复制/跳转/过滤/记忆/导出 全覆盖。审计完毕
 - **VIEW_META 用量组** + `view-wave` + `46 VIEWS`；
   README×2 + `docs/mode-wave.png`。
 
+---
+
+## Phase 83 — 第 47 个视图 `galaxy`（2026-11-15 · v0.85.0）
+
+- **`galaxy.js/css`**：双臂螺旋星系——星=会话（大=Token、色=Agent、
+  飘=失败）、亮核 + 星野底、`gx-twinkle`/`gx-drift`/`gx-breath`。
+- **坑**：`g` `transform` attr vs CSS `transform`——改用 `cx`/`cy` 绝对坐标。
+- **VIEW_META 趣味组** + `view-galaxy` + `47 VIEWS`；
+  README×2 + `docs/mode-galaxy.png`。
+
