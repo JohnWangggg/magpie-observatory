@@ -470,6 +470,8 @@ img { display: block; }
 }
 .view-menu[hidden] { display: none; }
 @keyframes viewMenuIn { from { opacity: 0; transform: translateY(-6px) scale(.985); } to { opacity: 1; transform: none; } }
+@keyframes vmItemIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+.view-menu.opening .vm-item { animation: vmItemIn .26s ease-out backwards; animation-delay: calc(var(--vm-i, 0) * 14ms); }
 .vm-head { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px 7px; }
 .vm-head b { display: block; font-size: 12px; letter-spacing: -.01em; }
 .vm-head small { display: block; margin-top: 2px; font-size: 6.5px; letter-spacing: .16em; color: var(--faint); }

@@ -642,6 +642,10 @@
     if (settings) settings.hidden = true;
     if (state.tour) stopTour(true);
     menu.hidden = false;
+    menu.classList.add("opening");
+    // Stagger rows in on open — capped so the tail of 336 doesn't wait forever.
+    $$(".vm-item", menu).forEach((b, i) => { b.style.setProperty("--vm-i", Math.min(i, 18)); });
+    setTimeout(() => menu.classList.remove("opening"), 700);
     picker.setAttribute("aria-expanded", "true");
     const search = $("#view-search");
     if (search) search.value = "";
