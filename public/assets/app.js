@@ -3093,8 +3093,15 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
       }
       if (e.key.toLowerCase() === "b" && !e.metaKey && !e.ctrlKey && !e.altKey) {
         e.preventDefault();
-        if (state.heroMode === "burn") toast("已在燃烧速率视图");
-        else { setHeroMode("burn"); toast("跳到燃烧速率"); }
+        const CYCLE = ["burn", "rhythm", "quota", "loom"];
+        const i = CYCLE.indexOf(state.heroMode);
+        if (i === -1 || i === CYCLE.length - 1) {
+          if (i === -1) { setHeroMode(CYCLE[0]); toast("跳到燃烧速率"); }
+          else toast("已在织机 · 再按 `` 回上一视图");
+        } else {
+          setHeroMode(CYCLE[i + 1]);
+          toast("跳到 " + CYCLE[i + 1]);
+        }
       }
       if (e.key === "?") { e.preventDefault(); toggleHelp(); }
       if (e.key === "\`" && !e.metaKey && !e.ctrlKey && !e.altKey) {
