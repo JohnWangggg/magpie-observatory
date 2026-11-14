@@ -2948,7 +2948,8 @@ body.mini .route-stage { min-height: 0 !important; }
 .session-pin { border: 0; background: none; padding: 0 4px; font-size: 10px; line-height: 1; color: var(--faint); cursor: pointer; opacity: 0; transition: opacity .15s; }
 .session-card:hover .session-pin, .session-pin.on { opacity: 1; }
 .session-pin.on { color: var(--amber); }
-.session-card.pinned { border-color: color-mix(in srgb, var(--amber) 40%, var(--line)); }
+.session-card.pinned { border-color: color-mix(in srgb, var(--amber) 40%, var(--line)); position: relative; }
+.session-card.pinned::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--amber); border-radius: 2px 0 0 2px; }
 .donut-legend-row { cursor: pointer; border-radius: 6px; padding: 3px 6px; margin: 0 -6px; }
 .donut-legend-row:hover { background: var(--card-2); }
 .donut-legend-row.on { background: var(--card-2); box-shadow: inset 0 0 0 1px var(--line-2); }
