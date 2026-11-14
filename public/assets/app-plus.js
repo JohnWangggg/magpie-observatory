@@ -809,12 +809,21 @@ show(F.length-1);
     });
   }
 
+  const GOALS = [0, 500000, 1000000, 2000000, 5000000];
   function bindAttnGoto() {
     const strip = $("#attn-strip");
     if (!strip) return;
     strip.addEventListener("click", e => {
       const item = e.target.closest(".attn-item.goto");
       if (!item) return;
+      if (item.dataset.goto === "goal") {
+        const cur = +(localStorage.getItem("magpie.dailyGoal") || "0") || 0;
+        const next = GOALS[(GOALS.indexOf(cur) + 1) % GOALS.length];
+        localStorage.setItem("magpie.dailyGoal", String(next));
+        toast(next ? `今日目标 → ${next / 1e6}M tokens` : "今日目标已关闭");
+        renderAttn && renderAttn();
+        return;
+      }
       gotoBurnOrLogs(item);
     });
     strip.addEventListener("contextmenu", e => {
@@ -1119,6 +1128,14 @@ show(F.length-1);
         items.push({ cls: "good", icon: "i-star", text: `🏅 ${a.name}`, sub: a.sub, goto: "records", aid: `badge-${a.id}` });
       }
     } catch (_) {}
+    // daily goal chip — click cycles 0.5M → 1M → 2M → 5M → off
+    const GOALS = [0, 500000, 1000000, 2000000, 5000000];
+    let goal = 0;
+    try { goal = +(localStorage.getItem("magpie.dailyGoal") || "0") || 0; } catch (_) {}
+    if (goal > 0 && (k.tokens || 0) > 0) {
+      const pct = Math.min(100, Math.round((k.tokens / goal) * 100));
+      items.push({ cls: pct >= 100 ? "good" : "calm", icon: "i-star", text: `今日目标 ${pct}%`, sub: pct >= 100 ? `已达标 ${fmtTokens(k.tokens)}` : `${fmtTokens(k.tokens)} / ${fmtTokens(goal)}`, goto: "goal", aid: "daily-goal", pct });
+    }
     const act = s.data.sessions.filter(x => x.status !== "done").length;
     const heat = s.data.heatmap || [];
     const yd = heat.length >= 2 ? heat[heat.length - 2] : null;
@@ -1127,7 +1144,7 @@ show(F.length-1);
     items.push({ cls: "calm", icon: "i-sparkle", text: `今日 ${fmtTokens(k.tokens)} tokens · ${fmtMoney(k.cost)}${deltaTxt}`, sub: `${act} 个会话活跃 · ${items.length ? "其余平稳" : "一切平稳"}`, goto: "weekly", aid: "daily" });
     host.hidden = false;
     const dismissed = (s.attnDismissed || new Set());
-    host.innerHTML = items.filter(it => !dismissed.has(it.aid)).map(it => `<div class="attn-item ${it.cls}${it.goto ? " goto" : ""}" role="status" ${it.goto ? `data-goto="${it.goto}" data-prov="${it.prov || ""}"` : ""} data-aid="${it.aid || ""}" tabindex="0"><svg><use href="#${it.icon}"/></svg><b>${it.text}</b>${it.sub ? `<small>${it.sub}</small>` : ""}</div>`).join("");
+    host.innerHTML = items.filter(it => !dismissed.has(it.aid)).map(it => `<div class="attn-item ${it.cls}${it.goto ? " goto" : ""}" role="status" ${it.goto ? `data-goto="${it.goto}" data-prov="${it.prov || ""}"` : ""} data-aid="${it.aid || ""}" tabindex="0"><svg><use href="#${it.icon}"/></svg><b>${it.text}</b>${it.sub ? `<small>${it.sub}</small>` : ""}${it.pct != null ? `<i class="attn-goal-bar"><em style="width:${it.pct}%"></em></i>` : ""}</div>`).join("");
   }
 
   /* ======================================================= achievements ===== */

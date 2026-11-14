@@ -2241,6 +2241,9 @@ html[data-motion="off"] *::after {
 .attn-item.good b, .attn-item.good small { color: var(--green); }
 .attn-item.calm { color: var(--muted); }
 .attn-item.calm b { color: var(--fg-2); }
+.attn-goal-bar { display: block; width: 44px; height: 3px; border-radius: 2px; background: var(--line); overflow: hidden; margin-top: 3px; }
+.attn-goal-bar em { display: block; height: 100%; background: var(--green); border-radius: 2px; transition: width .4s; }
+.attn-item.good .attn-goal-bar em { background: var(--accent); }
 @keyframes attnIn { from { opacity: 0; transform: translateY(6px) scale(.94); } to { opacity: 1; transform: none; } }
 
 /* ==========================================================================
