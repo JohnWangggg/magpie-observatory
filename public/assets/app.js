@@ -2689,6 +2689,17 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
       e.preventDefault();
       toggleFavorite(b.dataset.favView);
     });
+    // Fav thumbnail bubbles — JS-driven for the same reason as vm-thumb.
+    $("#rail-favs").addEventListener("pointerover", e => {
+      const b = e.target.closest(".fav-btn");
+      const th = b && b.querySelector(".fav-thumb");
+      if (th) { th.classList.add("on"); th.style.opacity = "1"; }
+    });
+    $("#rail-favs").addEventListener("pointerout", e => {
+      const b = e.target.closest(".fav-btn");
+      const th = b && b.querySelector(".fav-thumb");
+      if (th && !b.contains(e.relatedTarget)) { th.classList.remove("on"); th.style.opacity = ""; }
+    });
     // ↑↓ on the rail → move between favs and switch views.
     $("#rail-favs").tabIndex = 0;
     $("#rail-favs").addEventListener("keydown", e => {
