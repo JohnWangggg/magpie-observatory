@@ -7,6 +7,7 @@
   var html = '';
   for (var i = 0; i < VIEWS.length; i++) {
     var v = VIEWS[i];
+    if (v === 'route' || v === 'radar' || v === 'loom' || v === 'rhythm' || v === 'rings' || v === 'quota') continue;
     html += '<link rel="stylesheet" href="assets/views/' + v + '.css">' +
             '<script src="assets/views/' + v + '.js"><\/script>';
   }
