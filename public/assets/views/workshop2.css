@@ -1,0 +1,14 @@
+/* workshop2 */
+.wo-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.wo-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.wo-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.wo-head span { font-size: 8px; color: var(--muted); }
+.wo-wrap svg { flex: 1; width: 100%; }
+.wo-num { font: 700 8.5px var(--num); fill: var(--fg); }
+.wo-name { font: 7px var(--mono); fill: var(--muted); }
+.wo-k { font: 700 10px var(--num); fill: var(--fg); }
+.wo-ksub { font: 7.5px var(--mono); fill: var(--muted); }
+.wo-lathe { transform-box: fill-box; }
+.wo-lathe.hot { filter: drop-shadow(0 0 4px rgba(240,200,100,.4)); }
+.wo-mach { transform-box: fill-box; }
+.wo-mach.dead { opacity: .8; }
