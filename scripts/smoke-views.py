@@ -44,11 +44,13 @@ try:
                   if (!host) return {{ host: 0 }};
                   const els = host.querySelectorAll('*').length;
                   const svgs = host.querySelectorAll('svg *').length;
-                  return {{ host: 1, els, svgs, text: (host.textContent || '').trim().length }};
+                  const cv = host.querySelector('canvas');
+                  const canvas = cv && (cv.clientWidth > 0 || cv.width > 0) ? 1 : 0;
+                  return {{ host: 1, els, svgs, canvas, text: (host.textContent || '').trim().length }};
                 }})()""")
                 if not stat.get("host"):
                     empty.append((vid, "no host")); print(f"  × {vid}: no host")
-                elif stat["els"] < 3 and stat["svgs"] < 3 and stat["text"] < 4:
+                elif stat["els"] < 3 and stat["svgs"] < 3 and not stat["canvas"] and stat["text"] < 4:
                     empty.append((vid, "empty stage")); print(f"  × {vid}: empty stage")
                 else:
                     ok.append(vid)

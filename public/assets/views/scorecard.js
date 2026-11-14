@@ -47,7 +47,7 @@
       const okRate = total ? v.ok / total : 1;
       const meanMs = v.ms.length ? v.ms.reduce((a, b) => a + b, 0) / v.ms.length : 0;
       const m = metaOf(pmeta, p);
-      return { prov: p, name: m.name || p, col: m.color || "#8ab4f8", okRate, meanMs, fallbacks: v.fallbacks, total: v.ok + v.err + v.tries };
+      return { prov: p, name: m.name || p, col: m.color || "#8ab4f8", okRate, meanMs, ok: v.ok, err: v.err, tries: v.tries, fallbacks: v.fallbacks, total: v.ok + v.err + v.tries };
     }).sort((a, b) => b.total - a.total).slice(0, 6);
 
     const W = 400, H = 300, TOP = 34, BOT = 40;
