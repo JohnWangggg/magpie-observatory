@@ -1,0 +1,14 @@
+/* cobbler */
+.cz-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.cz-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.cz-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.cz-head span { font-size: 8px; color: var(--muted); }
+.cz-wrap svg { flex: 1; width: 100%; }
+.cz-num { font: 700 8.5px var(--num); fill: var(--fg); }
+.cz-name { font: 7px var(--mono); fill: var(--muted); }
+.cz-k { font: 700 10px var(--num); fill: var(--fg); }
+.cz-ksub { font: 7.5px var(--mono); fill: var(--muted); }
+.cz-last { transform-box: fill-box; }
+.cz-last.hot { filter: drop-shadow(0 0 4px rgba(240,200,100,.4)); }
+.cz-cobbler { transform-box: fill-box; }
+.cz-cobbler.dead { opacity: .8; }
