@@ -1070,8 +1070,12 @@ show(F.length-1);
         <div><small>连续使用</small><b>${dayStreak()} 天</b></div>
         <div><small>最常用</small><b>${meta ? esc(meta.name) : "—"}</b></div>
       </div>
-      <div class="digest-foot">连续使用 ${dayStreak()} 天 · ${dTok != null ? (dTok >= 0 ? "较前日 +" + dTok + "%" : "较前日 " + dTok + "%") : "保持热度"}</div>`;
-    card.addEventListener("click", () => card.remove());
+      <div class="digest-foot">连续使用 ${dayStreak()} 天 · ${dTok != null ? (dTok >= 0 ? "较前日 +" + dTok + "%" : "较前日 " + dTok + "%") : "保持热度"}
+        <button class="mini-btn digest-week" type="button">看周报 →</button></div>`;
+    card.addEventListener("click", e => {
+      if (e.target.closest(".digest-week")) { weeklyReport(); }
+      card.remove();
+    });
     document.body.appendChild(card);
     setTimeout(() => card.classList.add("in"), 10);
     setTimeout(() => { card.classList.remove("in"); setTimeout(() => card.remove(), 300); }, 12000);
