@@ -208,6 +208,7 @@
     { id: "camp", title: "营地", eyebrow: "CAMP", group: "场景", icon: "i-magpie", hint: "火=配额窗 焰=用量 帐=会话" },
     { id: "harbor", title: "灯塔港", eyebrow: "HARBOR", group: "场景", icon: "i-magpie", hint: "塔=配额窗 扫=用量 船=会话" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
+    { id: "fortune", title: "每日签", eyebrow: "FORTUNE", group: "趣味", icon: "i-zap", hint: "宜忌运数 · 真实数据抽签" },
     { id: "play", title: "开局", eyebrow: "PLAY · EVERY CALL IS A BEAT", group: "趣味", icon: "i-zap", hint: "转盘 + 判定 + 连击" }
   ];
 
