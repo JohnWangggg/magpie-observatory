@@ -290,8 +290,10 @@
     let heat = 0, seen = false;
     try { heat = (JSON.parse(localStorage.getItem("magpie.viewHeat") || "{}"))[v.id] || 0; } catch (_) {}
     try { seen = (JSON.parse(localStorage.getItem("magpie.viewSeen") || "[]")).includes(v.id); } catch (_) {}
+    let seenDate = "";
+    try { seenDate = (JSON.parse(localStorage.getItem("magpie.viewSeenAt") || "{}"))[v.id] || ""; } catch (_) {}
     const flame = heat >= 3 ? `<span class="vm-hot" title="常看 · ${heat} 次">🔥</span>` : "";
-    const dot = seen ? `<span class="vm-seen" title="已加入图鉴"></span>` : `<span class="vm-seen off" title="未看过"></span>`;
+    const dot = seen ? `<span class="vm-seen" title="已加入图鉴${seenDate ? ` · ${seenDate.slice(5)}` : ""}"></span>` : `<span class="vm-seen off" title="未看过"></span>`;
     return `<div class="vm-row${seen ? " seen" : ""}">
       <button class="vm-item" type="button" data-hero="${v.id}" data-search="${esc(search)}" role="option" aria-selected="false" style="--vm-c:${accent}">
         <span class="vm-ic"><svg><use href="#${v.icon}"/></svg></span>
