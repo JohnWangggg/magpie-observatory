@@ -2734,6 +2734,7 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
       if (!b) return;
       if (state.tour) stopTour(true);
       setHeroMode(b.dataset.favView);
+      if (e.target.closest(".fav-thumb")) showVlight(b.dataset.favView);
     });
 
     // Right-click a rail fav → remove it from favorites without opening the menu.
