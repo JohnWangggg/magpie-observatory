@@ -38,6 +38,12 @@
     liveRetryTimer: null,
     gatewayWatch: null,
     gatewayWatchTries: 0,
+    viewRecent: (() => {
+      try {
+        const raw = JSON.parse(localStorage.getItem("magpie.viewRecent") || "[]");
+        return Array.isArray(raw) ? raw.filter(x => typeof x === "string").slice(0, 10) : [];
+      } catch (_) { return []; }
+    })(),
     favorites: (() => {
       try {
         const raw = JSON.parse(localStorage.getItem("magpie.favorites") || "[]");
@@ -214,6 +220,13 @@
     const host = $("#vm-groups");
     if (!host) return;
     const sections = [];
+    const recent = (state.viewRecent || [])
+      .map(id => VIEW_META.find(v => v.id === id))
+      .filter(v => v && !state.favorites.includes(v.id))
+      .slice(0, 6);
+    if (recent.length) {
+      sections.push(`<section class="vm-group vm-recent"><h4 style="--vm-g:var(--green)"><i></i>最近<span>${recent.length}</span></h4>${recent.map(v => menuItem(v, "var(--green)")).join("")}</section>`);
+    }
     const favs = state.favorites
       .map(id => VIEW_META.find(v => v.id === id))
       .filter(Boolean);
@@ -1444,6 +1457,8 @@
       const h = JSON.parse(localStorage.getItem("magpie.viewHeat") || "{}");
       h[mode] = (h[mode] || 0) + 1;
       localStorage.setItem("magpie.viewHeat", JSON.stringify(h));
+      state.viewRecent = [mode, ...state.viewRecent.filter(x => x !== mode)].slice(0, 10);
+      localStorage.setItem("magpie.viewRecent", JSON.stringify(state.viewRecent));
     } catch (_) {}
     const custom = viewRegistry()[mode];
     const meta = viewMeta(mode) || { title: "实时路由", eyebrow: "LIVE ROUTING", group: "实时", icon: "i-route" };
