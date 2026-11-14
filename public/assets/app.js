@@ -141,7 +141,7 @@
     { id: "fountain", title: "喷泉", eyebrow: "FOUNTAIN", group: "趣味", icon: "i-magpie", hint: "喷=会话 高=Token" },
     { id: "pendulum", title: "摆锤", eyebrow: "PENDULUM", group: "趣味", icon: "i-magpie", hint: "摆=会话 长=Token" },
     { id: "aurora2", title: "极光幕", eyebrow: "AURORA2", group: "趣味", icon: "i-magpie", hint: "幕=会话 高=Token" },
-    { id: "beehive", title: "蜂巢", eyebrow: "BEEHIVE", group: "趣味", icon: "i-magpie", hint: "格=会话 满=Token" },
+    { id: "beehive", title: "蜂房", eyebrow: "BEEHIVE", group: "趣味", icon: "i-magpie", hint: "格=会话 满=Token" },
     { id: "vine", title: "藤蔓", eyebrow: "VINE", group: "趣味", icon: "i-magpie", hint: "叶=会话 大=Token" },
     { id: "play", title: "开局", eyebrow: "PLAY · EVERY CALL IS A BEAT", group: "趣味", icon: "i-zap", hint: "转盘 + 判定 + 连击" }
   ];
@@ -2063,7 +2063,6 @@
         $("#settings-menu").hidden = true;
         closeHelp();
         if (!$("#view-menu").hidden) closeViewMenu(true);
-        if (document.body.classList.contains("cinema")) toggleCinema();
       }
     });
 
@@ -2305,6 +2304,19 @@
     });
 
     $("#route-stage").addEventListener("click", e => {
+      // Legend chips in custom views — click an agent swatch to filter the
+      // session list, click again to clear. Views opt in via data-agent.
+      const lgItem = e.target.closest("[data-agent]");
+      if (lgItem) {
+        const v = lgItem.dataset.agent;
+        state.filter = state.filter && state.filter.type === "agent" && state.filter.value === v ? null : { type: "agent", value: v };
+        state.selectedSession = null;
+        renderSessions();
+        renderDecision();
+        renderCustomView(state.heroMode, true);
+        toast(state.filter ? "已筛选：" + D.agentMeta(v).name : "筛选已清除");
+        return;
+      }
       const radarNode = e.target.closest(".radar-node");
       if (radarNode) {
         const v = radarNode.dataset.provider;
@@ -2387,8 +2399,6 @@
       if (e.key.toLowerCase() === "g" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); if (state.tour) stopTour(); else { closeViewMenu(); startTour(); } }
       if (e.key.toLowerCase() === "f" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); toggleFavorite(state.heroMode); }
       if (e.key === "?") { e.preventDefault(); toggleHelp(); }
-      if (e.key.toLowerCase() === "o" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); toggleCinema(); }
-      if (e.key.toLowerCase() === "e" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); exportPng(); }
       if ((e.key === "ArrowRight" || e.key === "ArrowLeft") && !e.metaKey && !e.ctrlKey && !e.altKey) {
         e.preventDefault();
         const idx = VIEW_META.findIndex(v => v.id === state.heroMode);
@@ -2399,136 +2409,6 @@
     });
 
 
-    // Cinema mode — the hero fills the window, everything else fades. The CSS
-    // (body.cinema) was written alongside the buttons but never wired up.
-    function toggleCinema() {
-      const on = document.body.classList.toggle("cinema");
-      $("#cinema-toggle")?.classList.toggle("on", on);
-      $("#cinema-toggle")?.setAttribute("aria-pressed", String(on));
-      toast(on ? "影院模式 · O 退出" : "已退出影院模式");
-    }
-    $("#cinema-toggle")?.addEventListener("click", toggleCinema);
-
-    // Export PNG — serialize the hero stage's SVG and rasterise it. Views that
-    // render plain DOM fall back to a DOM snapshot note instead of failing.
-    function exportPng() {
-      const stage = $(".route-stage");
-      const svg = stage && stage.querySelector("svg");
-      if (!svg) { toast("当前视图无可导出的 SVG"); return; }
-      const box = svg.viewBox.baseVal;
-      const w = Math.max(1, Math.round(box.width || svg.clientWidth || 800));
-      const h = Math.max(1, Math.round(box.height || svg.clientHeight || 300));
-      const clone = svg.cloneNode(true);
-      clone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-      clone.setAttribute("width", w);
-      clone.setAttribute("height", h);
-      // Inline the background so the PNG isn't transparent.
-      const bg = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-      bg.setAttribute("x", "0"); bg.setAttribute("y", "0");
-      bg.setAttribute("width", w); bg.setAttribute("height", h);
-      bg.setAttribute("fill", getComputedStyle(document.body).getPropertyValue("--bg") || "#0d1017");
-      clone.insertBefore(bg, clone.firstChild);
-      const xml = new XMLSerializer().serializeToString(clone);
-      const img = new Image();
-      img.onload = () => {
-        const c = document.createElement("canvas");
-        c.width = w * 2; c.height = h * 2;  // 2x for retina-crisp output
-        const ctx = c.getContext("2d");
-        ctx.scale(2, 2);
-        ctx.drawImage(img, 0, 0, w, h);
-        c.toBlob(b => {
-          if (!b) { toast("导出失败"); return; }
-          const a = document.createElement("a");
-          a.href = URL.createObjectURL(b);
-          a.download = `magpie-${state.heroMode}-${new Date().toISOString().slice(0, 10)}.png`;
-          a.click();
-          URL.revokeObjectURL(a.href);
-          toast("PNG 已导出");
-        }, "image/png");
-      };
-      img.onerror = () => toast("导出失败：SVG 序列化错误");
-      img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(xml);
-    }
-    $("#export-png")?.addEventListener("click", exportPng);
-
-    // ⌘K command palette — one box for every action and view. DOM and styles
-    // shipped earlier; the behaviour lands here.
-    const palState = { idx: 0, items: [] };
-    function palCommands() {
-      const acts = [
-        { kind: "动作", icon: "i-expand", title: "影院模式", sub: "全屏只看当前视图 · O", run: () => toggleCinema() },
-        { kind: "动作", icon: "i-download", title: "导出 PNG", sub: "当前视图存图 · E", run: () => exportPng() },
-        { kind: "动作", icon: "i-sparkle", title: "随机视图", sub: "Shift R", run: () => randomView() },
-        { kind: "动作", icon: "i-play", title: "巡游模式", sub: "自动轮换视图 · G", run: () => { state.tour ? stopTour() : startTour(); } },
-        { kind: "动作", icon: "i-pulse", title: "暂停 / 继续", sub: "Space", run: () => $("#demo-toggle")?.click() },
-        { kind: "动作", icon: "i-magpie", title: "明暗主题", sub: "T", run: () => $("#theme-toggle")?.click() },
-        { kind: "动作", icon: "i-x", title: "清除筛选", sub: "显示全部 Agent / Provider", run: () => { state.filter = null; renderSessions(); renderDecision(); renderRouteStage(); toast("筛选已清除"); } },
-        { kind: "动作", icon: "i-chart", title: "导出请求 CSV", sub: "日志区同款", run: () => $("#log-export")?.click() },
-        { kind: "动作", icon: "i-pulse", title: "快捷键帮助", sub: "?", run: () => toggleHelp() }
-      ];
-      const views = VIEW_META.map(v => ({
-        kind: "视图", icon: v.icon, title: v.title, sub: v.eyebrow + " · " + v.group + (v.hint ? " · " + v.hint : ""),
-        search: `${v.title} ${v.eyebrow} ${v.group} ${v.hint} ${v.id}`.toLowerCase(),
-        run: () => setHeroMode(v.id)
-      }));
-      return acts.map(a => ({ ...a, search: `${a.title} ${a.sub}`.toLowerCase() })).concat(views);
-    }
-    function renderPalette(q) {
-      const list = $("#palette-list");
-      if (!list) return;
-      const needle = String(q || "").trim().toLowerCase();
-      palState.items = palCommands().filter(c => !needle || c.search.includes(needle));
-      palState.idx = Math.min(palState.idx, Math.max(0, palState.items.length - 1));
-      let lastKind = "";
-      list.innerHTML = palState.items.map((c, i) => {
-        const kind = c.kind !== lastKind ? `<div class="pal-kind">${c.kind}</div>` : "";
-        lastKind = c.kind;
-        return kind + `<button class="pal-item${i === palState.idx ? " sel" : ""}" data-pal="${i}" role="option">
-          <span class="pal-ic"><svg><use href="#${c.icon}"/></svg></span>
-          <span class="pal-copy"><b>${esc(c.title)}</b><small>${esc(c.sub)}</small></span>
-          <span class="pal-tag">${c.kind}</span>
-        </button>`;
-      }).join("") || `<div class="pal-empty">没有匹配的命令或视图</div>`;
-    }
-    function openPalette() {
-      const p = $("#cmd-palette");
-      if (!p || !p.hidden) return;
-      p.hidden = false;
-      palState.idx = 0;
-      renderPalette("");
-      const inp = $("#palette-input");
-      if (inp) { inp.value = ""; setTimeout(() => inp.focus(), 30); }
-    }
-    function closePalette() {
-      const p = $("#cmd-palette");
-      if (p) p.hidden = true;
-    }
-    function togglePalette() {
-      const p = $("#cmd-palette");
-      if (p && p.hidden) openPalette(); else closePalette();
-    }
-    $("#palette-input")?.addEventListener("input", e => { palState.idx = 0; renderPalette(e.target.value); });
-    $("#palette-input")?.addEventListener("keydown", e => {
-      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
-        e.preventDefault();
-        palState.idx = Math.max(0, Math.min(palState.items.length - 1, palState.idx + (e.key === "ArrowDown" ? 1 : -1)));
-        $$("#palette-list .pal-item").forEach((el, i) => el.classList.toggle("sel", i === palState.idx));
-        $("#palette-list .pal-item.sel")?.scrollIntoView({ block: "nearest" });
-      }
-      if (e.key === "Enter") { e.preventDefault(); palState.items[palState.idx]?.run(); closePalette(); }
-      if (e.key === "Escape") { e.preventDefault(); closePalette(); }
-    });
-    $("#palette-list")?.addEventListener("click", e => {
-      const b = e.target.closest("[data-pal]");
-      if (b) { palState.items[Number(b.dataset.pal)]?.run(); closePalette(); }
-    });
-    document.addEventListener("click", e => {
-      const p = $("#cmd-palette");
-      if (p && !p.hidden && !e.target.closest(".palette-box")) closePalette();
-    });
-    document.addEventListener("keydown", e => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") { e.preventDefault(); togglePalette(); }
-    });
 
     $$(".nav-item[data-view]").forEach(b => b.addEventListener("click", () => {
       $$(".nav-item[data-view]").forEach(x => x.classList.toggle("active", x === b));

@@ -358,7 +358,7 @@ MAGPIE_URL=http://127.0.0.1:3425 MAGPIE_KEY=... node preview.mjs
   停 = 失败。
 - **极光幕**：会话是极光帘——高 = Token、色 = Agent、
   闪 = 失败；星野下柔焦。
-- **蜂巢**：会话是蜜脾格——满 = Token、色 = Agent、
+- **蜂房**：会话是蜜脾格——满 = Token、色 = Agent、
   裂 = 失败；小蜂绕巢。
 - **藤蔓**：请求流是攀爬的藤——叶 = 会话、大 = Token、
   色 = Agent、枯 = 失败；顶端卷须。

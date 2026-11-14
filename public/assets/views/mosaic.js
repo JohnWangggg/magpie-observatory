@@ -52,7 +52,7 @@
     const legend = sessions.map(s => {
       const col = ametaOf(s.agent).color || "#8b7cf6";
       const failed = s.status === "error" || s.status === "failed";
-      return `<span class="ml-item ${failed ? "bad" : ""}"><i style="background:${col}"></i>${esc((s.title || "").slice(0, 10))}</span>`;
+      return `<span class="ml-item ${failed ? "bad" : ""}" data-agent="${s.agent}"><i style="background:${col}"></i>${esc((s.title || "").slice(0, 10))}</span>`;
     }).join("");
 
     host.innerHTML = `

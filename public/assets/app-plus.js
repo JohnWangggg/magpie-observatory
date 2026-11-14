@@ -267,6 +267,10 @@ show(F.length-1);
     });
   }
   function toggleCinema() { setCinema(!(state() && state().cinema)); }
+  // Expose for the core's keyboard layer — Esc/O/E in app.js delegate here.
+  Obs.toggleCinema = toggleCinema;
+  Obs.setCinema = setCinema;
+  Obs.exportPNG = exportPNG;
   function updateCinemaStats() {
     const el = $("#ch-stats");
     const s = state();
