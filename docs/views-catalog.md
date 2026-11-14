@@ -27,7 +27,7 @@
 | `waterfall` | 会话瀑布 | SESSION WATERFALL | 一次会话的时间轴 | ![waterfall](../public/shots/waterfall.png) |
 | `network` | 关系网络 | RELATION GRAPH | Agent / Provider / 模型 | ![network](../public/shots/network.png) |
 | `swarm` | 延迟蜂群 | LATENCY SWARM | TTFT 分布 | ![swarm](../public/shots/swarm.png) |
-| `pulse` | 脉搏 | PULSE MONITOR | 会话 ECG · 每行一个心跳 | — |
+| `pulse` | 脉搏 | PULSE MONITOR | 会话 ECG · 每行一个心跳 | ![pulse](../public/shots/pulse.png) |
 | `burn` | 燃烧速率 | BURN RATE | 配额窗口烧速 / 预测重置 | ![burn](../public/shots/burn.png) |
 | `gauge` | 仪表盘 | GAUGE MATRIX | KPI/配额仪表 | ![gauge](../public/shots/gauge.png) |
 | `pinboard` | 钉板 | PINBOARD | KPI/配额/会话钉上墙 | ![pinboard](../public/shots/pinboard.png) |

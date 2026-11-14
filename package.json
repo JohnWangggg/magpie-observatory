@@ -16,13 +16,14 @@
   ],
   "scripts": {
     "preview": "node preview.mjs",
-    "check": "npm run lint-data && npm run sync-views",
+    "check": "npm run lint-data && npm run lint-views && npm run sync-views",
     "publish:github": "bash scripts/publish-github.sh",
     "sync-views": "node scripts/sync-views.mjs",
     "thumbs": "python3 scripts/thumb-views.py",
     "smoke": "python3 scripts/smoke-views.py",
     "shot": "python3 scripts/one-shot.py",
-    "lint-data": "node scripts/lint-data.mjs"
+    "lint-data": "node scripts/lint-data.mjs",
+    "lint-views": "node scripts/lint-views.mjs"
   },
   "keywords": [
     "magpie",
