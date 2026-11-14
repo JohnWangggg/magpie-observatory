@@ -800,3 +800,18 @@ Magpie 官方 UI 给了你完整的数据字典和品牌资产。**把它们合�
 
 诊断案例：冒烟抓到 `scorecard` 的 `<rect width="NaN">`（`r.tries` 未赋值）——`npm run smoke`
 定位到视图，修后 `npm run thumbs --ids scorecard` 单点重截缩略图。
+
+
+---
+
+## 15. 插件层与 hooks (v1.10.129+)
+
+`app-plus.js` 在 `app.js` 之前加载，自建 `window.Obs = { hooks: {afterRender, afterTick, bind, init}, game, api }`，
+把功能模块挂在四个生命周期钩子上；核心渲染器在对应时机 `forEach` 调用，单 hook 异常不扩散（`try/catch` 包裹）。
+
+- `afterRender(api)` — renderAll 之后：defBtn 同步、syncNoteBadges 等
+- `afterTick(api, completed)` — 数据 tick 之后：通知、音效、attract 检测
+- `bind(api)` — bindEvents 之后：layout-edit 拖拽、notes 编辑
+- `init(api)` — 启动后：SW 注册、`?mode=mini`、gcNotes、loadLayout、restoreExtras
+
+这样 `app-plus` 是纯 additive：任一 hook 缺席，核心照样跑。
