@@ -1865,6 +1865,8 @@
     if (vpTitle) vpTitle.textContent = meta.title;
     if (vpEyebrow) vpEyebrow.textContent = meta.eyebrow;
     if (vpIcon) vpIcon.innerHTML = `<svg><use href="#${meta.icon}"/></svg>`;
+    const vpThumb = $("#vp-thumb img");
+    if (vpThumb) vpThumb.src = `shots/${mode}.png`;
     const hero = $(".hero");
     if (hero) {
       hero.style.setProperty("--hero-accent", GROUP_COLORS[meta.group] || "#8b7cf6");
