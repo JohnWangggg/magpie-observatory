@@ -1584,7 +1584,7 @@ ${quota || "| — | — | — |"}
     }
     // core views from the meta catalog
     if (s && s.VIEW_META) s.VIEW_META.forEach(v => {
-      items.push({ kind: "视图", icon: v.icon, title: v.title, sub: v.eyebrow, search: (v.title + " " + v.eyebrow + " " + v.id).toLowerCase(), run: () => { Obs.api.setHeroMode(v.id); closePalette(); } });
+      items.push({ kind: "视图", icon: v.icon, title: v.title, sub: v.eyebrow, search: (v.title + " " + v.eyebrow + " " + v.id + " " + (v.group || "") + " " + (v.hint || "")).toLowerCase(), run: () => { Obs.api.setHeroMode(v.id); closePalette(); } });
     });
     // actions
     items.push(
