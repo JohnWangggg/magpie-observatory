@@ -147,3 +147,16 @@ For the next release, bump `package.json`, update the tag in
 
 发布标签使用 annotated tag，并与 `package.json` 版本一致。下一次发布时提升版本号，
 再用 `TAG=v0.18.0 bash scripts/publish-github.sh` 或手动打标签。
+
+---
+
+## 发版前检查
+
+```bash
+npm run sync-views    # manifest.js + views-catalog.md 一致性
+npm run smoke         # 336 视图 route-stage 渲染冒烟（空 DOM / 页面错误）
+npm run thumbs        # 刷新 public/shots/*.png（可选，费时）
+```
+
+`smoke` 报告三类：`ok` / `empty stage` / `page error`。新增视图务必先跑。
+

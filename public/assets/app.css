@@ -2394,9 +2394,12 @@ body.cinema .cinema-hud { display: flex; animation: hudIn .4s .1s ease-out both;
 .pal-copy b { font-size: 11.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .pal-copy small { font-size: 8.5px; color: var(--faint); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .pal-tag { font-size: 7.5px; color: var(--faint); padding: 2px 7px; border-radius: 99px; background: var(--card-3); flex: none; }
-.pal-thumb { position: absolute; right: 44px; top: 50%; transform: translateY(-50%); width: 110px; height: 44px; border-radius: 7px; overflow: hidden; border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--line)); box-shadow: 0 10px 26px rgba(0,0,0,.5); opacity: 0; pointer-events: none; z-index: 30; background: var(--card-2); transition: opacity .16s ease; }
+.pal-thumb { position: absolute; right: 44px; top: 50%; transform: translateY(-50%); width: 110px; height: 44px; border-radius: 7px; overflow: hidden; border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--line)); box-shadow: 0 10px 26px rgba(0,0,0,.5); opacity: 0; pointer-events: none; z-index: 30; background: var(--card-2); }
 .pal-thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
 .pal-item:hover .pal-thumb { opacity: 1; }
+.pal-item:hover .pal-thumb { transition-delay: 0s; }
+.pal-thumb { transition: opacity .16s ease, width .3s ease .18s, height .3s ease .18s; }
+.pal-item:hover .pal-thumb { width: 168px; height: 68px; }
 .pal-empty { padding: 26px; text-align: center; color: var(--faint); font-size: 10px; }
 .palette-foot {
   display: flex; justify-content: space-between; padding: 8px 14px;
