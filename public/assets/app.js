@@ -255,6 +255,7 @@
     { id: "badlands", title: "恶地", eyebrow: "BADLANDS", group: "场景", icon: "i-magpie", hint: "柱=配额窗 高=用量 羊=会话" },
     { id: "veldt", title: "稀树草原", eyebrow: "VELDT", group: "生态", icon: "i-magpie", hint: "金合欢=配额窗 冠=用量 象=会话" },
     { id: "chaparral", title: "灌丛", eyebrow: "CHAPARRAL", group: "生态", icon: "i-magpie", hint: "灌=配额窗 高=用量 狼=会话" },
+    { id: "glade", title: "林间空地", eyebrow: "GLADE", group: "生态", icon: "i-magpie", hint: "蕨=配额窗 高=用量 鹿=会话" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
     { id: "grove", title: "果园", eyebrow: "GROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 果=用量 人=会话" },
     { id: "pond", title: "荷塘", eyebrow: "POND", group: "生态", icon: "i-magpie", hint: "莲=配额窗 漪=用量 蛙=会话" },
