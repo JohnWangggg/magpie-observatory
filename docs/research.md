@@ -860,3 +860,21 @@ error/failed 会话 flatline，右上角 `BPM = Σtps × 0.9` 心跳读数。
 | **notify** | settings `#opt-notify` | `s.notify` toggle；`Notification.permission==='granted'` 才真发，`default` 先请求，`denied` 静默跳过 |
 | **layout-edit** | palette / settings `#opt-layout-edit` | `body.layout-edit` + 9 slot `draggable` + `slot-x` 隐藏钮 + `magpie.layout/hidden` localStorage |
 | **mini** | `?mode=mini&view=X` | `body.mini` + `setCinema(true)` + `setHeroMode(view)`，HUD 带 `#ch-thumb` 缩略图 |
+
+
+---
+
+## 19. 服务层 (server.mjs, v1.10.129+)
+
+Magpie 插件宿主起 `index.mjs` → `server.mjs` 起一个 `127.0.0.1:3488` 只读 HTTP 服务，
+把 dashboard 静态文件 + Magpie 只读 API 代理出去。page iframe 的 `sandbox="allow-scripts"`
+让 `Origin: null`——服务放行 `origin==="null"` 且要求 `x-magpie-api-token` 与 `PAGE_TOKEN`
+匹配（index.html 渲染时注入 `<meta>`，别的页拿不到）。
+
+- `GET /api/health` — 探活 `gatewayBase()`
+- `GET /api/snapshot?period=&since=&qh=&rq=` — 聚合 7 个 magpie API（trace/quotas/usage/concurrency/requests/heatmap/quotaHistory），单点失败记 `errors[name]` 不中断
+- `GET /api/version` — 插件版本
+- `GET /*` — `public/` 静态文件，`/` 重写到 `index.html` 并注入 `PAGE_TOKEN`
+
+网关地址：`MAGPIE_URL` env > `gateway.json`（10s 缓存，失败重读）> `127.0.0.1:3425`。
+`/api/usage/heatmap` 无官方端点：用 `usage?period=all` 聚合 5min 缓存兜底。
