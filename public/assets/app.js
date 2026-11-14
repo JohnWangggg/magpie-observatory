@@ -503,6 +503,15 @@
       sections.push(`<section class="vm-group"><h4 style="--vm-g:${GROUP_COLORS[group]}"><i></i>${group}<span>${VIEW_META.filter(v => v.group === group).length}</span></h4>${items}</section>`);
     });
     host.innerHTML = sections.join("");
+    // 14-day switch-count sparkline in the picker header.
+    const spark = $("#vm-spark");
+    if (spark) {
+      try {
+        const log = JSON.parse(localStorage.getItem("magpie.viewCountLog") || "[]");
+        const max = Math.max(1, ...log.map(r => r.n));
+        spark.innerHTML = log.map(r => `<i title="${r.d} · ${r.n} 次" style="height:${Math.max(2, Math.round(r.n / max * 100))}%"></i>`).join("");
+      } catch (_) { spark.innerHTML = ""; }
+    }
     const dex = $("#vm-dex"), cnt = $("#vm-count");
     if (cnt) cnt.textContent = `${VIEW_META.length} VIEWS`;
     if (dex) {
@@ -1825,6 +1834,11 @@
       if (day.date !== today) { day.date = today; day.n = 0; }
       day.n = (day.n || 0) + 1;
       localStorage.setItem("magpie.viewCountDay", JSON.stringify(day));
+      // 14-day rolling log for the sparkline in the picker header.
+      const log = JSON.parse(localStorage.getItem("magpie.viewCountLog") || "[]");
+      const last = log[log.length - 1];
+      if (last && last.d === today) last.n += 1; else log.push({ d: today, n: 1 });
+      localStorage.setItem("magpie.viewCountLog", JSON.stringify(log.slice(-14)));
       const seen = JSON.parse(localStorage.getItem("magpie.viewSeen") || "[]");
       if (!seen.includes(mode)) {
         seen.push(mode);

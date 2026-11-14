@@ -460,6 +460,9 @@ img { display: block; }
 .vm-head { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px 7px; }
 .vm-head b { display: block; font-size: 12px; letter-spacing: -.01em; }
 .vm-head small { display: block; margin-top: 2px; font-size: 6.5px; letter-spacing: .16em; color: var(--faint); }
+.vm-spark { display: flex; align-items: flex-end; gap: 2px; height: 18px; margin-left: 8px; }
+.vm-spark i { display: block; width: 4px; min-height: 2px; border-radius: 1px; background: color-mix(in srgb, var(--accent) 55%, transparent); box-shadow: 0 0 4px color-mix(in srgb, var(--accent) 30%, transparent); transition: height .2s ease; }
+.vm-spark i:last-child { background: var(--accent); }
 .vm-close { width: 24px; height: 24px; border-radius: 7px; display: grid; place-items: center; color: var(--muted); }
 .vm-close svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.8; }
 .vm-close:hover { background: var(--card-2); color: var(--fg); }
