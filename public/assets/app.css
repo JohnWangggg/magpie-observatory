@@ -495,6 +495,10 @@ img { display: block; }
 .vm-random svg, .vm-tour svg, .vm-help svg { width: 11px; height: 11px; fill: none; stroke: currentColor; stroke-width: 1.8; }
 .vm-random:hover, .vm-tour:hover, .vm-help:hover { border-color: var(--line-2); color: var(--fg); }
 .vm-tour.active { border-color: color-mix(in srgb, var(--green) 45%, var(--line)); color: var(--green); background: color-mix(in srgb, var(--green) 10%, var(--card-2)); }
+.vm-def { display: flex; align-items: center; gap: 5px; height: 26px; padding: 0 9px; border: 1px solid var(--line); border-radius: 7px; background: var(--card-2); color: var(--fg-2); font-size: 8px; }
+.vm-def svg { width: 11px; height: 11px; fill: none; stroke: currentColor; stroke-width: 1.8; }
+.vm-def:hover { border-color: var(--line-2); color: var(--fg); }
+.vm-def.active { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); color: var(--accent-strong); background: var(--accent-soft); }
 .view-picker.touring { border-color: color-mix(in srgb, var(--green) 50%, var(--line)); }
 .view-picker.touring::after { content: ""; position: absolute; top: 5px; right: 6px; width: 5px; height: 5px; border-radius: 50%; background: var(--green); box-shadow: 0 0 7px var(--green); animation: breathe 1.8s ease-in-out infinite; }
 .view-picker { position: relative; }

@@ -1575,6 +1575,7 @@ ${quota || "| — | — | — |"}
       { kind: "动作", icon: "i-pause", title: s && s.paused ? "继续演示" : "暂停演示", sub: "快捷键 Space", search: "pause 暂停 播放".toLowerCase(), run: () => $("#demo-toggle").click() },
       { kind: "动作", icon: "i-clock", title: "回放最近3分钟", sub: "快捷键 R", search: "replay 回放 时间轴".toLowerCase(), run: () => { state() && state().replay ? exitReplay() : startReplay(); } },
       { kind: "动作", icon: "i-link", title: "复制状态链接", sub: "?view&range&cinema 快照 URL · ⌘S", search: "share 分享 链接 状态 url".toLowerCase(), run: shareStateLink },
+      { kind: "动作", icon: "i-pin", title: "设为默认视图", sub: "下次打开直达当前视图", search: "default 默认 视图 pin".toLowerCase(), run: () => { if (s && s.heroMode) { localStorage.setItem("magpie.defaultView", s.heroMode); toast("默认视图：" + (Obs.api.viewMeta(s.heroMode) || {}).title); closePalette(); } } },
       { kind: "动作", icon: "i-arrow", title: "导出今日分享图", sub: "1200×630 PNG", search: "share 分享 导出 截图".toLowerCase(), run: () => shareToday() },
       { kind: "动作", icon: "i-arrow", title: "导出本周分享图", sub: "1200×630 PNG · 近7天", search: "share 分享 导出 周 截图 week".toLowerCase(), run: () => shareToday("week") },
       { kind: "动作", icon: "i-arrow", title: "导出对比分享图", sub: "今日 vs 昨日 · 1200×630 PNG", search: "share 分享 对比 导出 compare".toLowerCase(), run: shareCompare },

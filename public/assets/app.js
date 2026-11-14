@@ -2372,6 +2372,25 @@
     $("#vm-random").addEventListener("click", randomView);
     $("#vm-tour").addEventListener("click", () => { if (state.tour) { stopTour(); } else { startTour(); } closeViewMenu(); });
     $("#vm-help").addEventListener("click", () => { closeViewMenu(); openHelp(); });
+    function updateDefBtn() {
+      const b = $("#vm-defview"); if (!b) return;
+      const cur = localStorage.getItem("magpie.defaultView");
+      b.classList.toggle("active", !!cur && cur === state.heroMode);
+      const label = cur ? (viewMeta(cur) || {}).title : null;
+      b.title = cur ? `默认视图：${label}${state.heroMode === cur ? "（当前生效）" : ""}` : "把当前视图设为启动视图";
+    }
+    $("#vm-defview").addEventListener("click", () => {
+      if (localStorage.getItem("magpie.defaultView") === state.heroMode) {
+        localStorage.removeItem("magpie.defaultView");
+        toast("已取消默认视图");
+      } else {
+        localStorage.setItem("magpie.defaultView", state.heroMode);
+        toast("已把「" + (viewMeta(state.heroMode) || {}).title + "」设为默认视图");
+      }
+      updateDefBtn();
+      closeViewMenu();
+    });
+    Obs.hooks.afterRender.push(updateDefBtn);
     $("#help-close").addEventListener("click", closeHelp);
     $("#help-menu").addEventListener("click", e => { if (e.target === e.currentTarget) closeHelp(); });
     $("#view-menu").addEventListener("keydown", e => {
