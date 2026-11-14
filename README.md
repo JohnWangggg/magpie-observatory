@@ -16,7 +16,7 @@ Observatory turns that stream into something you can *watch*:
 - **Live routing** — Agent → Magpie → Provider/Account, with a filled magpie
   carrying the request out and a mirrored outlined magpie bringing the answer
   back. Failed attempts stay visible as “rerouted”.
-- **One hundred and nine views** — one for routing, sixty-one ways to look at the
+- **One hundred and ten views** — one for routing, sixty-one ways to look at the
   same data: charts, games, ambient fields.
 - **Seven style packs** — `Control`, `Pixel`, `Paper`, `Neon`, `Terminal`,
   `Blueprint`, `Zine`; each with a light and dark variant. Light/dark and
@@ -394,7 +394,7 @@ The preview is for development only; the plugin uses the same service internally
 
 The hero header has a view picker instead of a wall of tabs. Press **V** (or
 click it), type to filter by name / eyebrow / group, press Enter to switch, or
-hit **随机一个** for a random view. The 109 views are grouped into nine sections —
+hit **随机一个** for a random view. The 110 views are grouped into nine sections —
 `实时` / `用量` / `结构` / `趣味` / `天象` / `生态` / `几何` / `场景`, and the hero accent follows the group.
 **G** starts or stops an auto tour (5 / 10 / 30-second interval in settings),
 **R** picks a random view, **F** stars the current view (favourites pin to the
