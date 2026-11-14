@@ -408,6 +408,34 @@
     }
     const picker = $("#view-picker");
     if (picker) picker.classList.toggle("touring", state.tour);
+    updateTourCount();
+    const bar = $("#tour-bar");
+    if (bar) {
+      bar.hidden = !state.tour;
+      if (state.tour) {
+        const secs = Math.max(3, Number(document.documentElement.dataset.tour) || 10);
+        bar.style.setProperty("--tour-secs", secs + "s");
+        bar.style.setProperty("animation-play-state", "running");
+      }
+    }
+  }
+
+  function updateTourCount() {
+    let chip = $("#tour-count");
+    if (!chip) {
+      const picker = $("#view-picker");
+      if (!picker) return;
+      chip = document.createElement("span");
+      chip.id = "tour-count";
+      chip.className = "tour-count";
+      picker.appendChild(chip);
+    }
+    if (!state.tour) { chip.textContent = ""; return; }
+    const pool = state.tourPool && state.tourPool.length
+      ? state.tourPool.filter(id => VIEW_META.some(v => v.id === id))
+      : VIEW_META.map(v => v.id);
+    const idx = Math.max(0, pool.indexOf(state.heroMode));
+    chip.textContent = `${idx + 1}/${pool.length}`;
   }
 
   function stopTour(silent) {
@@ -1563,6 +1591,7 @@
       hero.style.setProperty("--hero-accent", GROUP_COLORS[meta.group] || "#8b7cf6");
       hero.dataset.mode = mode;
     }
+    if (state.tour) updateTourCount();
     $$(".view-menu .vm-item").forEach(b => {
       const on = b.dataset.hero === mode;
       b.classList.toggle("active", on);
