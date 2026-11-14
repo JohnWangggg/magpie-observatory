@@ -362,8 +362,8 @@ show(F.length-1);
   /* ======================================================= notifications === */
 
   function alertRules() {
-    let r = { quota: 88, err: 5 };
-    try { const v = JSON.parse(localStorage.getItem("magpie.rules") || "{}"); if (v.quota) r.quota = +v.quota; if (v.err) r.err = +v.err; } catch (_) {}
+    let r = { quota: 88, err: 5, cost: 50 };
+    try { const v = JSON.parse(localStorage.getItem("magpie.rules") || "{}"); if (v.quota) r.quota = +v.quota; if (v.err) r.err = +v.err; if (v.cost != null) r.cost = +v.cost; } catch (_) {}
     return r;
   }
   function checkAlerts() {
@@ -384,6 +384,14 @@ show(F.length-1);
     if (errs >= rules.err && now - (s._alertAt.err || 0) >= 600e3) {
       s._alertAt.err = now;
       pushAlert("请求失败增多", `最近 ${errs} 条请求失败，注意检查路由健康`);
+    }
+    // daily cost threshold — sums today's logs only; resets on date change.
+    const today = new Date().toISOString().slice(0, 10);
+    const dayCost = (s.data.logs || []).filter(l => (l.at || "").slice(0, 10) === today)
+      .reduce((sum, l) => sum + (l.cost || 0), 0);
+    if (rules.cost > 0 && dayCost >= rules.cost && s._alertAt.costDay !== today) {
+      s._alertAt.costDay = today;
+      pushAlert("今日成本超预算", `已 $${dayCost.toFixed(2)} ≥ 阈值 $${rules.cost}`);
     }
   }
   function pushAlert(title, body) {
@@ -1436,12 +1444,13 @@ show(F.length-1);
     if (gwi && !gwi.value) gwi.value = localStorage.getItem("magpie.gw") || "";
     const nr = $("#notify-rules");
     if (nr) nr.hidden = !(state() && state().notify);
-    const rq = $("#rule-quota"), re = $("#rule-err");
-    if (rq && re) {
+    const rq = $("#rule-quota"), re = $("#rule-err"), rc = $("#rule-cost");
+    if (rq && re && rc) {
       const r = alertRules();
-      rq.value = r.quota; re.value = r.err;
+      rq.value = r.quota; re.value = r.err; rc.value = r.cost;
       $("#rule-quota-v").textContent = r.quota + "%";
       $("#rule-err-v").textContent = r.err + " 条";
+      $("#rule-cost-v").textContent = "$" + r.cost;
     }
   }
 
@@ -1470,14 +1479,17 @@ show(F.length-1);
     $("#replay-range").addEventListener("input", e => scrubReplay(+e.target.value));
     $("#replay-play").addEventListener("click", toggleReplayPlay);
     $("#replay-share").addEventListener("click", shareReplayLink);
-    ["rule-quota", "rule-err"].forEach(id => {
+    ["rule-quota", "rule-err", "rule-cost"].forEach(id => {
       const el = $("#" + id);
       if (el) el.addEventListener("input", () => {
         const r = alertRules();
-        if (id === "rule-quota") r.quota = +el.value; else r.err = +el.value;
+        if (id === "rule-quota") r.quota = +el.value;
+        else if (id === "rule-err") r.err = +el.value;
+        else r.cost = +el.value;
         try { localStorage.setItem("magpie.rules", JSON.stringify(r)); } catch (_) {}
         $("#rule-quota-v").textContent = r.quota + "%";
         $("#rule-err-v").textContent = r.err + " 条";
+        $("#rule-cost-v").textContent = "$" + r.cost;
       });
     });
     $("#cinema-toggle").addEventListener("click", toggleCinema);
