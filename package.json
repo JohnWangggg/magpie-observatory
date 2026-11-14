@@ -21,7 +21,8 @@
     "sync-views": "node scripts/sync-views.mjs",
     "thumbs": "python3 scripts/thumb-views.py",
     "smoke": "python3 scripts/smoke-views.py",
-    "shot": "python3 scripts/one-shot.py"
+    "shot": "python3 scripts/one-shot.py",
+    "lint-data": "node scripts/lint-data.mjs"
   },
   "keywords": [
     "magpie",
