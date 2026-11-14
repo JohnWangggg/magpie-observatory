@@ -1,0 +1,14 @@
+/* jungle */
+.jg-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.jg-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.jg-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.jg-head span { font-size: 8px; color: var(--muted); }
+.jg-wrap svg { flex: 1; width: 100%; }
+.jg-vine { transform-box: fill-box; }
+.jg-vine.hot path { filter: drop-shadow(0 0 4px rgba(240,200,100,.4)); }
+.jg-bird { transform-box: fill-box; }
+.jg-bird.dead { opacity: .85; }
+.jg-pct { font: 700 9px var(--num); fill: #8ab89a; }
+.jg-name { font: 600 7px var(--mono); fill: #58785a; }
+.jg-k { font: 700 10px var(--num); fill: var(--fg); }
+.jg-ksub { font: 7px var(--mono); fill: var(--muted); }
