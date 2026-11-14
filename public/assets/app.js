@@ -2588,6 +2588,12 @@
       if (e.key.toLowerCase() === "g" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); if (state.tour) stopTour(); else { closeViewMenu(); startTour(); } }
       if (e.key.toLowerCase() === "f" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); toggleFavorite(state.heroMode); }
       if (e.key === "?") { e.preventDefault(); toggleHelp(); }
+      if (e.key === "\`" && !e.metaKey && !e.ctrlKey && !e.altKey) {
+        e.preventDefault();
+        const prev = (state.viewRecent || []).find(id => id !== state.heroMode);
+        if (prev && viewMeta(prev)) { setHeroMode(prev); toast("回到「" + (viewMeta(prev).title || prev) + "」"); }
+        else toast("没有上一视图");
+      }
       if ((e.key === "ArrowRight" || e.key === "ArrowLeft") && !e.metaKey && !e.ctrlKey && !e.altKey) {
         e.preventDefault();
         const idx = VIEW_META.findIndex(v => v.id === state.heroMode);
