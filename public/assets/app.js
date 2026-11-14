@@ -566,6 +566,7 @@
     const box = $("#vlight");
     if (box) { box.hidden = true; box.setAttribute("aria-hidden", "true"); }
   }
+  if (window.Obs) { window.Obs.showVlight = showVlight; window.Obs.hideVlight = hideVlight; }
 
 
   function toggleFavorite(id) {

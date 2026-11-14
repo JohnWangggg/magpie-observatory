@@ -1842,9 +1842,10 @@ ${quota || "| — | — | — |"}
       const thumb = it.vid ? `<span class="pal-thumb" aria-hidden="true"><img src="shots/${it.vid}.png" alt="" loading="lazy" onerror="this.remove()"></span>` : "";
       return `<button class="pal-item" data-idx="${i}"><svg><use href="#${it.icon}"/></svg><span><b>${esc(it.title)}</b><small>${esc(it.sub)}</small></span><em>${esc(it.kind)}</em>${thumb}</button>`;
     }).join("");
-    $$(".pal-item", list).forEach(b => b.addEventListener("click", () => {
+    $$(".pal-item", list).forEach(b => b.addEventListener("click", (e) => {
       const it = items[+b.dataset.idx];
       if (it && it.run) it.run();
+      if (it && it.vid && e.target.closest(".pal-thumb") && Obs.showVlight) Obs.showVlight(it.vid);
       closePalette();
     }));
   }
