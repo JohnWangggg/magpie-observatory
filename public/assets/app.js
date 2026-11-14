@@ -2714,6 +2714,43 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
     $("#session-list").addEventListener("scroll", hidePop, { passive: true });
     document.addEventListener("click", e => { if (!e.target.closest(".session-pop")) hidePop(); });
 
+    // Hover a quota item → same pop style: all windows with bars + reset ETA.
+    let qPopTimer = null;
+    const qpop = document.createElement("div");
+    qpop.className = "session-pop quota-pop"; qpop.hidden = true;
+    document.body.appendChild(qpop);
+    const hideQPop = () => { clearTimeout(qPopTimer); qpop.hidden = true; };
+    const ql = $("#quota-list");
+    if (ql) {
+      ql.addEventListener("mouseover", e => {
+        const item = e.target.closest(".quota-item");
+        if (!item) return;
+        clearTimeout(qPopTimer);
+        qPopTimer = setTimeout(() => {
+          const q = (state.data.quotas || []).find(x => x.provider === item.dataset.prov);
+          if (!q) return;
+          const meta = D.providerMeta(q.provider);
+          const rows = (q.windows || []).map(w => {
+            const u = Math.round(w.used || 0);
+            const col = u >= 88 ? "var(--red)" : u >= 70 ? "var(--amber)" : meta.color;
+            return `<div class="pop-try"><span>${esc(w.name)}</span><em class="${u >= 88 ? "fail" : "ok"}" style="color:${col}">${u}% · ${esc(fmtReset(w.resetsIn))}</em></div>`;
+          }).join("");
+          qpop.innerHTML = `
+            <div class="pop-head"><b>${esc(meta.name || q.provider)}</b><span>${esc(q.plan || "")}</span></div>
+            <div class="pop-meta">${esc(q.name)}${q.user ? " · " + esc(q.user) : ""}${q.balance ? " · 余额 " + esc(q.balance) : ""}</div>
+            <div class="pop-tries">${rows || '<div class="pop-try"><span>无窗口数据</span></div>'}</div>`;
+          const r = item.getBoundingClientRect();
+          qpop.hidden = false;
+          const pw = 260;
+          qpop.style.left = Math.max(8, Math.min(window.innerWidth - pw - 8, r.left)) + "px";
+          qpop.style.top = (r.bottom + 6 + qpop.offsetHeight > window.innerHeight ? r.top - qpop.offsetHeight - 6 : r.bottom + 6) + "px";
+        }, 350);
+      });
+      ql.addEventListener("mouseout", e => { if (e.target.closest(".quota-item")) hideQPop(); });
+      ql.addEventListener("scroll", hideQPop, { passive: true });
+      document.addEventListener("click", e => { if (!e.target.closest(".quota-pop")) hideQPop(); });
+    }
+
     // Right-click a session card → little context menu with the four things
     // you actually do with a session id. Replaces the old copy-id-only flow.
     const ctxMenu = document.createElement("div");
