@@ -733,6 +733,29 @@ show(F.length-1);
   // A warn/bad attention chip is a door: click it to open the thing it's
   // telling you about — quota alert → burn view (row highlighted), error
   // burst → the log table filtered down.
+  /* --------------------------------------------- session-list keyboard nav
+   * The quota grid and log table already take arrows; the live session
+   * rail deserves the same: ↓/↑ walks cards, Enter selects (same as a
+   * click — log search follows), Escape clears. */
+  function bindSessionKb() {
+    const list = $("#session-list");
+    if (!list) return;
+    list.tabIndex = 0;
+    let sKb = -1;
+    list.addEventListener("keydown", e => {
+      const cards = [...list.querySelectorAll(".session-card")];
+      if (!cards.length) return;
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        e.preventDefault();
+        sKb = e.key === "ArrowDown" ? Math.min(cards.length - 1, sKb + 1) : Math.max(0, sKb - 1);
+        cards.forEach((c, i) => c.classList.toggle("kb-focus", i === sKb));
+        cards[sKb]?.scrollIntoView({ block: "nearest" });
+      }
+      if (e.key === "Enter" && sKb >= 0) { e.preventDefault(); cards[sKb]?.click(); }
+      if (e.key === "Escape") { cards.forEach(c => c.classList.remove("kb-focus")); sKb = -1; }
+    });
+  }
+
   function bindAttnGoto() {
     const strip = $("#attn-strip");
     if (!strip) return;
@@ -1339,6 +1362,7 @@ show(F.length-1);
     bindHeatDay();
     bindAttnGoto();
     bindQuotaGoto();
+    bindSessionKb();
     if (state().layoutEdit) setLayoutEdit(true);
     syncExtrasMenu();
     applyUrlState();
