@@ -953,3 +953,14 @@ decision/palette）+ 复制/跳转/过滤/记忆/导出 全覆盖。审计完毕
 - **VIEW_META 趣味组** + `view-rain` + `43 VIEWS`；
   README×2 + `docs/mode-rain.png`。
 
+---
+
+## Phase 80 — 第 44 个视图 `bubbles`（2026-11-15 · v0.82.0）
+
+- **`bubbles.js/css`**：气泡上浮——泡=会话（大=Token、色=Agent、
+  摇摆=相位、沉=失败）、焦散光、水面线。
+- **坑**：`transform` attr 被 CSS `transform` 盖——改用 `cx`/`cy` 绝对坐标 +
+  `translateX`/`translateY` 只动画位移；`both` 回底→`infinite`。
+- **VIEW_META 趣味组** + `view-bubbles` + `44 VIEWS`；
+  README×2 + `docs/mode-bubbles.png`。
+
