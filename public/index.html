@@ -75,6 +75,7 @@
   <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 4 2.35 4.76 5.25.76-3.8 3.7.9 5.23L12 16l-4.7 2.45.9-5.23-3.8-3.7 5.25-.76L12 4Z"/></symbol>
   <symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0 0 18h1.3a2.6 2.6 0 0 0 0-5.2H12a2 2 0 0 1 0-4h4.2A4.8 4.8 0 0 0 21 7.2 9 9 0 0 0 12 3Z"/><circle cx="7.5" cy="9" r="1"/><circle cx="10" cy="6.4" r="1"/><circle cx="14" cy="6.4" r="1"/></symbol>
   <symbol id="i-expand" viewBox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></symbol>
   <symbol id="i-cmd" viewBox="0 0 24 24"><path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3Z"/></symbol>
   <symbol id="i-flame" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5Z"/></symbol>
   <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3Zm7 11 1 3 3 1-3 1-1 3-1-3-3-1 3-1 1-3ZM5 15l.8 2.2L8 18l-2.2.8L5 21l-.8-2.2L2 18l2.2-.8L5 15Z"/></symbol>
@@ -100,7 +101,7 @@
       <button class="nav-item" id="theme-toggle" title="明暗模式"><svg class="icon-moon"><use href="#i-moon"/></svg><svg class="icon-sun"><use href="#i-sun"/></svg><span>明暗</span></button>
       <button class="nav-item" id="style-toggle" title="界面风格"><svg><use href="#i-palette"/></svg><span>风格</span></button>
       <button class="nav-item" id="settings-toggle" title="布局与动效"><svg><use href="#i-settings"/></svg><span>设置</span></button>
-      <div class="rail-version">v0.78.0 <i></i> plugin</div>
+      <div class="rail-version">v0.79.0 <i></i> plugin</div>
     </div>
   </aside>
 
@@ -148,6 +149,7 @@
               <svg class="vp-chevron"><use href="#i-chevron"/></svg>
             </button>
             <button class="cinema-btn" id="cinema-toggle" type="button" title="影院模式（O）· 全屏只看这一个视图" aria-label="进入影院模式"><svg><use href="#i-expand"/></svg></button>
+            <button class="cinema-btn" id="export-png" type="button" title="导出当前视图 PNG（E）" aria-label="导出 PNG"><svg><use href="#i-download"/></svg></button>
             <div class="hero-stat"><b id="hero-requests">0</b><span>请求</span></div>
             <div class="hero-stat warn"><b id="hero-fallbacks">0</b><span>改道</span></div>
             <div class="hero-stat bad"><b id="hero-errors">0</b><span>错误</span></div>
@@ -466,6 +468,7 @@
     <kbd>?</kbd><span>打开 / 关闭帮助</span>
     <kbd>Esc</kbd><span>关闭弹层</span>
     <kbd>O</kbd><span>影院模式</span>
+    <kbd>E</kbd><span>导出当前视图 PNG</span>
     <kbd>⌘K</kbd><span>命令面板</span>
   </div>
   <p>巡游按钮在视图菜单底部：间隔在 设置 → 巡游间隔 里选 5 / 10 / 30 秒。</p>

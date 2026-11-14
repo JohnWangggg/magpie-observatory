@@ -578,6 +578,56 @@ show(F.length-1);
     });
     grid.addEventListener("mouseleave", () => { pop.hidden = true; cur = null; });
   }
+  /* ====================================================== export PNG ====== */
+  // Serialize the active stage view's largest SVG (or canvas) into a PNG.
+  // Route view = DOM, so it falls back to a toast; canvas games rasterize
+  // straight through; SVGs get cloned, styles inlined, drawn at 2×.
+  function exportPNG() {
+    const s = state();
+    const host = document.querySelector(".stage-view:not([hidden])") || $(".route-stage");
+    if (!host) { toast("没有可导出的视图"); return; }
+    const cv = host.querySelector("canvas");
+    const meta = (Obs.api.viewMeta && s) ? Obs.api.viewMeta(s.heroMode) : {};
+    const name = `magpie-${s ? s.heroMode : "view"}-${new Date().toISOString().slice(0, 10)}`;
+    if (cv) {
+      const a = document.createElement("a");
+      a.download = name + ".png"; a.href = cv.toDataURL("image/png"); a.click();
+      toast(`已导出 ${meta.title || "视图"}.png`); return;
+    }
+    const svg = [...host.querySelectorAll("svg")].sort((a, b) =>
+      (b.clientWidth * b.clientHeight) - (a.clientWidth * a.clientHeight))[0];
+    if (!svg) { toast("此视图没有 SVG/Canvas · 暂不支持导出"); return; }
+    const clone = svg.cloneNode(true);
+    clone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+    const vb = (svg.viewBox && svg.viewBox.baseVal && svg.viewBox.baseVal.width)
+      ? svg.viewBox.baseVal
+      : { width: svg.clientWidth || 800, height: svg.clientHeight || 300 };
+    clone.setAttribute("width", vb.width); clone.setAttribute("height", vb.height);
+    const bg = getComputedStyle(document.documentElement).getPropertyValue("--bg").trim() || "#0b0c12";
+    const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    rect.setAttribute("width", "100%"); rect.setAttribute("height", "100%"); rect.setAttribute("fill", bg);
+    clone.insertBefore(rect, clone.firstChild);
+    const css = [...document.styleSheets].map(sh => { try { return [...sh.cssRules].map(r => r.cssText).join(""); } catch (_) { return ""; } }).join("");
+    const st = document.createElementNS("http://www.w3.org/2000/svg", "style");
+    st.textContent = css;
+    clone.insertBefore(st, clone.firstChild);
+    const url = URL.createObjectURL(new Blob([new XMLSerializer().serializeToString(clone)], { type: "image/svg+xml" }));
+    const img = new Image();
+    img.onload = () => {
+      const c = document.createElement("canvas");
+      c.width = vb.width * 2; c.height = vb.height * 2;
+      const cx = c.getContext("2d");
+      cx.fillStyle = bg; cx.fillRect(0, 0, c.width, c.height);
+      cx.drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url);
+      const a = document.createElement("a");
+      a.download = name + ".png"; a.href = c.toDataURL("image/png"); a.click();
+      toast(`已导出 ${meta.title || "视图"}.png`);
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); toast("导出失败 · 该视图无法序列化"); };
+    img.src = url;
+  }
+
   // Copy a link that opens this page in the same state (view + range + cinema).
   async function copySnapshotLink() {
     const s = state();
@@ -1135,6 +1185,12 @@ show(F.length-1);
     });
     const gwc = $("#gw-current");
     if (gwc) gwc.textContent = localStorage.getItem("magpie.gw") || "自动";
+    // The settings 体验 segment delegates through app.js's click handler
+    // which only matches layout/density/motion/tour — bind extras ourselves.
+    $("#extras-seg") && $("#extras-seg").addEventListener("click", e => {
+      const b = e.target.closest("button[data-extra]");
+      if (b) { applyExtra(b.dataset.extra); syncExtrasMenu(); }
+    });
     const gwi = $("#gw-input");
     if (gwi && !gwi.value) gwi.value = localStorage.getItem("magpie.gw") || "";
     const nr = $("#notify-rules");
@@ -1184,6 +1240,7 @@ show(F.length-1);
       });
     });
     $("#cinema-toggle").addEventListener("click", toggleCinema);
+    $("#export-png") && $("#export-png").addEventListener("click", exportPNG);
     $("#cmd-open").addEventListener("click", openPalette);
     $("#xp-chip").addEventListener("click", showRecords);
     $("#gw-save").addEventListener("click", async () => {
@@ -1205,6 +1262,7 @@ show(F.length-1);
       if (e.key === "Escape" && state() && state().cinema) { setCinema(false); }
       if (e.key.toLowerCase() === "o" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); toggleCinema(); }
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") { e.preventDefault(); openPalette(); }
+      if (e.key.toLowerCase() === "e" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); exportPNG(); }
     });
     document.addEventListener("click", e => {
       const pal = $("#cmd-palette");

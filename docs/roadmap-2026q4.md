@@ -907,3 +907,17 @@ decision/palette）+ 复制/跳转/过滤/记忆/导出 全覆盖。审计完毕
 - **VIEW_META 趣味组** + `view-kaleido` + `41 VIEWS`；
   README×2 + `docs/mode-kaleido.png`。
 
+---
+
+## Phase 76 — 接通死 UI + 导出 PNG（2026-11-15 · v0.79.0）
+
+- **发现**：`app-plus.js`（1364 行）已实现 cinema/attn/replay/palette/
+  layout-edit/notify/sound——但 `data-extra` 按钮点击委托到 app.js 的
+  settings handler（只认 layout/density/motion/tour），extras 从未绑定。
+- **接通**：`#extras-seg` 在 app-plus bind hook 里自绑 `data-extra` →
+  `applyExtra`；`#export-png` 按钮 + `i-download` symbol + `E` 键 +
+  帮助条目；`exportPNG()` 在 app-plus（canvas 直接 `toDataURL`，
+  SVG 克隆 + 内联全部 stylesheet + 2× rasterize + `--bg` 底）。
+- **验证**：cinema O/Esc ✓、sound 开 + `magpie.sound=1` ✓、
+  layout-edit 拖 + `.slot-x` ✓、导出 `magpie-kaleido-2026-11-14.png` 387KB ✓。
+
