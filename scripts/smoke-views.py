@@ -13,7 +13,7 @@ LIMIT = 400
 if "--limit" in sys.argv:
     LIMIT = int(sys.argv[sys.argv.index("--limit") + 1])
 VERBOSE = "--verbose" in sys.argv
-
+ERRORS_ONLY = "--errors-only" in sys.argv
 app = (ROOT / "public/assets/app.js").read_text()
 meta = re.search(r"VIEW_META\s*=\s*\[([\s\S]*?)\];", app).group(1)
 ids = re.findall(r'\{\s*id:\s*"(\w+)"', meta)[:LIMIT]
@@ -54,7 +54,7 @@ try:
                     empty.append((vid, "empty stage")); print(f"  × {vid}: empty stage")
                 else:
                     ok.append(vid)
-                    if VERBOSE: print(f"[{i}/{len(ids)}] {vid} els={stat['els']} svgs={stat['svgs']}")
+                    if VERBOSE and not ERRORS_ONLY: print(f"[{i}/{len(ids)}] {vid} els={stat['els']} svgs={stat['svgs']}")
                 if page_errors:
                     errors.append((vid, page_errors[:2]))
                     print(f"  ⚠ {vid}: {page_errors[0][:70]}")
