@@ -83,7 +83,7 @@ async function gatewayBase(force, override) {
   return url;
 }
 const PERIODS = new Set(["today", "week", "month", "all"]);
-const VERSION = "1.0.0";
+const VERSION = "1.0.1";
 
 const TYPES = {
   ".html": "text/html; charset=utf-8",
