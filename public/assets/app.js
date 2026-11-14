@@ -33,6 +33,7 @@
     liveBusy: false,
     tour: false,
     tourTimer: null,
+    tourPool: null,
     liveTries: 0,
     liveRetryTimer: null,
     gatewayWatch: null,
@@ -351,6 +352,7 @@
     state.tour = false;
     clearInterval(state.tourTimer);
     state.tourTimer = null;
+    state.tourPool = null;
     updateTourUi();
     if (!silent) toast("巡游已停止");
   }
@@ -363,8 +365,11 @@
     const secs = Math.max(3, Number(document.documentElement.dataset.tour) || 10);
     state.tourTimer = setInterval(() => {
       if (document.hidden || state.paused) return;
-      const idx = VIEW_META.findIndex(v => v.id === state.heroMode);
-      const next = VIEW_META[(idx + 1) % VIEW_META.length].id;
+      const pool = state.tourPool && state.tourPool.length
+        ? state.tourPool.map(id => VIEW_META.find(v => v.id === id)).filter(Boolean)
+        : VIEW_META;
+      const idx = pool.findIndex(v => v.id === state.heroMode);
+      const next = pool[(idx + 1) % pool.length].id;
       setHeroMode(next);
     }, secs * 1000);
     toast(`巡游开始 · 每 ${secs} 秒切换视图`);
@@ -2832,7 +2837,8 @@
   var apiObj = {
     state, toast, setHeroMode, renderAll, fmtTokens, fmtMoney, fmtReset,
     computeView, drawWires, randomView, startTour, stopTour, connectLive,
-    apiHeaders, viewMeta, providerMeta: D.providerMeta, agentMeta: D.agentMeta,
+    closeViewMenu,
+    apiHeaders, viewMeta, VIEW_META, providerMeta: D.providerMeta, agentMeta: D.agentMeta,
     agentIcon, providerIcon, esc, clamp
   };
   window.Obs.api = apiObj;

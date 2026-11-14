@@ -276,9 +276,15 @@ show(F.length-1);
     if (!s) return;
     if (on) {
       s.ambient = true;
+      // Favourite-first rotation: the pool is favourites in pick order, then
+      // every other view, so a long idle runs the good stuff before filler.
+      const meta = Obs.api.VIEW_META || [];
+      const favs = (s.favorites || []).filter(id => meta.some(v => v.id === id));
+      const rest = meta.filter(v => !favs.includes(v.id)).map(v => v.id);
+      s.tourPool = favs.concat(rest);
       setCinema(true);
       if (!s.tour && Obs.api.startTour) Obs.api.startTour();
-      toast("氛围模式 · 自动轮播 · A / O / Esc 退出");
+      toast("氛围模式 · " + (favs.length ? favs.length + " 个收藏优先 · " : "") + "自动轮播 · A / O / Esc 退出");
     } else {
       s.ambient = false;
       if (s.tour && Obs.api.stopTour) Obs.api.stopTour(true);
@@ -1281,6 +1287,9 @@ show(F.length-1);
       });
     });
     $("#cinema-toggle").addEventListener("click", toggleCinema);
+    const vmCinema = $("#vm-cinema"), vmAmbient = $("#vm-ambient");
+    if (vmCinema) vmCinema.addEventListener("click", () => { setCinema(true); if (Obs.api.closeViewMenu) Obs.api.closeViewMenu(); });
+    if (vmAmbient) vmAmbient.addEventListener("click", () => { setAmbient(true); if (Obs.api.closeViewMenu) Obs.api.closeViewMenu(); });
     $("#export-png") && $("#export-png").addEventListener("click", exportPNG);
     $("#cmd-open").addEventListener("click", openPalette);
     $("#xp-chip").addEventListener("click", showRecords);
