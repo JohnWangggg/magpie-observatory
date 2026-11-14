@@ -1,0 +1,14 @@
+/* ranch2 */
+.rh-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.rh-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.rh-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.rh-head span { font-size: 8px; color: var(--muted); }
+.rh-wrap svg { flex: 1; width: 100%; }
+.rh-num { font: 700 8.5px var(--num); fill: var(--fg); }
+.rh-name { font: 7px var(--mono); fill: var(--muted); }
+.rh-k { font: 700 10px var(--num); fill: var(--fg); }
+.rh-ksub { font: 7.5px var(--mono); fill: var(--muted); }
+.rh-steer { transform-box: fill-box; }
+.rh-steer.hot { filter: drop-shadow(0 0 4px rgba(240,200,100,.4)); }
+.rh-cowboy { transform-box: fill-box; }
+.rh-cowboy.dead { opacity: .8; }

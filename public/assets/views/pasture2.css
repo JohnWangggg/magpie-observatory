@@ -1,0 +1,14 @@
+/* pasture2 */
+.mf-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.mf-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.mf-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.mf-head span { font-size: 8px; color: var(--muted); }
+.mf-wrap svg { flex: 1; width: 100%; }
+.mf-num { font: 700 8.5px var(--num); fill: var(--fg); }
+.mf-name { font: 7px var(--mono); fill: var(--muted); }
+.mf-k { font: 700 10px var(--num); fill: var(--fg); }
+.mf-ksub { font: 7.5px var(--mono); fill: var(--muted); }
+.mf-ewe { transform-box: fill-box; }
+.mf-ewe.hot { filter: drop-shadow(0 0 4px rgba(240,200,100,.4)); }
+.mf-shep { transform-box: fill-box; }
+.mf-shep.dead { opacity: .8; }
