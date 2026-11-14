@@ -1586,6 +1586,11 @@
     try {
       const vc = parseInt(localStorage.getItem("magpie.viewCount") || "0", 10) || 0;
       localStorage.setItem("magpie.viewCount", String(vc + 1));
+      const seen = JSON.parse(localStorage.getItem("magpie.viewSeen") || "[]");
+      if (!seen.includes(mode)) {
+        seen.push(mode);
+        localStorage.setItem("magpie.viewSeen", JSON.stringify(seen));
+      }
       const h = JSON.parse(localStorage.getItem("magpie.viewHeat") || "{}");
       h[mode] = (h[mode] || 0) + 1;
       localStorage.setItem("magpie.viewHeat", JSON.stringify(h));
