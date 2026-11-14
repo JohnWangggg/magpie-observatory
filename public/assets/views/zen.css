@@ -1,0 +1,13 @@
+/* zen — raked sand, stone groups, drifting leaves */
+.zn-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.zn-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font-size: 9px; color: var(--muted); flex: none; }
+.zn-head b { color: var(--fg); font-size: 10px; letter-spacing: .12em; }
+.zn-wrap svg { flex: 1; min-height: 0; display: block; margin: 0 auto; }
+.zn-stone.hot { filter: drop-shadow(0 0 5px var(--red)); }
+.zn-leaf { animation: znSway ease-in-out infinite alternate; }
+.zn-leaf.dead { opacity: .5; }
+@keyframes znSway { from { transform: rotate(-14deg); } to { transform: rotate(14deg); } }
+.zn-pct { font: 700 10px var(--num); fill: var(--fg-2); }
+.zn-name { font: 500 7px var(--mono); fill: var(--muted); }
+.zn-k { font: 700 11px var(--num); fill: var(--fg); }
+.zn-ksub { font: 500 7px var(--mono); fill: var(--muted); }
