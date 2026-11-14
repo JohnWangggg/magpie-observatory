@@ -1077,15 +1077,29 @@
 
   // Number bump: counts roll up to the new value and flash the card accent.
   // Skipped on first paint and when motion is off.
+  // Number roll: counts tween up to the new value and flash the card accent.
+  // Skipped when motion is off or the number did not change.
+  const _statT = new Map();
   function animateStat(sel, target) {
     const el = $(sel);
     if (!el) return;
     const prev = parseInt(el.textContent, 10) || 0;
-    el.textContent = target;
-    if (prev === target || document.documentElement.dataset.motion === "off") return;
+    if (prev === target) { el.textContent = target; return; }
+    const motion = document.documentElement.dataset.motion || "full";
+    if (motion === "off") { el.textContent = target; return; }
+    clearTimeout(_statT.get(sel));
     el.classList.remove("stat-bump");
     void el.offsetWidth;
     el.classList.add("stat-bump");
+    const from = prev, delta = target - from, t0 = performance.now(), dur = 420;
+    const step = () => {
+      const k = Math.min(1, (performance.now() - t0) / dur);
+      const ease = 1 - Math.pow(1 - k, 3);
+      el.textContent = Math.round(from + delta * ease);
+      if (k < 1) _statT.set(sel, setTimeout(step, 16));
+      else { el.textContent = target; _statT.delete(sel); }
+    };
+    _statT.set(sel, setTimeout(step, 16));
   }
 
     const activeCount = active.length;
