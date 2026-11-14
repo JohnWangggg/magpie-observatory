@@ -1,0 +1,12 @@
+/* dojo — wooden dummies, strike marks, hanging scrolls */
+.dj-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.dj-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font-size: 9px; color: var(--muted); flex: none; }
+.dj-head b { color: var(--fg); font-size: 10px; letter-spacing: .12em; }
+.dj-wrap svg { flex: 1; min-height: 0; display: block; margin: 0 auto; }
+.dj-dummy.dead { opacity: .6; }
+.dj-scroll.hot { filter: drop-shadow(0 0 4px var(--red)); }
+.dj-pct { font: 700 8px var(--num); fill: var(--fg-2); }
+.dj-name { font: 600 8px var(--mono); fill: var(--fg-2); }
+.dj-sub { font: 500 7px var(--mono); fill: var(--muted); }
+.dj-k { font: 700 11px var(--num); fill: var(--fg); }
+.dj-ksub { font: 500 7px var(--mono); fill: var(--muted); }
