@@ -2177,11 +2177,16 @@ html[data-density="spacious"] .kpi { padding: 15px 16px 13px; }
 html[data-density="spacious"] .decision-strip { min-height: 58px; padding: 12px 14px; margin-bottom: 16px; }
 
 /* motion */
+/* soft = everything runs ~1.6x slower via per-animation duration bump;
+   drop-shadows stay off for the reduced feel */
 html[data-motion="soft"] .radar-sweep { animation-duration: 9s; }
 html[data-motion="soft"] .loom-shuttle { animation-duration: 8s; }
 html[data-motion="soft"] .rhythm-playhead { animation-duration: 8s; }
 html[data-motion="soft"] .session-card.streaming::after { animation-duration: 7s; }
 html[data-motion="soft"] .flier { filter: none; }
+html[data-motion="soft"] .session-card.streaming::after,
+html[data-motion="soft"] .flier { animation-duration: 7s; filter: none; }
+html[data-motion="soft"] .ghost-magpie { animation-duration: 4.5s; }
 html[data-motion="off"] *,
 html[data-motion="off"] *::before,
 html[data-motion="off"] *::after {
