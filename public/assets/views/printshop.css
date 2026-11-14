@@ -1,0 +1,14 @@
+/* printshop */
+.pp-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.pp-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.pp-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.pp-head span { font-size: 8px; color: var(--muted); }
+.pp-wrap svg { flex: 1; width: 100%; }
+.pp-num { font: 700 8.5px var(--num); fill: var(--fg); }
+.pp-name { font: 7px var(--mono); fill: var(--muted); }
+.pp-k { font: 700 10px var(--num); fill: var(--fg); }
+.pp-ksub { font: 7.5px var(--mono); fill: var(--muted); }
+.pp-press { transform-box: fill-box; }
+.pp-press.hot { filter: drop-shadow(0 0 4px rgba(240,200,100,.4)); }
+.pp-printer { transform-box: fill-box; }
+.pp-printer.dead { opacity: .8; }

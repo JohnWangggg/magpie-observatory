@@ -1,0 +1,14 @@
+/* glassworks */
+.gm-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.gm-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.gm-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.gm-head span { font-size: 8px; color: var(--muted); }
+.gm-wrap svg { flex: 1; width: 100%; }
+.gm-num { font: 700 8.5px var(--num); fill: var(--fg); }
+.gm-name { font: 7px var(--mono); fill: var(--muted); }
+.gm-k { font: 700 10px var(--num); fill: var(--fg); }
+.gm-ksub { font: 7.5px var(--mono); fill: var(--muted); }
+.gm-furn { transform-box: fill-box; }
+.gm-furn.hot { filter: drop-shadow(0 0 5px rgba(100,200,240,.4)); }
+.gm-blower { transform-box: fill-box; }
+.gm-blower.dead { opacity: .8; }
