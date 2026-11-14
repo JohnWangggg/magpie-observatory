@@ -1225,6 +1225,14 @@ show(F.length-1);
         <div><small>调用</small><b>${y.calls || 0}${dCall != null ? `<em class="dig ${dCall >= 0 ? "up" : "down"}">${dCall >= 0 ? "▲" : "▼"}${Math.abs(dCall)}%</em>` : ""}</b></div>
         <div><small>连续使用</small><b>${dayStreak()} 天</b></div>
         <div><small>最常用</small><b>${meta ? esc(meta.name) : "—"}</b></div>
+        ${(() => {
+          try {
+            const seen = JSON.parse(localStorage.getItem("magpie.viewSeen") || "[]");
+            const total = (Obs.api.VIEW_META || []).length;
+            const pct = total ? Math.round(seen.length / total * 100) : 0;
+            return `<div><small>图鉴</small><b>${seen.length}/${total} <em class="dig">${pct}%</em></b></div>`;
+          } catch (_) { return ""; }
+        })()}
       </div>
       <div class="digest-foot">连续使用 ${dayStreak()} 天 · ${dTok != null ? (dTok >= 0 ? "较前日 +" + dTok + "%" : "较前日 " + dTok + "%") : "保持热度"}
         <button class="mini-btn digest-week" type="button">看周报 →</button></div>`;
