@@ -1392,6 +1392,40 @@ Quotas: ${quotas}`;
     closePalette();
   }
 
+  function copyReceipt() {
+    const s = state();
+    if (!s) return;
+    const k = (s.view && s.view.kpis) || s.data.kpis || {};
+    const heat = s.data.heatmap || [];
+    const today = heat[heat.length - 1];
+    const quota = (s.data.quotas || []).map(q => {
+      const w = q.windows && q.windows[0];
+      const m = Obs.api.providerMeta ? Obs.api.providerMeta(q.provider) : {};
+      return `| ${esc(m.name || q.provider)} | ${esc(w && w.name || q.name || "")} | ${Math.round((w && w.used) || 0)}% |`;
+    }).join("\n");
+    const agents = {};
+    (s.data.sessions || []).forEach(x => agents[x.agent] = (agents[x.agent] || 0) + 1);
+    const agentLine = Object.entries(agents).map(([a, n]) => `${a} ×${n}`).join(" · ");
+    const date = today && today.date ? today.date : new Date().toISOString().slice(0, 10);
+    const md = `# Magpie 今日票据 · ${date}
+- 请求：${(k.requests || 0).toLocaleString()} 次
+- Tokens：${fmtTokens(k.tokens)}（环比 ${k.tokensDelta >= 0 ? "+" : ""}${k.tokensDelta || 0}%）
+- 费用：${fmtMoney(k.cost)}
+- TPS：${k.tps != null ? k.tps.toFixed(1) : "—"}
+- 活跃会话：${k.active || 0}（${agentLine || "—"}）
+- 缓存命中：${k.cache != null ? k.cache.toFixed(1) : "—"}%
+
+| Provider | 窗口 | 已用 |
+| --- | --- | --- |
+${quota || "| — | — | — |"}
+
+生成于 Magpie Observatory · ${new Date().toTimeString().slice(0, 5)}`;
+    navigator.clipboard?.writeText(md).then(() => toast("今日票据已复制"));
+    closePalette();
+  }
+
+   /* ========================================================= palette ======= */
+
   function openPalette() {
     const pal = $("#cmd-palette");
     if (!pal) return;
@@ -1439,7 +1473,8 @@ Quotas: ${quotas}`;
       { kind: "动作", icon: "i-overview", title: s && s.layoutEdit ? "退出排布模式" : "进入排布模式", sub: "拖拽重排卡片", search: "layout 排布 拖拽 布局".toLowerCase(), run: () => applyExtra("layout-edit") },
       { kind: "动作", icon: "i-server", title: "网关对比", sub: "默认 vs 锁定 · 并列四指标", search: "gateway 网关 对比 compare multi".toLowerCase(), run: compareGateways },
       { kind: "动作", icon: "i-trophy", title: "个人战绩", sub: "等级 / 连击 / 纪录", search: "records 战绩 等级 成就".toLowerCase(), run: showRecords },
-      { kind: "动作", icon: "i-link", title: "复制视图快照", sub: "当前视图 + KPI + 配额摘要", search: "snapshot 快照 复制 copy".toLowerCase(), run: copyViewSnapshot }
+      { kind: "动作", icon: "i-link", title: "复制视图快照", sub: "当前视图 + KPI + 配额摘要", search: "snapshot 快照 复制 copy".toLowerCase(), run: copyViewSnapshot },
+      { kind: "动作", icon: "i-doc", title: "复制今日票据", sub: "markdown 摘要 · 日报/聊天直贴", search: "receipt 票据 摘要 markdown copy".toLowerCase(), run: copyReceipt }
     );
     // per-provider burn shortcuts — "看 Claude 烧速" jumps straight to the
     // window row.
