@@ -1629,6 +1629,11 @@
     try {
       const vc = parseInt(localStorage.getItem("magpie.viewCount") || "0", 10) || 0;
       localStorage.setItem("magpie.viewCount", String(vc + 1));
+      const today = new Date().toISOString().slice(0, 10);
+      const day = JSON.parse(localStorage.getItem("magpie.viewCountDay") || "{}");
+      if (day.date !== today) { day.date = today; day.n = 0; }
+      day.n = (day.n || 0) + 1;
+      localStorage.setItem("magpie.viewCountDay", JSON.stringify(day));
       const seen = JSON.parse(localStorage.getItem("magpie.viewSeen") || "[]");
       if (!seen.includes(mode)) {
         seen.push(mode);

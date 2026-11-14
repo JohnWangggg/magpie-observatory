@@ -1090,6 +1090,12 @@ show(F.length-1);
         <div class="rec"><small>单日最多调用</small><b>${r.bestCalls.calls} <span>${r.bestCalls.date.slice(5)}</span></b></div>
         <div class="rec"><small>活跃天数</small><b>${r.daysActive} 天</b></div>
         <div class="rec"><small>累计切视图</small><b>${(parseInt(localStorage.getItem("magpie.viewCount") || "0", 10) || 0).toLocaleString()} 次</b></div>
+        <div class="rec"><small>今日切视图</small><b>${(() => {
+          try {
+            const d = JSON.parse(localStorage.getItem("magpie.viewCountDay") || "{}");
+            return (d.date === new Date().toISOString().slice(0, 10) ? d.n : 0) + " 次";
+          } catch (_) { return "0 次"; }
+        })()}</b></div>
         <div class="rec"><small>最常看</small><b>${(() => {
           try {
             const h = JSON.parse(localStorage.getItem("magpie.viewHeat") || "{}");
