@@ -1089,6 +1089,7 @@ show(F.length-1);
         <div class="rec"><small>单日最多 tokens</small><b>${fmtTokens(r.bestDay.tokens)} <span>${r.bestDay.date.slice(5)}</span></b></div>
         <div class="rec"><small>单日最多调用</small><b>${r.bestCalls.calls} <span>${r.bestCalls.date.slice(5)}</span></b></div>
         <div class="rec"><small>活跃天数</small><b>${r.daysActive} 天</b></div>
+        <div class="rec"><small>累计切视图</small><b>${(parseInt(localStorage.getItem("magpie.viewCount") || "0", 10) || 0).toLocaleString()} 次</b></div>
       </div>
       <div class="records-sub">成就墙 · ${Object.keys(bag).length}/${ACHIEVEMENTS.length} 已解锁</div>
       ${(() => {
