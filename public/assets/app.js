@@ -191,6 +191,7 @@
     { id: "rodeo", title: "牧场", eyebrow: "RODEO", group: "场景", icon: "i-magpie", hint: "栏=配额窗 骑=会话 门=用量" },
     { id: "depot", title: "分拣站", eyebrow: "DEPOT", group: "场景", icon: "i-stack", hint: "架=配额窗 件=会话 位=余量" },
     { id: "laundry", title: "洗衣房", eyebrow: "LAUNDRY", group: "场景", icon: "i-magpie", hint: "筒=配额窗 衣=会话 位=余量" },
+    { id: "temple", title: "神社", eyebrow: "TEMPLE", group: "场景", icon: "i-magpie", hint: "居=配额窗 客=会话 灯=热度" },
     { id: "vine", title: "藤蔓", eyebrow: "VINE", group: "生态", icon: "i-magpie", hint: "叶=会话 大=Token" },
     { id: "play", title: "开局", eyebrow: "PLAY · EVERY CALL IS A BEAT", group: "趣味", icon: "i-zap", hint: "转盘 + 判定 + 连击" }
   ];
