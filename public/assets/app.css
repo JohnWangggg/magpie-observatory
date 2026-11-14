@@ -2874,3 +2874,14 @@ body.mini .route-stage { min-height: 0 !important; }
 .session-pop .pop-try em { font-style: normal; font-family: var(--mono); }
 .session-pop .pop-try em.ok { color: var(--good); }
 .session-pop .pop-try em.fail { color: var(--bad); }
+
+/* accent picker — swaps only --accent / --accent-strong / --accent-soft,
+   every style pack keeps its own vibe. */
+:root[data-accent="ember"] { --accent: #f59e0b; --accent-strong: #fbbf24; --accent-soft: rgba(245, 158, 11, .13); }
+:root[data-accent="mint"] { --accent: #34d399; --accent-strong: #6ee7b7; --accent-soft: rgba(52, 211, 153, .13); }
+:root[data-accent="rose"] { --accent: #fb7185; --accent-strong: #fda4af; --accent-soft: rgba(251, 113, 133, .13); }
+:root[data-accent="mono"] { --accent: #94a3b8; --accent-strong: #cbd5e1; --accent-soft: rgba(148, 163, 184, .13); }
+
+/* swatch dot inside each accent button */
+.accent-seg button { display: inline-flex; align-items: center; gap: 5px; }
+.accent-seg button i { width: 9px; height: 9px; border-radius: 50%; background: var(--ac); flex: none; box-shadow: 0 0 0 1px rgba(255, 255, 255, .18) inset; }

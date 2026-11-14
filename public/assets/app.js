@@ -2084,12 +2084,13 @@
       syncSettingsMenu();
     });
     $("#settings-menu").addEventListener("click", e => {
-      const b = e.target.closest("button[data-layout],button[data-density],button[data-motion],button[data-tour]");
+      const b = e.target.closest("button[data-layout],button[data-density],button[data-motion],button[data-tour],button[data-accent]");
       if (!b) return;
       if (b.dataset.layout) applySetting("layout", b.dataset.layout);
       if (b.dataset.density) applySetting("density", b.dataset.density);
       if (b.dataset.motion) applySetting("motion", b.dataset.motion);
       if (b.dataset.tour) applySetting("tour", b.dataset.tour);
+      if (b.dataset.accent) applySetting("accent", b.dataset.accent);
     });
     $("#style-menu").addEventListener("click", e => {
       const b = e.target.closest(".style-item");
@@ -2668,6 +2669,7 @@
     $$("#density-seg button").forEach(b => b.classList.toggle("active", b.dataset.density === (root.dataset.density || "cozy")));
     $$("#motion-seg button").forEach(b => b.classList.toggle("active", b.dataset.motion === (root.dataset.motion || "full")));
     $$("#tour-seg button").forEach(b => b.classList.toggle("active", b.dataset.tour === (root.dataset.tour || "10")));
+    $$("#accent-seg button").forEach(b => b.classList.toggle("active", b.dataset.accent === (root.dataset.accent || "aurora")));
   }
   function applySetting(kind, value) {
     const root = document.documentElement;
@@ -2677,8 +2679,8 @@
     renderAll();
     requestAnimationFrame(drawWires);
     ensureFlightLoop();
-    const names = { layout: { auto: "自动", fit: "一屏", comfort: "舒展" }, density: { compact: "紧凑", cozy: "标准", spacious: "宽松" }, motion: { full: "全部", soft: "轻柔", off: "关闭" }, tour: { 5: "5 秒", 10: "10 秒", 30: "30 秒" } };
-    const prefix = { layout: "布局：", density: "密度：", motion: "动效：", tour: "巡游：" };
+    const names = { layout: { auto: "自动", fit: "一屏", comfort: "舒展" }, density: { compact: "紧凑", cozy: "标准", spacious: "宽松" }, motion: { full: "全部", soft: "轻柔", off: "关闭" }, tour: { 5: "5 秒", 10: "10 秒", 30: "30 秒" }, accent: { aurora: "极光", ember: "熔金", mint: "薄荷", rose: "蔷薇", mono: "石墨" } };
+    const prefix = { layout: "布局：", density: "密度：", motion: "动效：", tour: "巡游：", accent: "主色：" };
     if (kind === "tour" && state.tour) { stopTour(true); startTour(); }
     const fallback = kind === "layout" && value === "fit" && (window.innerWidth < 1200 || window.innerHeight < 900);
     toast((prefix[kind] || "") + ((names[kind] || {})[value] || value)
@@ -2728,7 +2730,7 @@
       if (saved === "dark") document.documentElement.dataset.theme = "dark";
       const savedStyle = localStorage.getItem("magpie.style");
       if (savedStyle) document.documentElement.dataset.style = savedStyle;
-      ["layout", "density", "motion", "tour"].forEach(k => {
+      ["layout", "density", "motion", "tour", "accent"].forEach(k => {
         const v = localStorage.getItem("magpie." + k);
         if (v) document.documentElement.dataset[k] = v;
       });
