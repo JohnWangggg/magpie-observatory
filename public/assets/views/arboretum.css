@@ -1,0 +1,14 @@
+/* arboretum */
+.ao-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.ao-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.ao-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.ao-head span { font-size: 8px; color: var(--muted); }
+.ao-wrap svg { flex: 1; width: 100%; }
+.ao-num { font: 700 8.5px var(--num); fill: var(--fg); }
+.ao-name { font: 7px var(--mono); fill: var(--muted); }
+.ao-k { font: 700 10px var(--num); fill: var(--fg); }
+.ao-ksub { font: 7.5px var(--mono); fill: var(--muted); }
+.ao-tree { transform-box: fill-box; }
+.ao-tree.hot { filter: drop-shadow(0 0 4px rgba(240,200,100,.4)); }
+.ao-curator { transform-box: fill-box; }
+.ao-curator.dead { opacity: .8; }

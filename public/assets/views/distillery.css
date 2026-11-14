@@ -1,0 +1,14 @@
+/* distillery */
+.di-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.di-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.di-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.di-head span { font-size: 8px; color: var(--muted); }
+.di-wrap svg { flex: 1; width: 100%; }
+.di-num { font: 700 8.5px var(--num); fill: var(--fg); }
+.di-name { font: 7px var(--mono); fill: var(--muted); }
+.di-k { font: 700 10px var(--num); fill: var(--fg); }
+.di-ksub { font: 7.5px var(--mono); fill: var(--muted); }
+.di-still { transform-box: fill-box; }
+.di-still.hot { filter: drop-shadow(0 0 5px rgba(240,180,80,.45)); }
+.di-worker { transform-box: fill-box; }
+.di-worker.dead { opacity: .8; }

@@ -1,0 +1,14 @@
+/* brewery */
+.bw-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.bw-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.bw-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.bw-head span { font-size: 8px; color: var(--muted); }
+.bw-wrap svg { flex: 1; width: 100%; }
+.bw-num { font: 700 8.5px var(--num); fill: var(--fg); }
+.bw-name { font: 7px var(--mono); fill: var(--muted); }
+.bw-k { font: 700 10px var(--num); fill: var(--fg); }
+.bw-ksub { font: 7.5px var(--mono); fill: var(--muted); }
+.bw-tun { transform-box: fill-box; }
+.bw-tun.hot { filter: drop-shadow(0 0 5px rgba(240,180,80,.4)); }
+.bw-brewer { transform-box: fill-box; }
+.bw-brewer.dead { opacity: .8; }
