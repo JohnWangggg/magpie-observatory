@@ -1,30 +1,13 @@
-/* rain.css — 雨幕 */
-
-.rn-wrap { height: 100%; display: flex; flex-direction: column; min-height: 0; }
-.rn-legend {
-  padding: 0 6px 6px; font-size: 10px; color: var(--dim);
-  display: flex; gap: 10px; flex: 0 0 auto; flex-wrap: wrap; align-items: center;
-}
-.rn-legend .rl-item { display: flex; align-items: center; gap: 4px; }
-.rn-legend .rl-item i { width: 6px; height: 6px; border-radius: 50%; }
-.rn-legend .rl-item.bad { color: #f26d7f; }
-.rn-legend .rl-tip { margin-left: auto; font-size: 9px; opacity: .6; }
-
-.rn-svg { flex: 1; width: 100%; min-height: 0; }
-
-.rn-drop { animation: rn-fall linear infinite; }
-.rn-drop.bad { filter: drop-shadow(0 0 3px #f26d7f); }
-.rn-splash { pointer-events: none; transform-origin: center; transform-box: fill-box; animation: rn-splash ease-out infinite; }
-.rn-cloud { animation: rn-drift 8s ease-in-out infinite alternate; }
-.rn-ground { animation: rn-dash 1.4s linear infinite; }
-
-@keyframes rn-fall { to { transform: translateY(1000px); } }
-@keyframes rn-splash { 0%, 78% { transform: scale(0); opacity: 0; } 82% { opacity: .7; } 100% { transform: scale(1); opacity: 0; } }
-@keyframes rn-drift { 0% { transform: translateX(-14px); } 100% { transform: translateX(14px); } }
-@keyframes rn-dash { to { stroke-dashoffset: -12; } }
-
-.rn-empty { height: 100%; display: flex; align-items: center; justify-content: center; color: var(--dim); font-size: 13px; }
-
-@media (prefers-reduced-motion: reduce) {
-  .rn-drop, .rn-cloud, .rn-ground { animation-duration: .001ms !important; }
-}
+/* rain — wet panes, sliding rivulets */
+.rn-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.rn-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font-size: 9px; color: var(--muted); flex: none; }
+.rn-head b { font: 700 10px var(--mono); letter-spacing: .12em; color: var(--fg); }
+.rn-wrap svg { flex: 1; min-height: 0; }
+.rn-name { font: 600 8px var(--mono); fill: var(--muted); }
+.rn-pct { font: 700 13px var(--num); fill: var(--fg); }
+.rn-pane.hot .rn-pct { fill: var(--red); }
+.rn-pane.hot .rn-name { fill: var(--red); }
+.rn-k { font: 700 11px var(--num); fill: var(--fg); }
+.rn-ksub { font: 500 7px var(--mono); fill: var(--muted); }
+.rn-flash { animation: rnFlash 2.6s ease-in-out infinite; }
+@keyframes rnFlash { 0%, 88%, 100% { opacity: 0; } 90%, 94% { opacity: .9; } 92% { opacity: .2; } }
