@@ -1,0 +1,14 @@
+/* lake */
+.lk-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.lk-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.lk-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.lk-head span { font-size: 8px; color: var(--muted); }
+.lk-wrap svg { flex: 1; width: 100%; }
+.lk-pad { transform-box: fill-box; }
+.lk-pad.hot ellipse { filter: drop-shadow(0 0 4px rgba(251,113,133,.4)); }
+.lk-str { transform-box: fill-box; }
+.lk-str.dead { opacity: .9; }
+.lk-pct { font: 700 10px var(--num); fill: var(--fg); }
+.lk-name { font: 600 7.5px var(--mono); fill: var(--muted); }
+.lk-k { font: 700 10px var(--num); fill: var(--fg); }
+.lk-ksub { font: 7px var(--mono); fill: var(--muted); }
