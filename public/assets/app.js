@@ -521,15 +521,22 @@
       { key: "tps", label: "平均 TPS", value: k.tps.toFixed(1), unit: "tok/s", delta: k.tpsDelta, icon: "i-pulse", color: "#f472b6", spark: [4,6,5,8,7,7,9,11,10,12,13,12] },
       { key: "active", label: "活跃会话", value: String(k.active), unit: "个", delta: k.activeDelta, icon: "i-route", color: "#60a5fa", spark: [1,2,1,3,2,4,3,4,3,5,4,4] }
     ];
+    const heat = state.data.heatmap || [];
+    const yd = heat.length >= 2 ? heat[heat.length - 2] : null;
+    const goal = yd && yd.tokens ? yd.tokens : 0;
+    const goalPct = goal ? Math.min(100, Math.round((k.tokens / goal) * 100)) : null;
     $("#kpi-row").innerHTML = items.map(it => {
       const down = it.key === "cost" ? it.delta <= 0 : it.delta < 0;
       const flat = !it.delta;
       const deltaText = flat ? "持平" : (it.delta > 0 ? "+" : "") + it.delta + "%";
       const deltaCls = flat ? "flat" : (down ? "down" : "");
       const spark = sparkPath(it.spark.map(v => v * (0.85 + (it.key.length % 3) * 0.05)));
+      const ring = it.key === "tokens" && goalPct != null
+        ? `<span class="kpi-goal" title="今日目标 · 昨日 ${fmtTokens(goal)} · 已达成 ${goalPct}%"><svg viewBox="0 0 18 18"><circle cx="9" cy="9" r="7" fill="none" stroke="var(--line)" stroke-width="2.4"/><circle cx="9" cy="9" r="7" fill="none" stroke="${it.color}" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="${(goalPct / 100 * 44).toFixed(1)} 44" transform="rotate(-90 9 9)"/></svg><em>${goalPct}%</em></span>`
+        : "";
       return `<article class="kpi" style="--k-c:${it.color}">
         <div class="kpi-label"><span>${it.label}</span><svg><use href="#${it.icon}"/></svg></div>
-        <div class="kpi-value"><b>${esc(it.value)}</b><span>${esc(it.unit)}</span></div>
+        <div class="kpi-value"><b>${esc(it.value)}</b><span>${esc(it.unit)}</span>${ring}</div>
         <div class="kpi-foot"><span class="kpi-delta ${deltaCls}">${deltaText}</span>${spark}</div>
       </article>`;
     }).join("");

@@ -2850,3 +2850,9 @@ body.mini .route-stage { min-height: 0 !important; }
 .badge small { font-size: 8px; color: var(--muted); line-height: 1.35; }
 .badge.on { border-color: color-mix(in srgb, var(--amber) 40%, transparent); background: color-mix(in srgb, var(--amber) 7%, var(--card-3)); }
 .badge.on span { color: var(--amber); }
+
+/* daily-goal ring on the tokens KPI card */
+.kpi-goal { display: inline-flex; align-items: center; gap: 4px; margin-left: 8px; vertical-align: middle; }
+.kpi-goal svg { width: 18px; height: 18px; }
+.kpi-goal em { font: 700 8.5px var(--num); color: var(--muted); font-style: normal; }
+.kpi-goal[title] { cursor: help; }
