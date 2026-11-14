@@ -265,6 +265,7 @@
     { id: "plateau", title: "台原", eyebrow: "PLATEAU", group: "场景", icon: "i-magpie", hint: "台原=配额窗 缘高=用量 鹰=会话" },
     { id: "ridge", title: "山脊", eyebrow: "RIDGE", group: "场景", icon: "i-magpie", hint: "山脊=配额窗 峰高=用量 隼=会话" },
     { id: "escarp", title: "断崖", eyebrow: "ESCARP", group: "场景", icon: "i-magpie", hint: "断崖=配额窗 壁高=用量 岩鸽=会话" },
+    { id: "bluff", title: "峭壁", eyebrow: "BLUFF", group: "场景", icon: "i-magpie", hint: "峭壁=配额窗 壁高=用量 燕=会话" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
     { id: "grove", title: "果园", eyebrow: "GROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 果=用量 人=会话" },
     { id: "pond", title: "荷塘", eyebrow: "POND", group: "生态", icon: "i-magpie", hint: "莲=配额窗 漪=用量 蛙=会话" },
