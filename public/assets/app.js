@@ -310,6 +310,7 @@
     { id: "waterwheels", title: "水车群", eyebrow: "WATERWHEELS", group: "场景", icon: "i-magpie", hint: "水车=配额窗 直径=用量 游鱼=会话" },
     { id: "pagodas", title: "宝塔群", eyebrow: "PAGODAS", group: "场景", icon: "i-magpie", hint: "宝塔=配额窗 层数=用量 燕子=会话" },
     { id: "oceans", title: "海洋", eyebrow: "OCEANS", group: "场景", icon: "i-magpie", hint: "浪=配额窗 浪高=用量 信天翁=会话" },
+    { id: "moorland", title: "荒原", eyebrow: "MOORLAND", group: "场景", icon: "i-magpie", hint: "荒原=配额窗 丘高=用量 野兔=会话" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
     { id: "grove", title: "果园", eyebrow: "GROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 果=用量 人=会话" },
     { id: "pond", title: "荷塘", eyebrow: "POND", group: "生态", icon: "i-magpie", hint: "莲=配额窗 漪=用量 蛙=会话" },
