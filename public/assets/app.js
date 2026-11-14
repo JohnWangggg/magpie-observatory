@@ -207,6 +207,7 @@
     { id: "tank", title: "水族馆", eyebrow: "TANK", group: "场景", icon: "i-magpie", hint: "缸=配额窗 水=用量 鱼=会话" },
     { id: "camp", title: "营地", eyebrow: "CAMP", group: "场景", icon: "i-magpie", hint: "火=配额窗 焰=用量 帐=会话" },
     { id: "harbor", title: "灯塔港", eyebrow: "HARBOR", group: "场景", icon: "i-magpie", hint: "塔=配额窗 扫=用量 船=会话" },
+    { id: "metro", title: "地铁图", eyebrow: "METRO", group: "场景", icon: "i-magpie", hint: "线=配额窗 宽=拥挤 车=会话" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
     { id: "grove", title: "果园", eyebrow: "GROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 果=用量 人=会话" },
     { id: "pond", title: "荷塘", eyebrow: "POND", group: "生态", icon: "i-magpie", hint: "莲=配额窗 漪=用量 蛙=会话" },
