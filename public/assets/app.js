@@ -221,6 +221,7 @@
     { id: "skyline", title: "天际线", eyebrow: "SKYLINE", group: "场景", icon: "i-magpie", hint: "楼=配额窗 高=用量 星=会话" },
     { id: "pasture", title: "牧场", eyebrow: "PASTURE", group: "场景", icon: "i-magpie", hint: "坡=配额窗 高=用量 畜=会话" },
     { id: "wetland", title: "湿地", eyebrow: "WETLAND", group: "生态", icon: "i-magpie", hint: "泽=配额窗 深=用量 鹭=会话" },
+    { id: "garden", title: "庭院", eyebrow: "GARDEN", group: "生态", icon: "i-magpie", hint: "坛=配额窗 茂=用量 蝶=会话" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
     { id: "grove", title: "果园", eyebrow: "GROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 果=用量 人=会话" },
     { id: "pond", title: "荷塘", eyebrow: "POND", group: "生态", icon: "i-magpie", hint: "莲=配额窗 漪=用量 蛙=会话" },
