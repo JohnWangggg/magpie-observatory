@@ -269,14 +269,16 @@
   function menuItem(v, accent) {
     const search = `${v.title} ${v.eyebrow} ${v.group} ${v.hint} ${v.id}`.toLowerCase();
     const on = state.favorites.includes(v.id);
-    let heat = 0;
+    let heat = 0, seen = false;
     try { heat = (JSON.parse(localStorage.getItem("magpie.viewHeat") || "{}"))[v.id] || 0; } catch (_) {}
+    try { seen = (JSON.parse(localStorage.getItem("magpie.viewSeen") || "[]")).includes(v.id); } catch (_) {}
     const flame = heat >= 3 ? `<span class="vm-hot" title="常看 · ${heat} 次">🔥</span>` : "";
-    return `<div class="vm-row">
+    const dot = seen ? `<span class="vm-seen" title="已加入图鉴"></span>` : `<span class="vm-seen off" title="未看过"></span>`;
+    return `<div class="vm-row${seen ? " seen" : ""}">
       <button class="vm-item" type="button" data-hero="${v.id}" data-search="${esc(search)}" role="option" aria-selected="false" style="--vm-c:${accent}">
         <span class="vm-ic"><svg><use href="#${v.icon}"/></svg></span>
         <span class="vm-copy"><b>${esc(v.title)}</b><small>${esc(v.eyebrow)}</small></span>
-        <span class="vm-hint">${esc(v.hint)}</span>${flame}
+        <span class="vm-hint">${esc(v.hint)}</span>${flame}${dot}
       </button>
       <button class="vm-star${on ? " on" : ""}" type="button" data-fav="${v.id}" aria-pressed="${on}" aria-label="${on ? "取消收藏" : "收藏"} ${esc(v.title)}" title="${on ? "取消收藏" : "收藏"}">
         <svg><use href="#i-star"/></svg>
