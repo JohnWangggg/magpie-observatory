@@ -2576,6 +2576,12 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
       updateDefBtn();
       closeViewMenu();
     });
+    $("#vm-dexreset").addEventListener("click", () => {
+      if (localStorage.getItem("magpie.viewSeen") === "[]") { toast("图鉴已是空的"); return; }
+      localStorage.removeItem("magpie.viewSeen");
+      toast("图鉴已清空 · 重新收集吧");
+      buildViewMenu(); // refresh the dex counter + green dots
+    });
     Obs.hooks.afterRender.push(updateDefBtn);
     $("#help-close").addEventListener("click", closeHelp);
     $("#help-menu").addEventListener("click", e => { if (e.target === e.currentTarget) closeHelp(); });
