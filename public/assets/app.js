@@ -262,6 +262,7 @@
     { id: "sierra", title: "山岭", eyebrow: "SIERRA", group: "场景", icon: "i-magpie", hint: "雪岭=配额窗 峰高=用量 山羊=会话" },
     { id: "basin", title: "盆地", eyebrow: "BASIN", group: "场景", icon: "i-magpie", hint: "盐柱=配额窗 高=用量 羚=会话" },
     { id: "outcrop", title: "裸岩", eyebrow: "OUTCROP", group: "场景", icon: "i-magpie", hint: "岩柱=配额窗 高=用量 蜥=会话" },
+    { id: "plateau", title: "台原", eyebrow: "PLATEAU", group: "场景", icon: "i-magpie", hint: "台原=配额窗 缘高=用量 鹰=会话" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
     { id: "grove", title: "果园", eyebrow: "GROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 果=用量 人=会话" },
     { id: "pond", title: "荷塘", eyebrow: "POND", group: "生态", icon: "i-magpie", hint: "莲=配额窗 漪=用量 蛙=会话" },

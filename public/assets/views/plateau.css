@@ -1,0 +1,14 @@
+/* plateau */
+.pl-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.pl-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.pl-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.pl-head span { font-size: 8px; color: var(--muted); }
+.pl-wrap svg { flex: 1; width: 100%; }
+.pl-mesa { transform-box: fill-box; }
+.pl-mesa.hot path { filter: drop-shadow(0 0 4px rgba(240,190,100,.4)); }
+.pl-eagle { transform-box: fill-box; }
+.pl-eagle.dead { opacity: .85; }
+.pl-pct { font: 700 9px var(--num); fill: #e0d0c0; }
+.pl-name { font: 600 7px var(--mono); fill: #a89880; }
+.pl-k { font: 700 10px var(--num); fill: var(--fg); }
+.pl-ksub { font: 7px var(--mono); fill: var(--muted); }
