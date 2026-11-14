@@ -1780,7 +1780,7 @@
     $("#donut-total").textContent = fmtTokens(total);
     $("#donut-legend").innerHTML = models.map((m, i) => {
       const color = D.MODEL_COLORS[i % D.MODEL_COLORS.length];
-      return `<div class="donut-legend-row"><i style="background:${color}"></i><span title="${esc(m.name)}">${esc(m.name)}</span><b>${Math.round(m.tokens / total * 100)}%</b></div>`;
+      return `<div class="donut-legend-row${state.logFilterModel === m.name ? " on" : ""}" role="button" tabindex="0" data-mix-model="${esc(m.name)}" title="${esc(m.name)} · 点击按此模型过滤日志"><i style="background:${color}"></i><span>${esc(m.name)}</span><b>${Math.round(m.tokens / total * 100)}%</b></div>`;
     }).join("");
   }
 
@@ -2340,6 +2340,24 @@
       setTimeout(() => { renderTicker(); el.classList.remove("swap"); }, 180);
     });
 
+    $("#donut-legend").addEventListener("click", e => {
+      const row = e.target.closest("[data-mix-model]");
+      if (!row) return;
+      const name = row.dataset.mixModel;
+      if (state.logFilterModel === name) {
+        state.logFilterModel = null;
+        state.logQuery = "";
+        const qs = $("#log-search"); if (qs) qs.value = "";
+        toast("日志筛选已清除");
+      } else {
+        state.logFilterModel = name;
+        state.logQuery = name;
+        const qs = $("#log-search"); if (qs) qs.value = name;
+        toast(`日志已过滤：${name}`);
+      }
+      renderLogs(); renderDonut();
+      document.querySelector(".table-card")?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    });
     $("#trend-seg").addEventListener("click", e => {
       const b = e.target.closest("button[data-metric]");
       if (!b) return;
@@ -2376,6 +2394,7 @@
       renderSessions();
       renderRouteStage();
       renderDecision();
+      state.logFilterModel = null;
       const qs = $("#log-search");
       if (state.selectedSession) {
         if (qs) qs.value = id;
@@ -2384,7 +2403,7 @@
         if (qs) qs.value = "";
         state.logQuery = "";
       }
-      renderLogs();
+      renderLogs(); renderDonut();
       if (state.selectedSession) {
         const s = selectedSession();
         if (s) toast(`正在查看：${s.title}`);
@@ -2590,7 +2609,8 @@
 
     $("#log-search").addEventListener("input", e => {
       state.logQuery = e.target.value.trim();
-      renderLogs();
+      state.logFilterModel = null;
+      renderLogs(); renderDonut();
     });
 
     $("#log-export").addEventListener("click", () => {
