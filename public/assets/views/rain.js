@@ -1,89 +1,80 @@
-/* -------------------------------------------------------------------- rain
- * Rain — a window on a wet night: every quota window is a pane in the
- * sash — rain streaks thicken as used % climbs (≥85% the pane lights
- * with a red flash); sessions are rivulets sliding down the glass.
+/* ------------------------------------------------------------------- rain
+ * Rain view — every request is a raindrop in a night storm:
+ *   drop length = tokens, colour = agent, slant = wind direction.
+ *   Drops hit a puddle line and ring it; failed drops splash red.
+ *   A few clouds hang overhead.
  * ----------------------------------------------------------------- */
 
 (() => {
   const VIEW = "rain";
   const esc = x => String(x ?? "").replace(/[<>&"]/g, c => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;", '"': "&quot;" }[c]));
-  const rnd = (seed => () => (seed = (seed * 16807) % 2147483647) / 2147483647)(104729);
+
+  let seed = 31;
+  const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
 
   function render(host, ctx) {
-    const quotas = (ctx.data.quotas || []).flatMap(q => (q.windows || []).map(w => ({
-      prov: q.provider, name: w.name || q.name || "窗口", used: w.used || 0
-    }))).sort((a, b) => b.used - a.used).slice(0, 6);
-    const sessions = (ctx.data.sessions || []).filter(s => s.status !== "done").slice(0, 5);
-    const ameta = ctx.agentMeta || {}, pmeta = ctx.providerMeta || {};
-    const metaOf = (m, k) => (typeof m === "function" ? m(k) : (m[k] || {}));
+    const sessions = (ctx.data.sessions || []).concat(ctx.data.recent || []).slice(0, 20);
+    const ameta = ctx.agentMeta || {};
+    const ametaOf = k => (typeof ameta === "function" ? ameta(k) : (ameta[k] || {}));
+    const W = host.clientWidth || 800, H = host.clientHeight || 300;
+    const ground = H - 40;
 
-    const W = 400, H = 300;
+    if (!sessions.length) { host.innerHTML = `<div class="rn-empty">暂无会话</div>`; return; }
 
-    // panes — up to 2×3 grid
-    const n = Math.max(1, quotas.length);
-    const cols = Math.min(3, n), rows = Math.ceil(n / cols);
-    const pw = 340 / cols, ph = 190 / rows;
-    const panes = quotas.map((w, i) => {
-      const c = i % cols, r = Math.floor(i / cols);
-      const x = 30 + c * pw + 4, y = 34 + r * ph + 4;
-      const m = metaOf(pmeta, w.prov);
-      const hot = w.used >= 85;
-      const fill = w.used / 100;
-      // rain streaks: 3 + fill*9 diagonal dashes clipped to the pane
-      const nst = hot ? 14 : 3 + Math.round(fill * 9);
-      let rain = "";
-      for (let j = 0; j < nst; j++) {
-        const rx = x + 6 + rnd() * (pw - 16), ry = y - 40 + rnd() * ph;
-        const len = 10 + rnd() * 14;
-        rain += `<line x1="${rx.toFixed(1)}" y1="${ry.toFixed(1)}" x2="${(rx - 5).toFixed(1)}" y2="${(ry + len).toFixed(1)}" stroke="${hot ? "var(--red)" : "#7fa8d9"}" stroke-width="1" opacity="${.25 + rnd() * .3}">
-          <animate attributeName="y1" values="${(ry - 30).toFixed(1)};${(ry + ph + 20).toFixed(1)}" dur="${(0.9 + rnd() * 0.7).toFixed(2)}s" repeatCount="indefinite"/>
-          <animate attributeName="y2" values="${(ry - 30 + len).toFixed(1)};${(ry + ph + 20 + len).toFixed(1)}" dur="${(0.9 + rnd() * 0.7).toFixed(2)}s" repeatCount="indefinite"/>
-        </line>`;
-      }
-      return `<g class="rn-pane${hot ? " hot" : ""}">
-        <rect x="${x}" y="${y}" width="${pw - 8}" height="${ph - 8}" rx="5"
-          fill="${hot ? "color-mix(in srgb, var(--red) 16%, var(--card-2))" : "color-mix(in srgb, var(--card-2) 62%, transparent)"}"
-          stroke="${hot ? "var(--red)" : "var(--line-2)"}" stroke-width="${hot ? 1.4 : 1}"/>
-        <clipPath id="rn-clip-${i}"><rect x="${x + 1}" y="${y + 1}" width="${pw - 10}" height="${ph - 10}" rx="4"/></clipPath>
-        <g clip-path="url(#rn-clip-${i})">${rain}</g>
-        ${hot ? `<rect x="${x}" y="${y}" width="${pw - 8}" height="${ph - 8}" rx="5" fill="none" stroke="var(--red)" stroke-width="2" opacity=".0" class="rn-flash"/>` : ""}
-        <text x="${x + 8}" y="${y + 16}" class="rn-name">${esc((m.name || w.prov).slice(0, 8))}</text>
-        <text x="${x + 8}" y="${y + 30}" class="rn-pct">${Math.round(w.used)}%</text>
-      </g>`;
+    seed = 31;
+    const maxTok = Math.max(...sessions.map(s => s.tokens || 0), 1);
+    let drops = "";
+    sessions.forEach((s, i) => {
+      const col = ametaOf(s.agent).color || "#8b7cf6";
+      const tok = s.tokens || 0;
+      const failed = s.status === "error" || s.status === "failed";
+      const x = 20 + (i / Math.max(1, sessions.length - 1)) * (W - 40) + (rnd() - 0.5) * 30;
+      const len = 8 + (tok / maxTok) * 20;
+      const slant = 4 + rnd() * 6; // wind
+      const dur = 1.2 + rnd() * 1.2, delay = i * 120;
+      drops += `<line class="rn-drop ${failed ? "bad" : ""}" style="animation-delay:${delay}ms;animation-duration:${dur.toFixed(1)}s"
+          x1="${x.toFixed(0)}" y1="0" x2="${(x + slant).toFixed(0)}" y2="${len.toFixed(0)}"
+          stroke="${failed ? "#f26d7f" : col}" stroke-width="1.6" stroke-linecap="round" opacity="${failed ? ".6" : ".8"}">
+        <title>${esc(s.title)} · ${s.agent} · ${tok} tok</title>
+      </line>
+      <ellipse class="rn-splash" cx="${(x + slant * 0.8).toFixed(0)}" cy="${ground}"
+        rx="${(4 + tok / maxTok * 7).toFixed(1)}" ry="${(2 + tok / maxTok * 2).toFixed(1)}"
+        fill="none" stroke="${col}" stroke-width="1"
+        style="animation-duration:${dur.toFixed(1)}s;animation-delay:${delay}ms"/>`;
+    });
+
+    // puddle line
+    const puddle = `<line class="rn-ground" x1="0" y1="${ground}" x2="${W}" y2="${ground}"
+      stroke="rgba(255,255,255,.15)" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="1,5"/>`;
+    // clouds
+    let clouds = "";
+    for (let i = 0; i < 3; i++) {
+      const cx = W * (0.2 + i * 0.3), cy = 18 + rnd() * 12;
+      clouds += `<g class="rn-cloud" style="animation-delay:${i * 400}ms">
+          <ellipse cx="${cx.toFixed(0)}" cy="${cy.toFixed(0)}" rx="${(30 + rnd() * 20).toFixed(0)}" ry="${(8 + rnd() * 4).toFixed(1)}" fill="rgba(255,255,255,.05)"/>
+          <ellipse cx="${(cx - 14).toFixed(0)}" cy="${(cy - 5).toFixed(0)}" rx="${(16 + rnd() * 10).toFixed(0)}" ry="${(7 + rnd() * 3).toFixed(1)}" fill="rgba(255,255,255,.06)"/>
+        </g>`;
+    }
+
+    const legend = sessions.map(s => {
+      const col = ametaOf(s.agent).color || "#8b7cf6";
+      const failed = s.status === "error" || s.status === "failed";
+      return `<span class="rl-item ${failed ? "bad" : ""}" data-agent="${s.agent}"><i style="background:${col}"></i>${esc((s.title || "").slice(0, 9))}</span>`;
     }).join("");
-
-    // rivulets — sessions running down the outside of the glass
-    const rivs = sessions.map((s, i) => {
-      const m = metaOf(ameta, s.agent);
-      const dead = s.status === "err";
-      const x0 = 50 + i * 66;
-      const dur = Math.max(5, 13 - (s.tps || 0) / 14);
-      return `<path class="rn-riv${dead ? " dead" : ""}" d="M ${x0} 36 q 4 40 -3 80 q -6 60 4 110 q 4 40 -2 60"
-        fill="none" stroke="${dead ? "var(--red)" : m.color || "#8fb8e8"}" stroke-width="1.8" stroke-linecap="round"
-        stroke-dasharray="4 10" opacity=".8">
-        <animate attributeName="stroke-dashoffset" from="0" to="-140" dur="${dur}s" repeatCount="indefinite"/>
-      </path>`;
-    }).join("");
-
-    const k = (ctx.view && ctx.view.kpis) || ctx.data.kpis || {};
-    const fmt = ctx.fmtTokens || (v => (v / 1e6).toFixed(1) + "M");
-    const hotN = quotas.filter(w => w.used >= 85).length;
 
     host.innerHTML = `
       <div class="rn-wrap">
-        <div class="rn-head"><b>RAIN</b><span>格=配额窗 雨=用量 痕=会话${hotN ? " · " + hotN + " 格暴红" : ""}</span></div>
-        <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet">
-          <rect x="0" y="0" width="${W}" height="${H}" fill="color-mix(in srgb, #1a2438 26%, transparent)" rx="10"/>
-          ${panes}${rivs}
-          <g class="rn-card">
-            <rect x="14" y="248" width="128" height="40" rx="6" fill="var(--card-2)" stroke="var(--line-2)"/>
-            <text x="22" y="266" class="rn-k">${fmt(k.tokens)} · ${sessions.length} 痕</text>
-            <text x="22" y="279" class="rn-ksub">今日 tokens</text>
-          </g>
+        <div class="rn-legend">${legend}<span class="rl-tip">滴=会话 · 长=Token · 红=失败</span></div>
+        <svg class="rn-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMax meet">
+          ${clouds}${puddle}${drops}
         </svg>
       </div>`;
   }
 
   window.ObservatoryViews = window.ObservatoryViews || {};
-  window.ObservatoryViews[VIEW] = { title: "雨窗", eyebrow: "RAIN", render };
+  window.ObservatoryViews[VIEW] = {
+    title: "雨幕",
+    eyebrow: "RAIN",
+    render
+  };
 })();

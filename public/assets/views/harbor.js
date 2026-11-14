@@ -1,100 +1,85 @@
-/* ------------------------------------------------------------------ harbor
- * Harbor — lighthouses on a night coast: each quota window is a tower,
- * its beacon sweeps faster the fuller it runs (≥85% the light goes
- * alarm-red); sessions are boats crossing the water under the beams.
+/* ------------------------------------------------------------------- harbor
+ * Harbor — the busy waterfront: every agent is a cargo ship at dock,
+ * each tries-attempt is a shipping container stacked aboard, the
+ * provider windows are buoys bobbing on the tide line.
+ *   - hull colour = agent, stack height = tries count
+ *   - container colour = provider; failed = a tipped container
+ *   - buoys on the tide line light up green→amber→red by quota heat
  * ----------------------------------------------------------------- */
 
 (() => {
   const VIEW = "harbor";
   const esc = x => String(x ?? "").replace(/[<>&"]/g, c => ({ "<": "&lt;", ">": "&gt;", "&": "&amp;", '"': "&quot;" }[c]));
-  const rnd = (seed => () => (seed = (seed * 16807) % 2147483647) / 2147483647)(49979687);
 
   function render(host, ctx) {
+    const sessions = (ctx.data.sessions || []).filter(s => s.status !== "done").slice(0, 5);
     const quotas = (ctx.data.quotas || []).flatMap(q => (q.windows || []).map(w => ({
       prov: q.provider, name: w.name || q.name || "窗口", used: w.used || 0
-    }))).sort((a, b) => b.used - a.used).slice(0, 5);
-    const sessions = (ctx.data.sessions || []).filter(s => s.status !== "done").slice(0, 5);
+    }))).sort((a, b) => b.used - a.used).slice(0, 8);
     const ameta = ctx.agentMeta || {}, pmeta = ctx.providerMeta || {};
     const metaOf = (m, k) => (typeof m === "function" ? m(k) : (m[k] || {}));
 
-    const W = 400, H = 300, GY = 208, SEA = 224;
-    const n = Math.max(1, quotas.length);
-    const gap = (W - 60) / n;
+    const W = 400, H = 300, TIDE = 210;
+    const n = Math.max(1, sessions.length);
+    const dockW = 76;
+    const x0 = 14;
 
-    // stars + moon
-    let stars = "";
-    for (let i = 0; i < 14; i++) {
-      stars += `<circle cx="${(rnd() * W).toFixed(1)}" cy="${(rnd() * 96).toFixed(1)}" r="${(rnd() * .9 + .4).toFixed(1)}" fill="#dfe8f5" opacity="${(.2 + rnd() * .45).toFixed(2)}"/>`;
-    }
-    const moon = `<circle cx="352" cy="46" r="14" fill="#e8e3cf" opacity=".9"/><circle cx="347" cy="42" r="13" fill="var(--card-2)" opacity=".55"/>`;
-
-    const towers = quotas.map((w, i) => {
-      const cx = 36 + gap / 2 + i * gap;
-      const m = metaOf(pmeta, w.prov);
-      const hot = w.used >= 85;
-      const f = Math.min(1, w.used / 100);
-      const col = hot ? "var(--red)" : m.color || "#ffd98a";
-      const spin = Math.max(1.1, 6 - f * 4.6).toFixed(2);          // fuller → faster sweep
-      const th = 62 + f * 30;                                     // tower height
-      const top = GY - th;
-      // tapered tower + lamp room + rotating beam (two wedges)
-      return `<g class="hb-tower${hot ? " hot" : ""}">
-        <path d="M ${cx - 11} ${GY} L ${cx - 5.5} ${top} h 11 L ${cx + 11} ${GY} Z"
-          fill="var(--card-3)" stroke="${hot ? "var(--red)" : "var(--line-2)"}" stroke-width="1"/>
-        <rect x="${cx - 7}" y="${top - 10}" width="14" height="10" rx="2" fill="${col}" opacity="${hot ? ".95" : ".8"}"/>
-        <g class="hb-beam" style="animation-duration:${spin}s" transform-origin="${cx} ${top - 5}">
-          <path d="M ${cx} ${top - 5} L ${cx - 90} ${top - 26} L ${cx - 90} ${top + 4} Z" fill="${col}" opacity="${hot ? ".30" : ".18"}"/>
-          <path d="M ${cx} ${top - 5} L ${cx + 90} ${top - 26} L ${cx + 90} ${top + 4} Z" fill="${col}" opacity="${hot ? ".30" : ".18"}"/>
-        </g>
-        <text x="${cx.toFixed(1)}" y="${GY + 40}" class="hb-pct" text-anchor="middle">${Math.round(w.used)}%</text>
-        <text x="${cx.toFixed(1)}" y="${GY + 51}" class="hb-name" text-anchor="middle">${esc((m.name || w.prov).slice(0, 6))}</text>
-      </g>`;
-    }).join("");
-
-    // sea — layered wave bands
-    const waves = [0, 1, 2].map(i =>
-      `<path d="M 0 ${SEA + i * 10} q 50 -6 100 0 t 100 0 t 100 0 t 100 0 v 60 H 0 Z"
-        fill="color-mix(in srgb, #2a5f8a ${22 - i * 6}%, transparent)"/>`
-    ).join("");
-
-    // boats — sessions on the water
-    const boats = sessions.map((s, i) => {
+    const ships = sessions.map((s, i) => {
+      const x = x0 + i * (dockW + 8);
       const m = metaOf(ameta, s.agent);
       const dead = s.status === "err";
-      const y = SEA + 14 + (i % 3) * 12;
-      const dur = Math.max(8, 20 - (s.tps || 0) / 8);
-      const dir = i % 2;
-      return `<g class="hb-boat${dead ? " dead" : ""}">
-        <animateTransform attributeName="transform" type="translate" values="${dir ? W + 30 : -30} ${y};${dir ? -30 : W + 30} ${y}" dur="${dur}s" begin="${(-i * 3).toFixed(1)}s" repeatCount="indefinite"/>
-        <g${dir ? ' transform="scale(-1,1)"' : ""}>
-          <path d="M -10 0 h 20 l -4 7 h -12 Z" fill="${dead ? "var(--red)" : "var(--card-3)"}"/>
-          <line x1="0" y1="0" x2="0" y2="-12" stroke="var(--line-2)" stroke-width="1.4"/>
-          <path d="M 1 -12 L 9 -2 L 1 -2 Z" fill="${dead ? "var(--red)" : m.color || "#9db8d9"}" opacity=".9"/>
-        </g>
+      const crates = (s.tries || []).slice(0, 4).map((t, j) => {
+        const pm = metaOf(pmeta, t.provider);
+        const tip = t.status === "err";
+        return `<rect class="hb-crate${tip ? " tip" : ""}" x="${(x + 20 + j * 13).toFixed(1)}" y="${(TIDE - 26 - j * 0).toFixed(1)}" width="11" height="10" rx="1"
+          fill="${tip ? "var(--red)" : pm.color || "#8b7cf6"}" ${tip ? `transform="rotate(-14 ${x + 26} ${TIDE - 8})"` : ""}/>`;
+      }).join("");
+      return `<g class="hb-ship${dead ? " dead" : ""}" style="--sc:${m.color || "#8b7cf6"}">
+        <path d="M ${x} ${TIDE} L ${x + dockW - 8} ${TIDE} L ${x + dockW - 24} ${TIDE + 22} L ${x + 10} ${TIDE + 22} Z"
+          fill="${m.color || "#8b7cf6"}" opacity="${dead ? .4 : .85}"/>
+        <rect x="${x + 8}" y="${TIDE - 22}" width="18" height="22" fill="var(--card-3)" stroke="var(--line-2)" stroke-width="1.2"/>
+        <rect x="${x + 11}" y="${TIDE - 34}" width="4" height="14" fill="var(--line-2)"/>
+        ${crates}
+        <text x="${x + 10}" y="${TIDE + 40}" class="hb-name">${esc((m.name || s.agent).slice(0, 7))}</text>
+        <text x="${x + 10}" y="${TIDE + 52}" class="hb-sub">${s.tps ? s.tps.toFixed(0) + " tok/s" : "—"} · ${s.tries ? s.tries.length : 0}t</text>
       </g>`;
     }).join("");
 
+    const buoys = quotas.map((w, i) => {
+      const x = 30 + i * ((W - 60) / Math.max(1, quotas.length - 1));
+      const pm = metaOf(pmeta, w.prov);
+      const heat = w.used >= 85 ? "hot" : w.used >= 60 ? "warm" : "cool";
+      return `<g class="hb-buoy ${heat}" style="animation-delay:${(i * 0.35).toFixed(2)}s">
+        <line x1="${x.toFixed(1)}" y1="${TIDE + 64}" x2="${x.toFixed(1)}" y2="${TIDE + 78}" stroke="var(--line-2)"/>
+        <circle cx="${x.toFixed(1)}" cy="${TIDE + 62}" r="5.5" fill="${heat === "hot" ? "var(--red)" : heat === "warm" ? "var(--amber)" : pm.color || "#4ade80"}"/>
+        <text x="${x.toFixed(1)}" y="${TIDE + 96}" class="hb-pct" text-anchor="middle">${Math.round(w.used)}%</text>
+      </g>`;
+    }).join("");
+
+    // sky card: today's totals pinned over the sky
     const k = (ctx.view && ctx.view.kpis) || ctx.data.kpis || {};
     const fmt = ctx.fmtTokens || (v => (v / 1e6).toFixed(1) + "M");
+    const fmtMoney = ctx.fmtMoney || (v => "$" + Number(v).toFixed(2));
     const hotN = quotas.filter(w => w.used >= 85).length;
 
     host.innerHTML = `
       <div class="hb-wrap">
-        <div class="hb-head"><b>HARBOR</b><span>塔=配额窗 扫=用量 船=会话${hotN ? " · " + hotN + " 塔警戒" : ""}</span></div>
+        <div class="hb-head"><b>HARBOR</b><span>船=agent 箱=tries 浮标=配额${hotN ? " · " + hotN + " 浮标红" : ""}</span></div>
         <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet">
-          <rect x="0" y="0" width="${W}" height="${H}" fill="color-mix(in srgb, #0b1524 34%, transparent)" rx="10"/>
-          ${stars}${moon}
-          <rect x="16" y="${GY}" width="${W - 32}" height="3" rx="1.5" fill="var(--card-3)"/>
-          ${towers}${waves}${boats}
+          <rect x="0" y="0" width="${W}" height="${TIDE + 6}" fill="color-mix(in srgb, var(--card-2) 15%, transparent)"/>
+          <line x1="0" y1="${TIDE}" x2="${W}" y2="${TIDE}" stroke="var(--line-2)" stroke-width="1.4" class="hb-tide"/>
+          <rect x="0" y="${TIDE + 6}" width="${W}" height="${H - TIDE - 6}" fill="color-mix(in srgb, var(--card) 55%, transparent)"/>
+          ${ships}
+          ${buoys}
           <g class="hb-card">
-            <rect x="14" y="12" width="126" height="40" rx="6" fill="var(--card-2)" stroke="var(--line-2)"/>
-            <text x="22" y="30" class="hb-k">${fmt(k.tokens)} · ${sessions.length} 船</text>
-            <text x="22" y="43" class="hb-ksub">今日 tokens</text>
+            <rect x="${W - 142}" y="14" width="128" height="42" rx="6" fill="var(--card-2)" stroke="var(--line-2)"/>
+            <text x="${W - 130}" y="32" class="hb-k">${fmt(k.tokens)} · ${fmtMoney(k.cost)}</text>
+            <text x="${W - 130}" y="46" class="hb-ksub">今日 tokens · ${sessions.length} 船在泊</text>
           </g>
         </svg>
       </div>`;
   }
 
   window.ObservatoryViews = window.ObservatoryViews || {};
-  window.ObservatoryViews[VIEW] = { title: "灯塔港", eyebrow: "HARBOR", render };
+  window.ObservatoryViews[VIEW] = { title: "港口", eyebrow: "HARBOR", render };
 })();

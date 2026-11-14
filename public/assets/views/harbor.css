@@ -1,12 +1,19 @@
-/* harbor — lighthouses sweeping a night coast */
+/* harbor — cargo ships, container stacks, quota buoys */
 .hb-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
 .hb-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font-size: 9px; color: var(--muted); flex: none; }
-.hb-head b { font: 700 10px var(--mono); letter-spacing: .12em; color: var(--fg); }
-.hb-wrap svg { flex: 1; min-height: 0; }
-.hb-pct { font: 700 11px var(--num); fill: var(--fg); }
-.hb-name { font: 500 7px var(--mono); fill: var(--muted); }
-.hb-tower.hot .hb-pct { fill: var(--red); }
+.hb-head b { color: var(--fg); font-size: 10px; letter-spacing: .12em; }
+.hb-wrap svg { flex: 1; min-height: 0; display: block; margin: 0 auto; }
+.hb-ship.dead { opacity: .6; }
+.hb-crate.tip { filter: drop-shadow(0 0 3px var(--red)); }
+.hb-name { font: 600 9px var(--mono); fill: var(--fg-2); }
+.hb-sub { font: 500 7.5px var(--mono); fill: var(--muted); }
+.hb-buoy { animation: hbBob 2.4s ease-in-out infinite alternate; }
+.hb-buoy.hot circle { animation: hbBlink 1s ease-in-out infinite; }
+.hb-buoy.warm circle { animation: hbBlink 2s ease-in-out infinite; }
+@keyframes hbBob { from { transform: translateY(0); } to { transform: translateY(-4px); } }
+@keyframes hbBlink { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+.hb-pct { font: 700 8px var(--num); fill: var(--fg-2); }
+.hb-tide { stroke-dasharray: 4 6; animation: hbTide 3s linear infinite; }
+@keyframes hbTide { to { stroke-dashoffset: 10; } }
 .hb-k { font: 700 11px var(--num); fill: var(--fg); }
-.hb-ksub { font: 500 7px var(--mono); fill: var(--muted); }
-.hb-beam { animation: hbSweep linear infinite; }
-@keyframes hbSweep { to { transform: rotate(360deg); } }
+.hb-ksub { font: 500 7.5px var(--mono); fill: var(--muted); }
