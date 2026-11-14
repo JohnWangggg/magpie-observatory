@@ -473,7 +473,7 @@
         <span class="vm-ic"><svg><use href="#${v.icon}"/></svg></span>
         <span class="vm-copy"><b>${esc(v.title)}</b><small>${esc(v.eyebrow)}</small></span>
         <span class="vm-hint">${esc(v.hint)}</span>${flame}${dot}
-        <span class="vm-thumb" aria-hidden="true"><img src="shots/${v.id}.png" alt="" onerror="this.closest('.vm-thumb').remove()"></span>
+        <span class="vm-thumb" aria-hidden="true"><img src="shots/${v.id}.png" alt="" loading="lazy" onerror="this.closest('.vm-thumb').remove()"></span>
       </button>
       <button class="vm-star${on ? " on" : ""}" type="button" data-fav="${v.id}" aria-pressed="${on}" aria-label="${on ? "取消收藏" : "收藏"} ${esc(v.title)}" title="${on ? "取消收藏" : "收藏"}">
         <svg><use href="#i-star"/></svg>
@@ -523,7 +523,12 @@
       host.addEventListener("pointerover", e => {
         const item = e.target.closest(".vm-item");
         const thumb = item && item.querySelector(".vm-thumb");
-        if (thumb) { thumb.classList.add("on"); thumb.style.opacity = "1"; }
+        if (thumb) {
+          const img = thumb.querySelector("img");
+          if (img && img.loading !== "eager") { img.loading = "eager"; }
+          thumb.classList.add("on");
+          thumb.style.opacity = "1";
+        }
       });
       host.addEventListener("pointerout", e => {
         const item = e.target.closest(".vm-item");
