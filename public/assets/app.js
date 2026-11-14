@@ -21,6 +21,7 @@
     trendMetric: "tokens",
     heroMode: "route",
     sessionTab: "active",
+    sessionQuery: "",
     paused: false,
     logQuery: "",
     view: null,
@@ -478,6 +479,12 @@
       list = list.filter(s => state.filter.type === "agent"
         ? s.agent === state.filter.value
         : s.provider === state.filter.value);
+    }
+    if (state.sessionQuery) {
+      const q = state.sessionQuery.toLowerCase();
+      list = list.filter(s =>
+        [s.title, s.agent, s.provider, s.model, s.group].filter(Boolean)
+          .some(v => String(v).toLowerCase().includes(q)));
     }
     return list;
   }
@@ -2466,6 +2473,11 @@
       navigator.clipboard?.writeText(txt).then(() => toast("tries 摘要已复制"));
     });
 
+    const ssInput = $("#session-search");
+    if (ssInput) ssInput.addEventListener("input", () => {
+      state.sessionQuery = ssInput.value.trim();
+      renderSessions();
+    });
     $$(".mini-tab[data-session-tab]").forEach(b => b.addEventListener("click", () => {
       state.sessionTab = b.dataset.sessionTab;
       $$(".mini-tab[data-session-tab]").forEach(x => x.classList.toggle("active", x === b));

@@ -2898,3 +2898,7 @@ body.mini .route-stage { min-height: 0 !important; }
 
 /* 看周报 link inside the daily digest */
 .digest-week { margin-left: 8px; font-size: 9px; padding: 3px 8px; }
+.session-search { display: flex; align-items: center; gap: 6px; margin: 0 0 6px; padding: 0 8px; height: 26px; border: 1px solid var(--line); border-radius: 7px; background: var(--card-2); }
+.session-search svg { width: 11px; height: 11px; flex: none; fill: none; stroke: var(--faint); stroke-width: 1.8; }
+.session-search input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; color: var(--fg); font: inherit; font-size: 9.5px; }
+.session-search input::placeholder { color: var(--faint); }
