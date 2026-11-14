@@ -1,0 +1,6 @@
+/* barometer view */
+.ba-svg { display: block; width: 100%; height: 100%; }
+.ba-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.ba-hpa { fill: var(--fg-2); font: 700 9px var(--mono); }
+.ba-lab { fill: var(--fg-2); font-size: 9px; font-weight: 600; }
+.ba-storm path { filter: drop-shadow(0 0 3px rgba(224,96,72,.6)); }
