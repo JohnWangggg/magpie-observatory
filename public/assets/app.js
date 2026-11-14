@@ -291,6 +291,7 @@
     { id: "hoodoos", title: "蘑菇岩", eyebrow: "HOODOOS", group: "场景", icon: "i-magpie", hint: "蘑菇岩=配额窗 高=用量 乌鸦=会话" },
     { id: "domes", title: "穹顶", eyebrow: "DOMES", group: "场景", icon: "i-magpie", hint: "穹顶=配额窗 半径=用量 攀岩者=会话" },
     { id: "tors", title: "岩山", eyebrow: "TORS", group: "场景", icon: "i-magpie", hint: "岩山=配额窗 高=用量 小马=会话" },
+    { id: "needles", title: "石针", eyebrow: "NEEDLES", group: "场景", icon: "i-magpie", hint: "石针=配额窗 高=用量 雨燕=会话" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
     { id: "grove", title: "果园", eyebrow: "GROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 果=用量 人=会话" },
     { id: "pond", title: "荷塘", eyebrow: "POND", group: "生态", icon: "i-magpie", hint: "莲=配额窗 漪=用量 蛙=会话" },
