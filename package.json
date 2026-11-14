@@ -1,6 +1,6 @@
 {
   "name": "magpie-observatory",
-  "version": "1.10.103",
+  "version": "1.10.104",
   "description": "A monitoring cockpit for Magpie: live routing with two-way magpies, quotas, usage, 22 views, cinema mode, command palette, daily digest, achievements, PWA, notifications, share card, layout edit, 7 style packs and layout settings.",
   "type": "module",
   "main": "./index.mjs",
