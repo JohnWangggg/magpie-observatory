@@ -350,6 +350,7 @@
     { id: "seracs", title: "冰塔", eyebrow: "SERACS", group: "场景", icon: "i-magpie", hint: "冰塔=配额窗 倾角=用量 渡鸦=会话" },
     { id: "buttes", title: "孤丘", eyebrow: "BUTTES", group: "场景", icon: "i-magpie", hint: "孤丘=配额窗 帽岩宽=用量 叉角羚=会话" },
     { id: "fins", title: "石鳍", eyebrow: "FINS", group: "场景", icon: "i-magpie", hint: "石鳍=配额窗 高=用量 雨燕=会话" },
+    { id: "yardangs", title: "雅丹", eyebrow: "YARDANGS", group: "场景", icon: "i-magpie", hint: "雅丹=配额窗 流线=用量 耳廓狐=会话" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
     { id: "grove", title: "果园", eyebrow: "GROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 果=用量 人=会话" },
     { id: "pond", title: "荷塘", eyebrow: "POND", group: "生态", icon: "i-magpie", hint: "莲=配额窗 漪=用量 蛙=会话" },
