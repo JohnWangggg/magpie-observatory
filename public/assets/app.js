@@ -159,6 +159,7 @@
     { id: "harbor", title: "港口", eyebrow: "HARBOR", group: "实时", icon: "i-stack", hint: "船=agent 箱=tries 浮标=配额" },
     { id: "aviary", title: "鸟舍", eyebrow: "AVIARY", group: "趣味", icon: "i-magpie", hint: "巢=agent 蛋=会话 果=配额" },
     { id: "greenhouse", title: "温室", eyebrow: "GREENHOUSE", group: "趣味", icon: "i-magpie", hint: "架=agent 盆=会话 温度计=配额" },
+    { id: "winery", title: "酒庄", eyebrow: "WINERY", group: "配额", icon: "i-stack", hint: "桶=配额窗 滴=会话" },
     { id: "vine", title: "藤蔓", eyebrow: "VINE", group: "趣味", icon: "i-magpie", hint: "叶=会话 大=Token" },
     { id: "play", title: "开局", eyebrow: "PLAY · EVERY CALL IS A BEAT", group: "趣味", icon: "i-zap", hint: "转盘 + 判定 + 连击" }
   ];
