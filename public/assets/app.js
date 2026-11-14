@@ -196,7 +196,7 @@
     { id: "market", title: "市集", eyebrow: "MARKET", group: "场景", icon: "i-magpie", hint: "摊=配额窗 客=会话 货=余量" },
     { id: "gallery", title: "美术馆", eyebrow: "GALLERY", group: "场景", icon: "i-magpie", hint: "画=配额窗 客=会话 色=用量" },
     { id: "zen", title: "枯山水", eyebrow: "ZEN", group: "场景", icon: "i-magpie", hint: "石=配额窗 纹=用量 叶=会话" },
-    { id: "vine", title: "藤蔓", eyebrow: "VINE", group: "生态", icon: "i-magpie", hint: "叶=会话 大=Token" },
+    { id: "sakura", title: "樱道", eyebrow: "SAKURA", group: "场景", icon: "i-magpie", hint: "树=配额窗 花=用量 瓣=会话" },
     { id: "play", title: "开局", eyebrow: "PLAY · EVERY CALL IS A BEAT", group: "趣味", icon: "i-zap", hint: "转盘 + 判定 + 连击" }
   ];
 
