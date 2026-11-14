@@ -1090,6 +1090,15 @@ show(F.length-1);
         <div class="rec"><small>单日最多调用</small><b>${r.bestCalls.calls} <span>${r.bestCalls.date.slice(5)}</span></b></div>
         <div class="rec"><small>活跃天数</small><b>${r.daysActive} 天</b></div>
         <div class="rec"><small>累计切视图</small><b>${(parseInt(localStorage.getItem("magpie.viewCount") || "0", 10) || 0).toLocaleString()} 次</b></div>
+        <div class="rec"><small>最常看</small><b>${(() => {
+          try {
+            const h = JSON.parse(localStorage.getItem("magpie.viewHeat") || "{}");
+            const top = Object.entries(h).sort((a, b) => b[1] - a[1])[0];
+            if (!top) return "—";
+            const meta = (Obs.api.VIEW_META || []).find(v => v.id === top[0]);
+            return (meta ? meta.title : top[0]) + " ×" + top[1];
+          } catch (_) { return "—"; }
+        })()}</b></div>
       </div>
       <div class="records-sub">成就墙 · ${Object.keys(bag).length}/${ACHIEVEMENTS.length} 已解锁</div>
       ${(() => {
