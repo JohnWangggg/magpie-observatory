@@ -1105,9 +1105,9 @@
     const motion = document.documentElement.dataset.motion || "full";
     if (motion === "off") { el.textContent = target; return; }
     clearTimeout(_statT.get(sel));
-    el.classList.remove("stat-bump");
+    el.classList.remove("stat-bump", "stat-up", "stat-down");
     void el.offsetWidth;
-    el.classList.add("stat-bump");
+    el.classList.add("stat-bump", target > prev ? "stat-up" : "stat-down");
     const from = prev, delta = target - from, t0 = performance.now(), dur = 420;
     const step = () => {
       const k = Math.min(1, (performance.now() - t0) / dur);

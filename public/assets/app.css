@@ -301,6 +301,10 @@ img { display: block; }
 .hero-stat b { font-size: 16px; font-weight: 650; font-variant-numeric: tabular-nums; line-height: 1; }
 .hero-stat span { font-size: 8.5px; color: var(--faint); letter-spacing: .06em; }
 .hero-stat b.stat-bump { animation: statBump .45s ease-out; }
+.hero-stat b.stat-up { animation-name: statBump, statUpGlow; animation-duration: .45s, .6s; }
+.hero-stat b.stat-down { animation-name: statBump, statDownGlow; animation-duration: .45s, .6s; }
+@keyframes statUpGlow { 0%,70% { color: var(--green); } 100% { color: inherit; } }
+@keyframes statDownGlow { 0%,70% { color: var(--red); } 100% { color: inherit; } }
 @keyframes statBump { 0% { transform: translateY(4px); opacity: .3; } 60% { transform: translateY(-1px); opacity: 1; } 100% { transform: none; opacity: 1; } }
 .hero-stat.warn b { color: var(--amber); }
 .hero-stat.bad b { color: var(--red); }
