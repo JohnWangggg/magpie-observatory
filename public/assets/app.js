@@ -3048,9 +3048,24 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
 
   /* ---------------------------------------------------------------- toast --- */
   let toastTimer = null;
+  const toastSeen = new Map();
   function toast(msg) {
     const el = $("#toast");
-    el.textContent = msg;
+    // merge identical toasts fired within 1.2s — append ×N badge
+    const now = performance.now();
+    const last = toastSeen.get(msg) || 0;
+    const isDup = now - last < 1200;
+    toastSeen.set(msg, now);
+    // prune old entries so the map stays small
+    if (toastSeen.size > 60) toastSeen.forEach((t, k) => { if (now - t > 60000) toastSeen.delete(k); });
+    if (isDup) {
+      const n = (el.dataset.dup ? +el.dataset.dup : 1) + 1;
+      el.dataset.dup = String(n);
+      el.innerHTML = `${esc(msg)} <span class="toast-n">×${n}</span>`;
+    } else {
+      delete el.dataset.dup;
+      el.textContent = msg;
+    }
     el.hidden = false;
     el.classList.add("show");
     clearTimeout(toastTimer);

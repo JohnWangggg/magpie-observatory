@@ -527,6 +527,7 @@ img { display: block; }
 .vs-track i.y { top: 5px; background: var(--faint); opacity: .5; }
 .vs-num { font: 700 10px var(--num); color: var(--fg); text-align: right; }
 .vs-num em { font-style: normal; font-size: 8px; color: var(--muted); margin-left: 4px; }
+.toast-n { display: inline-block; margin-left: 6px; padding: 1px 6px; border-radius: 999px; background: var(--accent); color: var(--bg); font: 700 8px var(--num); }
 .view-picker.touring::after { content: ""; position: absolute; top: 5px; right: 6px; width: 5px; height: 5px; border-radius: 50%; background: var(--green); box-shadow: 0 0 7px var(--green); animation: breathe 1.8s ease-in-out infinite; }
 .view-picker { position: relative; }
 
