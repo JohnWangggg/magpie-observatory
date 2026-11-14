@@ -1674,6 +1674,13 @@
       </div>`;
     }).join("");
     $("#quota-stamp").textContent = state.mode === "live" ? "kept=1" : "刚刚";
+    const mc = $("#mascot");
+    if (mc) {
+      const hot = list.some(q => (q.windows || []).some(w => (w.used || 0) >= 85));
+      const busy = (state.data.sessions || []).some(x => x.status !== "done");
+      mc.classList.toggle("mascot-alert", hot);
+      mc.classList.toggle("mascot-fly", !hot && busy);
+    }
   }
 
   function renderTrend() {

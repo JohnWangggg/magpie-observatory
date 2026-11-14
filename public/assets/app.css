@@ -279,7 +279,7 @@ img { display: block; }
 .pulse-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); animation: breathe 2.4s infinite; }
 
 /* ------------------------------------------------------------------ hero */
-.hero { --hero-accent: var(--accent); grid-column: span 8; min-height: 0; overflow: hidden; display: flex; flex-direction: column; transition: border-color .28s, box-shadow .28s; border-color: color-mix(in srgb, var(--hero-accent) 18%, var(--line)); }
+.hero { position: relative; --hero-accent: var(--accent); grid-column: span 8; min-height: 0; overflow: hidden; display: flex; flex-direction: column; transition: border-color .28s, box-shadow .28s; border-color: color-mix(in srgb, var(--hero-accent) 18%, var(--line)); }
 .hero::before {
   content: ""; position: absolute; inset: -1px;
   background:
@@ -2916,3 +2916,23 @@ body.mini .route-stage { min-height: 0 !important; }
 .donut-legend-row { cursor: pointer; border-radius: 6px; padding: 3px 6px; margin: 0 -6px; }
 .donut-legend-row:hover { background: var(--card-2); }
 .donut-legend-row.on { background: var(--card-2); box-shadow: inset 0 0 0 1px var(--line-2); }
+
+/* ------------------------------------------------------------ mascot ====== */
+/* The observatory magpie — an ambient overlay on the hero stage. Idle:
+ * perched and breathing; busy (active sessions): short flights across
+ * the stage; alert (any window >=85%): fast wing flapping, red-ish tint.
+ * Controlled by JS toggling .mascot-fly / .mascot-alert on .mascot.    */
+.card.hero > .mascot, .mascot { position: absolute; right: 20px; top: 10px; z-index: 4; width: 34px; color: var(--hero-accent, var(--accent)); opacity: .82; pointer-events: none; transition: color .3s; animation: mascotBob 3.2s ease-in-out infinite; }
+.mascot svg { display: block; width: 100%; height: auto; filter: drop-shadow(0 2px 3px rgba(0,0,0,.35)); }
+.mascot .ms-wing { transform-origin: 16px 12px; transition: transform .2s; }
+@keyframes mascotBob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+.mascot.mascot-fly { animation: mascotBob 1.1s ease-in-out infinite, mascotDrift 9s ease-in-out infinite alternate; }
+.mascot.mascot-fly .ms-wing { animation: msWing .55s ease-in-out infinite; }
+.mascot.mascot-alert { color: var(--red); opacity: .95; animation: mascotBob .7s ease-in-out infinite; }
+.mascot.mascot-alert .ms-wing { animation: msWing .3s ease-in-out infinite; }
+@keyframes msWing { 0%,100% { transform: rotate(0); } 50% { transform: rotate(-24deg); } }
+@keyframes mascotDrift {
+  0% { transform: translate(0,0); } 25% { transform: translate(-46px,-10px); }
+  50% { transform: translate(-18px,6px); } 75% { transform: translate(-60px,-4px); }
+  100% { transform: translate(-8px,-14px); }
+}
