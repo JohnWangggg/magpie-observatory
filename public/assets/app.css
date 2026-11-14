@@ -2888,3 +2888,10 @@ body.mini .route-stage { min-height: 0 !important; }
 
 /* ambient particle canvas — sits behind the whole app shell */
 #ambient-particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+
+/* session right-click menu */
+.session-ctx { position: fixed; z-index: 320; min-width: 168px; padding: 4px; border-radius: 10px; background: var(--card-3); border: 1px solid var(--line-2); box-shadow: var(--shadow); }
+.session-ctx[hidden] { display: none; }
+.session-ctx button { display: flex; align-items: center; gap: 8px; width: 100%; padding: 7px 10px; border: 0; background: none; color: var(--fg-2); font: 500 11px var(--sans); text-align: left; border-radius: 6px; cursor: pointer; }
+.session-ctx button:hover { background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--fg); }
+.session-ctx button svg { width: 13px; height: 13px; flex: none; stroke: var(--muted); fill: none; stroke-width: 2; }

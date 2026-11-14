@@ -2348,15 +2348,53 @@
     $("#session-list").addEventListener("scroll", hidePop, { passive: true });
     document.addEventListener("click", e => { if (!e.target.closest(".session-pop")) hidePop(); });
 
-    // Right-click a session card → copy its id to clipboard (session↔log
-    // searches, support tickets). Long-press on touch also lands here.
+    // Right-click a session card → little context menu with the four things
+    // you actually do with a session id. Replaces the old copy-id-only flow.
+    const ctxMenu = document.createElement("div");
+    ctxMenu.className = "session-ctx"; ctxMenu.hidden = true;
+    document.body.appendChild(ctxMenu);
+    const hideCtx = () => { ctxMenu.hidden = true; };
+    let ctxSess = null;
     $("#session-list").addEventListener("contextmenu", e => {
       const card = e.target.closest(".session-card");
       if (!card) return;
       e.preventDefault();
-      const id = card.dataset.session;
-      navigator.clipboard?.writeText(id).then(() => toast(`session id 已复制：${id}`));
+      hidePop();
+      ctxSess = (state.data.sessions || []).concat(state.data.recent || []).find(x => x.id === card.dataset.session);
+      if (!ctxSess) return;
+      ctxMenu.innerHTML = `
+        <button data-act="copy-id"><svg><use href="#i-link"/></svg>复制会话 ID</button>
+        <button data-act="copy-tries"><svg><use href="#i-arrow"/></svg>复制 tries 链</button>
+        <button data-act="filter"><svg><use href="#i-search"/></svg>只看 ${esc(D.agentMeta(ctxSess.agent).name)}</button>
+        <button data-act="logs"><svg><use href="#i-db"/></svg>跳到日志</button>`;
+      ctxMenu.hidden = false;
+      const mw = 168;
+      ctxMenu.style.left = Math.min(e.clientX, innerWidth - mw - 8) + "px";
+      ctxMenu.style.top = Math.min(e.clientY, innerHeight - ctxMenu.offsetHeight - 8) + "px";
     });
+    ctxMenu.addEventListener("click", e => {
+      const b = e.target.closest("[data-act]");
+      if (!b || !ctxSess) { hideCtx(); return; }
+      const act = b.dataset.act;
+      if (act === "copy-id") navigator.clipboard?.writeText(ctxSess.id).then(() => toast("会话 ID 已复制"));
+      if (act === "copy-tries") {
+        const t = (ctxSess.tries || []).map(x => `${D.providerMeta(x.provider).name}/${x.model.split("/").pop()} ${x.state === "ok" ? "✓" : "✕"}`).join(" → ");
+        navigator.clipboard?.writeText(`${ctxSess.title} | ${fmtTokens(ctxSess.tokens || 0)} tok | ${t || ctxSess.model}`).then(() => toast("tries 链已复制"));
+      }
+      if (act === "filter") {
+        state.filter = { type: "agent", value: ctxSess.agent };
+        state.selectedSession = null;
+        renderSessions(); renderDecision(); renderCustomView(state.heroMode, true);
+        toast(`已筛选：${D.agentMeta(ctxSess.agent).name}`);
+      }
+      if (act === "logs") {
+        const card = document.querySelector(".table-card");
+        if (card) { card.scrollIntoView({ behavior: "smooth", block: "center" }); toast("已跳到日志"); }
+      }
+      hideCtx();
+    });
+    document.addEventListener("click", e => { if (!e.target.closest(".session-ctx")) hideCtx(); });
+    document.addEventListener("keydown", e => { if (e.key === "Escape") hideCtx(); });
 
     // Double-click a session card → copy its try chain summary
     // (provider/model ✓✕ trail) for bug reports.
