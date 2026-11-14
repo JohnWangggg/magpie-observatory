@@ -2885,3 +2885,6 @@ body.mini .route-stage { min-height: 0 !important; }
 /* swatch dot inside each accent button */
 .accent-seg button { display: inline-flex; align-items: center; gap: 5px; }
 .accent-seg button i { width: 9px; height: 9px; border-radius: 50%; background: var(--ac); flex: none; box-shadow: 0 0 0 1px rgba(255, 255, 255, .18) inset; }
+
+/* ambient particle canvas — sits behind the whole app shell */
+#ambient-particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; }

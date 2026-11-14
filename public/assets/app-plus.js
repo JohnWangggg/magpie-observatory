@@ -1304,6 +1304,7 @@ show(F.length-1);
     applyUrlState();
     loadReplayHash();
     setTimeout(maybeShowDigest, 1600);
+    startParticles();
     // PWA: register the shell-cache service worker (Phase 2 deliverable,
     // re-added after the refactor — registration was lost in the rollback).
     if ("serviceWorker" in navigator && location.protocol !== "file:") {
@@ -1318,6 +1319,60 @@ show(F.length-1);
       if (v && Obs.api.viewMeta(v)) Obs.api.setHeroMode(v);
     }
   });
+
+  /* ====================================================== ambient particles ====== */
+  // A quiet canvas of drifting motes behind the whole dashboard; its density
+  // tracks live session count, its hue follows --accent, and it pauses when
+  // the tab is hidden or motion is off.
+  function startParticles() {
+    if (document.documentElement.dataset.motion === "off") return;
+    const cv = document.createElement("canvas");
+    cv.id = "ambient-particles"; cv.setAttribute("aria-hidden", "true");
+    document.body.prepend(cv);
+    const ctx = cv.getContext("2d");
+    let W = 0, H = 0, parts = [], raf = null;
+    function resize() {
+      W = cv.width = innerWidth; H = cv.height = innerHeight;
+      const target = Math.min(160, Math.max(18, (state()?.data.sessions.length || 4) * 12 + innerWidth / 60));
+      while (parts.length < target) parts.push(spawn());
+      parts.length = target;
+    }
+    function spawn() {
+      return {
+        x: Math.random() * W, y: Math.random() * H,
+        r: 0.4 + Math.random() * 1.6,
+        vx: (Math.random() - 0.5) * 0.12, vy: -(0.03 + Math.random() * 0.1),
+        a: 0.06 + Math.random() * 0.22, p: Math.random() * Math.PI * 2
+      };
+    }
+    function tint() {
+      return getComputedStyle(document.documentElement).getPropertyValue("--accent").trim() || "#8b7cf6";
+    }
+    let col = tint();
+    setInterval(() => { col = tint(); }, 3000);
+    function frame() {
+      if (document.hidden) { raf = null; return; }
+      ctx.clearRect(0, 0, W, H);
+      ctx.fillStyle = col;
+      const drift = performance.now() / 1200;
+      for (const p of parts) {
+        p.x += p.vx + Math.sin(drift + p.p) * 0.04;
+        p.y += p.vy;
+        if (p.y < -4) { p.y = H + 4; p.x = Math.random() * W; }
+        if (p.x < -4) p.x = W + 4; else if (p.x > W + 4) p.x = -4;
+        ctx.globalAlpha = p.a * (0.6 + 0.4 * Math.sin(drift * 1.4 + p.p));
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+      raf = requestAnimationFrame(frame);
+    }
+    addEventListener("resize", resize, { passive: true });
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden && !raf) raf = requestAnimationFrame(frame);
+    });
+    resize();
+    raf = requestAnimationFrame(frame);
+  }
 
   /* ========================================================= palette ======= */
   function copyViewSnapshot() {
