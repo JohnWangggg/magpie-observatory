@@ -521,7 +521,14 @@ img { display: block; }
 .hm-grid span { font-size: 9px; color: var(--muted); }
 .help-menu p { margin: 9px 0 0; font-size: 8px; line-height: 1.6; color: var(--faint); }
 
-.stage-view { position: relative; width: 100%; height: 100%; min-height: 0; }
+.stage-view { position: relative; width: 100%; height: 100%; min-height: 0; overflow: hidden; }
+.stage-view::before { content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(58% 52% at 50% 46%, color-mix(in srgb, var(--hero-accent, var(--accent)) 12%, transparent), transparent 72%),
+    radial-gradient(30% 26% at 18% 88%, color-mix(in srgb, var(--hero-accent, var(--accent)) 8%, transparent), transparent 70%),
+    radial-gradient(26% 22% at 84% 12%, color-mix(in srgb, var(--hero-accent, var(--accent)) 7%, transparent), transparent 70%);
+}
+.stage-view > * { position: relative; z-index: 1; }
 .stage-view[hidden] { display: none; }
 
 /* --------------------------------------------------------------- radar --- */
