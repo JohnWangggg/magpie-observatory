@@ -1,0 +1,14 @@
+/* breakers */
+.br-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.br-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.br-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.br-head span { font-size: 8px; color: var(--muted); }
+.br-wrap svg { flex: 1; width: 100%; }
+.br-wave { transform-box: fill-box; }
+.br-wave.hot circle { filter: drop-shadow(0 0 4px rgba(240,200,100,.5)); }
+.br-surf { transform-box: fill-box; }
+.br-surf.dead { opacity: .85; }
+.br-pct { font: 700 9px var(--num); fill: #b0a880; }
+.br-name { font: 600 7px var(--mono); fill: #908860; }
+.br-k { font: 700 10px var(--num); fill: var(--fg); }
+.br-ksub { font: 7px var(--mono); fill: var(--muted); }
