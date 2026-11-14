@@ -537,12 +537,14 @@
           if (img && img.loading !== "eager") { img.loading = "eager"; }
           thumb.classList.add("on");
           thumb.style.opacity = "1";
+          clearTimeout(thumb._peek);
+          thumb._peek = setTimeout(() => thumb.classList.add("peek"), 420);
         }
       });
       host.addEventListener("pointerout", e => {
         const item = e.target.closest(".vm-item");
         const thumb = item && item.querySelector(".vm-thumb");
-        if (thumb && !item.contains(e.relatedTarget)) { thumb.classList.remove("on"); thumb.style.opacity = ""; }
+        if (thumb && !item.contains(e.relatedTarget)) { clearTimeout(thumb._peek); thumb.classList.remove("on", "peek"); thumb.style.opacity = ""; }
       });
     }
   }
