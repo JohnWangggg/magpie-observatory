@@ -1102,3 +1102,13 @@ decision/palette）+ 复制/跳转/过滤/记忆/导出 全覆盖。审计完毕
 - **VIEW_META 趣味组** + `view-pendulum` + `59 VIEWS`；
   README×2 + `docs/mode-pendulum.png`。
 
+---
+
+## Phase 96 — 第 60 个视图 `aurora2`（2026-11-15 · v0.98.0）
+
+- **`aurora2.js/css`**：极光幕——幕=会话（高=Token、色=Agent、
+  闪=失败）+ 星野 + 地平虚线；`feGaussianBlur` 柔焦；
+  `a2-sway`/`a2-flicker`（skewX+scaleY 摇曳）。
+- **VIEW_META 趣味组** + `view-aurora2` + `60 VIEWS`；
+  README×2 + `docs/mode-aurora2.png`。
+
