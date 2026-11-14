@@ -1,0 +1,33 @@
+/* orbit.css — 彗星轨道 */
+
+.ob-wrap { height: 100%; display: flex; flex-direction: column; min-height: 0; }
+.ob-legend {
+  padding: 0 6px 6px; font-size: 10px; color: var(--dim);
+  display: flex; gap: 10px; flex: 0 0 auto; flex-wrap: wrap; align-items: center;
+}
+.ob-legend .ol-item { display: flex; align-items: center; gap: 4px; }
+.ob-legend .ol-item i { width: 6px; height: 6px; border-radius: 50%; }
+.ob-legend .ol-item.bad { color: #f26d7f; }
+.ob-legend .ol-tip { margin-left: auto; font-size: 9px; opacity: .6; }
+
+.ob-svg { flex: 1; width: 100%; min-height: 0; }
+
+.ob-comet { animation: ob-fade .5s ease-out both; }
+.ob-comet.broken .ob-head { animation: ob-blink 1.2s ease-in-out infinite; }
+.ob-tail { animation: ob-tail 2.6s ease-in-out infinite; stroke-dasharray: 0 400; }
+.ob-sun { animation: ob-breath 3.6s ease-in-out infinite; transform-origin: center; transform-box: fill-box; }
+.ob-head { filter: drop-shadow(0 0 6px currentColor); }
+.ob-debris { animation: ob-drift 4s linear infinite; }
+
+@keyframes ob-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes ob-tail { 0% { stroke-dasharray: 0 400; opacity: .5; } 60% { stroke-dasharray: 60 340; } 100% { stroke-dasharray: 0 400; opacity: .3; } }
+@keyframes ob-breath { 0%, 100% { transform: scale(1); opacity: .1; } 50% { transform: scale(1.1); opacity: .15; } }
+@keyframes ob-blink { 0%, 100% { opacity: .35; } 50% { opacity: .7; } }
+@keyframes ob-drift { to { transform: translate(14px, 10px); opacity: 0; } }
+
+.ob-empty { height: 100%; display: flex; align-items: center; justify-content: center; color: var(--dim); font-size: 13px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ob-comet, .ob-tail, .ob-sun, .ob-debris, .ob-head-g { animation-duration: .001ms !important; }
+  .ob-head-g animateTransform { display: none; }
+}

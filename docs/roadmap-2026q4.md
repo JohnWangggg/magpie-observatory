@@ -934,3 +934,12 @@ decision/palette）+ 复制/跳转/过滤/记忆/导出 全覆盖。审计完毕
   `#extras-seg` 未绑 `data-extra`。教训：查死代码先查 hook/委托链，
   别看 `#id` 无 grep 命中就下结论。
 
+---
+
+## Phase 78 — 第 42 个视图 `orbit`（2026-11-15 · v0.80.0）
+
+- **`orbit.js/css`**：彗星椭圆轨道——头=会话（大=Token、色=Agent、
+  `animateTransform` 绕圈）、尾=弧迹、碎=失败；中央 Provider 日群。
+- **VIEW_META 趣味组** + `view-orbit` + `42 VIEWS`；
+  README×2 + `docs/mode-orbit.png`。
+

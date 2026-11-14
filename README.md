@@ -16,7 +16,7 @@ Observatory turns that stream into something you can *watch*:
 - **Live routing** — Agent → Magpie → Provider/Account, with a filled magpie
   carrying the request out and a mirrored outlined magpie bringing the answer
   back. Failed attempts stay visible as “rerouted”.
-- **Forty-one views** — one for routing, forty ways to look at the
+- **Forty-two views** — one for routing, forty-one ways to look at the
   same data: charts, games, ambient fields.
 - **Seven style packs** — `Control`, `Pixel`, `Paper`, `Neon`, `Terminal`,
   `Blueprint`, `Zine`; each with a light and dark variant. Light/dark and
@@ -128,7 +128,7 @@ MAGPIE_URL=http://127.0.0.1:3425 MAGPIE_KEY=... node preview.mjs
 
 The preview is for development only; the plugin uses the same service internally.
 
-## The forty-one views
+## The forty-two views
 
 | Route · two-way magpies | Radar · provider ring and quotas |
 | --- | --- |
@@ -208,9 +208,9 @@ The preview is for development only; the plugin uses the same service internally
 | --- | --- |
 | ![quilt](docs/mode-quilt.png) | ![vortex](docs/mode-vortex.png) |
 
-| Kaleido · sessions as 12-fold wedges |
-| --- |
-| ![kaleido](docs/mode-kaleido.png) |
+| Kaleido · sessions as 12-fold wedges | Orbit · sessions as comets |
+| --- | --- |
+| ![kaleido](docs/mode-kaleido.png) | ![orbit](docs/mode-orbit.png) |
 
 - **Route**: the default. Magpies fly the whole `Agent → Magpie → Provider`
   path; failures remain visible.
@@ -300,6 +300,8 @@ The preview is for development only; the plugin uses the same service internally
   colour = agent, spin speed = recency; failed requests fall inward.
 - **Kaleido**: each session is a coloured wedge mirrored 12× around a
   hexagonal frame — length = tokens, colour = agent, faded = failed.
+- **Orbit**: sessions are comets on tilted elliptical lanes around a
+  provider sun-cluster — head = tokens, tail = arc, debris = failed.
 
 - **Burn**: every account window as a pace bar — fill shows used %, tick
   marks flat pace, a dashed notch projects end-of-window; click a row for the
@@ -309,7 +311,7 @@ The preview is for development only; the plugin uses the same service internally
 
 The hero header has a view picker instead of a wall of tabs. Press **V** (or
 click it), type to filter by name / eyebrow / group, press Enter to switch, or
-hit **随机一个** for a random view. The 41 views are grouped into
+hit **随机一个** for a random view. The 42 views are grouped into
 `实时` / `用量` / `结构` / `趣味`, and the hero accent follows the group.
 **G** starts or stops an auto tour (5 / 10 / 30-second interval in settings),
 **R** picks a random view, **F** stars the current view (favourites pin to the
