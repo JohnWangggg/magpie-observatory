@@ -277,6 +277,7 @@
     { id: "abyss", title: "深渊", eyebrow: "ABYSS", group: "场景", icon: "i-magpie", hint: "热泉口=配额窗 烟柱=用量 深海鱼=会话" },
     { id: "grotto", title: "岩洞", eyebrow: "GROTTO", group: "场景", icon: "i-magpie", hint: "钟乳石=配额窗 长=用量 蝙蝠=会话" },
     { id: "hollow", title: "洼地", eyebrow: "HOLLOW", group: "场景", icon: "i-magpie", hint: "洼坑=配额窗 深=用量 萤火虫=会话" },
+    { id: "savanna", title: "草原", eyebrow: "SAVANNA", group: "场景", icon: "i-magpie", hint: "金合欢=配额窗 冠宽=用量 角马=会话" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
     { id: "grove", title: "果园", eyebrow: "GROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 果=用量 人=会话" },
     { id: "pond", title: "荷塘", eyebrow: "POND", group: "生态", icon: "i-magpie", hint: "莲=配额窗 漪=用量 蛙=会话" },
