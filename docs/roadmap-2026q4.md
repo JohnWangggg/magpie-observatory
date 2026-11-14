@@ -1047,3 +1047,13 @@ decision/palette）+ 复制/跳转/过滤/记忆/导出 全覆盖。审计完毕
 - **VIEW_META 趣味组** + `view-ripple` + `53 VIEWS`；
   README×2 + `docs/mode-ripple.png`。
 
+---
+
+## Phase 90 — 第 54 个视图 `lantern`（2026-11-15 · v0.92.0）
+
+- **`lantern.js/css`**：天灯——灯=会话（大=Token、色=Agent、
+  歪=失败）+ 火苗 + 星夜；`lt-float`/`lt-fall`/`lt-flick`。
+- **坑**：`g` transform attr vs CSS 动画——拆双层 g。
+- **VIEW_META 趣味组** + `view-lantern` + `54 VIEWS`；
+  README×2 + `docs/mode-lantern.png`。
+

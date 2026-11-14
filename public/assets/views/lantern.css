@@ -1,0 +1,27 @@
+/* lantern.css — 天灯 */
+
+.lt-wrap { height: 100%; display: flex; flex-direction: column; min-height: 0; }
+.lt-legend {
+  padding: 0 6px 6px; font-size: 10px; color: var(--dim);
+  display: flex; gap: 10px; flex: 0 0 auto; flex-wrap: wrap; align-items: center;
+}
+.lt-legend .ll-item { display: flex; align-items: center; gap: 4px; }
+.lt-legend .ll-item i { width: 6px; height: 6px; border-radius: 50%; }
+.lt-legend .ll-item.bad { color: #f26d7f; }
+.lt-legend .ll-tip { margin-left: auto; font-size: 9px; opacity: .6; }
+
+.lt-svg { flex: 1; width: 100%; min-height: 0; background: linear-gradient(180deg, rgba(14,16,30,.85), rgba(20,24,44,.6)); border-radius: 8px; }
+
+.lt-lamp { animation: lt-float 6s ease-in-out infinite; }
+.lt-lamp.fall { animation: lt-fall 5s ease-in-out infinite; }
+.lt-flame { animation: lt-flick .8s ease-in-out infinite; }
+
+@keyframes lt-float { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(2px, -4px); } }
+@keyframes lt-fall { 0%, 100% { transform: translate(0, 0); opacity: .6; } 50% { transform: translate(4px, 6px); opacity: .35; } }
+@keyframes lt-flick { 0%, 100% { transform: scale(1); opacity: .8; } 50% { transform: scale(1.2); opacity: 1; } }
+
+.lt-empty { height: 100%; display: flex; align-items: center; justify-content: center; color: var(--dim); font-size: 13px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .lt-lamp, .lt-flame { animation-duration: .001ms !important; }
+}
