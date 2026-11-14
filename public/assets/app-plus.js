@@ -251,6 +251,7 @@ show(F.length-1);
     const s = state();
     if (!s) return;
     s.cinema = !!on;
+    if (!on) s.ambient = false;
     document.body.classList.toggle("cinema", s.cinema);
     const btn = $("#cinema-toggle");
     if (btn) btn.classList.toggle("on", s.cinema);
@@ -259,7 +260,7 @@ show(F.length-1);
     if (chV) chV.textContent = meta.title || "";
     if (chE) chE.textContent = meta.eyebrow || "";
     updateCinemaStats();
-    if (s.cinema) toast("影院模式 · O / Esc 退出 · G 巡游");
+    if (s.cinema) toast("影院模式 · O / Esc 退出 · G 巡游 · A 氛围");
     requestAnimationFrame(() => {
       Obs.api.drawWires && Obs.api.drawWires();
       const custom = window.ObservatoryViews && window.ObservatoryViews[s.heroMode];
@@ -267,8 +268,28 @@ show(F.length-1);
     });
   }
   function toggleCinema() { setCinema(!(state() && state().cinema)); }
+  /* ------------------------------------------------------------ ambient ===
+   * One-key screensaver: cinema frame + tour rotation together. Esc / O / A
+   * all exit and stop the tour if ambient started it. */
+  function setAmbient(on) {
+    const s = state();
+    if (!s) return;
+    if (on) {
+      s.ambient = true;
+      setCinema(true);
+      if (!s.tour && Obs.api.startTour) Obs.api.startTour();
+      toast("氛围模式 · 自动轮播 · A / O / Esc 退出");
+    } else {
+      s.ambient = false;
+      if (s.tour && Obs.api.stopTour) Obs.api.stopTour(true);
+      setCinema(false);
+    }
+  }
+  function toggleAmbient() { setAmbient(!(state() && state().ambient)); }
   // Expose for the core's keyboard layer — Esc/O/E in app.js delegate here.
   Obs.toggleCinema = toggleCinema;
+  Obs.setAmbient = setAmbient;
+  Obs.toggleAmbient = toggleAmbient;
   Obs.setCinema = setCinema;
   Obs.exportPNG = exportPNG;
   function updateCinemaStats() {
@@ -1092,13 +1113,14 @@ show(F.length-1);
     clearTimeout(s._idleTimer);
     if (s.attract) {
       s.attract = false;
-      if (s.tour) Obs.api.stopTour(true);
+      if (s.ambient) setAmbient(false);
+      else if (s.tour) Obs.api.stopTour(true);
       toast("欢迎回来");
     }
     s._idleTimer = setTimeout(() => {
-      if (document.hidden || s.paused || s.replay || s.cinema || s.tour || !s.favorites.length) return;
+      if (document.hidden || s.paused || s.replay || s.cinema || s.tour) return;
       s.attract = true;
-      Obs.api.startTour();
+      setAmbient(true);
     }, IDLE_MS);
   }
 
@@ -1278,8 +1300,11 @@ show(F.length-1);
     resetIdle();
     document.addEventListener("keydown", e => {
       if (e.target.matches("input, textarea, select, [contenteditable]")) return;
-      if (e.key === "Escape" && state() && state().cinema) { setCinema(false); }
+      if (e.key === "Escape" && state() && state().cinema) {
+        if (state().ambient) setAmbient(false); else setCinema(false);
+      }
       if (e.key.toLowerCase() === "o" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); toggleCinema(); }
+      if (e.key.toLowerCase() === "a" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); toggleAmbient(); }
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") { e.preventDefault(); openPalette(); }
       if (e.key.toLowerCase() === "e" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); exportPNG(); }
       // Esc while a palette item has focus but the input doesn't: close.
@@ -1297,7 +1322,7 @@ show(F.length-1);
     });
     state().replay = null; state().replayBuf = [];
     state().cinema = false;
-    state().attract = false; state()._prevSessions = new Set();
+    state().attract = false; state().ambient = false; state()._prevSessions = new Set();
     loadLayout();
     bindLayoutEdit();
     bindHeatPop();
