@@ -16,7 +16,7 @@ Observatory turns that stream into something you can *watch*:
 - **Live routing** — Agent → Magpie → Provider/Account, with a filled magpie
   carrying the request out and a mirrored outlined magpie bringing the answer
   back. Failed attempts stay visible as “rerouted”.
-- **Sixty-five views** — one for routing, sixty-one ways to look at the
+- **Sixty-six views** — one for routing, sixty-one ways to look at the
   same data: charts, games, ambient fields.
 - **Seven style packs** — `Control`, `Pixel`, `Paper`, `Neon`, `Terminal`,
   `Blueprint`, `Zine`; each with a light and dark variant. Light/dark and
@@ -128,7 +128,7 @@ MAGPIE_URL=http://127.0.0.1:3425 MAGPIE_KEY=... node preview.mjs
 
 The preview is for development only; the plugin uses the same service internally.
 
-## The sixty-five views
+## The sixty-six views
 
 | Route · two-way magpies | Radar · provider ring and quotas |
 | --- | --- |
@@ -394,7 +394,7 @@ The preview is for development only; the plugin uses the same service internally
 
 The hero header has a view picker instead of a wall of tabs. Press **V** (or
 click it), type to filter by name / eyebrow / group, press Enter to switch, or
-hit **随机一个** for a random view. The 65 views are grouped into
+hit **随机一个** for a random view. The 66 views are grouped into
 `实时` / `用量` / `结构` / `趣味`, and the hero accent follows the group.
 **G** starts or stops an auto tour (5 / 10 / 30-second interval in settings),
 **R** picks a random view, **F** stars the current view (favourites pin to the
