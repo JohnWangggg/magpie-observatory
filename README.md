@@ -43,7 +43,7 @@ Observatory turns that stream into something you can *watch*:
 - **Favorites rail** — starred views (`F`) become permanent icons on the left
   rail, one click to switch.
 - **Mini mode** — `?mode=mini&view=stellar` shrinks the page into a
-  picture-in-picture-ready widget.
+  picture-in-picture-ready widget (see `docs/mode-mini.png`).
 - **PWA** — installable to the home screen via `manifest.webmanifest` +
   a minimal service worker (network-first, API uncached).
 - **Replay** — `R` freezes the feed into a 3-minute scrubbable timeline;
