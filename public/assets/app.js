@@ -2828,6 +2828,8 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
       e.stopPropagation();
       toggleViewMenu();
     });
+    const chThumb = $("#ch-thumb");
+    if (chThumb) chThumb.addEventListener("click", e => { e.stopPropagation(); showVlight(state.heroMode); });
     // Thumbnail bubble on the picker — JS-driven like .vm-thumb so the
     // hover state can't be swallowed by ancestor transforms.
     $("#view-picker").addEventListener("pointerover", () => {
