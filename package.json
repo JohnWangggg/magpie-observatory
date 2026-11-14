@@ -20,7 +20,8 @@
     "publish:github": "bash scripts/publish-github.sh",
     "sync-views": "node scripts/sync-views.mjs",
     "thumbs": "python3 scripts/thumb-views.py",
-    "smoke": "python3 scripts/smoke-views.py"
+    "smoke": "python3 scripts/smoke-views.py",
+    "shot": "python3 scripts/one-shot.py"
   },
   "keywords": [
     "magpie",
