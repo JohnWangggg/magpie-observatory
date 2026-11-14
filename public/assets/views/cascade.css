@@ -1,0 +1,15 @@
+/* cascade */
+.cs-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.cs-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.cs-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.cs-head span { font-size: 8px; color: var(--muted); }
+.cs-empty { flex: 1; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 10px; }
+.cs-wrap svg { flex: 1; width: 100%; }
+.cs-ledge { transform-box: fill-box; }
+.cs-mname { font: 600 7.5px var(--mono); fill: var(--fg); }
+.cs-pct { font: 700 7.5px var(--num); fill: var(--fg); }
+.cs-tok { font: 600 7px var(--num); fill: var(--muted); }
+.cs-drop { transform-box: fill-box; }
+.cs-drop.dead circle { fill: var(--red); }
+.cs-k { font: 700 10px var(--num); fill: var(--fg); }
+.cs-ksub { font: 7px var(--mono); fill: var(--muted); }
