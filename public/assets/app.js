@@ -204,6 +204,7 @@
     { id: "zen", title: "枯山水", eyebrow: "ZEN", group: "场景", icon: "i-magpie", hint: "石=配额窗 纹=用量 叶=会话" },
     { id: "sakura", title: "樱道", eyebrow: "SAKURA", group: "场景", icon: "i-magpie", hint: "树=配额窗 花=用量 瓣=会话" },
     { id: "rain", title: "雨窗", eyebrow: "RAIN", group: "场景", icon: "i-magpie", hint: "格=配额窗 雨=用量 痕=会话" },
+    { id: "tank", title: "水族馆", eyebrow: "TANK", group: "场景", icon: "i-magpie", hint: "缸=配额窗 水=用量 鱼=会话" },
     { id: "play", title: "开局", eyebrow: "PLAY · EVERY CALL IS A BEAT", group: "趣味", icon: "i-zap", hint: "转盘 + 判定 + 连击" }
   ];
 
