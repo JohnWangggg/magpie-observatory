@@ -30,17 +30,17 @@
       const gw = 30 * scale, gh = 42 * scale;
       const y = STEPS - i * 14;
       const flick = Math.max(.5, 2 - w.used / 90);
-      return `<g class="tp-gate${hot ? " hot" : ""}">
+      return `<g class="te-gate${hot ? " hot" : ""}">
         <line x1="${(x - gw / 2).toFixed(1)}" y1="${y}" x2="${(x - gw / 2).toFixed(1)}" y2="${(y - gh).toFixed(1)}" stroke="${hot ? "var(--red)" : m.color || "#f87171"}" stroke-width="3.4"/>
         <line x1="${(x + gw / 2).toFixed(1)}" y1="${y}" x2="${(x + gw / 2).toFixed(1)}" y2="${(y - gh).toFixed(1)}" stroke="${hot ? "var(--red)" : m.color || "#f87171"}" stroke-width="3.4"/>
         <line x1="${(x - gw / 2 - 6).toFixed(1)}" y1="${(y - gh).toFixed(1)}" x2="${(x + gw / 2 + 6).toFixed(1)}" y2="${(y - gh).toFixed(1)}" stroke="${hot ? "var(--red)" : m.color || "#f87171"}" stroke-width="4"/>
         <line x1="${(x - gw / 2 - 2).toFixed(1)}" y1="${(y - gh + 10).toFixed(1)}" x2="${(x + gw / 2 + 2).toFixed(1)}" y2="${(y - gh + 10).toFixed(1)}" stroke="${hot ? "var(--red)" : m.color || "#f87171"}" stroke-width="2"/>
-        <g class="tp-lamp" style="animation-duration:${flick.toFixed(2)}s">
+        <g class="te-lamp" style="animation-duration:${flick.toFixed(2)}s">
           <line x1="${x.toFixed(1)}" y1="${(y - gh + 10).toFixed(1)}" x2="${x.toFixed(1)}" y2="${(y - gh + 18).toFixed(1)}" stroke="var(--line-2)" stroke-width="1"/>
           <circle cx="${x.toFixed(1)}" cy="${(y - gh + 22).toFixed(1)}" r="3.4" fill="${hot ? "var(--red)" : "var(--amber)"}"/>
         </g>
-        <text x="${x.toFixed(1)}" y="${y - gh - 8}" class="tp-pct" text-anchor="middle">${Math.round(w.used)}%</text>
-        <text x="${x.toFixed(1)}" y="${y - gh - 17}" class="tp-name" text-anchor="middle">${esc((m.name || w.prov).slice(0, 6))}</text>
+        <text x="${x.toFixed(1)}" y="${y - gh - 8}" class="te-pct" text-anchor="middle">${Math.round(w.used)}%</text>
+        <text x="${x.toFixed(1)}" y="${y - gh - 17}" class="te-name" text-anchor="middle">${esc((m.name || w.prov).slice(0, 6))}</text>
       </g>`;
     }).join("");
 
@@ -54,7 +54,7 @@
       const dead = s.status === "err";
       const dur = Math.max(5, 14 - (s.tps || 0) / 16);
       const path = `M ${W - 60} ${STEPS + 56} L ${60 + i * 30} ${STEPS - 30}`;
-      return `<g class="tp-vis${dead ? " dead" : ""}">
+      return `<g class="te-vis${dead ? " dead" : ""}">
         <circle cx="0" cy="-8" r="3" fill="${dead ? "var(--red)" : m.color || "#f87171"}"/>
         <path d="M -3 -5 L 3 -5 L 4 4 L -4 4 Z" fill="${dead ? "var(--red)" : m.color || "#f87171"}" opacity=".9"/>
         <animateMotion dur="${dur}s" repeatCount="indefinite" begin="${(-i * 1.7).toFixed(1)}s" path="${path}"/>
@@ -66,16 +66,16 @@
     const hotN = quotas.filter(w => w.used >= 85).length;
 
     host.innerHTML = `
-      <div class="tp-wrap">
-        <div class="tp-head"><b>TEMPLE</b><span>居=配额窗 客=会话 灯=热度${hotN ? " · " + hotN + " 居灯灭" : ""}</span></div>
+      <div class="te-wrap">
+        <div class="te-head"><b>TEMPLE</b><span>居=配额窗 客=会话 灯=热度${hotN ? " · " + hotN + " 居灯灭" : ""}</span></div>
         <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet">
           <rect x="0" y="0" width="${W}" height="${H}" fill="color-mix(in srgb, var(--card-2) 14%, transparent)" rx="10"/>
           <circle cx="${W - 64}" cy="50" r="16" fill="var(--amber)" opacity=".8"/>
           ${stairs}${gates}${visitors}
-          <g class="tp-card">
+          <g class="te-card">
             <rect x="14" y="12" width="120" height="40" rx="6" fill="var(--card-2)" stroke="var(--line-2)"/>
-            <text x="22" y="30" class="tp-k">${fmt(k.tokens)} · ${sessions.length} 客</text>
-            <text x="22" y="43" class="tp-ksub">今日 tokens</text>
+            <text x="22" y="30" class="te-k">${fmt(k.tokens)} · ${sessions.length} 客</text>
+            <text x="22" y="43" class="te-ksub">今日 tokens</text>
           </g>
         </svg>
       </div>`;

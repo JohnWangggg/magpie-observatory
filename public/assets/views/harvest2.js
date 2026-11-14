@@ -44,10 +44,10 @@
       const grains = hot ? Array.from({length: 2}, (_, g) => `<circle cx="${(x0 + 10 + g * (gap - 20)).toFixed(1)}" cy="${FLOOR - hgt + 10}" r="1.4" fill="#e8b25a">
           <animate attributeName="cy" values="${FLOOR - hgt + 10};${FLOOR - 3}" dur="${(1.6 + g * .4).toFixed(1)}s" begin="${(-g * .8).toFixed(1)}s" repeatCount="indefinite"/>
           <animate attributeName="opacity" values="1;0" dur="${(1.6 + g * .4).toFixed(1)}s" begin="${(-g * .8).toFixed(1)}s" repeatCount="indefinite"/></circle>`).join("") : "";
-      return `<g class="hv-fur${hot ? " hot" : ""}">
+      return `<g class="h2-fur${hot ? " hot" : ""}">
         ${stalk}${grains}
-        <text x="${(x0 + gap/2).toFixed(1)}" y="${FLOOR + 18}" class="hv-pct" text-anchor="middle">${Math.round(w.used)}%</text>
-        <text x="${(x0 + gap/2).toFixed(1)}" y="${FLOOR + 29}" class="hv-name" text-anchor="middle">${esc((m.name || w.prov).slice(0, 6))}</text>
+        <text x="${(x0 + gap/2).toFixed(1)}" y="${FLOOR + 18}" class="h2-pct" text-anchor="middle">${Math.round(w.used)}%</text>
+        <text x="${(x0 + gap/2).toFixed(1)}" y="${FLOOR + 29}" class="h2-name" text-anchor="middle">${esc((m.name || w.prov).slice(0, 6))}</text>
       </g>`;
     }).join("");
 
@@ -57,7 +57,7 @@
       const dead = s.status === "err";
       const dur = Math.max(6, 16 - (s.tps || 0) / 8);
       const y = FLOOR - 4;
-      return `<g class="hv-far${dead ? " dead" : ""}">
+      return `<g class="h2-far${dead ? " dead" : ""}">
         <animateTransform attributeName="transform" type="translate" values="${-22 + i * 26} ${y};${W + 22} ${y}" dur="${dur}s" begin="${(-i * 3).toFixed(1)}s" repeatCount="indefinite"/>
         <circle cx="0" cy="-14" r="3" fill="${dead ? "var(--red)" : m.color || "#e0b070"}"/>
         <path d="M -5 -12 h 10 l -1 -4 h -8 Z" fill="#4a3a20"/>
@@ -73,16 +73,16 @@
     const hotN = quotas.filter(w => w.used >= 85).length;
 
     host.innerHTML = `
-      <div class="hv-wrap">
-        <div class="hv-head"><b>HARVEST</b><span>垄=配额窗 穗=用量 农=会话${hotN ? " · " + hotN + " 垄穗落" : ""}</span></div>
+      <div class="h2-wrap">
+        <div class="h2-head"><b>HARVEST</b><span>垄=配额窗 穗=用量 农=会话${hotN ? " · " + hotN + " 垄穗落" : ""}</span></div>
         <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet">
           <rect x="0" y="0" width="${W}" height="${H}" fill="color-mix(in srgb, #20180c 36%, transparent)" rx="10"/>
           <rect x="14" y="${FLOOR}" width="${W - 28}" height="3" rx="1.5" fill="#4a3a20" opacity=".9"/>
           ${furrows}${farmers}
-          <g class="hv-card">
+          <g class="h2-card">
             <rect x="14" y="14" width="126" height="40" rx="6" fill="var(--card-2)" stroke="var(--line-2)"/>
-            <text x="22" y="32" class="hv-k">${fmt(k.tokens)} · ${sessions.length} 农</text>
-            <text x="22" y="45" class="hv-ksub">今日 tokens</text>
+            <text x="22" y="32" class="h2-k">${fmt(k.tokens)} · ${sessions.length} 农</text>
+            <text x="22" y="45" class="h2-ksub">今日 tokens</text>
           </g>
         </svg>
       </div>`;

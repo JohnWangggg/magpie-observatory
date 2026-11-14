@@ -21,16 +21,16 @@
     });
     let links = "";
     for (let i = 1; i < pts.length; i++) {
-      links += `<line class="cs-link" x1="${pts[i - 1][0]}" y1="${pts[i - 1][1]}" x2="${pts[i][0]}" y2="${pts[i][1]}" stroke="${color}" stroke-width="1" opacity=".5" stroke-dasharray="4,3"/>`;
+      links += `<line class="ck-link" x1="${pts[i - 1][0]}" y1="${pts[i - 1][1]}" x2="${pts[i][0]}" y2="${pts[i][1]}" stroke="${color}" stroke-width="1" opacity=".5" stroke-dasharray="4,3"/>`;
     }
     let stars = "";
     pts.forEach(([px, py, t], i) => {
       const ok = t.state === "ok" || t.state === "done";
       const r = (ok ? 4.8 : 3.4) * (t.aux ? 0.72 : 1);
-      stars += `<circle class="cs-star ${ok ? "" : "fail"} ${t.aux ? "aux" : ""}" cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="${r}" fill="${ok ? color : "rgba(255,255,255,.5)"}" opacity="${ok ? "1" : ".7"}"/>`;
-      if (ok && !t.aux) stars += `<circle class="cs-halo" cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="${r * 2.4}" fill="${color}" opacity=".2"/>`;
+      stars += `<circle class="ck-star ${ok ? "" : "fail"} ${t.aux ? "aux" : ""}" cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="${r}" fill="${ok ? color : "rgba(255,255,255,.5)"}" opacity="${ok ? "1" : ".7"}"/>`;
+      if (ok && !t.aux) stars += `<circle class="ck-halo" cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="${r * 2.4}" fill="${color}" opacity=".2"/>`;
     });
-    return `<g class="cs-const" style="animation-delay:${delay}ms">${links}${stars}<title>${esc(label)}</title></g>`;
+    return `<g class="ck-const" style="animation-delay:${delay}ms">${links}${stars}<title>${esc(label)}</title></g>`;
   }
 
   function render(host, ctx) {
@@ -40,7 +40,7 @@
     const W = host.clientWidth || 800, H = host.clientHeight || 300;
     const cx = W / 2, cy = H / 2;
 
-    if (!sessions.length) { host.innerHTML = `<div class="cs-empty">暂无会话</div>`; return; }
+    if (!sessions.length) { host.innerHTML = `<div class="ck-empty">暂无会话</div>`; return; }
 
     seed = 13;
     const maxTok = Math.max(...sessions.map(s => s.tokens || 0), 1);
@@ -64,21 +64,21 @@
     // big links between constellations
     let big = "";
     for (let i = 1; i < pts.length; i++) {
-      big += `<line class="cs-big" x1="${pts[i - 1][0].toFixed(0)}" y1="${pts[i - 1][1].toFixed(0)}" x2="${pts[i][0].toFixed(0)}" y2="${pts[i][1].toFixed(0)}" stroke="rgba(255,255,255,.2)" stroke-width="1" stroke-dasharray="6,6"/>`;
+      big += `<line class="ck-big" x1="${pts[i - 1][0].toFixed(0)}" y1="${pts[i - 1][1].toFixed(0)}" x2="${pts[i][0].toFixed(0)}" y2="${pts[i][1].toFixed(0)}" stroke="rgba(255,255,255,.2)" stroke-width="1" stroke-dasharray="6,6"/>`;
     }
     // background stars
     let bg = "";
     for (let i = 0; i < 70; i++) {
-      bg += `<circle class="cs-bg" cx="${(rnd() * W).toFixed(0)}" cy="${(rnd() * H).toFixed(0)}" r="${(rnd() * 1 + .4).toFixed(1)}" fill="rgba(255,255,255,${(0.08 + rnd() * 0.3).toFixed(2)})" style="animation-delay:${(i * 89 % 2400)}ms"/>`;
+      bg += `<circle class="ck-bg" cx="${(rnd() * W).toFixed(0)}" cy="${(rnd() * H).toFixed(0)}" r="${(rnd() * 1 + .4).toFixed(1)}" fill="rgba(255,255,255,${(0.08 + rnd() * 0.3).toFixed(2)})" style="animation-delay:${(i * 89 % 2400)}ms"/>`;
     }
 
     host.innerHTML = `
-      <div class="cs-wrap">
-        <div class="cs-legend">
+      <div class="ck-wrap">
+        <div class="ck-legend">
           <span>${sessions.length} 会话星座</span>
-          <span class="cs-tip">星=尝试 · 亮=成 · 暗=败 · 大=Token · 色=Agent</span>
+          <span class="ck-tip">星=尝试 · 亮=成 · 暗=败 · 大=Token · 色=Agent</span>
         </div>
-        <svg class="cs-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+        <svg class="ck-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
           ${bg}${big}${consts}
         </svg>
       </div>`;

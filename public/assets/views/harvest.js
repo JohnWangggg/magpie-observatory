@@ -32,15 +32,15 @@
         const hgt = 26 + room * 52 + Math.sin(i * 2 + fx * 9) * 5;
         const lean = hot ? 14 : 4 + fx * 4; // dry stalks lean
         const c = hot ? "var(--red)" : m.color || "#fbbf24";
-        return `<g class="hv-stalk" style="animation-delay:${(fx * 1.4).toFixed(2)}s">
+        return `<g class="hr-stalk" style="animation-delay:${(fx * 1.4).toFixed(2)}s">
           <line x1="${x.toFixed(1)}" y1="${FIELD}" x2="${(x + lean).toFixed(1)}" y2="${FIELD - hgt}" stroke="${c}" stroke-width="1.6" stroke-linecap="round" opacity=".85"/>
           <ellipse cx="${(x + lean).toFixed(1)}" cy="${FIELD - hgt}" rx="3.4" ry="6" fill="${c}" opacity=".8" transform="rotate(${lean} ${(x + lean).toFixed(1)} ${FIELD - hgt})"/>
         </g>`;
       }).join("");
-      return `<g class="hv-row${hot ? " hot" : ""}">
+      return `<g class="hr-row${hot ? " hot" : ""}">
         ${stalks}
-        <text x="${(x0 + gap / 2).toFixed(1)}" y="${FIELD + 16}" class="hv-pct" text-anchor="middle">${Math.round(w.used)}%</text>
-        <text x="${(x0 + gap / 2).toFixed(1)}" y="${FIELD + 28}" class="hv-name" text-anchor="middle">${esc((m.name || w.prov).slice(0, 6))}</text>
+        <text x="${(x0 + gap / 2).toFixed(1)}" y="${FIELD + 16}" class="hr-pct" text-anchor="middle">${Math.round(w.used)}%</text>
+        <text x="${(x0 + gap / 2).toFixed(1)}" y="${FIELD + 28}" class="hr-name" text-anchor="middle">${esc((m.name || w.prov).slice(0, 6))}</text>
       </g>`;
     }).join("");
 
@@ -50,7 +50,7 @@
       const dead = s.status === "err";
       const y = FIELD - 6 - i * 16;
       const dur = Math.max(5, 13 - (s.tps || 0) / 16);
-      return `<g class="hv-tractor${dead ? " dead" : ""}">
+      return `<g class="hr-tractor${dead ? " dead" : ""}">
         <rect x="-16" y="-9" width="22" height="11" rx="2" fill="${dead ? "var(--red)" : m.color || "#fbbf24"}"/>
         <rect x="-22" y="-4" width="8" height="8" rx="1.5" fill="var(--card-3)" stroke="${dead ? "var(--red)" : m.color || "#fbbf24"}" stroke-width="1"/>
         <circle cx="-12" cy="4" r="3.4" fill="var(--card-2)" stroke="var(--fg-2)" stroke-width="1"/>
@@ -65,18 +65,18 @@
     const hotN = quotas.filter(w => w.used >= 85).length;
 
     host.innerHTML = `
-      <div class="hv-wrap">
-        <div class="hv-head"><b>HARVEST</b><span>穗=配额窗 机=会话 高=余量${hotN ? " · " + hotN + " 畦干枯" : ""}</span></div>
+      <div class="hr-wrap">
+        <div class="hr-head"><b>HARVEST</b><span>穗=配额窗 机=会话 高=余量${hotN ? " · " + hotN + " 畦干枯" : ""}</span></div>
         <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet">
           <rect x="0" y="0" width="${W}" height="${H}" fill="color-mix(in srgb, var(--card-2) 14%, transparent)" rx="10"/>
           <circle cx="${W - 66}" cy="56" r="18" fill="var(--amber)" opacity=".9"/>
           <circle cx="${W - 66}" cy="56" r="28" fill="none" stroke="var(--amber)" stroke-width="1" opacity=".22"/>
           <line x1="20" y1="${FIELD}" x2="${W - 20}" y2="${FIELD}" stroke="var(--line-2)" stroke-width="2"/>
           ${rows}${harvesters}
-          <g class="hv-card">
+          <g class="hr-card">
             <rect x="14" y="12" width="120" height="40" rx="6" fill="var(--card-2)" stroke="var(--line-2)"/>
-            <text x="22" y="30" class="hv-k">${fmt(k.tokens)} · ${sessions.length} 机</text>
-            <text x="22" y="43" class="hv-ksub">今日 tokens</text>
+            <text x="22" y="30" class="hr-k">${fmt(k.tokens)} · ${sessions.length} 机</text>
+            <text x="22" y="43" class="hr-ksub">今日 tokens</text>
           </g>
         </svg>
       </div>`;

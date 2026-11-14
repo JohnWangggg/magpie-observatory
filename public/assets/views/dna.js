@@ -54,12 +54,12 @@
     const legend = sessions.map(s => {
       const col = ametaOf(s.agent).color || "#8b7cf6";
       const failed = s.status === "error" || s.status === "failed";
-      return `<span class="dl-item ${failed ? "bad" : ""}" data-agent="${s.agent}"><i style="background:${col}"></i>${esc((s.title || "").slice(0, 9))}</span>`;
+      return `<span class="dn-item ${failed ? "bad" : ""}" data-agent="${s.agent}"><i style="background:${col}"></i>${esc((s.title || "").slice(0, 9))}</span>`;
     }).join("");
 
     host.innerHTML = `
       <div class="dn-wrap">
-        <div class="dn-legend">${legend}<span class="dl-tip">对=会话 · 宽=Token · 断=失败</span></div>
+        <div class="dn-legend">${legend}<span class="dn-tip">对=会话 · 宽=Token · 断=失败</span></div>
         <svg class="dn-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
           <path class="dn-sa" d="${sa}" fill="none" stroke="#8b7cf6" stroke-width="1.8" opacity=".7"/>
           <path class="dn-sb" d="${sb}" fill="none" stroke="#56d4dd" stroke-width="1.8" opacity=".7"/>

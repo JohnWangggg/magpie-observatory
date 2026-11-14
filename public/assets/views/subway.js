@@ -31,14 +31,14 @@
       const frac = Math.PI * 2 * fill;
       const x2 = x + Math.cos(-Math.PI / 2 + frac) * r;
       const y2 = LINE_Y + Math.sin(-Math.PI / 2 + frac) * r;
-      return `<g class="sw-stop${hot ? " hot" : ""}" style="--pc:${m.color || "#f472b6"}">
+      return `<g class="su-stop${hot ? " hot" : ""}" style="--pc:${m.color || "#f472b6"}">
         <circle cx="${x.toFixed(1)}" cy="${LINE_Y}" r="${r + 4}" fill="none" stroke="var(--line-2)" stroke-width="1" opacity=".5"/>
         <path d="M ${x.toFixed(1)} ${(LINE_Y - r).toFixed(1)} A ${r} ${r} 0 ${fill > 0.5 ? 1 : 0} 1 ${x2.toFixed(1)} ${y2.toFixed(1)}"
           fill="none" stroke="${hot ? "var(--red)" : m.color || "#f472b6"}" stroke-width="3" opacity=".9"/>
         <circle cx="${x.toFixed(1)}" cy="${LINE_Y}" r="${r - 3}" fill="var(--card-3)" stroke="var(--line-2)" stroke-width=".8"/>
-        <text x="${x.toFixed(1)}" y="${LINE_Y - 16}" class="sw-pct" text-anchor="middle">${Math.round(w.used)}%</text>
-        <text x="${x.toFixed(1)}" y="${LINE_Y + 24}" class="sw-name" text-anchor="middle">${esc((m.name || w.prov).slice(0, 6))}</text>
-        <text x="${x.toFixed(1)}" y="${LINE_Y + 36}" class="sw-win" text-anchor="middle">${esc(w.name.slice(0, 8))}</text>
+        <text x="${x.toFixed(1)}" y="${LINE_Y - 16}" class="su-pct" text-anchor="middle">${Math.round(w.used)}%</text>
+        <text x="${x.toFixed(1)}" y="${LINE_Y + 24}" class="su-name" text-anchor="middle">${esc((m.name || w.prov).slice(0, 6))}</text>
+        <text x="${x.toFixed(1)}" y="${LINE_Y + 36}" class="su-win" text-anchor="middle">${esc(w.name.slice(0, 8))}</text>
       </g>`;
     }).join("");
 
@@ -50,7 +50,7 @@
       const dur = Math.max(4, 12 - (s.tps || 0) / 18);
       const body = Array.from({ length: cars }, (_, j) =>
         `<rect x="${(-cars * 24 + j * 24).toFixed(1)}" y="-6" width="20" height="10" rx="3" fill="${dead ? "var(--red)" : m.color || "#f472b6"}" opacity="${dead ? .4 : .95}"/>`).join("");
-      return `<g class="sw-train${dead ? " dead" : ""}" style="animation-duration:${dur}s;animation-delay:${(-i * 1.6).toFixed(1)}s">
+      return `<g class="su-train${dead ? " dead" : ""}" style="animation-duration:${dur}s;animation-delay:${(-i * 1.6).toFixed(1)}s">
         ${body}
         <animateTransform attributeName="transform" type="translate" values="-40 ${LINE_Y};${W + 40} ${LINE_Y}" dur="${dur}s" begin="${(-i * 1.6).toFixed(1)}s" repeatCount="indefinite"/>
       </g>`;
@@ -61,16 +61,16 @@
     const hotN = quotas.filter(w => w.used >= 85).length;
 
     host.innerHTML = `
-      <div class="sw-wrap">
-        <div class="sw-head"><b>SUBWAY</b><span>站=配额窗 车=会话 线=路线${hotN ? " · " + hotN + " 站报警" : ""}</span></div>
+      <div class="su-wrap">
+        <div class="su-head"><b>SUBWAY</b><span>站=配额窗 车=会话 线=路线${hotN ? " · " + hotN + " 站报警" : ""}</span></div>
         <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet">
           <rect x="0" y="0" width="${W}" height="${H}" fill="color-mix(in srgb, var(--card-2) 14%, transparent)" rx="10"/>
           <line x1="30" y1="${LINE_Y}" x2="${W - 30}" y2="${LINE_Y}" stroke="var(--line-2)" stroke-width="3" opacity=".5"/>
           ${stops}${trains}
-          <g class="sw-card">
+          <g class="su-card">
             <rect x="${W - 140}" y="${LINE_Y - 96}" width="126" height="40" rx="6" fill="var(--card-2)" stroke="var(--line-2)"/>
-            <text x="${W - 130}" y="${LINE_Y - 78}" class="sw-k">${fmt(k.tokens)} · ${sessions.length} 列</text>
-            <text x="${W - 130}" y="${LINE_Y - 65}" class="sw-ksub">今日 tokens</text>
+            <text x="${W - 130}" y="${LINE_Y - 78}" class="su-k">${fmt(k.tokens)} · ${sessions.length} 列</text>
+            <text x="${W - 130}" y="${LINE_Y - 65}" class="su-ksub">今日 tokens</text>
           </g>
         </svg>
       </div>`;

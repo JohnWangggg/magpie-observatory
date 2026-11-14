@@ -37,14 +37,14 @@
           <animate attributeName="opacity" values="${(.5 - j * .14).toFixed(2)};0" dur="${(3 + j * 1.1).toFixed(1)}s" repeatCount="indefinite"/>
         </ellipse>`
       ).join("");
-      return `<g class="pd-pad${hot ? " hot" : ""}">
+      return `<g class="po-pad${hot ? " hot" : ""}">
         ${rings}
         <ellipse cx="${cx.toFixed(1)}" cy="${cy}" rx="${r.toFixed(1)}" ry="${(r * .38).toFixed(1)}"
           fill="color-mix(in srgb, ${hot ? "var(--red)" : "#3f8f6a"} ${52 + Math.round(f * 20)}%, var(--card-2))"/>
         <path d="M ${cx} ${cy} L ${(cx + r * .9).toFixed(1)} ${(cy - r * .18).toFixed(1)}" stroke="var(--card-2)" stroke-width="2.5" opacity=".8"/>
         ${f > .4 ? `<circle cx="${cx.toFixed(1)}" cy="${cy - 7}" r="4" fill="#f5c8d8"/>` : ""}
-        <text x="${cx.toFixed(1)}" y="${cy + r + 24}" class="pd-pct" text-anchor="middle">${Math.round(w.used)}%</text>
-        <text x="${cx.toFixed(1)}" y="${cy + r + 35}" class="pd-name" text-anchor="middle">${esc((m.name || w.prov).slice(0, 6))}</text>
+        <text x="${cx.toFixed(1)}" y="${cy + r + 24}" class="po-pct" text-anchor="middle">${Math.round(w.used)}%</text>
+        <text x="${cx.toFixed(1)}" y="${cy + r + 35}" class="po-name" text-anchor="middle">${esc((m.name || w.prov).slice(0, 6))}</text>
       </g>`;
     }).join("");
 
@@ -54,7 +54,7 @@
       const dead = s.status === "err";
       const x = 60 + i * 92, y = 236 + (i % 2) * 12;
       const dur = Math.max(2.2, 5 - (s.tps || 0) / 30);
-      return `<g class="pd-frog${dead ? " dead" : ""}" transform="translate(${x},${y})">
+      return `<g class="po-frog${dead ? " dead" : ""}" transform="translate(${x},${y})">
         <animateTransform attributeName="transform" type="translate" values="${x} ${y};${x + 26} ${y - 18};${x + 52} ${y}" dur="${dur}s" begin="${(-i * .8).toFixed(1)}s" repeatCount="indefinite" keyTimes="0;.5;1" calcMode="spline" keySplines=".4 0 .6 1;.4 0 .6 1"/>
         <ellipse cx="0" cy="-3" rx="6.5" ry="4.5" fill="${dead ? "var(--red)" : m.color || "#58a36a"}"/>
         <circle cx="-3" cy="-7" r="2" fill="${dead ? "var(--red)" : m.color || "#58a36a"}"/>
@@ -68,15 +68,15 @@
     const hotN = quotas.filter(w => w.used >= 85).length;
 
     host.innerHTML = `
-      <div class="pd-wrap">
-        <div class="pd-head"><b>POND</b><span>莲=配额窗 漪=用量 蛙=会话${hotN ? " · " + hotN + " 莲泛红" : ""}</span></div>
+      <div class="po-wrap">
+        <div class="po-head"><b>POND</b><span>莲=配额窗 漪=用量 蛙=会话${hotN ? " · " + hotN + " 莲泛红" : ""}</span></div>
         <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet">
           <rect x="0" y="0" width="${W}" height="${H}" fill="color-mix(in srgb, #14342e 30%, transparent)" rx="10"/>
           ${pads}${frogs}
-          <g class="pd-card">
+          <g class="po-card">
             <rect x="14" y="12" width="126" height="40" rx="6" fill="var(--card-2)" stroke="var(--line-2)"/>
-            <text x="22" y="30" class="pd-k">${fmt(k.tokens)} · ${sessions.length} 蛙</text>
-            <text x="22" y="43" class="pd-ksub">今日 tokens</text>
+            <text x="22" y="30" class="po-k">${fmt(k.tokens)} · ${sessions.length} 蛙</text>
+            <text x="22" y="43" class="po-ksub">今日 tokens</text>
           </g>
         </svg>
       </div>`;

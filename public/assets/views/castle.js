@@ -27,15 +27,15 @@
       const hot = w.used >= 85;
       const h = 80 - (w.used / 100) * 30;          // taller = fresher
       const flagLen = 16 + (w.used / 100) * 14;    // longer = hotter
-      return `<g class="cs-tower${hot ? " hot" : ""}" style="--pc:${m.color || "#8b7cf6"}">
+      return `<g class="ct-tower${hot ? " hot" : ""}" style="--pc:${m.color || "#8b7cf6"}">
         <rect x="${(x - tw / 2).toFixed(1)}" y="${(WALL - h).toFixed(1)}" width="${tw.toFixed(1)}" height="${h + 40}" fill="var(--card-3)" stroke="var(--line-2)"/>
         ${Array.from({ length: 3 }, (_, j) => `<rect x="${(x - tw / 2 + 4 + j * (tw / 3)).toFixed(1)}" y="${(WALL - h - 8).toFixed(1)}" width="${(tw / 3 - 4).toFixed(1)}" height="10" fill="var(--card-3)" stroke="var(--line-2)"/>`).join("")}
         <rect x="${(x - tw / 2 + 6).toFixed(1)}" y="${(WALL - h + 22).toFixed(1)}" width="${(tw - 12).toFixed(1)}" height="14" rx="2" fill="${hot ? "var(--red)" : m.color || "#8b7cf6"}" opacity=".85"/>
         <line x1="${x.toFixed(1)}" y1="${WALL - h - 8}" x2="${x.toFixed(1)}" y2="${WALL - h - 34}" stroke="var(--line-2)" stroke-width="1.4"/>
-        <path class="cs-flag" style="animation-duration:${(1.8 - Math.min(1.4, w.used / 60)).toFixed(2)}s"
+        <path class="ct-flag" style="animation-duration:${(1.8 - Math.min(1.4, w.used / 60)).toFixed(2)}s"
           d="M ${x.toFixed(1)} ${WALL - h - 34} L ${(x + flagLen).toFixed(1)} ${WALL - h - 28} L ${x.toFixed(1)} ${WALL - h - 22} Z" fill="${hot ? "var(--red)" : m.color || "#8b7cf6"}"/>
-        <text x="${x.toFixed(1)}" y="${(WALL - h / 2).toFixed(1)}" class="cs-pct" text-anchor="middle">${Math.round(w.used)}%</text>
-        <text x="${x.toFixed(1)}" y="${GROUND + 16}" class="cs-name" text-anchor="middle">${esc((m.name || w.prov).slice(0, 6))}</text>
+        <text x="${x.toFixed(1)}" y="${(WALL - h / 2).toFixed(1)}" class="ct-pct" text-anchor="middle">${Math.round(w.used)}%</text>
+        <text x="${x.toFixed(1)}" y="${GROUND + 16}" class="ct-name" text-anchor="middle">${esc((m.name || w.prov).slice(0, 6))}</text>
       </g>`;
     }).join("");
 
@@ -45,7 +45,7 @@
       const dead = s.status === "err";
       const dur = 6 + (i % 3) * 2;
       const gy = WALL - 10 - (i % 2) * 8;
-      return `<g class="cs-guard${dead ? " dead" : ""}" style="animation-duration:${dur}s;animation-delay:${(-i * 1.1).toFixed(1)}s">
+      return `<g class="ct-guard${dead ? " dead" : ""}" style="animation-duration:${dur}s;animation-delay:${(-i * 1.1).toFixed(1)}s">
         <circle cx="0" cy="${gy - 8}" r="3.4" fill="${dead ? "var(--red)" : m.color || "#fbbf24"}"/>
         <line x1="0" y1="${gy - 4}" x2="0" y2="${gy + 6}" stroke="${dead ? "var(--red)" : m.color || "#fbbf24"}" stroke-width="2.2" stroke-linecap="round"/>
         <animateTransform attributeName="transform" type="translate" values="30 0;${W - 30} 0" dur="${dur}s" begin="${(-i * 1.1).toFixed(1)}s" repeatCount="indefinite"/>
@@ -59,8 +59,8 @@
     const hotN = quotas.filter(w => w.used >= 85).length;
 
     host.innerHTML = `
-      <div class="cs-wrap">
-        <div class="cs-head"><b>CASTLE</b><span>塔=配额窗 旗=热度 卫=会话${hotN ? " · " + hotN + " 塔告急" : ""}</span></div>
+      <div class="ct-wrap">
+        <div class="ct-head"><b>CASTLE</b><span>塔=配额窗 旗=热度 卫=会话${hotN ? " · " + hotN + " 塔告急" : ""}</span></div>
         <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet">
           <rect x="0" y="0" width="${W}" height="${H}" fill="color-mix(in srgb, var(--card-2) 14%, transparent)" rx="10"/>
           <rect x="0" y="${WALL}" width="${W}" height="${GROUND - WALL}" fill="var(--card-2)" stroke="var(--line-2)"/>
@@ -69,10 +69,10 @@
           <path d="M ${gateX - 16} ${GROUND} L ${gateX - 24} ${GROUND + 14} M ${gateX + 16} ${GROUND} L ${gateX + 24} ${GROUND + 14}" stroke="var(--line-2)" stroke-width="2" fill="none"/>
           <line x1="0" y1="${GROUND}" x2="${W}" y2="${GROUND}" stroke="var(--line-2)" stroke-width="1.8"/>
           ${towers}${guards}
-          <g class="cs-card">
+          <g class="ct-card">
             <rect x="${W - 140}" y="12" width="126" height="40" rx="6" fill="var(--card-2)" stroke="var(--line-2)"/>
-            <text x="${W - 130}" y="30" class="cs-k">${fmt(k.tokens)} · ${sessions.length} 卫</text>
-            <text x="${W - 130}" y="43" class="cs-ksub">今日 tokens</text>
+            <text x="${W - 130}" y="30" class="ct-k">${fmt(k.tokens)} · ${sessions.length} 卫</text>
+            <text x="${W - 130}" y="43" class="ct-ksub">今日 tokens</text>
           </g>
         </svg>
       </div>`;

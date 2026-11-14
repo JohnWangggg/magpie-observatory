@@ -55,14 +55,14 @@
           <animate attributeName="opacity" values=".9;0" dur="${(1.4 + rnd()).toFixed(1)}s" begin="${(-s2 * .5).toFixed(1)}s" repeatCount="indefinite"/>
         </circle>`;
       }
-      return `<g class="cp-fire${hot ? " hot" : ""}">
+      return `<g class="cm-fire${hot ? " hot" : ""}">
         <circle cx="${cx.toFixed(1)}" cy="${(GY - fh * .5).toFixed(1)}" r="${(fh * .9).toFixed(1)}" fill="${col}" opacity="${hot ? ".16" : ".09"}"/>
         ${logs}
         ${flame(fh, fw, GY - 4, col, hot ? ".95" : ".8", dur, 0)}
         ${flame(fh * .62, fw * .6, GY - 5, "#ffe9b0", .9, dur * .8, -.2)}
         ${sparks}
-        <text x="${cx.toFixed(1)}" y="${GY + 22}" class="cp-pct" text-anchor="middle">${Math.round(w.used)}%</text>
-        <text x="${cx.toFixed(1)}" y="${GY + 33}" class="cp-name" text-anchor="middle">${esc((m.name || w.prov).slice(0, 6))}</text>
+        <text x="${cx.toFixed(1)}" y="${GY + 22}" class="cm-pct" text-anchor="middle">${Math.round(w.used)}%</text>
+        <text x="${cx.toFixed(1)}" y="${GY + 33}" class="cm-name" text-anchor="middle">${esc((m.name || w.prov).slice(0, 6))}</text>
       </g>`;
     }).join("");
 
@@ -72,7 +72,7 @@
       const dead = s.status === "err";
       const x = 60 + i * 92;
       const lit = !dead;
-      return `<g class="cp-tent${dead ? " dead" : ""}" transform="translate(${x},${GY - 40})">
+      return `<g class="cm-tent${dead ? " dead" : ""}" transform="translate(${x},${GY - 40})">
         <path d="M 0 26 L 14 0 L 28 26 Z" fill="color-mix(in srgb, ${m.color || "#8fa9c9"} ${lit ? "42%" : "18%"}, var(--card-2))" stroke="${lit ? m.color || "#8fa9c9" : "var(--line-2)"}" stroke-width="1"/>
         ${lit ? `<path d="M 10 26 L 14 14 L 18 26 Z" fill="#ffe9b0" opacity=".85"><animate attributeName="opacity" values=".85;.5;.8;.65" dur="${(2 + i * .4).toFixed(1)}s" repeatCount="indefinite"/></path>` : ""}
         ${dead ? `<line x1="8" y1="8" x2="20" y2="8" stroke="var(--red)" stroke-width="1.4"/>` : ""}
@@ -83,7 +83,7 @@
     let flies = "";
     for (let i = 0; i < 6; i++) {
       const fx = 30 + rnd() * 340, fy = 120 + rnd() * 90;
-      flies += `<circle cx="${fx.toFixed(1)}" cy="${fy.toFixed(1)}" r="1.3" fill="#e8ff9a" class="cp-fly" style="animation-delay:${(-i * .9).toFixed(1)}s"/>`;
+      flies += `<circle cx="${fx.toFixed(1)}" cy="${fy.toFixed(1)}" r="1.3" fill="#e8ff9a" class="cm-fly" style="animation-delay:${(-i * .9).toFixed(1)}s"/>`;
     }
 
     const k = (ctx.view && ctx.view.kpis) || ctx.data.kpis || {};
@@ -91,17 +91,17 @@
     const hotN = quotas.filter(w => w.used >= 85).length;
 
     host.innerHTML = `
-      <div class="cp-wrap">
-        <div class="cp-head"><b>CAMP</b><span>火=配额窗 焰=用量 帐=会话${hotN ? " · " + hotN + " 火失控" : ""}</span></div>
+      <div class="cm-wrap">
+        <div class="cm-head"><b>CAMP</b><span>火=配额窗 焰=用量 帐=会话${hotN ? " · " + hotN + " 火失控" : ""}</span></div>
         <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet">
           <rect x="0" y="0" width="${W}" height="${H}" fill="color-mix(in srgb, #0d1420 34%, transparent)" rx="10"/>
           ${stars}
           <rect x="16" y="${GY}" width="${W - 32}" height="3" rx="1.5" fill="var(--line-2)" opacity=".7"/>
           ${fires}${tents}${flies}
-          <g class="cp-card">
+          <g class="cm-card">
             <rect x="14" y="12" width="126" height="40" rx="6" fill="var(--card-2)" stroke="var(--line-2)"/>
-            <text x="22" y="30" class="cp-k">${fmt(k.tokens)} · ${sessions.length} 帐</text>
-            <text x="22" y="43" class="cp-ksub">今日 tokens</text>
+            <text x="22" y="30" class="cm-k">${fmt(k.tokens)} · ${sessions.length} 帐</text>
+            <text x="22" y="43" class="cm-ksub">今日 tokens</text>
           </g>
         </svg>
       </div>`;

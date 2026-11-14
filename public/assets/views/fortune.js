@@ -49,21 +49,21 @@
     const fmt = ctx.fmtTokens || (v => (v / 1e6).toFixed(1) + "M");
 
     host.innerHTML = `
-      <div class="ft-wrap">
-        <div class="ft-head"><b>FORTUNE</b><span>每日一签 · 种子=${daySeed()}</span></div>
-        <div class="ft-slip">
-          <div class="ft-paper">
-            <div class="ft-grade g${grade}">${gradeTxt}</div>
-            <div class="ft-ode">${ode}</div>
-            <div class="ft-rows">
-              <div class="ft-row"><b>宜</b><span>${esc(yi)}${busy ? ` · 走 ${esc(luckyName)}` : ""}</span></div>
-              <div class="ft-row"><b>忌</b><span>${esc(ji)}${hotWin && hotWin.used >= 85 ? ` · ${esc(metaOf(hotWin.prov).name || hotWin.prov)} 已 ${Math.round(hotWin.used)}%` : ""}</span></div>
-              <div class="ft-row"><b>运</b><span><i class="ft-dot" style="background:${luckyColor}"></i>幸运色 · ${esc(luckyName)} 之彩</span></div>
-              <div class="ft-row"><b>数</b><span>今日 ${fmt(kpis.tokens)} tokens · ${sessions.length} 会话在飞</span></div>
+      <div class="fo-wrap">
+        <div class="fo-head"><b>FORTUNE</b><span>每日一签 · 种子=${daySeed()}</span></div>
+        <div class="fo-slip">
+          <div class="fo-paper">
+            <div class="fo-grade g${grade}">${gradeTxt}</div>
+            <div class="fo-ode">${ode}</div>
+            <div class="fo-rows">
+              <div class="fo-row"><b>宜</b><span>${esc(yi)}${busy ? ` · 走 ${esc(luckyName)}` : ""}</span></div>
+              <div class="fo-row"><b>忌</b><span>${esc(ji)}${hotWin && hotWin.used >= 85 ? ` · ${esc(metaOf(hotWin.prov).name || hotWin.prov)} 已 ${Math.round(hotWin.used)}%` : ""}</span></div>
+              <div class="fo-row"><b>运</b><span><i class="fo-dot" style="background:${luckyColor}"></i>幸运色 · ${esc(luckyName)} 之彩</span></div>
+              <div class="fo-row"><b>数</b><span>今日 ${fmt(kpis.tokens)} tokens · ${sessions.length} 会话在飞</span></div>
             </div>
-            <div class="ft-seal">鹊</div>
+            <div class="fo-seal">鹊</div>
           </div>
-          <div class="ft-tube"><div class="ft-sticks">${"<i></i>".repeat(6)}</div></div>
+          <div class="fo-tube"><div class="fo-sticks">${"<i></i>".repeat(6)}</div></div>
         </div>
       </div>`;
   }

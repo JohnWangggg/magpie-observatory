@@ -41,10 +41,10 @@
       }).join("");
       // wind sway
       const sway = `<animateTransform attributeName="transform" type="skewX" values="0;${(f * 3).toFixed(1)};0" dur="${(3 + f * 2).toFixed(1)}s" repeatCount="indefinite"/>`;
-      return `<g class="pa-hill${hot ? " hot" : ""}">
+      return `<g class="pt-hill${hot ? " hot" : ""}">
         ${hill}${ticks}${sway}
-        <text x="${cx.toFixed(1)}" y="${FLOOR + 18}" class="pa-pct" text-anchor="middle">${Math.round(w.used)}%</text>
-        <text x="${cx.toFixed(1)}" y="${FLOOR + 29}" class="pa-name" text-anchor="middle">${esc((m.name || w.prov).slice(0, 6))}</text>
+        <text x="${cx.toFixed(1)}" y="${FLOOR + 18}" class="pt-pct" text-anchor="middle">${Math.round(w.used)}%</text>
+        <text x="${cx.toFixed(1)}" y="${FLOOR + 29}" class="pt-name" text-anchor="middle">${esc((m.name || w.prov).slice(0, 6))}</text>
       </g>`;
     }).join("");
 
@@ -69,7 +69,7 @@
            <circle cx="3" cy="-1" r="2" fill="${col}"/>
            <line x1="-2" y1="3" x2="-2" y2="6" stroke="#5a4632" stroke-width="1"/>
            <line x1="2" y1="3" x2="2" y2="6" stroke="#5a4632" stroke-width="1"/>`;
-      return `<g class="pa-stock${dead ? " dead" : ""}">
+      return `<g class="pt-stock${dead ? " dead" : ""}">
         <animateTransform attributeName="transform" type="translate" values="${(cx0 - 40).toFixed(1)} ${y.toFixed(1)};${(cx0 + 40).toFixed(1)} ${y.toFixed(1)}" dur="${dur}s" begin="${(-i * 1.7).toFixed(1)}s" repeatCount="indefinite" additive="sum"/>
         ${animal}
       </g>`;
@@ -80,17 +80,17 @@
     const hotN = quotas.filter(w => w.used >= 85).length;
 
     host.innerHTML = `
-      <div class="pa-wrap">
-        <div class="pa-head"><b>PASTURE</b><span>坡=配额窗 高=用量 畜=会话${hotN ? " · " + hotN + " 坡枯黄" : ""}</span></div>
+      <div class="pt-wrap">
+        <div class="pt-head"><b>PASTURE</b><span>坡=配额窗 高=用量 畜=会话${hotN ? " · " + hotN + " 坡枯黄" : ""}</span></div>
         <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet">
           <rect x="0" y="0" width="${W}" height="${H}" fill="color-mix(in srgb, #18201a 40%, transparent)" rx="10"/>
           <circle cx="360" cy="40" r="14" fill="#f2e3b3" opacity=".85"/>
           <rect x="14" y="${FLOOR}" width="${W - 28}" height="3" rx="1.5" fill="#3a3228" opacity=".9"/>
           ${hills}${stock}
-          <g class="pa-card">
+          <g class="pt-card">
             <rect x="14" y="14" width="126" height="40" rx="6" fill="var(--card-2)" stroke="var(--line-2)"/>
-            <text x="22" y="32" class="pa-k">${fmt(k.tokens)} · ${sessions.length} 畜</text>
-            <text x="22" y="45" class="pa-ksub">今日 tokens</text>
+            <text x="22" y="32" class="pt-k">${fmt(k.tokens)} · ${sessions.length} 畜</text>
+            <text x="22" y="45" class="pt-ksub">今日 tokens</text>
           </g>
         </svg>
       </div>`;

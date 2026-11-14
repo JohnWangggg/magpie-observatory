@@ -47,10 +47,10 @@
       // dew on cool tufts
       const dew = !hot && f < .5 ? `<circle cx="${cx + gap * .2}" cy="${GY - 26}" r="1.4" fill="#bfe0f5" opacity=".8">
         <animate attributeName="opacity" values=".8;.2;.8" dur="3s" repeatCount="indefinite"/></circle>` : "";
-      return `<g class="md-tuft${hot ? " hot" : ""}">
+      return `<g class="mw-tuft${hot ? " hot" : ""}">
         ${tuft}${dew}
-        <text x="${cx.toFixed(1)}" y="${GY + 18}" class="md-pct" text-anchor="middle">${Math.round(w.used)}%</text>
-        <text x="${cx.toFixed(1)}" y="${GY + 29}" class="md-name" text-anchor="middle">${esc((m.name || w.prov).slice(0, 6))}</text>
+        <text x="${cx.toFixed(1)}" y="${GY + 18}" class="mw-pct" text-anchor="middle">${Math.round(w.used)}%</text>
+        <text x="${cx.toFixed(1)}" y="${GY + 29}" class="mw-name" text-anchor="middle">${esc((m.name || w.prov).slice(0, 6))}</text>
       </g>`;
     }).join("");
 
@@ -61,7 +61,7 @@
       const dur = Math.max(8, 16 - (s.tps || 0) / 8);
       const y = 70 + (i % 4) * 34 + rnd() * 14;
       const size = 3 + Math.min(4, (s.tokens || 0) / 40000);
-      return `<g class="md-fly${dead ? " dead" : ""}">
+      return `<g class="mw-fly${dead ? " dead" : ""}">
         <animateTransform attributeName="transform" type="translate" values="${-18} ${y.toFixed(1)};${W + 18} ${(y + 16).toFixed(1)}" dur="${dur}s" begin="${(-i * 2.5).toFixed(1)}s" repeatCount="indefinite"/>
         <ellipse cx="0" cy="0" rx="${size * .4}" ry="${size * .7}" fill="${dead ? "var(--red)" : m.color || "#e0a5c9"}"/>
         <ellipse cx="${-size * .55}" cy="${-size * .2}" rx="${size * .55}" ry="${size * .7}" fill="${dead ? "var(--red)" : m.color || "#e0a5c9"}" opacity=".85">
@@ -78,16 +78,16 @@
     const hotN = quotas.filter(w => w.used >= 85).length;
 
     host.innerHTML = `
-      <div class="md-wrap">
-        <div class="md-head"><b>MEADOW</b><span>丛=配额窗 茂=用量 蝶=会话${hotN ? " · " + hotN + " 丛枯" : ""}</span></div>
+      <div class="mw-wrap">
+        <div class="mw-head"><b>MEADOW</b><span>丛=配额窗 茂=用量 蝶=会话${hotN ? " · " + hotN + " 丛枯" : ""}</span></div>
         <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet">
           <rect x="0" y="0" width="${W}" height="${H}" fill="color-mix(in srgb, #1a1f16 42%, transparent)" rx="10"/>
           <rect x="14" y="${GY}" width="${W - 28}" height="3" rx="1.5" fill="#3a3a2a" opacity=".85"/>
           ${tufts}${flies}
-          <g class="md-card">
+          <g class="mw-card">
             <rect x="14" y="14" width="126" height="40" rx="6" fill="var(--card-2)" stroke="var(--line-2)"/>
-            <text x="22" y="32" class="md-k">${fmt(k.tokens)} · ${sessions.length} 蝶</text>
-            <text x="22" y="45" class="md-ksub">今日 tokens</text>
+            <text x="22" y="32" class="mw-k">${fmt(k.tokens)} · ${sessions.length} 蝶</text>
+            <text x="22" y="45" class="mw-ksub">今日 tokens</text>
           </g>
         </svg>
       </div>`;

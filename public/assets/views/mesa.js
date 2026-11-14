@@ -43,10 +43,10 @@
         `<circle cx="${(cx - mw * .7 + k * mw * .7).toFixed(1)}" cy="${(GY - mh * .3 - k * 8).toFixed(1)}" r="1.4" fill="var(--red)">
           <animate attributeName="cy" values="${(GY - mh * .3 - k * 8).toFixed(1)};${GY - 2}" dur="${(1.2 + k * .3).toFixed(1)}s" begin="${(-k * .4).toFixed(1)}s" repeatCount="indefinite"/>
           <animate attributeName="opacity" values=".9;0" dur="${(1.2 + k * .3).toFixed(1)}s" begin="${(-k * .4).toFixed(1)}s" repeatCount="indefinite"/></circle>`).join("") : "";
-      return `<g class="ms-mesa${hot ? " hot" : ""}">
+      return `<g class="me-mesa${hot ? " hot" : ""}">
         ${butte}${strata}${cap}${sparks}
-        <text x="${cx.toFixed(1)}" y="${GY + 18}" class="ms-pct" text-anchor="middle">${Math.round(w.used)}%</text>
-        <text x="${cx.toFixed(1)}" y="${GY + 29}" class="ms-name" text-anchor="middle">${esc((m.name || w.prov).slice(0, 6))}</text>
+        <text x="${cx.toFixed(1)}" y="${GY + 18}" class="me-pct" text-anchor="middle">${Math.round(w.used)}%</text>
+        <text x="${cx.toFixed(1)}" y="${GY + 29}" class="me-name" text-anchor="middle">${esc((m.name || w.prov).slice(0, 6))}</text>
       </g>`;
     }).join("");
 
@@ -59,7 +59,7 @@
       const r = 12 + (i % 3) * 6;
       const dur = Math.max(5, 11 - (s.tps || 0) / 12);
       const size = 3 + Math.min(3, (s.tokens || 0) / 60000);
-      return `<g class="ms-vult${dead ? " dead" : ""}">
+      return `<g class="me-vult${dead ? " dead" : ""}">
         <animateMotion dur="${dur}s" begin="${(-i * 1.7).toFixed(1)}s" repeatCount="indefinite"
           path="M ${cx + r} ${cy} A ${r} ${r * .55} 0 1 1 ${cx - r} ${cy} A ${r} ${r * .55} 0 1 1 ${cx + r} ${cy}"/>
         <path d="M ${-size * 1.6} 0 Q ${-size * .5} ${-size * .7} 0 ${-size * .2} Q ${size * .5} ${-size * .7} ${size * 1.6} 0 Q ${size * .5} ${size * .3} 0 ${size * .15} Q ${-size * .5} ${size * .3} ${-size * 1.6} 0 Z"
@@ -72,16 +72,16 @@
     const hotN = quotas.filter(w => w.used >= 85).length;
 
     host.innerHTML = `
-      <div class="ms-wrap">
-        <div class="ms-head"><b>MESA</b><span>台=配额窗 壁=用量 鹫=会话${hotN ? " · " + hotN + " 台崩" : ""}</span></div>
+      <div class="me-wrap">
+        <div class="me-head"><b>MESA</b><span>台=配额窗 壁=用量 鹫=会话${hotN ? " · " + hotN + " 台崩" : ""}</span></div>
         <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet">
           <rect x="0" y="0" width="${W}" height="${H}" fill="color-mix(in srgb, #221410 46%, transparent)" rx="10"/>
           <rect x="14" y="${GY}" width="${W - 28}" height="3" rx="1.5" fill="#c98a5a" opacity=".4"/>
           ${mesas}${birds}
-          <g class="ms-card">
+          <g class="me-card">
             <rect x="14" y="14" width="126" height="40" rx="6" fill="var(--card-2)" stroke="var(--line-2)"/>
-            <text x="22" y="32" class="ms-k">${fmt(k.tokens)} · ${sessions.length} 鹫</text>
-            <text x="22" y="45" class="ms-ksub">今日 tokens</text>
+            <text x="22" y="32" class="me-k">${fmt(k.tokens)} · ${sessions.length} 鹫</text>
+            <text x="22" y="45" class="me-ksub">今日 tokens</text>
           </g>
         </svg>
       </div>`;

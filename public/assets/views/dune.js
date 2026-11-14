@@ -47,12 +47,12 @@
       const ember = hot ? `<path d="M ${cx - dw * .3} ${GY - dh * .8} Q ${cx} ${GY - dh * 1.05} ${cx + dw * .25} ${GY - dh * .8}"
         fill="none" stroke="var(--red)" stroke-width="2" opacity=".7">
         <animate attributeName="opacity" values=".3;.8;.3" dur="1.8s" repeatCount="indefinite"/></path>` : "";
-      return `<g class="dn-dune${hot ? " hot" : ""}">
+      return `<g class="du-dune${hot ? " hot" : ""}">
         <path d="${dark}" fill="color-mix(in srgb, ${col} 20%, #3a2a18)" opacity=".85"/>
         <path d="${crest}" fill="color-mix(in srgb, ${col} ${35 + f * 35}%, var(--card-2))" stroke="${hot ? "var(--red)" : col}" stroke-width="1"/>
         ${ember}
-        <text x="${cx.toFixed(1)}" y="${GY + 18}" class="dn-pct" text-anchor="middle">${Math.round(w.used)}%</text>
-        <text x="${cx.toFixed(1)}" y="${GY + 29}" class="dn-name" text-anchor="middle">${esc((m.name || w.prov).slice(0, 6))}</text>
+        <text x="${cx.toFixed(1)}" y="${GY + 18}" class="du-pct" text-anchor="middle">${Math.round(w.used)}%</text>
+        <text x="${cx.toFixed(1)}" y="${GY + 29}" class="du-name" text-anchor="middle">${esc((m.name || w.prov).slice(0, 6))}</text>
       </g>`;
     }).join("");
 
@@ -63,7 +63,7 @@
       const dur = Math.max(10, 22 - (s.tps || 0) / 8);
       const y = GY - 8 - (i % 3) * 14;
       const size = 3.5 + Math.min(4, (s.tokens || 0) / 40000);
-      return `<g class="dn-skiff${dead ? " dead" : ""}">
+      return `<g class="du-skiff${dead ? " dead" : ""}">
         <animateTransform attributeName="transform" type="translate" values="${-26} ${y.toFixed(1)};${W + 26} ${(y + 5).toFixed(1)}" dur="${dur}s" begin="${(-i * 3.2).toFixed(1)}s" repeatCount="indefinite"/>
         <path d="M ${-size * 1.6} 0 Q 0 ${size * .9} ${size * 1.6} 0 L ${size * 1.4} ${-size * .4} L ${-size * 1.4} ${-size * .4} Z"
           fill="${dead ? "var(--red)" : m.color || "#b8794a"}"/>
@@ -79,15 +79,15 @@
     const hotN = quotas.filter(w => w.used >= 85).length;
 
     host.innerHTML = `
-      <div class="dn-wrap">
-        <div class="dn-head"><b>DUNE SEA</b><span>丘=配额窗 脊=用量 舟=会话${hotN ? " · " + hotN + " 丘燃" : ""}</span></div>
+      <div class="du-wrap">
+        <div class="du-head"><b>DUNE SEA</b><span>丘=配额窗 脊=用量 舟=会话${hotN ? " · " + hotN + " 丘燃" : ""}</span></div>
         <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet">
           <rect x="0" y="0" width="${W}" height="${H}" fill="color-mix(in srgb, #241a10 46%, transparent)" rx="10"/>
           ${shimmer}${dunes}${skiffs}
-          <g class="dn-card">
+          <g class="du-card">
             <rect x="14" y="14" width="126" height="40" rx="6" fill="var(--card-2)" stroke="var(--line-2)"/>
-            <text x="22" y="32" class="dn-k">${fmt(k.tokens)} · ${sessions.length} 舟</text>
-            <text x="22" y="45" class="dn-ksub">今日 tokens</text>
+            <text x="22" y="32" class="du-k">${fmt(k.tokens)} · ${sessions.length} 舟</text>
+            <text x="22" y="45" class="du-ksub">今日 tokens</text>
           </g>
         </svg>
       </div>`;

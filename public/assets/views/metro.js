@@ -34,12 +34,12 @@
         stops += `<circle cx="${sx.toFixed(1)}" cy="${y}" r="3" fill="var(--card-2)" stroke="${col}" stroke-width="1.4"/>`;
       }
       // late marker when hot
-      const late = hot ? `<text x="${X1 - 4}" y="${y - 8}" class="mt-late" text-anchor="end">晚点</text>` : "";
-      return `<g class="mt-line${hot ? " hot" : ""}">
+      const late = hot ? `<text x="${X1 - 4}" y="${y - 8}" class="mi-late" text-anchor="end">晚点</text>` : "";
+      return `<g class="mi-line${hot ? " hot" : ""}">
         <line x1="${X0}" y1="${y}" x2="${X1}" y2="${y}" stroke="${col}" stroke-width="${bw.toFixed(1)}" stroke-linecap="round" opacity="${hot ? ".85" : ".65"}"/>
         ${stops}${late}
-        <text x="${X0 - 8}" y="${y + 4}" class="mt-name" text-anchor="end">${esc((m.name || w.prov).slice(0, 6))}</text>
-        <text x="${X0 - 8}" y="${y + 14}" class="mt-pct" text-anchor="end">${Math.round(w.used)}%</text>
+        <text x="${X0 - 8}" y="${y + 4}" class="mi-name" text-anchor="end">${esc((m.name || w.prov).slice(0, 6))}</text>
+        <text x="${X0 - 8}" y="${y + 14}" class="mi-pct" text-anchor="end">${Math.round(w.used)}%</text>
       </g>`;
     }).join("");
 
@@ -49,7 +49,7 @@
       const dead = s.status === "err";
       const y = 60 + (i % lanes) * 46;
       const dur = Math.max(4, 14 - (s.tps || 0) / 10);
-      return `<g class="mt-train${dead ? " dead" : ""}">
+      return `<g class="mi-train${dead ? " dead" : ""}">
         <rect x="-9" y="-4.5" width="18" height="9" rx="3" fill="${dead ? "var(--red)" : m.color || "#e8e0c8"}" opacity=".95">
           <animateTransform attributeName="transform" type="translate" values="${X0} ${y};${X1} ${y};${X0} ${y}" dur="${dur * 2}s" begin="${(-i * 1.6).toFixed(1)}s" repeatCount="indefinite"/>
         </rect>
@@ -61,15 +61,15 @@
     const hotN = quotas.filter(w => w.used >= 85).length;
 
     host.innerHTML = `
-      <div class="mt-wrap">
-        <div class="mt-head"><b>METRO</b><span>线=配额窗 宽=拥挤 车=会话${hotN ? " · " + hotN + " 线晚点" : ""}</span></div>
+      <div class="mi-wrap">
+        <div class="mi-head"><b>METRO</b><span>线=配额窗 宽=拥挤 车=会话${hotN ? " · " + hotN + " 线晚点" : ""}</span></div>
         <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet">
           <rect x="0" y="0" width="${W}" height="${H}" fill="color-mix(in srgb, #14181f 30%, transparent)" rx="10"/>
           ${lines}${trains}
-          <g class="mt-card">
+          <g class="mi-card">
             <rect x="14" y="248" width="128" height="40" rx="6" fill="var(--card-2)" stroke="var(--line-2)"/>
-            <text x="22" y="266" class="mt-k">${fmt(k.tokens)} · ${sessions.length} 车</text>
-            <text x="22" y="279" class="mt-ksub">今日 tokens</text>
+            <text x="22" y="266" class="mi-k">${fmt(k.tokens)} · ${sessions.length} 车</text>
+            <text x="22" y="279" class="mi-ksub">今日 tokens</text>
           </g>
         </svg>
       </div>`;

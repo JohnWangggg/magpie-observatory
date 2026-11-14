@@ -1,30 +1,30 @@
 /* fountain.css — 喷泉 */
 
-.ft-wrap { height: 100%; display: flex; flex-direction: column; min-height: 0; }
-.ft-legend {
+.fi-wrap { height: 100%; display: flex; flex-direction: column; min-height: 0; }
+.fi-legend {
   padding: 0 6px 6px; font-size: 10px; color: var(--dim);
   display: flex; gap: 10px; flex: 0 0 auto; flex-wrap: wrap; align-items: center;
 }
-.ft-legend .fi-item { display: flex; align-items: center; gap: 4px; }
-.ft-legend .fi-item i { width: 6px; height: 6px; border-radius: 50%; }
-.ft-legend .fi-item.bad { color: #f26d7f; }
-.ft-legend .fi-tip { margin-left: auto; font-size: 9px; opacity: .6; }
+.fi-legend .fi-item { display: flex; align-items: center; gap: 4px; }
+.fi-legend .fi-item i { width: 6px; height: 6px; border-radius: 50%; }
+.fi-legend .fi-item.bad { color: #f26d7f; }
+.fi-legend .fi-tip { margin-left: auto; font-size: 9px; opacity: .6; }
 
-.ft-svg { flex: 1; width: 100%; min-height: 0; }
+.fi-svg { flex: 1; width: 100%; min-height: 0; }
 
-.ft-basin { animation: ft-ripple 4s ease-in-out infinite; }
-.ft-rim { animation: ft-ripple 4s ease-in-out infinite .5s; }
-.ft-jet { animation: ft-flow 2.6s ease-in-out infinite; stroke-dasharray: 6 8; }
-.ft-jet.sput { animation: ft-sput 1.4s ease-out infinite; }
-.ft-drop { animation: ft-fall 2.2s ease-in infinite; transform-origin: center; }
+.fi-basin { animation: ft-ripple 4s ease-in-out infinite; }
+.fi-rim { animation: ft-ripple 4s ease-in-out infinite .5s; }
+.fi-jet { animation: ft-flow 2.6s ease-in-out infinite; stroke-dasharray: 6 8; }
+.fi-jet.sput { animation: ft-sput 1.4s ease-out infinite; }
+.fi-drop { animation: ft-fall 2.2s ease-in infinite; transform-origin: center; }
 
 @keyframes ft-ripple { 0%, 100% { opacity: .7; transform: scale(1); } 50% { opacity: .9; transform: scale(1.02); } }
 @keyframes ft-flow { to { stroke-dashoffset: -56; } }
 @keyframes ft-sput { 0%, 100% { stroke-dashoffset: 0; opacity: .3; } 50% { stroke-dashoffset: -30; opacity: .55; } }
 @keyframes ft-fall { 0% { transform: translateY(-6px); opacity: .8; } 100% { transform: translateY(60px); opacity: 0; } }
 
-.ft-empty { height: 100%; display: flex; align-items: center; justify-content: center; color: var(--dim); font-size: 13px; }
+.fi-empty { height: 100%; display: flex; align-items: center; justify-content: center; color: var(--dim); font-size: 13px; }
 
 @media (prefers-reduced-motion: reduce) {
-  .ft-jet, .ft-drop, .ft-basin, .ft-rim { animation-duration: .001ms !important; }
+  .fi-jet, .fi-drop, .fi-basin, .fi-rim { animation-duration: .001ms !important; }
 }

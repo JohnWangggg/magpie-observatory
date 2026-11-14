@@ -20,7 +20,7 @@
     const W = host.clientWidth || 800, H = host.clientHeight || 300;
     const n = quotas.length;
 
-    if (!n) { host.innerHTML = `<div class="tp-empty">暂无配额</div>`; return; }
+    if (!n) { host.innerHTML = `<div class="ti-empty">暂无配额</div>`; return; }
 
     const rowH = (H - 34) / n;
     const avgTps = sessions.filter(s => s.tps).reduce((a, s) => a + s.tps, 0) || 60;
@@ -36,14 +36,14 @@
       const waveAmp = 2 + Math.min(6, avgTps / 30);
       const dur = (3200 - Math.min(1600, avgTps * 8)).toFixed(0);
       const wave = `M0,${waterTop.toFixed(0)} Q${W * 0.25},${(waterTop - waveAmp).toFixed(0)} ${W * 0.5},${waterTop.toFixed(0)} T${W},${waterTop.toFixed(0)} L${W},${y0 + rowH} L0,${y0 + rowH} Z`;
-      return `<g class="tp-band" data-prov="${esc(w.prov)}" data-i="${i}">
+      return `<g class="ti-band" data-prov="${esc(w.prov)}" data-i="${i}">
         <rect x="0" y="${y0}" width="${W}" height="${rowH - 4}" rx="5" fill="var(--card-2)" stroke="var(--line)"/>
-        <path class="tp-water${hot ? " hot" : ""}" d="${wave}" fill="${col}" opacity="${hot ? ".42" : ".22"}">
+        <path class="ti-water${hot ? " hot" : ""}" d="${wave}" fill="${col}" opacity="${hot ? ".42" : ".22"}">
           <animate attributeName="d" values="${wave};M0,${waterTop.toFixed(0)} Q${W * 0.25},${(waterTop + waveAmp).toFixed(0)} ${W * 0.5},${waterTop.toFixed(0)} T${W},${waterTop.toFixed(0)} L${W},${y0 + rowH} L0,${y0 + rowH} Z;${wave}" dur="${dur}ms" repeatCount="indefinite"/>
         </path>
-        <text class="tp-prov" x="12" y="${(y0 + rowH * 0.42).toFixed(0)}">${esc(m.name || w.prov)}</text>
-        <text class="tp-name" x="12" y="${(y0 + rowH * 0.72).toFixed(0)}">${esc(w.name)}${w.resetsIn != null ? " · " + w.resetsIn + "h" : ""}</text>
-        <text class="tp-pct${hot ? " hot" : ""}" x="${W - 14}" y="${(y0 + rowH * 0.55).toFixed(0)}" text-anchor="end">${Math.round(w.used)}%</text>
+        <text class="ti-prov" x="12" y="${(y0 + rowH * 0.42).toFixed(0)}">${esc(m.name || w.prov)}</text>
+        <text class="ti-name" x="12" y="${(y0 + rowH * 0.72).toFixed(0)}">${esc(w.name)}${w.resetsIn != null ? " · " + w.resetsIn + "h" : ""}</text>
+        <text class="ti-pct${hot ? " hot" : ""}" x="${W - 14}" y="${(y0 + rowH * 0.55).toFixed(0)}" text-anchor="end">${Math.round(w.used)}%</text>
       </g>`;
     }).join("");
 
@@ -56,13 +56,13 @@
       const col = metaOf(ameta, s.agent).color || "#8b7cf6";
       const dim = s.status === "done" || s.status === "error";
       const r = 2.5 + Math.min(3, (s.tokens || 0) / 300000);
-      return `<circle class="tp-shell${dim ? " dim" : ""}" cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" r="${r.toFixed(1)}" fill="${col}" opacity="${dim ? ".35" : ".85"}"><title>${esc(s.title)}</title></circle>`;
+      return `<circle class="ti-shell${dim ? " dim" : ""}" cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" r="${r.toFixed(1)}" fill="${col}" opacity="${dim ? ".35" : ".85"}"><title>${esc(s.title)}</title></circle>`;
     }).join("");
 
     host.innerHTML = `
-      <div class="tp-wrap">
-        <div class="tp-head"><b>TIDEPOOL</b><span>配额潮汐 · 水位=已用% · 浪速=TPS</span></div>
-        <svg class="tp-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
+      <div class="ti-wrap">
+        <div class="ti-head"><b>TIDEPOOL</b><span>配额潮汐 · 水位=已用% · 浪速=TPS</span></div>
+        <svg class="ti-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
           ${bands}
           <line x1="0" x2="${W}" y1="${sandY.toFixed(0)}" y2="${sandY.toFixed(0)}" stroke="var(--line-2)" stroke-width="1" stroke-dasharray="2 5"/>
           ${shells}

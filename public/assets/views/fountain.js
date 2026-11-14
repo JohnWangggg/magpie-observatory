@@ -18,7 +18,7 @@
     const W = host.clientWidth || 800, H = host.clientHeight || 300;
     const basinY = H * 0.82;
 
-    if (!sessions.length) { host.innerHTML = `<div class="ft-empty">暂无会话</div>`; return; }
+    if (!sessions.length) { host.innerHTML = `<div class="fi-empty">暂无会话</div>`; return; }
 
     seed = 67;
     const maxTok = Math.max(...sessions.map(s => s.tokens || 0), 1);
@@ -34,7 +34,7 @@
       // parabolic jet: rise then fall
       const peak = basinY - h;
       const spread = 12 + (tok / maxTok) * 22;
-      jets += `<path class="ft-jet ${failed ? "sput" : ""}" d="M${x.toFixed(0)},${basinY} C${(x - spread * 0.5).toFixed(0)},${(basinY - h * 0.7).toFixed(0)} ${(x - spread * 0.3).toFixed(0)},${(peak + 4).toFixed(0)} ${x.toFixed(0)},${peak.toFixed(0)} C${(x + spread * 0.5).toFixed(0)},${(basinY - h * 0.7).toFixed(0)} ${(x + spread).toFixed(0)},${(basinY - 4).toFixed(0)} ${(x + spread * 1.1).toFixed(0)},${basinY}"
+      jets += `<path class="fi-jet ${failed ? "sput" : ""}" d="M${x.toFixed(0)},${basinY} C${(x - spread * 0.5).toFixed(0)},${(basinY - h * 0.7).toFixed(0)} ${(x - spread * 0.3).toFixed(0)},${(peak + 4).toFixed(0)} ${x.toFixed(0)},${peak.toFixed(0)} C${(x + spread * 0.5).toFixed(0)},${(basinY - h * 0.7).toFixed(0)} ${(x + spread).toFixed(0)},${(basinY - 4).toFixed(0)} ${(x + spread * 1.1).toFixed(0)},${basinY}"
           fill="none" stroke="${col}" stroke-width="${(2 + (tok / maxTok) * 3).toFixed(1)}" opacity="${failed ? ".4" : ".65"}"
           stroke-linecap="round" style="animation-delay:${i * 160}ms">
           <title>${esc(s.title)} · ${s.agent} · ${tok} tok</title>
@@ -42,15 +42,15 @@
       // droplets at the peak
       for (let d = 0; d < 4; d++) {
         const dx2 = (rnd() - 0.5) * spread * 1.6;
-        drops += `<circle class="ft-drop" cx="${(x + dx2).toFixed(0)}" cy="${peak.toFixed(0)}" r="${(1 + rnd() * 1.4).toFixed(1)}"
+        drops += `<circle class="fi-drop" cx="${(x + dx2).toFixed(0)}" cy="${peak.toFixed(0)}" r="${(1 + rnd() * 1.4).toFixed(1)}"
             fill="${col}" opacity=".6" style="animation-delay:${i * 160 + d * 90}ms"/>`;
       }
     });
 
     // basin
-    const basin = `<ellipse class="ft-basin" cx="${W * 0.5}" cy="${basinY}" rx="${W * 0.4}" ry="${H * 0.1}"
+    const basin = `<ellipse class="fi-basin" cx="${W * 0.5}" cy="${basinY}" rx="${W * 0.4}" ry="${H * 0.1}"
         fill="rgba(50,80,120,.45)"/>
-      <ellipse class="ft-rim" cx="${W * 0.5}" cy="${basinY}" rx="${W * 0.4}" ry="${H * 0.1}"
+      <ellipse class="fi-rim" cx="${W * 0.5}" cy="${basinY}" rx="${W * 0.4}" ry="${H * 0.1}"
         fill="none" stroke="rgba(120,160,200,.35)" stroke-width="1.4"/>`;
 
     const legend = sessions.map(s => {
@@ -60,9 +60,9 @@
     }).join("");
 
     host.innerHTML = `
-      <div class="ft-wrap">
-        <div class="ft-legend">${legend}<span class="fi-tip">喷=会话 · 高=Token · 溅=失败</span></div>
-        <svg class="ft-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+      <div class="fi-wrap">
+        <div class="fi-legend">${legend}<span class="fi-tip">喷=会话 · 高=Token · 溅=失败</span></div>
+        <svg class="fi-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
           ${basin}${jets}${drops}
         </svg>
       </div>`;

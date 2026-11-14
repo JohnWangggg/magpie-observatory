@@ -5,10 +5,10 @@
   padding: 0 6px 6px; font-size: 10px; color: var(--dim);
   display: flex; gap: 10px; flex: 0 0 auto; flex-wrap: wrap; align-items: center;
 }
-.dn-legend .dl-item { display: flex; align-items: center; gap: 4px; }
-.dn-legend .dl-item i { width: 6px; height: 6px; border-radius: 50%; }
-.dn-legend .dl-item.bad { color: #f26d7f; }
-.dn-legend .dl-tip { margin-left: auto; font-size: 9px; opacity: .6; }
+.dn-legend .dn-item { display: flex; align-items: center; gap: 4px; }
+.dn-legend .dn-item i { width: 6px; height: 6px; border-radius: 50%; }
+.dn-legend .dn-item.bad { color: #f26d7f; }
+.dn-legend .dn-tip { margin-left: auto; font-size: 9px; opacity: .6; }
 
 .dn-svg { flex: 1; width: 100%; min-height: 0; }
 

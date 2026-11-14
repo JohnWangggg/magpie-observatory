@@ -15,7 +15,7 @@
     const W = host.clientWidth || 800, H = host.clientHeight || 300;
     const top = H * 0.1;
 
-    if (!sessions.length) { host.innerHTML = `<div class="pd-empty">暂无会话</div>`; return; }
+    if (!sessions.length) { host.innerHTML = `<div class="pe-empty">暂无会话</div>`; return; }
 
     const maxTok = Math.max(...sessions.map(s => s.tokens || 0), 1);
     const n = sessions.length;
@@ -30,13 +30,13 @@
       const r = 8 + (tok / maxTok) * 8;
       const amp = failed ? 0 : 8 + (tok / maxTok) * 18;
       pendulums += `<g transform="translate(${x.toFixed(1)},${top.toFixed(1)})">
-        <g class="pd-arm ${failed ? "still" : ""}" style="animation-duration:${(2 + (tok / maxTok) * 2).toFixed(1)}s; --amp:${amp.toFixed(0)}deg; animation-delay:${i * 220}ms">
-          <line class="pd-rod" x1="0" y1="0" x2="0" y2="${len.toFixed(1)}" stroke="rgba(255,255,255,.35)" stroke-width="1.4"/>
-          <circle class="pd-bob" cy="${len.toFixed(1)}" r="${r.toFixed(1)}" fill="${col}" opacity="${failed ? ".45" : ".8"}">
+        <g class="pe-arm ${failed ? "still" : ""}" style="animation-duration:${(2 + (tok / maxTok) * 2).toFixed(1)}s; --amp:${amp.toFixed(0)}deg; animation-delay:${i * 220}ms">
+          <line class="pe-rod" x1="0" y1="0" x2="0" y2="${len.toFixed(1)}" stroke="rgba(255,255,255,.35)" stroke-width="1.4"/>
+          <circle class="pe-bob" cy="${len.toFixed(1)}" r="${r.toFixed(1)}" fill="${col}" opacity="${failed ? ".45" : ".8"}">
             <title>${esc(s.title)} · ${s.agent} · ${tok} tok</title>
           </circle>
         </g>
-        <circle class="pd-pivot" r="2.5" fill="rgba(255,255,255,.6)"/>
+        <circle class="pe-pivot" r="2.5" fill="rgba(255,255,255,.6)"/>
       </g>`;
     });
 
@@ -46,13 +46,13 @@
     const legend = sessions.map(s => {
       const col = ametaOf(s.agent).color || "#8b7cf6";
       const failed = s.status === "error" || s.status === "failed";
-      return `<span class="pn-item ${failed ? "bad" : ""}" data-agent="${s.agent}"><i style="background:${col}"></i>${esc((s.title || "").slice(0, 9))}</span>`;
+      return `<span class="pe-item ${failed ? "bad" : ""}" data-agent="${s.agent}"><i style="background:${col}"></i>${esc((s.title || "").slice(0, 9))}</span>`;
     }).join("");
 
     host.innerHTML = `
-      <div class="pd-wrap">
-        <div class="pd-legend">${legend}<span class="pn-tip">摆=会话 · 长=Token · 停=失败</span></div>
-        <svg class="pd-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+      <div class="pe-wrap">
+        <div class="pe-legend">${legend}<span class="pe-tip">摆=会话 · 长=Token · 停=失败</span></div>
+        <svg class="pe-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
           ${beam}${pendulums}
         </svg>
       </div>`;

@@ -47,12 +47,12 @@
       // rooftop beacon
       const beacon = `<circle cx="${(x + bw / 2).toFixed(1)}" cy="${(FLOOR - hgt - 4).toFixed(1)}" r="2" fill="${hot ? "var(--red)" : "#e8eef8"}">
         <animate attributeName="opacity" values="1;.2;1" dur="${hot ? "0.9s" : "2.4s"}" repeatCount="indefinite"/></circle>`;
-      return `<g class="sk-tower${hot ? " hot" : ""}">
+      return `<g class="sl-tower${hot ? " hot" : ""}">
         <rect x="${x.toFixed(1)}" y="${(FLOOR - hgt).toFixed(1)}" width="${bw.toFixed(1)}" height="${hgt.toFixed(1)}" rx="2"
           fill="color-mix(in srgb, ${col} ${28 + f * 20}%, var(--card-2))" stroke="${hot ? "var(--red)" : col}" stroke-width="1"/>
         ${wins}${beacon}
-        <text x="${(x + bw / 2).toFixed(1)}" y="${FLOOR + 18}" class="sk-pct" text-anchor="middle">${Math.round(w.used)}%</text>
-        <text x="${(x + bw / 2).toFixed(1)}" y="${FLOOR + 29}" class="sk-name" text-anchor="middle">${esc((m.name || w.prov).slice(0, 5))}</text>
+        <text x="${(x + bw / 2).toFixed(1)}" y="${FLOOR + 18}" class="sl-pct" text-anchor="middle">${Math.round(w.used)}%</text>
+        <text x="${(x + bw / 2).toFixed(1)}" y="${FLOOR + 29}" class="sl-name" text-anchor="middle">${esc((m.name || w.prov).slice(0, 5))}</text>
       </g>`;
     }).join("");
 
@@ -63,7 +63,7 @@
       const dur = Math.max(4, 10 - (s.tps || 0) / 10);
       const y = 40 + (i % 3) * 22 + rnd() * 10;
       const len = 14 + Math.min(12, (s.tokens || 0) / 30000);
-      return `<g class="sk-meteor${dead ? " dead" : ""}">
+      return `<g class="sl-meteor${dead ? " dead" : ""}">
         <animateTransform attributeName="transform" type="translate" values="${W + 30} ${y.toFixed(1)};${-40} ${(y + 60).toFixed(1)}" dur="${dur}s" begin="${(-i * 1.8).toFixed(1)}s" repeatCount="indefinite"/>
         <line x1="0" y1="0" x2="${-len}" y2="${len * .4}" stroke="${dead ? "var(--red)" : m.color || "#dfeaf5"}" stroke-width="1.4" stroke-linecap="round" opacity=".85">
           <animate attributeName="opacity" values=".9;.3;.9" dur=".7s" repeatCount="indefinite"/>
@@ -77,17 +77,17 @@
     const hotN = quotas.filter(w => w.used >= 85).length;
 
     host.innerHTML = `
-      <div class="sk-wrap">
-        <div class="sk-head"><b>SKYLINE</b><span>楼=配额窗 高=用量 星=会话${hotN ? " · " + hotN + " 楼顶红" : ""}</span></div>
+      <div class="sl-wrap">
+        <div class="sl-head"><b>SKYLINE</b><span>楼=配额窗 高=用量 星=会话${hotN ? " · " + hotN + " 楼顶红" : ""}</span></div>
         <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet">
           <rect x="0" y="0" width="${W}" height="${H}" fill="color-mix(in srgb, #0c1018 46%, transparent)" rx="10"/>
           ${stars}
           <rect x="14" y="${FLOOR}" width="${W - 28}" height="3" rx="1.5" fill="#2a2a3a" opacity=".9"/>
           ${towers}${meteors}
-          <g class="sk-card">
+          <g class="sl-card">
             <rect x="14" y="14" width="126" height="40" rx="6" fill="var(--card-2)" stroke="var(--line-2)"/>
-            <text x="22" y="32" class="sk-k">${fmt(k.tokens)} · ${sessions.length} 星</text>
-            <text x="22" y="45" class="sk-ksub">今日 tokens</text>
+            <text x="22" y="32" class="sl-k">${fmt(k.tokens)} · ${sessions.length} 星</text>
+            <text x="22" y="45" class="sl-ksub">今日 tokens</text>
           </g>
         </svg>
       </div>`;
