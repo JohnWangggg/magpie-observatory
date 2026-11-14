@@ -1,0 +1,14 @@
+/* bonfire */
+.bo-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.bo-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.bo-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.bo-head span { font-size: 8px; color: var(--muted); }
+.bo-wrap svg { flex: 1; width: 100%; }
+.bo-num { font: 700 7.5px var(--num); fill: var(--fg); }
+.bo-avg { font: 700 9px var(--num); fill: var(--amber); }
+.bo-k { font: 700 10px var(--num); fill: var(--fg); }
+.bo-ksub { font: 7.5px var(--mono); fill: var(--muted); }
+.bo-log { transform-box: fill-box; }
+.bo-log.hot { filter: drop-shadow(0 0 4px rgba(240,160,60,.4)); }
+.bo-fire { transform-box: fill-box; }
+.bo-spark { transform-box: fill-box; }

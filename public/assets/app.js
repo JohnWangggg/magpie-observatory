@@ -365,6 +365,8 @@
     { id: "vaults", title: "金库", eyebrow: "VAULTS", group: "洞察", icon: "i-chart", hint: "保管箱=配额窗 满度=用量 推车=会话" },
     { id: "onsen", title: "温泉", eyebrow: "ONSEN", group: "场景", icon: "i-magpie", hint: "汤池=配额窗 水位=用量 蒸汽=过热 浴客=会话" },
     { id: "nightmarket", title: "夜市", eyebrow: "NIGHTMARKET", group: "场景", icon: "i-magpie", hint: "摊位=配额窗 灯牌=用量 提灯客=会话" },
+    { id: "bonfire", title: "篝火", eyebrow: "BONFIRE", group: "场景", icon: "i-magpie", hint: "木石=配额窗 炭头=用量 中央火=平均 火星=会话" },
+    { id: "workshop", title: "工坊", eyebrow: "WORKSHOP", group: "场景", icon: "i-magpie", hint: "工位=配额窗 摆臂=用量 吊灯=过热 工人=会话" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
     { id: "grove", title: "果园", eyebrow: "GROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 果=用量 人=会话" },
     { id: "pond", title: "荷塘", eyebrow: "POND", group: "生态", icon: "i-magpie", hint: "莲=配额窗 漪=用量 蛙=会话" },
