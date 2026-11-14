@@ -1107,6 +1107,18 @@ show(F.length-1);
     if (errs >= 3) items.push({ cls: "bad", icon: "i-bolt", text: `${errs} 条请求失败`, sub: "点击看日志", goto: "logs", aid: "err-burst" });
     const streak = dayStreak();
     if (streak >= 2) items.push({ cls: "good", icon: "i-flame", text: `连续使用 ${streak} 天`, sub: streak >= 7 ? "保持热度" : "", goto: "records", aid: "streak" });
+    // newest achievement chip (last 7 days only) — keeps the strip playful
+    try {
+      const bag = JSON.parse(localStorage.getItem("magpie.badges") || "{}");
+      const recent = ACHIEVEMENTS.filter(a => {
+        const d = bag[a.id];
+        return d && (Date.now() - new Date(d).getTime()) < 7 * 86400000;
+      }).sort((a, b) => (bag[b.id] || "").localeCompare(bag[a.id] || ""));
+      if (recent.length) {
+        const a = recent[0];
+        items.push({ cls: "good", icon: "i-star", text: `🏅 ${a.name}`, sub: a.sub, goto: "records", aid: `badge-${a.id}` });
+      }
+    } catch (_) {}
     const act = s.data.sessions.filter(x => x.status !== "done").length;
     const heat = s.data.heatmap || [];
     const yd = heat.length >= 2 ? heat[heat.length - 2] : null;
