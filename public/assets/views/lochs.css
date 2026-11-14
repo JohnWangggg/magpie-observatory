@@ -1,0 +1,14 @@
+/* lochs */
+.lu-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.lu-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.lu-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.lu-head span { font-size: 8px; color: var(--muted); }
+.lu-wrap svg { flex: 1; width: 100%; }
+.lu-isle { transform-box: fill-box; }
+.lu-isle.hot rect { filter: drop-shadow(0 0 3px rgba(240,200,100,.5)); }
+.lu-otter { transform-box: fill-box; }
+.lu-otter.dead { opacity: .85; }
+.lu-pct { font: 700 9px var(--num); fill: #a8bcc8; }
+.lu-name { font: 600 7px var(--mono); fill: #889ca8; }
+.lu-k { font: 700 10px var(--num); fill: var(--fg); }
+.lu-ksub { font: 7px var(--mono); fill: var(--muted); }
