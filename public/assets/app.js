@@ -3020,6 +3020,19 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
           else toast("图鉴已集齐 · 全图鉴达成");
         } catch (_) {}
       }
+      if (e.key.toLowerCase() === "u" && !e.metaKey && !e.ctrlKey && !e.altKey) {
+        e.preventDefault();
+        try {
+          const seen = JSON.parse(localStorage.getItem("magpie.viewSeen") || "[]");
+          const i = seen.indexOf(state.heroMode);
+          if (i >= 0) {
+            seen.splice(i, 1);
+            localStorage.setItem("magpie.viewSeen", JSON.stringify(seen));
+            const meta = viewMeta(state.heroMode);
+            toast("图鉴移除：「" + (meta && meta.title || state.heroMode) + "」 · 剩 " + seen.length + "/" + VIEW_META.length);
+          } else toast("「" + (viewMeta(state.heroMode) && viewMeta(state.heroMode).title || state.heroMode) + "」不在图鉴中");
+        } catch (_) {}
+      }
       if (e.key === "?") { e.preventDefault(); toggleHelp(); }
       if (e.key === "\`" && !e.metaKey && !e.ctrlKey && !e.altKey) {
         e.preventDefault();
