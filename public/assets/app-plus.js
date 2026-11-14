@@ -1099,10 +1099,12 @@ show(F.length-1);
         <div class="rec"><small>最常看</small><b>${(() => {
           try {
             const h = JSON.parse(localStorage.getItem("magpie.viewHeat") || "{}");
-            const top = Object.entries(h).sort((a, b) => b[1] - a[1])[0];
-            if (!top) return "—";
-            const meta = (Obs.api.VIEW_META || []).find(v => v.id === top[0]);
-            return (meta ? meta.title : top[0]) + " ×" + top[1];
+            const top = Object.entries(h).sort((a, b) => b[1] - a[1]).slice(0, 3);
+            if (!top.length) return "—";
+            return top.map(([id, n]) => {
+              const meta = (Obs.api.VIEW_META || []).find(v => v.id === id);
+              return (meta ? meta.title : id) + "×" + n;
+            }).join(" · ");
           } catch (_) { return "—"; }
         })()}</b></div>
       </div>
