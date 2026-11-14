@@ -26,6 +26,7 @@
     logQuery: "",
     view: null,
     wireSig: "",
+    unseenOnly: false,
     events: 0,
     tickerIndex: 0,
     lastTick: Date.now(),
@@ -346,7 +347,7 @@
     const needle = String(query || "").trim().toLowerCase();
     let shown = 0;
     $$(".view-menu .vm-item").forEach(b => {
-      const on = !needle || b.dataset.search.includes(needle);
+      const on = (!needle || b.dataset.search.includes(needle)) && !(state.unseenOnly && b.closest(".vm-row").classList.contains("seen"));
       b.hidden = !on;
       if (on) shown++;
     });
@@ -2504,6 +2505,12 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
     });
     $("#view-menu-close").addEventListener("click", () => closeViewMenu(true));
     $("#view-search").addEventListener("input", e => filterViewMenu(e.target.value));
+    const vmNew = $("#vm-new");
+    if (vmNew) vmNew.addEventListener("click", () => {
+      state.unseenOnly = !state.unseenOnly;
+      vmNew.classList.toggle("on", state.unseenOnly);
+      filterViewMenu($("#view-search") ? $("#view-search").value : "");
+    });
     $("#view-search").addEventListener("keydown", e => {
       if (e.key === "Enter") {
         const first = $(".view-menu .vm-item:not([hidden])");

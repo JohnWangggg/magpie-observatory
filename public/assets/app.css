@@ -463,7 +463,12 @@ img { display: block; }
 .vm-close { width: 24px; height: 24px; border-radius: 7px; display: grid; place-items: center; color: var(--muted); }
 .vm-close svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 1.8; }
 .vm-close:hover { background: var(--card-2); color: var(--fg); }
-.vm-search { display: flex; align-items: center; gap: 7px; margin: 0 12px 8px; padding: 0 10px; height: 31px; border: 1px solid var(--line); border-radius: 8px; background: var(--card-2); }
+.vm-bar { display: flex; align-items: center; gap: 6px; margin: 0 12px 8px; }
+.vm-bar .vm-search { flex: 1; margin: 0; }
+.vm-new { flex: none; height: 31px; padding: 0 9px; border: 1px solid var(--line); border-radius: 8px; background: var(--card-2); color: var(--muted); font-size: 9px; font-weight: 650; cursor: pointer; }
+.vm-new:hover { color: var(--fg); border-color: var(--line-2); }
+.vm-new.on { color: var(--green); border-color: color-mix(in srgb, var(--green) 45%, transparent); background: color-mix(in srgb, var(--green) 8%, var(--card-2)); }
+.vm-search { display: flex; align-items: center; gap: 7px; margin: 0; padding: 0 10px; height: 31px; border: 1px solid var(--line); border-radius: 8px; background: var(--card-2); }
 .vm-search svg { width: 12px; height: 12px; flex: none; fill: none; stroke: var(--faint); stroke-width: 1.8; }
 .vm-search input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; color: var(--fg); font: inherit; font-size: 10px; }
 .vm-search input::placeholder { color: var(--faint); }
