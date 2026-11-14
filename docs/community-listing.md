@@ -71,3 +71,10 @@ This plugin runs a local service, so it must name an entry
 `main`/`exports`). A repository that runs a host part therefore cannot be a
 `kind: "page"` GitHub listing — it would show as a provider there, which is
 why the topic is left off and the registry entry is the page listing.
+
+The same rule gives an installed copy of any page with a host part (this
+plugin, `@magpie-community/page-chat`, `page-agent-console`) a provider chip
+beside its page chip in **Plugins → Installed**: `InMagpieOnly` is false by
+definition once `main`/`exports` is named. Dropping `main` removes that chip
+but also stops the host from starting the plugin's service, so the page could
+not load.
