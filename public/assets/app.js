@@ -129,6 +129,7 @@
     { id: "spectrum", title: "频谱", eyebrow: "SPECTRUM", group: "用量", icon: "i-chart", hint: "峰=会话 高=Token" },
     { id: "wave", title: "波浪线", eyebrow: "WAVE", group: "用量", icon: "i-chart", hint: "双轨波形" },
     { id: "galaxy", title: "星系", eyebrow: "GALAXY", group: "趣味", icon: "i-magpie", hint: "星=会话 双臂" },
+    { id: "dna", title: "DNA", eyebrow: "DNA", group: "趣味", icon: "i-magpie", hint: "对=会话 宽=Token" },
     { id: "play", title: "开局", eyebrow: "PLAY · EVERY CALL IS A BEAT", group: "趣味", icon: "i-zap", hint: "转盘 + 判定 + 连击" }
   ];
 
@@ -2566,7 +2567,7 @@
 
   /* ------------------------------------------------------------------ init --- */
   function init() {
-    try { console.info("%c Magpie Observatory v0.85.0 · twenty-five views · 7 styles · layout settings", "color:#8b7cf6;font-weight:bold"); } catch (_) {}
+    try { console.info("%c Magpie Observatory v0.86.0 · twenty-five views · 7 styles · layout settings", "color:#8b7cf6;font-weight:bold"); } catch (_) {}
     (window.Obs && window.Obs.hooks.init || []).forEach(fn => { try { fn(apiObj); } catch (_) {} });
     try {
       const hostTheme = new URLSearchParams(location.search).get("hostTheme");

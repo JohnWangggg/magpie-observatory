@@ -993,3 +993,12 @@ decision/palette）+ 复制/跳转/过滤/记忆/导出 全覆盖。审计完毕
 - **VIEW_META 趣味组** + `view-galaxy` + `47 VIEWS`；
   README×2 + `docs/mode-galaxy.png`。
 
+---
+
+## Phase 84 — 第 48 个视图 `dna`（2026-11-15 · v0.86.0）
+
+- **`dna.js/css`**：双螺旋——链=紫/青正弦（dash 流动）、
+  对=会话（宽=Token、色=Agent、断=失败）。`dn-dash`/`dn-pulse`/`dn-spark`。
+- **VIEW_META 趣味组** + `view-dna` + `48 VIEWS`；
+  README×2 + `docs/mode-dna.png`。
+
