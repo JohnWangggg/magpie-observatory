@@ -815,3 +815,17 @@ Magpie 官方 UI 给了你完整的数据字典和品牌资产。**把它们合�
 - `init(api)` — 启动后：SW 注册、`?mode=mini`、gcNotes、loadLayout、restoreExtras
 
 这样 `app-plus` 是纯 additive：任一 hook 缺席，核心照样跑。
+
+
+---
+
+## 16. 新视图：脉搏 (pulse, v1.10.129+)
+
+ECG 监护仪式的 session 视图：每行一个波形（幅=session tps，色=agent），
+error/failed 会话 flatline，右上角 `BPM = Σtps × 0.9` 心跳读数。
+
+波形是合成的三阶信号：`pow(|sin t|, 24)·sign·1.4` 给 R 尖峰、`pow(max(0, sin(t+0.9)), 6)·0.35`
+给 T 波、`sin(t·0.33)·0.1` 给基线漂移——静态 path，没有每帧重算，省电但形象。
+
+文件：`public/assets/views/pulse.js` + `pulse.css` + `VIEW_META`（实时组）+
+`shots/pulse.png`。
