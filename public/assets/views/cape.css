@@ -1,0 +1,14 @@
+/* cape */
+.ca-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.ca-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.ca-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.ca-head span { font-size: 8px; color: var(--muted); }
+.ca-wrap svg { flex: 1; width: 100%; }
+.ca-cape { transform-box: fill-box; }
+.ca-cape.hot path { filter: drop-shadow(0 0 4px rgba(240,200,100,.4)); }
+.ca-gull { transform-box: fill-box; }
+.ca-gull.dead { opacity: .85; }
+.ca-pct { font: 700 9px var(--num); fill: #e0e8d8; }
+.ca-name { font: 600 7px var(--mono); fill: #a8b098; }
+.ca-k { font: 700 10px var(--num); fill: var(--fg); }
+.ca-ksub { font: 7px var(--mono); fill: var(--muted); }
