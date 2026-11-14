@@ -783,3 +783,20 @@ Magpie 官方 UI 给了你完整的数据字典和品牌资产。**把它们合�
   因为 CSS `:hover` 在 `position:absolute` 子元素上、被 sibling 覆盖时会失效。
 - 去掉了 `transition: opacity .16s` —— 与 JS 显式 opacity 冲突时 computed 值停在 0。
 - `public/shots/*.png` 全量 commit 入库，`views-catalog.md` 图鉴自动引用相对路径。
+
+
+---
+
+## 14. 工具链与诊断 (v1.10.129+)
+
+| 命令 | 用途 |
+|---|---|
+| `npm run check` | `lint-data` + `sync-views`，快检（CI `check.yml` 同款） |
+| `npm run lint-data` | 在 Node 里跑 `data.js`，断言 `mockState()` 形状（providers/sessions/quotas/series/heatmap/recent）+ 缺失图标 |
+| `npm run sync-views` | `VIEW_META` → `manifest.js` + `views-catalog.md`，sanity 报告 missing/orphan |
+| `npm run smoke` | 336 视图 route-stage DOM 冒烟（`empty stage` / `page error`），~160s |
+| `npm run thumbs` | 336 缩略图 `.route-stage` 裁切，`--ids a,b` 只重截指定 |
+| `npm run shot` | 单视图截图+DOM 统计：`python3 scripts/one-shot.py orrery /tmp/x.png` |
+
+诊断案例：冒烟抓到 `scorecard` 的 `<rect width="NaN">`（`r.tries` 未赋值）——`npm run smoke`
+定位到视图，修后 `npm run thumbs --ids scorecard` 单点重截缩略图。
