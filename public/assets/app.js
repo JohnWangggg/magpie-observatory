@@ -3077,6 +3077,15 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
           }
         } catch (_) {}
       }
+      if (e.key.toLowerCase() === "d" && !e.metaKey && !e.ctrlKey && !e.altKey) {
+        e.preventDefault();
+        try {
+          const d = JSON.parse(localStorage.getItem("magpie.viewCountDay") || "{}");
+          const n = (d.date === new Date().toISOString().slice(0, 10) ? d.n : 0);
+          const vc = parseInt(localStorage.getItem("magpie.viewCount") || "0", 10) || 0;
+          toast(`今日切视图 ${n} 次 · 累计 ${vc} 次`);
+        } catch (_) {}
+      }
       if (e.key === "?") { e.preventDefault(); toggleHelp(); }
       if (e.key === "\`" && !e.metaKey && !e.ctrlKey && !e.altKey) {
         e.preventDefault();
