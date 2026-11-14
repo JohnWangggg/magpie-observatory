@@ -1093,3 +1093,12 @@ decision/palette）+ 复制/跳转/过滤/记忆/导出 全覆盖。审计完毕
 - **VIEW_META 趣味组** + `view-fountain` + `58 VIEWS`；
   README×2 + `docs/mode-fountain.png`。
 
+---
+
+## Phase 95 — 第 59 个视图 `pendulum`（2026-11-15 · v0.97.0）
+
+- **`pendulum.js/css`**：摆锤——摆=会话（杆长/摆弧=Token、色=Agent、
+  停=失败）+ 顶梁；CSS 变量 `--amp` 控摆幅；`pd-swing`/`pd-still`/`pd-glow`。
+- **VIEW_META 趣味组** + `view-pendulum` + `59 VIEWS`；
+  README×2 + `docs/mode-pendulum.png`。
+
