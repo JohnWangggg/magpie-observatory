@@ -2856,3 +2856,6 @@ body.mini .route-stage { min-height: 0 !important; }
 .kpi-goal svg { width: 18px; height: 18px; }
 .kpi-goal em { font: 700 8.5px var(--num); color: var(--muted); font-style: normal; }
 .kpi-goal[title] { cursor: help; }
+
+/* flame marker on a frequently used view in the picker */
+.vm-hot { flex: none; font-size: 10px; opacity: .9; margin-left: 4px; }
