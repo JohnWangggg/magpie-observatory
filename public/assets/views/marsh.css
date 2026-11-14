@@ -1,0 +1,14 @@
+/* marsh */
+.mh-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.mh-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.mh-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.mh-head span { font-size: 8px; color: var(--muted); }
+.mh-wrap svg { flex: 1; width: 100%; }
+.mh-bed { transform-box: fill-box; }
+.mh-bed.hot rect { filter: drop-shadow(0 0 3px rgba(240,190,80,.5)); }
+.mh-heron { transform-box: fill-box; }
+.mh-heron.dead { opacity: .85; }
+.mh-pct { font: 700 9px var(--num); fill: var(--fg); }
+.mh-name { font: 600 7px var(--mono); fill: var(--muted); }
+.mh-k { font: 700 10px var(--num); fill: var(--fg); }
+.mh-ksub { font: 7px var(--mono); fill: var(--muted); }

@@ -250,6 +250,7 @@
     { id: "bayou", title: "沼泽", eyebrow: "BAYOU", group: "生态", icon: "i-magpie", hint: "柏=配额窗 苔=用量 萤=会话" },
     { id: "fen", title: "泥沼", eyebrow: "FEN", group: "生态", icon: "i-magpie", hint: "棉草=配额窗 高=用量 蜻=会话" },
     { id: "bog", title: "酸沼", eyebrow: "BOG", group: "生态", icon: "i-magpie", hint: "捕虫笼=配额窗 高=用量 蛙=会话" },
+    { id: "marsh", title: "芦苇荡", eyebrow: "MARSH", group: "生态", icon: "i-magpie", hint: "蒲=配额窗 高=用量 鹭=会话" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
     { id: "grove", title: "果园", eyebrow: "GROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 果=用量 人=会话" },
     { id: "pond", title: "荷塘", eyebrow: "POND", group: "生态", icon: "i-magpie", hint: "莲=配额窗 漪=用量 蛙=会话" },
