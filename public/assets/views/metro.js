@@ -76,5 +76,5 @@
   }
 
   window.ObservatoryViews = window.ObservatoryViews || {};
-  window.ObservatoryViews[VIEW] = { title: "地铁图", eyebrow: "METRO", render };
+  window.ObservatoryViews[VIEW] = { title: "地下铁", eyebrow: "METRO", render };
 })();

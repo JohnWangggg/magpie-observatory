@@ -89,5 +89,5 @@
   }
 
   window.ObservatoryViews = window.ObservatoryViews || {};
-  window.ObservatoryViews[VIEW] = { title: "麦田", eyebrow: "HARVEST", render };
+  window.ObservatoryViews[VIEW] = { title: "麦浪", eyebrow: "HARVEST", render };
 })();

@@ -97,5 +97,5 @@
   }
 
   window.ObservatoryViews = window.ObservatoryViews || {};
-  window.ObservatoryViews[VIEW] = { title: "牧场", eyebrow: "PASTURE", render };
+  window.ObservatoryViews[VIEW] = { title: "草场", eyebrow: "PASTURE", render };
 })();
