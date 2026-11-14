@@ -525,6 +525,8 @@
         dex.title = recent ? `最近 7 天收集了 ${recent} 个新视图` : "图鉴进度";
       } catch (_) { dex.textContent = ""; }
     }
+    // Thumbnails stay lazy — the browser fetches each row's shot when it
+    // scrolls into the menu viewport; no manual preloader needed.
     // Thumb preview: pointerenter/leave (works regardless of :hover quirks
     // inside transformed or filter parents).
     if (!host.dataset.thumbBound) {
