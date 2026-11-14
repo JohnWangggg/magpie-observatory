@@ -2755,6 +2755,16 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
       e.stopPropagation();
       toggleViewMenu();
     });
+    // Thumbnail bubble on the picker — JS-driven like .vm-thumb so the
+    // hover state can't be swallowed by ancestor transforms.
+    $("#view-picker").addEventListener("pointerover", () => {
+      const th = $("#vp-thumb");
+      if (th) { th.classList.add("on"); th.style.opacity = "1"; }
+    });
+    $("#view-picker").addEventListener("pointerout", () => {
+      const th = $("#vp-thumb");
+      if (th) { th.classList.remove("on"); th.style.opacity = ""; }
+    });
     $("#view-menu").addEventListener("click", e => {
       const star = e.target.closest(".vm-star");
       if (star) { e.preventDefault(); toggleFavorite(star.dataset.fav); return; }

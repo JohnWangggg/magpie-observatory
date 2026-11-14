@@ -22,6 +22,15 @@ server = subprocess.Popen(["node", "preview.mjs"], cwd=ROOT,
 time.sleep(1.2)
 
 try:
+    from PIL import Image
+except ImportError:
+    Image = None
+
+SCALE = 1.0
+if "--scale" in sys.argv:
+    SCALE = float(sys.argv[sys.argv.index("--scale") + 1])
+
+try:
     with sync_playwright() as p:
         b = p.chromium.launch(args=["--no-sandbox"])
         pg = b.new_page(viewport={"width": 1560, "height": 940})
@@ -33,7 +42,11 @@ try:
             try:
                 pg.evaluate(f"window.Obs?.api?.setHeroMode('{vid}')")
                 pg.wait_for_timeout(750)
-                pg.locator(".hero .route-stage, .route-stage").screenshot(path=str(ROOT / "public/shots" / f"{vid}.png"))
+                out = ROOT / "public/shots" / f"{vid}.png"
+                pg.locator(".hero .route-stage, .route-stage").screenshot(path=str(out))
+                if SCALE != 1.0 and Image is not None:
+                    im = Image.open(out)
+                    im.resize((max(1, int(im.width * SCALE)), max(1, int(im.height * SCALE))), Image.LANCZOS).save(out, optimize=True)
                 title = pg.evaluate("document.querySelector('#hero-title')?.textContent || ''")
                 done.append((vid, title))
                 print(f"[{i}/{len(ids)}] {vid} → {title}")
