@@ -13,3 +13,23 @@
   document.write(html);
   window.ObservatoryManifest = VIEWS;
 })();
+
+/* stage-view placeholders: appended into .route-stage on DOMContentLoaded.
+   Each view id in the manifest gets one empty .stage-view div — modules
+   register renderers that fill it on demand. */
+(function () {
+  function seed() {
+    var stage = document.querySelector('.route-stage');
+    if (!stage) return;
+    (window.ObservatoryManifest || []).forEach(function (v) {
+      if (v === 'route' || document.getElementById('view-' + v)) return;
+      var d = document.createElement('div');
+      d.className = 'stage-view';
+      d.id = 'view-' + v;
+      d.hidden = true;
+      stage.appendChild(d);
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', seed);
+  else seed();
+})();
