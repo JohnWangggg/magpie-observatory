@@ -161,6 +161,7 @@
     { id: "greenhouse", title: "温室", eyebrow: "GREENHOUSE", group: "趣味", icon: "i-magpie", hint: "架=agent 盆=会话 温度计=配额" },
     { id: "winery", title: "酒庄", eyebrow: "WINERY", group: "配额", icon: "i-stack", hint: "桶=配额窗 滴=会话" },
     { id: "bakery", title: "面包房", eyebrow: "BAKERY", group: "趣味", icon: "i-magpie", hint: "炉=agent 包=会话 计=配额" },
+    { id: "carnival", title: "嘉年华", eyebrow: "CARNIVAL", group: "趣味", icon: "i-magpie", hint: "帐=配额窗 灯=热度 球=会话" },
     { id: "vine", title: "藤蔓", eyebrow: "VINE", group: "趣味", icon: "i-magpie", hint: "叶=会话 大=Token" },
     { id: "play", title: "开局", eyebrow: "PLAY · EVERY CALL IS A BEAT", group: "趣味", icon: "i-zap", hint: "转盘 + 判定 + 连击" }
   ];
