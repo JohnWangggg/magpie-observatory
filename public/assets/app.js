@@ -2415,14 +2415,23 @@
     });
 
     const mc2 = $("#mascot");
-    if (mc2) mc2.addEventListener("click", () => {
-      mc2.classList.remove("mascot-hop");
-      void mc2.offsetWidth;
-      mc2.classList.add("mascot-hop");
-      const quips = ["叽喳", "喳喳！", "今日宜多开会话", "token 不够就改道", "窗口快满啦", "吉签大吉", "缓存复用是好习惯", "别盯着报错看"];
-      toast("台鹊：" + quips[Math.floor(Math.random() * quips.length)]);
-      setTimeout(() => mc2.classList.remove("mascot-hop"), 520);
-    });
+    if (mc2) {
+      let magpieClicks = 0;
+      try { magpieClicks = parseInt(localStorage.getItem("magpie.clicks") || "0", 10) || 0; } catch (_) {}
+      const mcTitle = () => mc2.setAttribute("title", `台鹊 · 鹊缘 ${magpieClicks} 次 · 双击绕场`);
+      mcTitle();
+      mc2.addEventListener("click", () => {
+        mc2.classList.remove("mascot-hop");
+        void mc2.offsetWidth;
+        mc2.classList.add("mascot-hop");
+        magpieClicks++;
+        try { localStorage.setItem("magpie.clicks", String(magpieClicks)); } catch (_) {}
+        mcTitle();
+        const quips = ["叽喳", "喳喳！", "今日宜多开会话", "token 不够就改道", "窗口快满啦", "吉签大吉", "缓存复用是好习惯", "别盯着报错看"];
+        toast("台鹊：" + quips[Math.floor(Math.random() * quips.length)] + ` · 鹊缘 ${magpieClicks}`);
+        setTimeout(() => mc2.classList.remove("mascot-hop"), 520);
+      });
+    }
     mc2.addEventListener("dblclick", () => {
       mc2.classList.remove("mascot-lap");
       void mc2.offsetWidth;
