@@ -3268,6 +3268,20 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
         const next = VIEW_META[(idx + step + VIEW_META.length) % VIEW_META.length].id;
         setHeroMode(next);
       }
+      // 1-9: jump straight to a favorited view (matches the ★ rail order).
+      if (/^[1-9]$/.test(e.key) && !e.metaKey && !e.ctrlKey && !e.altKey) {
+        e.preventDefault();
+        const favs = state.favorites.map(id => viewMeta(id)).filter(Boolean);
+        const pick = favs[+e.key - 1];
+        if (pick) { setHeroMode(pick.id); toast(`收藏 ${e.key} · 「${pick.title || pick.id}」`); }
+        else toast(favs.length ? `收藏位 ${e.key} 为空（共 ${favs.length} 个）` : "还没有收藏视图 · f 收藏当前");
+      }
+      // w: export the weekly digest without reaching for the button.
+      if (e.key.toLowerCase() === "w" && !e.metaKey && !e.ctrlKey && !e.altKey) {
+        e.preventDefault();
+        const btn = $("#log-digest");
+        if (btn) btn.click(); else toast("周报按钮未就绪");
+      }
     });
 
 
