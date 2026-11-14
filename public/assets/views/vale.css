@@ -1,0 +1,14 @@
+/* vale */
+.va-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.va-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.va-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.va-head span { font-size: 8px; color: var(--muted); }
+.va-wrap svg { flex: 1; width: 100%; }
+.va-bank { transform-box: fill-box; }
+.va-bank.hot ellipse { filter: drop-shadow(0 0 4px rgba(240,200,100,.4)); }
+.va-deer { transform-box: fill-box; }
+.va-deer.dead { opacity: .85; }
+.va-pct { font: 700 9px var(--num); fill: #a8b8b0; }
+.va-name { font: 600 7px var(--mono); fill: #788878; }
+.va-k { font: 700 10px var(--num); fill: var(--fg); }
+.va-ksub { font: 7px var(--mono); fill: var(--muted); }
