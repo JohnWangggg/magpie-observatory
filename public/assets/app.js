@@ -355,6 +355,7 @@
     { id: "wadis", title: "干河谷", eyebrow: "WADIS", group: "场景", icon: "i-magpie", hint: "干河谷=配额窗 辫宽=用量 骆驼=会话" },
     { id: "hamadas", title: "石漠", eyebrow: "HAMADAS", group: "场景", icon: "i-magpie", hint: "石漠=配额窗 嶙峋=用量 跳鼠=会话" },
     { id: "forecast", title: "预测", eyebrow: "FORECAST", group: "洞察", icon: "i-chart", hint: "烧线+虚线投影 · ⚠=重置前耗尽" },
+    { id: "trophies", title: "成就", eyebrow: "TROPHIES", group: "洞察", icon: "i-chart", hint: "徽章架 · 环=解锁进度" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
     { id: "grove", title: "果园", eyebrow: "GROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 果=用量 人=会话" },
     { id: "pond", title: "荷塘", eyebrow: "POND", group: "生态", icon: "i-magpie", hint: "莲=配额窗 漪=用量 蛙=会话" },
