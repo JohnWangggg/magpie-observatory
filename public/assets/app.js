@@ -153,6 +153,7 @@
     { id: "tidepool", title: "潮汐池", eyebrow: "TIDEPOOL", group: "用量", icon: "i-pulse", hint: "水位=配额 浪=TPS" },
     { id: "pinboard", title: "钉板", eyebrow: "PINBOARD", group: "实时", icon: "i-stack", hint: "KPI/配额/会话钉上墙" },
     { id: "rosetta", title: "罗塞塔", eyebrow: "ROSETTA", group: "配额", icon: "i-chart", hint: "环带=配额 刻痕=会话" },
+    { id: "eclipse", title: "日蚀", eyebrow: "ECLIPSE", group: "配额", icon: "i-sun", hint: "暗盘=量 冕=会话 沿=窗" },
     { id: "vine", title: "藤蔓", eyebrow: "VINE", group: "趣味", icon: "i-magpie", hint: "叶=会话 大=Token" },
     { id: "play", title: "开局", eyebrow: "PLAY · EVERY CALL IS A BEAT", group: "趣味", icon: "i-zap", hint: "转盘 + 判定 + 连击" }
   ];
