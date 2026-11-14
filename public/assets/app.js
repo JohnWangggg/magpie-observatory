@@ -3395,7 +3395,7 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
 
     // Global shortcuts: / focuses search, space pauses demo, t toggles theme, v opens views.
     document.addEventListener("keydown", e => {
-      if (e.target.matches("input, textarea, select, [contenteditable]")) return;
+      if (e.target instanceof Element && e.target.matches("input, textarea, select, [contenteditable]")) return;
       if (e.key === "/") { e.preventDefault(); $("#log-search").focus(); }
       if (e.key === " ") { e.preventDefault(); $("#demo-toggle").click(); }
       if (e.key.toLowerCase() === "t") { e.preventDefault(); $("#theme-toggle").click(); }

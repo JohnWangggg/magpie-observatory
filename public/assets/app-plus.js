@@ -1514,7 +1514,7 @@ show(F.length-1);
     );
     resetIdle();
     document.addEventListener("keydown", e => {
-      if (e.target.matches("input, textarea, select, [contenteditable]")) return;
+      if (e.target instanceof Element && e.target.matches("input, textarea, select, [contenteditable]")) return;
       if (e.key === "Escape" && state() && state().cinema) {
         if (state().ambient) setAmbient(false); else setCinema(false);
       }
@@ -1654,7 +1654,7 @@ show(F.length-1);
     });
     document.addEventListener("keydown", e => {
       if (e.key !== "n" && e.key !== "N") return;
-      if (e.target.matches("input, textarea, select, [contenteditable]")) return;
+      if (e.target instanceof Element && e.target.matches("input, textarea, select, [contenteditable]")) return;
       const card = document.querySelector(".session-card.kb-focus") || document.querySelector(".session-card:hover");
       if (card) { e.preventDefault(); openNote(card); }
     });
