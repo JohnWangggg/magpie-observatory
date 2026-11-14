@@ -112,6 +112,7 @@
     { id: "pulse", title: "脉搏", eyebrow: "PULSE MONITOR", group: "实时", icon: "i-pulse", hint: "会话 ECG · 每行一个心跳" },
     { id: "compass", title: "罗盘", eyebrow: "QUOTA COMPASS", group: "配额", icon: "i-route", hint: "窗=表盘 针=燃速 环=余量" },
     { id: "barometer", title: "气压计", eyebrow: "BURN BAROMETER", group: "配额", icon: "i-chart", hint: "燃速=气压 错=风暴" },
+    { id: "sextant", title: "六分仪", eyebrow: "LATITUDE OF LATENCY", group: "延迟", icon: "i-chart", hint: "慢=高角 快=贴地平线" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
