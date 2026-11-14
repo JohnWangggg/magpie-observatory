@@ -329,8 +329,12 @@
     if (dex) {
       try {
         const seen = JSON.parse(localStorage.getItem("magpie.viewSeen") || "[]");
+        const at = JSON.parse(localStorage.getItem("magpie.viewSeenAt") || "{}");
+        const week = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10);
+        const recent = seen.filter(id => at[id] && at[id] >= week).length;
         const pct = VIEW_META.length ? Math.round(seen.length / VIEW_META.length * 100) : 0;
-        dex.textContent = `图鉴 ${seen.length}/${VIEW_META.length} · ${pct}%`;
+        dex.textContent = `图鉴 ${seen.length}/${VIEW_META.length} · ${pct}%${recent ? ` · +${recent}` : ""}`;
+        dex.title = recent ? `最近 7 天收集了 ${recent} 个新视图` : "图鉴进度";
       } catch (_) { dex.textContent = ""; }
     }
   }
@@ -1621,6 +1625,11 @@
       if (!seen.includes(mode)) {
         seen.push(mode);
         localStorage.setItem("magpie.viewSeen", JSON.stringify(seen));
+      }
+      const seenAt = JSON.parse(localStorage.getItem("magpie.viewSeenAt") || "{}");
+      if (!seenAt[mode]) {
+        seenAt[mode] = new Date().toISOString().slice(0, 10);
+        localStorage.setItem("magpie.viewSeenAt", JSON.stringify(seenAt));
       }
       const h = JSON.parse(localStorage.getItem("magpie.viewHeat") || "{}");
       h[mode] = (h[mode] || 0) + 1;
