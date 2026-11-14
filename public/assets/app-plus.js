@@ -1531,6 +1531,17 @@ show(F.length-1);
       const pal = $("#cmd-palette");
       if (pal && !pal.hidden && !e.target.closest("#cmd-palette") && !e.target.closest("#cmd-open")) closePalette();
     });
+    // Keep Tab cycling inside the palette while it's open.
+    document.addEventListener("keydown", e => {
+      if (e.key !== "Tab") return;
+      const pal = $("#cmd-palette");
+      if (!pal || pal.hidden) return;
+      const items = $$("#cmd-palette button, #cmd-palette input").filter(el => el.offsetParent !== null);
+      if (!items.length) return;
+      const first = items[0], last = items[items.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    });
   });
   Obs.hooks.init.push(() => {
     // persisted flags
