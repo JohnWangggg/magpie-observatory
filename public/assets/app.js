@@ -331,6 +331,7 @@
     { id: "inlets", title: "入海岬", eyebrow: "INLETS", group: "场景", icon: "i-magpie", hint: "岬=配额窗 高=用量 鸬鹚=会话" },
     { id: "creeks", title: "潮沟", eyebrow: "CREEKS", group: "场景", icon: "i-magpie", hint: "潮沟=配额窗 宽=用量 鹬=会话" },
     { id: "sloughs", title: "池沼", eyebrow: "SLOUGHS", group: "场景", icon: "i-magpie", hint: "沼=配额窗 宽=用量 红翅鹂=会话" },
+    { id: "deltas", title: "三角洲", eyebrow: "DELTAS", group: "场景", icon: "i-magpie", hint: "汊道=配额窗 宽=用量 鹈鹕=会话" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
     { id: "grove", title: "果园", eyebrow: "GROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 果=用量 人=会话" },
     { id: "pond", title: "荷塘", eyebrow: "POND", group: "生态", icon: "i-magpie", hint: "莲=配额窗 漪=用量 蛙=会话" },
