@@ -1,0 +1,14 @@
+/* abyss */
+.ab-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.ab-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.ab-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.ab-head span { font-size: 8px; color: var(--muted); }
+.ab-wrap svg { flex: 1; width: 100%; }
+.ab-vent { transform-box: fill-box; }
+.ab-vent.hot path { filter: drop-shadow(0 0 4px rgba(240,160,60,.4)); }
+.ab-fish { transform-box: fill-box; }
+.ab-fish.dead { opacity: .85; }
+.ab-pct { font: 700 9px var(--num); fill: #8ab0c0; }
+.ab-name { font: 600 7px var(--mono); fill: #5880a0; }
+.ab-k { font: 700 10px var(--num); fill: var(--fg); }
+.ab-ksub { font: 7px var(--mono); fill: var(--muted); }

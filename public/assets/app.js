@@ -274,6 +274,7 @@
     { id: "sound", title: "海峡", eyebrow: "SOUND", group: "场景", icon: "i-magpie", hint: "深标=配额窗 深=用量 鸬鹚=会话" },
     { id: "creek", title: "溪流", eyebrow: "CREEK", group: "场景", icon: "i-magpie", hint: "溪石=配额窗 高=用量 鲑=会话" },
     { id: "point", title: "海角尖", eyebrow: "POINT", group: "场景", icon: "i-magpie", hint: "灯塔=配额窗 光程=用量 海鸟=会话" },
+    { id: "abyss", title: "深渊", eyebrow: "ABYSS", group: "场景", icon: "i-magpie", hint: "热泉口=配额窗 烟柱=用量 深海鱼=会话" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
     { id: "grove", title: "果园", eyebrow: "GROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 果=用量 人=会话" },
     { id: "pond", title: "荷塘", eyebrow: "POND", group: "生态", icon: "i-magpie", hint: "莲=配额窗 漪=用量 蛙=会话" },
