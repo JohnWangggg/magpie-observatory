@@ -1029,3 +1029,12 @@ decision/palette）+ 复制/跳转/过滤/记忆/导出 全覆盖。审计完毕
 - **VIEW_META 趣味组** + `view-maze` + `51 VIEWS`；
   README×2 + `docs/mode-maze.png`。
 
+---
+
+## Phase 88 — 第 52 个视图 `quartz`（2026-11-15 · v0.90.0）
+
+- **`quartz.js/css`**：晶簇——柱=会话（高=Token、色=Agent、
+  裂=失败）、棱面高光、基座 + 闪烁星；`qz-rise`/`qz-shiver`/`qz-spark`。
+- **VIEW_META 趣味组** + `view-quartz` + `52 VIEWS`；
+  README×2 + `docs/mode-quartz.png`。
+
