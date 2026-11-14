@@ -3047,12 +3047,23 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
         try {
           const seen = JSON.parse(localStorage.getItem("magpie.viewSeen") || "[]");
           const i = seen.indexOf(state.heroMode);
+          const meta = viewMeta(state.heroMode);
+          const name = (meta && meta.title || state.heroMode);
           if (i >= 0) {
             seen.splice(i, 1);
             localStorage.setItem("magpie.viewSeen", JSON.stringify(seen));
-            const meta = viewMeta(state.heroMode);
-            toast("图鉴移除：「" + (meta && meta.title || state.heroMode) + "」 · 剩 " + seen.length + "/" + VIEW_META.length);
-          } else toast("「" + (viewMeta(state.heroMode) && viewMeta(state.heroMode).title || state.heroMode) + "」不在图鉴中");
+            const at = JSON.parse(localStorage.getItem("magpie.viewSeenAt") || "{}");
+            delete at[state.heroMode];
+            localStorage.setItem("magpie.viewSeenAt", JSON.stringify(at));
+            toast("图鉴移除：「" + name + "」 · 剩 " + seen.length + "/" + VIEW_META.length);
+          } else {
+            seen.push(state.heroMode);
+            localStorage.setItem("magpie.viewSeen", JSON.stringify(seen));
+            const at = JSON.parse(localStorage.getItem("magpie.viewSeenAt") || "{}");
+            at[state.heroMode] = new Date().toISOString().slice(0, 10);
+            localStorage.setItem("magpie.viewSeenAt", JSON.stringify(at));
+            toast("图鉴加入：「" + name + "」 · " + seen.length + "/" + VIEW_META.length);
+          }
         } catch (_) {}
       }
       if (e.key === "?") { e.preventDefault(); toggleHelp(); }
