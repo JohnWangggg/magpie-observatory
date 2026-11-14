@@ -361,6 +361,7 @@
     { id: "latrank", title: "延迟榜", eyebrow: "LATRANK", group: "洞察", icon: "i-chart", hint: "粗=TTFT 细=TPS · 奖牌/蜗牛" },
     { id: "league", title: "联赛", eyebrow: "LEAGUE", group: "洞察", icon: "i-chart", hint: "模型份额榜 · ↺=掉包率" },
     { id: "versus", title: "对决", eyebrow: "VERSUS", group: "洞察", icon: "i-chart", hint: "Agent 对阵 · 粗=tokens 细=时长" },
+    { id: "accounts", title: "账户", eyebrow: "ACCOUNTS", group: "洞察", icon: "i-chart", hint: "账户卡 · 配额条+余额 · 琥珀=热窗" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
     { id: "grove", title: "果园", eyebrow: "GROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 果=用量 人=会话" },
     { id: "pond", title: "荷塘", eyebrow: "POND", group: "生态", icon: "i-magpie", hint: "莲=配额窗 漪=用量 蛙=会话" },

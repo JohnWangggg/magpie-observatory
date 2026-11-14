@@ -1,0 +1,15 @@
+/* accounts */
+.an-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.an-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.an-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.an-head span { font-size: 8px; color: var(--muted); }
+.an-wrap svg { flex: 1; width: 100%; }
+.an-name { font: 600 9px var(--mono); fill: var(--fg); }
+.an-user { font: 7px var(--mono); fill: var(--muted); }
+.an-bal { font: 700 8.5px var(--num); fill: var(--fg); }
+.an-win { font: 7px var(--mono); fill: var(--muted); }
+.an-sealn { font: 700 8px var(--num); fill: var(--card); }
+.an-k { font: 700 10px var(--num); fill: var(--fg); }
+.an-ksub { font: 7.5px var(--mono); fill: var(--muted); }
+.an-card { transform-box: fill-box; }
+.an-card.hot rect { filter: drop-shadow(0 0 3px rgba(240,200,100,.4)); }
