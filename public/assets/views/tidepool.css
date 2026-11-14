@@ -1,0 +1,14 @@
+/* tidepool — quota bands as tidal pools */
+.tp-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.tp-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font-size: 9px; color: var(--muted); flex: none; }
+.tp-head b { color: var(--fg); font-size: 10px; letter-spacing: .12em; }
+.tp-svg { flex: 1; min-height: 0; display: block; }
+.tp-water { transition: opacity .3s; }
+.tp-water.hot { filter: drop-shadow(0 0 6px currentColor); }
+.tp-prov { font: 700 11px var(--sans); fill: var(--fg); }
+.tp-name { font: 9px var(--mono); fill: var(--muted); }
+.tp-pct { font: 700 12px var(--num); fill: var(--fg-2); }
+.tp-pct.hot { fill: var(--red); }
+.tp-shell { transition: opacity .2s; }
+.tp-shell.dim { filter: grayscale(.7); }
+.tp-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 11px; }

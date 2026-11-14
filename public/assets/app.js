@@ -150,6 +150,7 @@
     { id: "aurora2", title: "极光幕", eyebrow: "AURORA2", group: "趣味", icon: "i-magpie", hint: "幕=会话 高=Token" },
     { id: "beehive", title: "蜂房", eyebrow: "BEEHIVE", group: "趣味", icon: "i-magpie", hint: "格=会话 满=Token" },
     { id: "galton", title: "豆袋机", eyebrow: "GALTON", group: "趣味", icon: "i-chart", hint: "球=会话 落=Provider" },
+    { id: "tidepool", title: "潮汐池", eyebrow: "TIDEPOOL", group: "用量", icon: "i-pulse", hint: "水位=配额 浪=TPS" },
     { id: "vine", title: "藤蔓", eyebrow: "VINE", group: "趣味", icon: "i-magpie", hint: "叶=会话 大=Token" },
     { id: "play", title: "开局", eyebrow: "PLAY · EVERY CALL IS A BEAT", group: "趣味", icon: "i-zap", hint: "转盘 + 判定 + 连击" }
   ];
