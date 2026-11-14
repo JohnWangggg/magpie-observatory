@@ -1,0 +1,14 @@
+/* goldsmith */
+.go-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.go-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.go-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.go-head span { font-size: 8px; color: var(--muted); }
+.go-wrap svg { flex: 1; width: 100%; }
+.go-num { font: 700 8.5px var(--num); fill: var(--fg); }
+.go-name { font: 7px var(--mono); fill: var(--muted); }
+.go-k { font: 700 10px var(--num); fill: var(--fg); }
+.go-ksub { font: 7.5px var(--mono); fill: var(--muted); }
+.go-ring { transform-box: fill-box; }
+.go-ring.hot { filter: drop-shadow(0 0 5px rgba(240,200,100,.5)); }
+.go-smith { transform-box: fill-box; }
+.go-smith.dead { opacity: .8; }
