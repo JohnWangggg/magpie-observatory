@@ -1,0 +1,14 @@
+/* meadow2 */
+.mj-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.mj-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.mj-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.mj-head span { font-size: 8px; color: var(--muted); }
+.mj-wrap svg { flex: 1; width: 100%; }
+.mj-num { font: 700 8.5px var(--num); fill: var(--fg); }
+.mj-name { font: 7px var(--mono); fill: var(--muted); }
+.mj-k { font: 700 10px var(--num); fill: var(--fg); }
+.mj-ksub { font: 7.5px var(--mono); fill: var(--muted); }
+.mj-cock { transform-box: fill-box; }
+.mj-cock.hot { filter: drop-shadow(0 0 4px rgba(240,200,100,.4)); }
+.mj-mower { transform-box: fill-box; }
+.mj-mower.dead { opacity: .8; }
