@@ -1,0 +1,14 @@
+/* crag */
+.cg-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.cg-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.cg-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.cg-head span { font-size: 8px; color: var(--muted); }
+.cg-wrap svg { flex: 1; width: 100%; }
+.cg-tor { transform-box: fill-box; }
+.cg-tor.hot path { filter: drop-shadow(0 0 4px rgba(240,120,80,.4)); }
+.cg-vult { transform-box: fill-box; }
+.cg-vult.dead { opacity: .85; }
+.cg-pct { font: 700 9px var(--num); fill: #d8d0c8; }
+.cg-name { font: 600 7px var(--mono); fill: #989088; }
+.cg-k { font: 700 10px var(--num); fill: var(--fg); }
+.cg-ksub { font: 7px var(--mono); fill: var(--muted); }
