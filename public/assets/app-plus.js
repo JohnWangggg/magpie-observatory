@@ -1353,11 +1353,15 @@ Quotas: ${quotas}`;
     const items = [];
     const meta = Obs.api.viewMeta || (() => null);
     const s = state();
+    // Per-view open counts; the most-used views float to the top of the
+    // 视图 section so the palette learns your habits.
+    const heat = (() => { try { return JSON.parse(localStorage.getItem("magpie.viewHeat") || "{}"); } catch (_) { return {}; } })();
     // views
     if (window.ObservatoryViews) {
-      Object.keys(window.ObservatoryViews).forEach(id => {
+      Object.keys(window.ObservatoryViews).sort((a, b) => (heat[b] || 0) - (heat[a] || 0)).forEach(id => {
         const v = window.ObservatoryViews[id];
-        items.push({ kind: "视图", icon: "i-route", title: v.title || id, sub: v.eyebrow || "", search: (v.title + " " + (v.eyebrow || "") + " " + id).toLowerCase(), run: () => { Obs.api.setHeroMode(id); closePalette(); } });
+        const hot = heat[id] ? " · 常用" : "";
+        items.push({ kind: "视图", icon: "i-route", title: v.title || id, sub: (v.eyebrow || "") + hot, search: (v.title + " " + (v.eyebrow || "") + " " + id).toLowerCase(), run: () => { Obs.api.setHeroMode(id); closePalette(); } });
       });
     }
     // core views from the meta catalog

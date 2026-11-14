@@ -1385,6 +1385,11 @@
 
   function setHeroMode(mode) {
     state.heroMode = mode;
+    try {
+      const h = JSON.parse(localStorage.getItem("magpie.viewHeat") || "{}");
+      h[mode] = (h[mode] || 0) + 1;
+      localStorage.setItem("magpie.viewHeat", JSON.stringify(h));
+    } catch (_) {}
     const custom = viewRegistry()[mode];
     const meta = viewMeta(mode) || { title: "实时路由", eyebrow: "LIVE ROUTING", group: "实时", icon: "i-route" };
     $("#hero-title").textContent = meta.title;
