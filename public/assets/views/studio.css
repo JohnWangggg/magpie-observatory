@@ -1,0 +1,13 @@
+/* studio — easels with paint levels, brushes for sessions */
+.st-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.st-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font-size: 9px; color: var(--muted); flex: none; }
+.st-head b { color: var(--fg); font-size: 10px; letter-spacing: .12em; }
+.st-wrap svg { flex: 1; min-height: 0; display: block; margin: 0 auto; }
+.st-easel.hot { filter: drop-shadow(0 0 6px var(--red)); }
+.st-brush { animation: stWag 3.4s ease-in-out infinite alternate; }
+.st-brush.dead { animation-duration: 8s; }
+@keyframes stWag { from { transform: rotate(-5deg); } to { transform: rotate(5deg); } }
+.st-pct { font: 700 11px var(--num); fill: var(--fg); }
+.st-name { font: 600 8px var(--mono); fill: var(--fg-2); }
+.st-k { font: 700 11px var(--num); fill: var(--fg); }
+.st-ksub { font: 500 7px var(--mono); fill: var(--muted); }
