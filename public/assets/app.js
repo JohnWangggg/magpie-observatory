@@ -227,6 +227,7 @@
     { id: "vine", title: "藤蔓", eyebrow: "VINE", group: "生态", icon: "i-sparkle", hint: "蔓=请求流 叶=会话 枯=失败" },
     { id: "atoll", title: "环礁", eyebrow: "ATOLL", group: "场景", icon: "i-magpie", hint: "环=配额窗 礁=用量 帆=会话" },
     { id: "meadow", title: "草甸", eyebrow: "MEADOW", group: "生态", icon: "i-magpie", hint: "丛=配额窗 茂=用量 蝶=会话" },
+    { id: "tundra", title: "苔原", eyebrow: "TUNDRA", group: "生态", icon: "i-magpie", hint: "丘=配额窗 雪=用量 羚=会话" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
     { id: "grove", title: "果园", eyebrow: "GROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 果=用量 人=会话" },
     { id: "pond", title: "荷塘", eyebrow: "POND", group: "生态", icon: "i-magpie", hint: "莲=配额窗 漪=用量 蛙=会话" },
