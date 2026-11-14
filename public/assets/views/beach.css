@@ -1,0 +1,14 @@
+/* beach */
+.bh-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.bh-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.bh-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.bh-head span { font-size: 8px; color: var(--muted); }
+.bh-wrap svg { flex: 1; width: 100%; }
+.bh-wave { transform-box: fill-box; }
+.bh-wave.hot path { filter: drop-shadow(0 0 3px rgba(251,113,133,.35)); }
+.bh-crab { transform-box: fill-box; }
+.bh-crab.dead { opacity: .9; }
+.bh-pct { font: 700 10px var(--num); fill: var(--fg); }
+.bh-name { font: 600 7.5px var(--mono); fill: var(--muted); }
+.bh-k { font: 700 10px var(--num); fill: var(--fg); }
+.bh-ksub { font: 7px var(--mono); fill: var(--muted); }
