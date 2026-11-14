@@ -1432,6 +1432,16 @@ show(F.length-1);
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") { e.preventDefault(); openPalette(); }
       if (e.key.toLowerCase() === "e" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); exportPNG(); }
       if (e.key.toLowerCase() === "s" && (e.metaKey || e.ctrlKey) && !e.altKey) { e.preventDefault(); shareStateLink(); }
+      // Shift+←/→ — cycle hero views without opening the menu.
+      if (e.shiftKey && (e.key === "ArrowRight" || e.key === "ArrowLeft") && !e.metaKey && !e.ctrlKey && !e.altKey) {
+        e.preventDefault();
+        const meta = Obs.api.VIEW_META || [];
+        if (!meta.length) return;
+        const cur = meta.findIndex(v => v.id === Obs.api.state.heroMode);
+        const dir = e.key === "ArrowRight" ? 1 : -1;
+        const next = meta[(cur + dir + meta.length) % meta.length];
+        if (next) Obs.api.setHeroMode(next.id);
+      }
       // Esc while a palette item has focus but the input doesn't: close.
       if (e.key === "Escape") { const pal = $("#cmd-palette"); if (pal && !pal.hidden) closePalette(); }
     });
