@@ -846,3 +846,17 @@ error/failed 会话 flatline，右上角 `BPM = Σtps × 0.9` 心跳读数。
 | `fav-thumb peek` | 收藏位悬停 420ms | 120→200px |
 | `pal-thumb` | palette 行悬停 | 110→168px，width/height .3s 带 .18s delay |
 | `vlight` | 点缩略图 | backdrop-blur 浮层 + accent spinner + Esc/2.4s 关闭 |
+
+
+---
+
+## 18. 行为系统实测记录 (v1.10.129+)
+
+| 特性 | 触发 | 验证 |
+|---|---|---|
+| **attract** | 90s 闲置 | `state.attract` 置位→`setAmbient(true)`+`startTour`；任意输入 `resetIdle` 唤醒 toast"欢迎回来" |
+| **replay** | R 键 / `#replay-toggle` | `state.replay = {idx}` + `#replay-bar` 显示，`replayBuf` 累积 tick 快照；`#replay-x` 或 R 再按退出 |
+| **ambient** | view-menu `#vm-ambient` 或 attract | `state.ambient=true` + `body.cinema` + `startTour`（需 `Obs.api.setHeroMode` 循环） |
+| **notify** | settings `#opt-notify` | `s.notify` toggle；`Notification.permission==='granted'` 才真发，`default` 先请求，`denied` 静默跳过 |
+| **layout-edit** | palette / settings `#opt-layout-edit` | `body.layout-edit` + 9 slot `draggable` + `slot-x` 隐藏钮 + `magpie.layout/hidden` localStorage |
+| **mini** | `?mode=mini&view=X` | `body.mini` + `setCinema(true)` + `setHeroMode(view)`，HUD 带 `#ch-thumb` 缩略图 |
