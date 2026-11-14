@@ -223,6 +223,7 @@
     { id: "wetland", title: "湿地", eyebrow: "WETLAND", group: "生态", icon: "i-magpie", hint: "泽=配额窗 深=用量 鹭=会话" },
     { id: "garden", title: "庭院", eyebrow: "GARDEN", group: "生态", icon: "i-magpie", hint: "坛=配额窗 茂=用量 蝶=会话" },
     { id: "monsoon", title: "雨季", eyebrow: "MONSOON", group: "天象", icon: "i-magpie", hint: "云=配额窗 雨=用量 伞=会话" },
+    { id: "fjord", title: "峡湾", eyebrow: "FJORD", group: "场景", icon: "i-magpie", hint: "崖=配额窗 水=用量 舟=会话" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
     { id: "grove", title: "果园", eyebrow: "GROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 果=用量 人=会话" },
     { id: "pond", title: "荷塘", eyebrow: "POND", group: "生态", icon: "i-magpie", hint: "莲=配额窗 漪=用量 蛙=会话" },
