@@ -1084,3 +1084,12 @@ decision/palette）+ 复制/跳转/过滤/记忆/导出 全覆盖。审计完毕
 - **VIEW_META 趣味组** + `view-firework` + `57 VIEWS`；
   README×2 + `docs/mode-firework.png`。
 
+---
+
+## Phase 94 — 第 58 个视图 `fountain`（2026-11-15 · v0.96.0）
+
+- **`fountain.js/css`**：喷泉——弧=会话（高=Token、色=Agent、
+  溅=失败）+ 水滴 + 水盆涟漪；双 C 贝塞尔开口弧；`ft-flow`/`ft-fall`/`ft-sput`。
+- **VIEW_META 趣味组** + `view-fountain` + `58 VIEWS`；
+  README×2 + `docs/mode-fountain.png`。
+
