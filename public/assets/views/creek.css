@@ -1,0 +1,14 @@
+/* creek */
+.cr-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.cr-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.cr-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.cr-head span { font-size: 8px; color: var(--muted); }
+.cr-wrap svg { flex: 1; width: 100%; }
+.cr-rock { transform-box: fill-box; }
+.cr-rock.hot path { filter: drop-shadow(0 0 4px rgba(240,200,100,.4)); }
+.cr-fish { transform-box: fill-box; }
+.cr-fish.dead { opacity: .85; }
+.cr-pct { font: 700 9px var(--num); fill: #d8e0d0; }
+.cr-name { font: 600 7px var(--mono); fill: #98a890; }
+.cr-k { font: 700 10px var(--num); fill: var(--fg); }
+.cr-ksub { font: 7px var(--mono); fill: var(--muted); }
