@@ -1,0 +1,13 @@
+/* station — signal gantries, rolling trains, station clock */
+.st-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.st-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font-size: 9px; color: var(--muted); flex: none; }
+.st-head b { color: var(--fg); font-size: 10px; letter-spacing: .12em; }
+.st-wrap svg { flex: 1; min-height: 0; display: block; margin: 0 auto; }
+.st-sig.lit { animation: stBlink 1.4s ease-in-out infinite; }
+@keyframes stBlink { 0%, 100% { opacity: 1; } 50% { opacity: .4; } }
+.st-train.dead { opacity: .5; }
+.st-gan.hot { filter: drop-shadow(0 0 4px var(--red)); }
+.st-pct { font: 700 10px var(--num); fill: var(--fg-2); }
+.st-sname { font: 600 7px var(--mono); fill: var(--muted); }
+.st-k { font: 700 11px var(--num); fill: var(--fg); }
+.st-ksub { font: 500 7px var(--mono); fill: var(--muted); }
