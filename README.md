@@ -4,7 +4,7 @@
 Two-way magpies carry requests to providers and answers back; quotas, usage,
 sessions and a 53-week rhythm sit around them.
 
-[简体中文](README.zh-CN.md) · **English**
+[简体中文](README.zh-CN.md) · **English** · [Changelog](CHANGELOG.md)
 
 ![Magpie Observatory](docs/preview-dark.png)
 
@@ -479,12 +479,20 @@ The **设置** button opens:
 | Layout | `Auto` · `One screen` · `Comfort` |
 | Density | `Compact` · `Standard` · `Spacious` |
 | Motion | `Full` · `Soft` · `Off` |
+| Tour | `5s` · `10s` · `30s` |
+| Accent | `Aurora` · `Ember` · `Mint` · `Rose` · `Mono` |
 
 One-screen mode forces the whole dashboard into the viewport at ≥1200×900, with
 lists scrolling inside their cards. Smaller windows fall back to scrolling and
-say so. Comfort always uses natural heights. Motion off leaves the magpies at
-the midpoint of their paths and stops radar sweep, loom shuttle and rhythm
-playhead.
+say so. Comfort always uses natural heights. **Accent** swaps only the accent
+colour — Ember tints every line, heat cell, sparkline, achievement and
+particle amber without touching the style pack. Motion off leaves the magpies
+at the midpoint of their paths and stops radar sweep, loom shuttle, the
+rhythm playhead and the ambient starfield.
+
+An **ambient particle layer** drifts behind the whole page: ~20–160 motes
+climb slowly, their density follows the live-session count and their colour
+follows the accent; the canvas pauses when the tab is hidden.
 
 ## On a phone
 

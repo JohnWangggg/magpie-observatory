@@ -1,54 +1,134 @@
 # Changelog
 
-All notable changes to Magpie Observatory are documented here.
-Format: `v[version] — date — summary`. See `docs/roadmap-2026q4.md` for the full per-phase log.
+All notable changes to Magpie Observatory. The project follows a "dead-code
+first" cadence: surface what was built but never wired, then layer new
+delight on top.
 
-## [0.67.0] — 2026-11-15
+## [1.1.2] — 2026-11-15
 
-### Highlights since 0.18
+### Added
 
-**Views (30 total)**
+- **Ambient particle layer** — a fixed canvas of ~20–160 drifting motes
+  behind every card; density tracks the live-session count, hue re-reads
+  `--accent` every 3 s so it follows the accent picker, and it pauses on
+  `document.hidden` or `data-motion="off"`.
 
-- `burn` — quota window burn rate: fill/flat-tick/proj-dash bars, click to
-  expand the window's sparkline (`left% · at` hover), flat-pace ghost line,
-  per-window CSV export, `↑↓/Enter/Esc` nav, hover tooltip.
-- `candle` — OHLC candlesticks of per-period tokens; `←→/Enter/Esc` walk and
-  pin, crosshair + OHLC card on hover.
-- `gauge` — KPI and quota-window dials (270° arc + needle); quota dial
-  click/Enter jumps to `burn`.
-- `bloom` — requests bloom into a garden (provider = petal colour, tokens =
-  petals, failures = buds), trailing vine.
-- `petri` — requests as living cells in a dish (cytoplasm = provider,
-  nucleus pulses, live cells breathe, failures ghost).
-- `aurora` — requests as light-curtains (height = tokens, width = tps,
-  failures = grey streaks), 40 twinkling stars.
-- `constellation` — sessions as star-patterns (one star per try, ≥3 padded
-  aux stars), linked into a larger map, colour = agent.
-- `play`, `stellar` — game / ambient views from earlier phases.
+## [1.1.1] — 2026-11-15
 
-**Interaction layer**
+### Added
 
-- Attention strip: quota/error chips `click → burn / logs`, `contextmenu → dismiss`, `←→` keyboard.
-- Quota card: `click → burn row`, `contextmenu → provider key`, `dblclick → name`, `←→` keyboard.
-- Session card: `click → select + log filter`, `contextmenu → id`, `dblclick → tries summary`, `↑↓` keyboard.
-- Log table: `click → detail strip`, `contextmenu → CSV`, `dblclick → JSON`, `↑↓` keyboard, `/` focus search.
-- Decision strip: `click → session card`, `Enter` same, `contextmenu on try-pill → model name`, `try-pill click → quota pulse`.
-- Heatmap: `cell click → logQuery=date`, `cell contextmenu → copy date`, `month click → dim/scale focus`, `month dblclick → logQuery=YYYY-MM`, `month contextmenu → export month CSV`, `←→` keyboard.
-- Rail favs: `click → switch`, `contextmenu → un-fav`, `dblclick → default view`, `↑↓` keyboard.
-- Hero: `contextmenu → favorite`, `title dblclick → view name`, `scroll-position memory` across views.
-- Command palette: `↑↓` nav, `Enter` run, per-provider `看 X 烧速` shortcuts, `复制视图快照` command.
-- Global: `/ Space T V R G F ?` shortcuts; `prefers-reduced-motion` honored.
+- **Accent picker** — 主色 group in 设置 with five swatches (极光/熔金/薄荷/
+  蔷薇/石墨). `data-accent` overrides `--accent`, `--accent-strong` and
+  `--accent-soft` so every style pack keeps its identity while the colour
+  story changes.
 
-**Accessibility & responsive**
+### Fixed
 
-- `role=button`/`aria-expanded`/`aria-label`/`aria-selected` on burn rows, session cards, log rows, quota items.
-- Narrow `<680px` burn collapses to 3/2 columns, tooltips hidden on touch, attn/decision strips shrink.
+- A nesting bug in `settings-menu` left by an earlier edit — `div` balance
+  is now 19/19 inside the panel.
 
-**Infra**
+## [1.1.0] — 2026-11-15
 
-- `npm run check` covers all 20+ JS files; `.github/workflows/check.yml` runs it on push/PR.
+### Added
 
-## [0.18.0] — 2026-11-14
+- **KPI cards jump to their view** — every `.kpi` article is a button:
+  tps → latency, active → orrery, tokens → trend; requests/cost/cache
+  scroll the relevant panel card into view.
 
-Baseline: 24 views, route stage, quota/donut/trend/heatmap/log cards, 4 style packs,
-cinema mode, replay bar, command palette, layout edit, gateway compare, achievements, XP.
+## [1.0.9] — 2026-11-15
+
+### Added
+
+- **Session-card hover popover** — 350 ms hover opens a 260 px fixed
+  panel with the tries chain and four quick stats; closes on leave,
+  scroll, or a click outside.
+
+## [1.0.8] — 2026-11-15
+
+### Added
+
+- **Hot-view flames** — view picker marks views opened ≥3× with 🔥;
+  the menu rebuilds on every open so counts stay fresh.
+
+### Fixed
+
+- TDZ error in `openViewMenu` left behind by a previous edit — the
+  `styleMenu`/`settings` declarations are back.
+
+## [1.0.7] — 2026-11-15
+
+### Added
+
+- **Daily-goal ring** — the tokens KPI carries an 18 px progress ring
+  against yesterday's heatmap total; hover spells out the numbers.
+
+## [1.0.6] — 2026-11-15
+
+### Added
+
+- **Palette learns your habits** — `setHeroMode` bumps `magpie.viewHeat`;
+  the ⌘K 视图 section sorts by open count and tags frequent views
+  `· 常用`.
+
+## [1.0.5] — 2026-11-15
+
+### Added
+
+- **Achievement wall** — ⌘K → 个人战绩 now embeds all eight badges with
+  lock/medal state, unlock condition and date.
+
+## [1.0.4] — 2026-11-15
+
+### Fixed
+
+- `?mode=mini` only shrank the cinema HUD; views like orrery still
+  rendered their provider table, which destroyed the 320×180 PiP
+  promise. `body.mini` now collapses every view's `.side/.stats/.legend/.tip`
+  and re-flows `*-board` grids to a single column.
+
+## [1.0.3] — 2026-11-15
+
+### Added
+
+- **Removable filter chip** — a badge sits above the session list while a
+  legend filter is on; × clears it. Visibility is re-synced on every
+  `renderSessions` pass, including short-circuited ones.
+
+## [1.0.2] — 2026-11-15
+
+### Added
+
+- **Provider legend filtering** — the route-stage delegate now honours
+  `data-provider` chips too (prism's legend is provider-based).
+
+### Fixed
+
+- `legend-on` moved into `renderCustomView` so the active chip survives
+  async re-renders — the previous `requestAnimationFrame` tag raced the
+  view's own rebuild and stayed dark.
+- `prism.js` legend used `data-agent` on provider rows — fixed to
+  `data-provider`.
+- Renamed the new view `beehive` → 蜂房 to clear a ⌘K palette title
+  clash with `bees` 蜂巢.
+
+## [1.0.1] — 2026-11-15
+
+### Changed
+
+- **De-duplicated dead-UI wiring** — `app-plus.js` already implemented
+  cinema (with HUD stats), exportPNG (canvas + CSS-inlined SVG) and the
+  ⌘K palette; the copies added in `app.js` were removed so O/E/⌘K stop
+  double-toggling. `app-plus` now exports `toggleCinema`, `setCinema`
+  and `exportPNG` on `window.Obs` for the core keyboard layer.
+
+### Added
+
+- `data-agent` legend chips in 30 custom views route through a
+  route-stage click delegate — clicking an agent swatch filters the
+  session list, clicking again clears it.
+- `←`/`→` cycle through views (skips the current one).
+
+## [1.0.0] — 2026-11-15
+
+The 62-view, 8-style, full-lifecycle release: every README promise wired,
+verified in a real browser, and screenshotted.
