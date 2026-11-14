@@ -295,7 +295,7 @@
     const favs = state.favorites.map(id => VIEW_META.find(v => v.id === id)).filter(Boolean);
     host.hidden = !favs.length;
     host.innerHTML = favs.map(v => `
-      <button class="fav-btn${v.id === state.heroMode ? " active" : ""}${v.id === (localStorage.getItem("magpie.defaultView") || "") ? " default" : ""}" data-fav-view="${v.id}" title="${v.title}${v.id === (localStorage.getItem("magpie.defaultView") || "") ? " · 默认视图" : ""}">
+      <button draggable="true" class="fav-btn${v.id === state.heroMode ? " active" : ""}${v.id === (localStorage.getItem("magpie.defaultView") || "") ? " default" : ""}" data-fav-view="${v.id}" title="${v.title} · 拖动排序${v.id === (localStorage.getItem("magpie.defaultView") || "") ? " · 默认视图" : ""}">
         <svg><use href="#${v.icon || "i-sparkle"}"/></svg>
       </button>`).join("");
   }
@@ -2293,6 +2293,41 @@
         toast(`默认视图：${viewMeta(id).title} · 下次打开直达`);
       } catch (_) {}
       renderRailFavs();
+    });
+
+    // Drag a rail fav to reorder favorites; drop position becomes the
+    // stored order (ambient tour follows the same list).
+    let favDrag = null;
+    const rail = $("#rail-favs");
+    rail.addEventListener("dragstart", e => {
+      const b = e.target.closest(".fav-btn[data-fav-view]");
+      if (!b) return;
+      favDrag = b.dataset.favView;
+      e.dataTransfer.effectAllowed = "move";
+    });
+    rail.addEventListener("dragover", e => {
+      if (!favDrag) return;
+      e.preventDefault();
+      const b = e.target.closest(".fav-btn[data-fav-view]");
+      $$("#rail-favs .fav-btn").forEach(x => x.classList.toggle("drop-hint", x === b && b.dataset.favView !== favDrag));
+    });
+    rail.addEventListener("drop", e => {
+      if (!favDrag) return;
+      e.preventDefault();
+      const b = e.target.closest(".fav-btn[data-fav-view]");
+      const favs = state.favorites.filter(x => x !== favDrag);
+      const at = b ? favs.indexOf(b.dataset.favView) : favs.length;
+      favs.splice(at < 0 ? favs.length : at, 0, favDrag);
+      state.favorites = favs;
+      try { localStorage.setItem("magpie.favorites", JSON.stringify(favs)); } catch (_) {}
+      favDrag = null;
+      $$("#rail-favs .fav-btn").forEach(x => x.classList.remove("drop-hint"));
+      renderRailFavs();
+      toast("收藏顺序已更新");
+    });
+    rail.addEventListener("dragend", () => {
+      favDrag = null;
+      $$("#rail-favs .fav-btn").forEach(x => x.classList.remove("drop-hint"));
     });
 
     $("#view-picker").addEventListener("click", e => {
