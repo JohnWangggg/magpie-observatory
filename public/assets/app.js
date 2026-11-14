@@ -246,6 +246,7 @@
     { id: "geyser", title: "间歇泉", eyebrow: "GEYSER", group: "场景", icon: "i-magpie", hint: "泉=配额窗 柱=用量 客=会话" },
     { id: "meteor", title: "流星雨", eyebrow: "METEOR", group: "场景", icon: "i-magpie", hint: "雨=配额窗 尾=用量 卫=会话" },
     { id: "cavern", title: "溶洞", eyebrow: "CAVERN", group: "场景", icon: "i-magpie", hint: "钟乳=配额窗 长=用量 蝠=会话" },
+    { id: "bayou", title: "沼泽", eyebrow: "BAYOU", group: "生态", icon: "i-magpie", hint: "柏=配额窗 苔=用量 萤=会话" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
     { id: "grove", title: "果园", eyebrow: "GROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 果=用量 人=会话" },
     { id: "pond", title: "荷塘", eyebrow: "POND", group: "生态", icon: "i-magpie", hint: "莲=配额窗 漪=用量 蛙=会话" },
