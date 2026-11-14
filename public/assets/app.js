@@ -555,7 +555,10 @@
     const box = $("#vlight");
     if (!box) return;
     const img = box.querySelector("img");
+    box.classList.remove("ready");
+    img.onload = () => box.classList.add("ready");
     img.src = `shots/${id}.png`;
+    if (img.complete && img.naturalWidth) box.classList.add("ready");
     img.alt = id;
     box.hidden = false;
     box.setAttribute("aria-hidden", "false");
