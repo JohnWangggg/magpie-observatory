@@ -956,6 +956,13 @@ show(F.length-1);
   }
   function showRecords() {
     const r = records();
+    let bag = {};
+    try { bag = JSON.parse(localStorage.getItem("magpie.badges") || "{}"); } catch (_) {}
+    const badges = ACHIEVEMENTS.map(a => {
+      const date = bag[a.id];
+      return `<div class="badge${date ? " on" : ""}" title="${esc(a.name)} · ${esc(a.sub)}${date ? " · " + esc(date.slice(5)) : ""}">
+        <b>${date ? "🏅" : "🔒"}</b><span>${esc(a.name)}</span><small>${esc(a.sub)}${date ? " · " + esc(date.slice(5)) : ""}</small></div>`;
+    }).join("");
     const card = document.createElement("div");
     card.className = "records-card";
     card.innerHTML = `
@@ -968,11 +975,13 @@ show(F.length-1);
         <div class="rec"><small>单日最多 tokens</small><b>${fmtTokens(r.bestDay.tokens)} <span>${r.bestDay.date.slice(5)}</span></b></div>
         <div class="rec"><small>单日最多调用</small><b>${r.bestCalls.calls} <span>${r.bestCalls.date.slice(5)}</span></b></div>
         <div class="rec"><small>活跃天数</small><b>${r.daysActive} 天</b></div>
-      </div>`;
+      </div>
+      <div class="records-sub">成就墙 · ${Object.keys(bag).length}/${ACHIEVEMENTS.length} 已解锁</div>
+      <div class="badge-wall">${badges}</div>`;
     card.addEventListener("click", () => card.remove());
     document.body.appendChild(card);
     setTimeout(() => card.classList.add("in"), 10);
-    setTimeout(() => { card.classList.remove("in"); setTimeout(() => card.remove(), 300); }, 8000);
+    setTimeout(() => { card.classList.remove("in"); setTimeout(() => card.remove(), 300); }, 14000);
   }
 
   /* ========================================================== attention ===== */
