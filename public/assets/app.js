@@ -2677,6 +2677,7 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
     });
     document.addEventListener("keydown", e => {
       if (e.key === "Escape") {
+        hideVlight();
         $("#style-menu").hidden = true;
         $("#settings-menu").hidden = true;
         closeHelp();
