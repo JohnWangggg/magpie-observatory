@@ -1,4 +1,4 @@
-# Magpie Observatory · 视图图鉴 (337)
+# Magpie Observatory · 视图图鉴 (338)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
@@ -6,6 +6,7 @@
 | 分组 | 数量 |
 |---|---|
 | [实时](#实时) | 10 |
+| [配额](#配额) | 5 |
 | [用量](#用量) | 12 |
 | [结构](#结构) | 6 |
 | [几何](#几何) | 11 |
@@ -13,7 +14,6 @@
 | [趣味](#趣味) | 6 |
 | [生态](#生态) | 31 |
 | [天象](#天象) | 16 |
-| [配额](#配额) | 4 |
 | [洞察](#洞察) | 9 |
 | [抽象](#抽象) | 1 |
 
@@ -33,6 +33,16 @@
 | `pinboard` | 钉板 | PINBOARD | KPI/配额/会话钉上墙 | ![pinboard](../public/shots/pinboard.png) |
 | `lighthouse` | 灯塔 | LIGHTHOUSE | 塔=配额 光束=会话 | ![lighthouse](../public/shots/lighthouse.png) |
 | `harbor` | 港口 | HARBOR | 船=agent 箱=tries 浮标=配额 | ![harbor](../public/shots/harbor.png) |
+
+## 配额 (5)
+
+| id | 标题 | eyebrow | 说明 | 预览 |
+|---|---|---|---|---|
+| `compass` | 罗盘 | QUOTA COMPASS | 窗=表盘 针=燃速 环=余量 | — |
+| `rosetta` | 罗塞塔 | ROSETTA | 环带=配额 刻痕=会话 | ![rosetta](../public/shots/rosetta.png) |
+| `eclipse` | 日蚀 | ECLIPSE | 暗盘=量 冕=会话 沿=窗 | ![eclipse](../public/shots/eclipse.png) |
+| `tapestry` | 织锦 | TAPESTRY | 经=配额 纬=会话 | ![tapestry](../public/shots/tapestry.png) |
+| `winery` | 酒庄 | WINERY | 桶=配额窗 滴=会话 | ![winery](../public/shots/winery.png) |
 
 ## 用量 (12)
 
@@ -381,15 +391,6 @@
 | `glacier` | 冰川 | GLACIER | 冰=配额窗 高=用量 鹅=会话 | ![glacier](../public/shots/glacier.png) |
 | `monsoon` | 雨季 | MONSOON | 云=配额窗 雨=用量 伞=会话 | ![monsoon](../public/shots/monsoon.png) |
 | `solarwind` | 太阳风 | SOLAR WIND | 冕=配额窗 珥=用量 粒=会话 | ![solarwind](../public/shots/solarwind.png) |
-
-## 配额 (4)
-
-| id | 标题 | eyebrow | 说明 | 预览 |
-|---|---|---|---|---|
-| `rosetta` | 罗塞塔 | ROSETTA | 环带=配额 刻痕=会话 | ![rosetta](../public/shots/rosetta.png) |
-| `eclipse` | 日蚀 | ECLIPSE | 暗盘=量 冕=会话 沿=窗 | ![eclipse](../public/shots/eclipse.png) |
-| `tapestry` | 织锦 | TAPESTRY | 经=配额 纬=会话 | ![tapestry](../public/shots/tapestry.png) |
-| `winery` | 酒庄 | WINERY | 桶=配额窗 滴=会话 | ![winery](../public/shots/winery.png) |
 
 ## 洞察 (9)
 
