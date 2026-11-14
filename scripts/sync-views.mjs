@@ -3,7 +3,7 @@
 // with the views registered in public/assets/app.js (VIEW_META).
 // Usage: node scripts/sync-views.mjs
 
-import { readFileSync, writeFileSync, readdirSync } from "node:fs";
+import { readFileSync, writeFileSync, readdirSync, existsSync } from "node:fs";
 import { join } from "node:path";
 
 const root = new URL("..", import.meta.url).pathname;
@@ -86,9 +86,10 @@ for (const g of groups) doc += `| ${g} | ${byGroup[g].length} |\n`;
 doc += "\n---\n";
 for (const g of groups) {
   doc += `\n## ${g} (${byGroup[g].length})\n\n`;
-  doc += "| id | 标题 | eyebrow | 说明 |\n|---|---|---|---|\n";
+  doc += "| id | 标题 | eyebrow | 说明 | 预览 |\n|---|---|---|---|---|\n";
   for (const r of byGroup[g]) {
-    doc += `| \`${r.id}\` | ${r.title} | ${r.eyebrow} | ${r.hint} |\n`;
+    const shot = existsSync(join(root, `public/shots/${r.id}.png`)) ? `![${r.id}](../public/shots/${r.id}.png)` : "—";
+    doc += `| \`${r.id}\` | ${r.title} | ${r.eyebrow} | ${r.hint} | ${shot} |\n`;
   }
 }
 writeFileSync(join(root, "docs/views-catalog.md"), doc);
