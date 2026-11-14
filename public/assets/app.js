@@ -300,6 +300,7 @@
     { id: "dunes", title: "沙丘", eyebrow: "DUNES", group: "场景", icon: "i-magpie", hint: "沙山=配额窗 高=用量 甲虫=会话" },
     { id: "outcrops", title: "露头", eyebrow: "OUTCROPS", group: "场景", icon: "i-magpie", hint: "露头=配额窗 宽=用量 旱獭=会话" },
     { id: "pinnacles", title: "石针群", eyebrow: "PINNACLES", group: "场景", icon: "i-magpie", hint: "石针群=配额窗 高=用量 雨燕=会话" },
+    { id: "summits", title: "群峰", eyebrow: "SUMMITS", group: "场景", icon: "i-magpie", hint: "群峰=配额窗 高=用量 攀登者=会话" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
     { id: "grove", title: "果园", eyebrow: "GROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 果=用量 人=会话" },
     { id: "pond", title: "荷塘", eyebrow: "POND", group: "生态", icon: "i-magpie", hint: "莲=配额窗 漪=用量 蛙=会话" },
