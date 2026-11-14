@@ -1,0 +1,18 @@
+/* hotpot — pots on burners, bobbing ingredients */
+.hp-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.hp-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font-size: 9px; color: var(--muted); flex: none; }
+.hp-head b { color: var(--fg); font-size: 10px; letter-spacing: .12em; }
+.hp-wrap svg { flex: 1; min-height: 0; display: block; margin: 0 auto; }
+.hp-flame { animation: hpFlicker 1s ease-in-out infinite; transform-origin: center bottom; transform-box: fill-box; }
+.hp-pot.hot .hp-flame { animation-duration: .5s; }
+@keyframes hpFlicker { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(1.25) scaleX(.92); } }
+.hp-pot.hot { filter: drop-shadow(0 0 5px var(--red)); }
+.hp-item { animation: hpBob 2.4s ease-in-out infinite alternate; }
+.hp-item.dead { opacity: .5; }
+@keyframes hpBob { from { transform: translateY(0); } to { transform: translateY(5px); } }
+.hp-steam { animation: hpRise 3s ease-in-out infinite; }
+@keyframes hpRise { 0% { transform: translateY(0); opacity: .4; } 60% { opacity: .35; } 100% { transform: translateY(-8px); opacity: 0; } }
+.hp-pct { font: 700 10px var(--num); fill: var(--fg-2); }
+.hp-name { font: 500 7px var(--mono); fill: var(--muted); }
+.hp-k { font: 700 11px var(--num); fill: var(--fg); }
+.hp-ksub { font: 500 7px var(--mono); fill: var(--muted); }
