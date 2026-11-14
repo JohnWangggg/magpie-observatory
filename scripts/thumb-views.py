@@ -8,13 +8,18 @@ from pathlib import Path
 from playwright.sync_api import sync_playwright
 
 ROOT = Path(__file__).resolve().parent.parent
-LIMIT = 336
+LIMIT = 400
 if "--limit" in sys.argv:
     LIMIT = int(sys.argv[sys.argv.index("--limit") + 1])
+ONLY = None
+if "--ids" in sys.argv:
+    ONLY = set(sys.argv[sys.argv.index("--ids") + 1].split(","))
 
 app = (ROOT / "public/assets/app.js").read_text()
 meta = re.search(r"VIEW_META\s*=\s*\[([\s\S]*?)\];", app).group(1)
-ids = re.findall(r'\{\s*id:\s*"(\w+)"', meta)[:LIMIT]
+ids = re.findall(r'\{\s*id:\s*"(\w+)"', meta)
+if ONLY: ids = [i for i in ids if i in ONLY]
+ids = ids[:LIMIT]
 
 (ROOT / "public/shots").mkdir(parents=True, exist_ok=True)
 server = subprocess.Popen(["node", "preview.mjs"], cwd=ROOT,
