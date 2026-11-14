@@ -3090,6 +3090,11 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
           toast(`今日切视图 ${n} 次 · 累计 ${vc} 次`);
         } catch (_) {}
       }
+      if (e.key.toLowerCase() === "b" && !e.metaKey && !e.ctrlKey && !e.altKey) {
+        e.preventDefault();
+        if (state.heroMode === "burn") toast("已在燃烧速率视图");
+        else { setHeroMode("burn"); toast("跳到燃烧速率"); }
+      }
       if (e.key === "?") { e.preventDefault(); toggleHelp(); }
       if (e.key === "\`" && !e.metaKey && !e.ctrlKey && !e.altKey) {
         e.preventDefault();
