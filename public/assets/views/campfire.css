@@ -1,0 +1,15 @@
+/* campfire — stone rings, agent flames, log piles for remaining quota */
+.cf-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.cf-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font-size: 9px; color: var(--muted); flex: none; }
+.cf-head b { color: var(--fg); font-size: 10px; letter-spacing: .12em; }
+.cf-wrap svg { flex: 1; min-height: 0; display: block; margin: 0 auto; }
+.cf-flame { animation: cfFlicker 1.8s ease-in-out infinite alternate; transform-origin: bottom center; }
+@keyframes cfFlicker { from { transform: scaleY(.92) skewX(-2deg); } to { transform: scaleY(1.04) skewX(2deg); } }
+.cf-fire.dead .cf-flame { animation-duration: 4s; }
+.cf-pile.hot { filter: drop-shadow(0 0 5px var(--red)); }
+.cf-name { font: 600 8px var(--mono); fill: var(--fg-2); }
+.cf-sub { font: 500 7px var(--mono); fill: var(--muted); }
+.cf-pct { font: 700 8px var(--num); fill: var(--fg-2); }
+.cf-k { font: 700 11px var(--num); fill: var(--fg); }
+.cf-ksub { font: 500 7px var(--mono); fill: var(--muted); }
+.cf-spark { animation: none; }
