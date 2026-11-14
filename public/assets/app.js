@@ -574,6 +574,7 @@
     host.innerHTML = favs.map(v => `
       <button draggable="true" class="fav-btn${v.id === state.heroMode ? " active" : ""}${v.id === (localStorage.getItem("magpie.defaultView") || "") ? " default" : ""}" data-fav-view="${v.id}" title="${v.title} · 拖动排序${v.id === (localStorage.getItem("magpie.defaultView") || "") ? " · 默认视图" : ""}">
         <svg><use href="#${v.icon || "i-sparkle"}"/></svg>
+        <span class="fav-thumb" aria-hidden="true"><img src="shots/${v.id}.png" alt="" loading="lazy" onerror="this.remove()"></span>
       </button>`).join("");
   }
 

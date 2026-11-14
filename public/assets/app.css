@@ -496,7 +496,7 @@ img { display: block; }
 .vm-copy b { font-size: 10px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .vm-copy small { font-size: 6.5px; letter-spacing: .07em; color: var(--faint); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .vm-hint { max-width: 96px; font-size: 6.5px; color: var(--faint); text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.vm-thumb { position: absolute; right: 28px; top: 50%; transform: translateY(-50%); width: 148px; height: 60px; border-radius: 8px; overflow: hidden; border: 1px solid color-mix(in srgb, var(--vm-c, var(--accent)) 30%, var(--line)); box-shadow: 0 10px 30px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.04) inset; opacity: 0; pointer-events: none; z-index: 8; background: var(--card-2); }
+.vm-thumb { position: absolute; right: 28px; top: 50%; transform: translateY(-50%); width: 188px; height: 76px; border-radius: 9px; overflow: hidden; border: 1px solid color-mix(in srgb, var(--vm-c, var(--accent)) 30%, var(--line)); box-shadow: 0 12px 34px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.04) inset; opacity: 0; pointer-events: none; z-index: 8; background: var(--card-2); }
 .vm-thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
 .vm-item:hover .vm-thumb, .vm-item:focus-visible .vm-thumb, .vm-thumb.on { opacity: 1; }
 .vm-none { padding: 24px; text-align: center; font-size: 10px; color: var(--muted); }
@@ -2437,6 +2437,9 @@ body.cinema ::selection { background: transparent; }
 .fav-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 .fav-btn:hover { color: var(--fg-2); background: var(--card-2); border-color: var(--line); }
 .fav-btn.active { color: var(--accent-strong); background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 30%, var(--line)); }
+.fav-thumb { position: absolute; left: 40px; top: 50%; transform: translateY(-50%); width: 120px; height: 48px; border-radius: 7px; overflow: hidden; border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--line)); box-shadow: 0 10px 26px rgba(0,0,0,.5); opacity: 0; pointer-events: none; z-index: 30; background: var(--card-2); transition: opacity .16s ease; }
+.fav-thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+.fav-btn:hover .fav-thumb, .fav-thumb.on { opacity: 1; }
 
 /* daily digest — the "yesterday report" card */
 .digest {
