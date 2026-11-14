@@ -757,3 +757,29 @@ MAGPIE_KEY=... node preview.mjs
 `dsh-context` 教你把数据讲成故事，`magpie-hud` 教你用真实数据讲实时故事，
 Magpie 官方 UI 给了你完整的数据字典和品牌资产。**把它们合成一个控制室：
 路由是主角，额度是约束，费用是结果，图标和动效只服务于“现在发生了什么”。**
+
+
+---
+
+## 13. 缩略图体系 (v1.10.129+)
+
+每个 hero 视图自动生成 `public/shots/<id>.png`（942×222，`.route-stage` 纯视图区裁切，
+隐藏 `.rail` 后截图），由 `scripts/thumb-views.py` 驱动：遍历 `VIEW_META` → `setHeroMode(id)` →
+等 `window.Obs.api` 就绪 → `page.locator('.route-stage').screenshot()`。
+
+336 张（54MB）挂载在 5 个 UI 触点：
+
+| 触点 | 尺寸 | 触发 |
+|---|---|---|
+| `vm-thumb` (view-menu 行) | 188×76 | `pointerover` JS 驱动（CSS hover 在定位元素上不稳） |
+| `fav-thumb` (rail 收藏位) | 120×48 | `pointerover` JS 驱动 |
+| `pal-thumb` (⌘K 命令面板) | 110×44 | `.pal-item:hover` CSS |
+| `vp-thumb` (切换视图按钮) | 148×60 | `pointerover` JS + `setHeroMode` 同步当前视图 |
+| `vlight` (lightbox) | ≤720px | 点击 `.vm-thumb` 弹大图浮层 |
+
+工程要点：
+- `thumb-views.py` 隐藏 `.rail` 使 `.route-stage` 占满 hero 宽度（vs 旧的 `.hero` 全卡截图）。
+- 菜单/收藏/按钮 thumb 用 JS `pointerover/out` + `.on` class + 内联 `style.opacity`，
+  因为 CSS `:hover` 在 `position:absolute` 子元素上、被 sibling 覆盖时会失效。
+- 去掉了 `transition: opacity .16s` —— 与 JS 显式 opacity 冲突时 computed 值停在 0。
+- `public/shots/*.png` 全量 commit 入库，`views-catalog.md` 图鉴自动引用相对路径。
