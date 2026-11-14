@@ -1,0 +1,14 @@
+/* ridge */
+.rg-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.rg-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.rg-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.rg-head span { font-size: 8px; color: var(--muted); }
+.rg-wrap svg { flex: 1; width: 100%; }
+.rg-spur { transform-box: fill-box; }
+.rg-spur.hot path { filter: drop-shadow(0 0 4px rgba(240,100,80,.4)); }
+.rg-falcon { transform-box: fill-box; }
+.rg-falcon.dead { opacity: .85; }
+.rg-pct { font: 700 9px var(--num); fill: #e0d0d8; }
+.rg-name { font: 600 7px var(--mono); fill: #a890a0; }
+.rg-k { font: 700 10px var(--num); fill: var(--fg); }
+.rg-ksub { font: 7px var(--mono); fill: var(--muted); }
