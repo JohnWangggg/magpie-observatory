@@ -1641,7 +1641,7 @@
     if (!html) {
       html = `<div class="empty-row">没有匹配的会话</div>`;
     } else if (state.sessionTab === "active" && list.length < 3) {
-      html += `<div class="session-ghost"><span class="radar"></span><b>等待新的请求</b><small>trace 每秒刷新 · 完成后会留在这里</small></div>`;
+html += `<div class="session-ghost" title="点我"><span class="radar"></span><b>等待新的请求</b><small>trace 每秒刷新 · 完成后会留在这里</small></div>`;
     }
     host.innerHTML = html;
     host.scrollTop = scroll;
@@ -2494,6 +2494,27 @@
       toast("筛选已清除");
     });
     $("#session-list").addEventListener("click", e => {
+      // easter egg: tap any session-row area 5x quickly → tiny magpie flies out
+      {
+        const now = performance.now();
+        state.tapTrack = state.tapTrack || { n: 0, t: 0 };
+        if (now - state.tapTrack.t > 650) state.tapTrack.n = 0;
+        state.tapTrack.t = now;
+        state.tapTrack.n++;
+        if (state.tapTrack.n === 5) {
+          state.tapTrack.n = 0;
+          const b = document.createElement("span");
+          b.className = "ghost-magpie";
+          b.innerHTML = `<svg viewBox="0 0 32 26" style="width:26px;height:21px"><path d="M3 14c2-5 7-8 12-8 4 0 7 2 9 5l5-1-4 5 4 4-6-1c-2 3-6 5-10 5-4 0-8-2-10-5l-1-5z" fill="var(--accent)"/><circle cx="13" cy="11" r="1.2" fill="var(--bg)"/></svg>`;
+          b.style.left = e.clientX + "px";
+          b.style.top = (e.clientY - 20) + "px";
+          b.style.position = "fixed";
+          b.style.zIndex = "9999";
+          document.body.appendChild(b);
+          setTimeout(() => b.remove(), 2600);
+          toast("台鹊探头：别急，马上来！");
+        }
+      }
       const pinBtn = e.target.closest(".session-pin");
       if (pinBtn) {
         e.stopPropagation();
