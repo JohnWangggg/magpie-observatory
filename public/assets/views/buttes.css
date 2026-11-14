@@ -1,0 +1,14 @@
+/* buttes */
+.bu-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.bu-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.bu-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.bu-head span { font-size: 8px; color: var(--muted); }
+.bu-wrap svg { flex: 1; width: 100%; }
+.bu-butte { transform-box: fill-box; }
+.bu-butte.hot rect { filter: drop-shadow(0 0 4px rgba(240,200,100,.5)); }
+.bu-prong { transform-box: fill-box; }
+.bu-prong.dead { opacity: .85; }
+.bu-pct { font: 700 9px var(--num); fill: #c8a878; }
+.bu-name { font: 600 7px var(--mono); fill: #a88858; }
+.bu-k { font: 700 10px var(--num); fill: var(--fg); }
+.bu-ksub { font: 7px var(--mono); fill: var(--muted); }
