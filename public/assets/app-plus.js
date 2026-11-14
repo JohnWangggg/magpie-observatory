@@ -1159,6 +1159,7 @@ show(F.length-1);
     { id: "night-owl", name: "夜航人", test: s => new Date().getHours() < 6, sub: "凌晨还在观测" },
     { id: "magpie-50", name: "鹊缘人", test: s => (parseInt(localStorage.getItem("magpie.clicks") || "0", 10) || 0) >= 50, sub: "点台鹊 50 次" },
     { id: "view-50", name: "百景图", test: () => (parseInt(localStorage.getItem("magpie.viewCount") || "0", 10) || 0) >= 50, sub: "切换过 50 个视图" },
+    { id: "view-100", name: "百景全览", test: () => (parseInt(localStorage.getItem("magpie.viewCount") || "0", 10) || 0) >= 100, sub: "切换过 100 个视图 · 大收藏家" },
     { id: "cinema-1h", name: "影院常客", test: () => (parseFloat(localStorage.getItem("magpie.cinemaMs") || "0") || 0) >= 3600000, sub: "影院累计 1 小时" },
     { id: "fav-5", name: "收藏家", test: s => s.favCount >= 5, sub: "收藏 5 个视图" },
     { id: "magpie-200", name: "鹊上眉梢", test: s => (parseInt(localStorage.getItem("magpie.clicks") || "0", 10) || 0) >= 200, sub: "点台鹊 200 次" }
