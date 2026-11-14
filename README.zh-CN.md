@@ -57,10 +57,16 @@ magpie plugin add ./magpie-observatory
 
 ### 商店发现
 
-Magpie 的 Discover 通过 GitHub topic **`magpie-plugin`** 和已提交的
-`magpie.page.file`（`page/index.html`）发现本插件。列表文案来自
-`magpie.name` 与 `magpie.summary.en` / `.zh`；搜索关键词在 `package.json`。
-完整的 topic 列表和发布命令见 [`docs/publishing.md`](docs/publishing.md)。
+`package.json` 声明了页面（`magpie.page.file` → `page/index.html`），安装后
+在 Magpie 里就是页面类型（`magpie plugin list` 显示 `page`）。**插件市场的
+卡片**来自社区注册表（`magpie-community/plugins/registry.json`，`"kind":
+"page"`）；本仓库尚未列入，且需要先发布到 npm 才能提交。具体条目和 PR 步骤
+见 [`docs/community-listing.md`](docs/community-listing.md)。仓库刻意不带
+GitHub 的 **`magpie-plugin`** 主题：该主题供 Discover 的「供应商」半边使用，
+而带本地服务（需要 `main`/`exports`）的页面会因此被标成供应商。
+
+列表文案来自 `magpie.name` 与 `magpie.summary.en` / `.zh`；搜索关键词在
+`package.json`，主题列表和发布命令见 [`docs/publishing.md`](docs/publishing.md)。
 
 ## 不装 Magpie 也能预览
 

@@ -10,14 +10,42 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createHash } from "node:crypto";
+import os from "node:os";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const PUBLIC = path.join(HERE, "public");
 const DEFAULT_PORT = 3488;
-const MAGPIE_URL = (process.env.MAGPIE_URL || "http://127.0.0.1:3425").replace(/\/+$/, "");
+const ENV_MAGPIE_URL = (process.env.MAGPIE_URL || "").replace(/\/+$/, "");
 const MAGPIE_KEY = (process.env.MAGPIE_KEY || "").trim();
+
+// The gateway is not always on 3425: `magpie web --addr`, a second instance
+// on another port and a gateway started after the plugin all move it. The
+// app writes the live one to gateway.json, so read it and re-read it after a
+// failed fetch instead of pinning the default forever.
+const GATEWAY_FILE = path.join(
+  process.env.MAGPIE_CONFIG_DIR || path.join(os.homedir(), ".config", "magpie"),
+  "gateway.json"
+);
+let gateway = { url: "", at: 0 };
+
+async function gatewayBase(force) {
+  if (ENV_MAGPIE_URL) return ENV_MAGPIE_URL;
+  if (!force && gateway.url && Date.now() - gateway.at < 10000) return gateway.url;
+  let addr = "";
+  try {
+    const body = JSON.parse(await fs.readFile(GATEWAY_FILE, "utf8"));
+    addr = String((body && body.addr) || "").trim();
+  } catch { /* no gateway yet: the app may not have written it */ }
+  const url = /^https?:\/\//i.test(addr)
+    ? addr.replace(/\/+$/, "")
+    : /^[\w.-]+:\d+$/.test(addr)
+      ? `http://${addr}`
+      : "http://127.0.0.1:3425";
+  gateway = { url, at: Date.now() };
+  return url;
+}
 const PERIODS = new Set(["today", "week", "month", "all"]);
-const VERSION = "0.17.0";
+const VERSION = "0.17.1";
 
 const TYPES = {
   ".html": "text/html; charset=utf-8",
@@ -35,14 +63,21 @@ const TYPES = {
 };
 
 async function magpieGet(endpoint, timeout = 2500) {
+  const base = await gatewayBase();
   const ctrl = new AbortController();
   const timer = setTimeout(() => ctrl.abort(), timeout);
   try {
     const headers = { Accept: "application/json" };
     if (MAGPIE_KEY) headers.Authorization = `Bearer ${MAGPIE_KEY}`;
-    const res = await fetch(MAGPIE_URL + endpoint, { headers, signal: ctrl.signal, redirect: "error" });
-    if (!res.ok) throw new Error(`${endpoint} → HTTP ${res.status}`);
+    const res = await fetch(base + endpoint, { headers, signal: ctrl.signal, redirect: "error" });
+    if (!res.ok) {
+      if (res.status >= 500) gateway.at = 0; // the gateway may have moved
+      throw new Error(`${endpoint} → HTTP ${res.status}`);
+    }
     return await res.json();
+  } catch (err) {
+    gateway.at = 0; // a refused connection: read gateway.json again next time
+    throw err;
   } finally {
     clearTimeout(timer);
   }
@@ -254,7 +289,7 @@ export async function snapshot(period = "today", since = 0, qh = "", rq = "") {
   }
   return {
     ok: Boolean(data.trace || data.usage || data.quotas),
-    gateway: new URL(MAGPIE_URL).host,
+    gateway: new URL(await gatewayBase()).host,
     fetchedAt: Date.now(),
     period,
     data,
@@ -287,9 +322,9 @@ async function handler(req, res) {
   if (pathname === "/api/health") {
     try {
       await magpieGet("/v1/magpie/usage?period=today", 1500);
-      return json(res, 200, { ok: true, gateway: new URL(MAGPIE_URL).host });
+      return json(res, 200, { ok: true, gateway: new URL(await gatewayBase()).host });
     } catch (err) {
-      return json(res, 503, { ok: false, gateway: new URL(MAGPIE_URL).host, error: err?.message || String(err) });
+      return json(res, 503, { ok: false, gateway: new URL(await gatewayBase()).host, error: err?.message || String(err) });
     }
   }
   if (pathname === "/api/snapshot") {

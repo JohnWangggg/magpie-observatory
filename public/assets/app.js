@@ -33,6 +33,10 @@
     liveBusy: false,
     tour: false,
     tourTimer: null,
+    liveTries: 0,
+    liveRetryTimer: null,
+    gatewayWatch: null,
+    gatewayWatchTries: 0,
     favorites: (() => {
       try {
         const raw = JSON.parse(localStorage.getItem("magpie.favorites") || "[]");
@@ -2108,6 +2112,41 @@
   }
 
   /* ----------------------------------------------------------------- live --- */
+  // A fresh install opens the page before Magpie's gateway is up, and on a
+  // moved port 3425 is not the gateway at all. Retry a couple of times, then
+  // fall back to the demo and watch /api/health until the gateway answers.
+  function stopGatewayWatch() {
+    clearInterval(state.gatewayWatch);
+    state.gatewayWatch = null;
+    state.gatewayWatchTries = 0;
+  }
+
+  function startGatewayWatch() {
+    if (state.gatewayWatch) return;
+    state.gatewayWatchTries = 0;
+    state.gatewayWatch = setInterval(async () => {
+      if (state.mode !== "demo") { stopGatewayWatch(); return; }
+      if (++state.gatewayWatchTries > 90) { stopGatewayWatch(); return; }
+      try {
+        const res = await fetch("api/health", { cache: "no-store" });
+        const body = await res.json();
+        if (body && body.ok) {
+          stopGatewayWatch();
+          toast("本地网关已就绪 · 正在切换实时数据");
+          connectLive(true);
+        }
+      } catch { /* still nothing there; keep watching */ }
+    }, 10000);
+  }
+
+  async function gatewayAddress() {
+    try {
+      const res = await fetch("api/health", { cache: "no-store" });
+      const body = await res.json();
+      return body && body.gateway ? body.gateway : "";
+    } catch (_) { return ""; }
+  }
+
   async function connectLive(silent) {
     if (state.liveBusy) return;
     if (silent && (document.hidden || state.paused)) return;
@@ -2123,6 +2162,8 @@
         state.selectedSession = null;
         state.filter = null;
       }
+      state.liveTries = 0;
+      stopGatewayWatch();
       clearInterval(state.liveTimer);
       state.liveTimer = setInterval(() => connectLive(true), 2500);
       renderAll();
@@ -2136,8 +2177,17 @@
       }
     } catch (err) {
       if (state.mode !== "live") {
-        toast("无法连接本地网关，继续使用演示数据");
-        switchDemo();
+        if (state.liveTries < 2) {
+          state.liveTries++;
+          toast(`本地网关还没就绪 · 正在重试（${state.liveTries}/2）`);
+          clearTimeout(state.liveRetryTimer);
+          state.liveRetryTimer = setTimeout(() => connectLive(true), 2400);
+        } else {
+          const addr = await gatewayAddress();
+          toast(`无法连接本地网关${addr ? " " + addr : ""}，继续使用演示数据`);
+          switchDemo();
+          startGatewayWatch();
+        }
       } else {
         $("#conn-pill").dataset.mode = "offline";
         $("#conn-label").textContent = "连接中断";
@@ -2217,7 +2267,7 @@
 
   /* ------------------------------------------------------------------ init --- */
   function init() {
-    try { console.info("%c Magpie Observatory v0.17.0 · twenty-one views · 7 styles · layout settings", "color:#8b7cf6;font-weight:bold"); } catch (_) {}
+    try { console.info("%c Magpie Observatory v0.17.1 · twenty-one views · 7 styles · layout settings", "color:#8b7cf6;font-weight:bold"); } catch (_) {}
     try {
       const hostTheme = new URLSearchParams(location.search).get("hostTheme");
       if (hostTheme === "light" || hostTheme === "dark") {

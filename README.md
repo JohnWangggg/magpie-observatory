@@ -64,12 +64,16 @@ magpie plugin add ./magpie-observatory
 
 ### Discovery
 
-Magpie's Discover finds this plugin through the GitHub topic
-**`magpie-plugin`** and the committed `magpie.page.file`
-(`page/index.html`). The listing text comes from `magpie.name` and
-`magpie.summary.en` / `.zh`; search keywords live in `package.json`. See
-[`docs/publishing.md`](docs/publishing.md) for the exact topic list and release
-commands.
+`package.json` declares the page (`magpie.page.file` → `page/index.html`), so
+an installed copy is a page in Magpie (`magpie plugin list` says `page`). The
+**Plugins market card** comes from the community registry
+(`magpie-community/plugins/registry.json`, `"kind": "page"`); this repository
+is not listed there yet and cannot be until the package is on npm. See
+[`docs/community-listing.md`](docs/community-listing.md) for the exact entry
+and the pull request steps. The repository deliberately does **not** carry
+GitHub's **`magpie-plugin`** topic: that topic feeds the provider half of
+Discover, and a page that runs a local service (it needs `main`/`exports`)
+would be shown there as a provider.
 
 ## Preview without Magpie
 

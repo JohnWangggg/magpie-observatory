@@ -8,12 +8,17 @@ set -euo pipefail
 
 REPO="${REPO:-JohnWangggg/magpie-observatory}"
 BRANCH="${BRANCH:-main}"
-TAG="${TAG:-v0.17.0}"
+TAG="${TAG:-v0.17.1}"
 GIT_NAME="${GIT_NAME:-JohnWangggg}"
 GIT_EMAIL="${GIT_EMAIL:-JohnWangggg@users.noreply.github.com}"
 
+# `magpie-plugin` is Magpie's topic for OpenCode/provider plugins: the
+# GitHub half of Discover searches it, and a page plugin with a host part
+# (this one runs a local service) is listed there as a provider. A page is
+# declared in package.json (`magpie.page`) and listed in the community
+# registry with kind "page" instead, so this repository does not carry the
+# provider topic.
 TOPICS=(
-  magpie-plugin
   magpie-page
   magpie
   observatory
@@ -67,9 +72,8 @@ else
     --push
 fi
 
-# GitHub topics are what Magpie's Discover uses to find a page plugin.
-# `magpie-plugin` is mandatory; the rest improve search. PUT replaces the
-# whole set, so re-running keeps the repository clean.
+# GitHub topics improve search and the website; PUT replaces the whole set,
+# so re-running keeps the repository clean.
 topic_args=(--method PUT "repos/${REPO}/topics")
 for topic in "${TOPICS[@]}"; do
   topic_args+=(-f "names[]=${topic}")

@@ -94,7 +94,7 @@ The script:
 2. initializes `main` if needed, commits the working tree;
 3. creates the public repository if it does not exist, otherwise pushes;
 4. adds all store topics with `gh repo edit --add-topic`;
-5. creates the annotated tag `v0.17.0` and pushes it.
+5. creates the annotated tag `v0.17.1` and pushes it.
 
 Manual equivalent:
 
@@ -103,7 +103,7 @@ git init -b main
 git config user.name "JohnWangggg"
 git config user.email "JohnWangggg@users.noreply.github.com"
 git add -A
-git commit -m "release: Magpie Observatory v0.17.0"
+git commit -m "release: Magpie Observatory v0.17.1"
 gh repo create JohnWangggg/magpie-observatory --public --source=. --remote=origin --push
 gh api --method PUT repos/JohnWangggg/magpie-observatory/topics \
   -f 'names[]=magpie-plugin' \
@@ -113,7 +113,7 @@ gh api --method PUT repos/JohnWangggg/magpie-observatory/topics \
   -f 'names[]=dashboard' \
   -f 'names[]=monitoring' \
   -f 'names[]=llm-gateway'
-git tag -a v0.17.0 -m "Magpie Observatory v0.17.0"
+git tag -a v0.17.1 -m "Magpie Observatory v0.17.1"
 git push -u origin main --tags
 ```
 
@@ -138,12 +138,12 @@ under **Plugins → Installed** with an **Observatory** tab.
 Release tags are annotated and match `package.json`:
 
 ```bash
-git tag -a v0.17.0 -m "Magpie Observatory v0.17.0"
-git push origin v0.17.0
+git tag -a v0.17.1 -m "Magpie Observatory v0.17.1"
+git push origin v0.17.1
 ```
 
 For the next release, bump `package.json`, update the tag in
-`scripts/publish-github.sh` (or pass `TAG=v0.17.0`), and repeat.
+`scripts/publish-github.sh` (or pass `TAG=v0.17.1`), and repeat.
 
 发布标签使用 annotated tag，并与 `package.json` 版本一致。下一次发布时提升版本号，
-再用 `TAG=v0.17.0 bash scripts/publish-github.sh` 或手动打标签。
+再用 `TAG=v0.17.1 bash scripts/publish-github.sh` 或手动打标签。
