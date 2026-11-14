@@ -50,11 +50,11 @@
       // icy rim
       const rim = `<path d="M ${cx - mw} ${GY} Q ${cx - mw * .5} ${GY - mh * .5} ${cx - mw * .3} ${GY - mh * .85} Q ${cx} ${GY - mh * 1.1} ${cx + mw * .3} ${GY - mh * .85} Q ${cx + mw * .5} ${GY - mh * .5} ${cx + mw} ${GY}"
         fill="none" stroke="${snowCol}" stroke-width="1.4" opacity=".9"/>`;
-      return `<g class="td-mound${hot ? " hot" : ""}">
+      return `<g class="tu-mound${hot ? " hot" : ""}">
         <path d="${d}" fill="color-mix(in srgb, ${col} ${30 + f * 30}%, var(--card-2))" stroke="${hot ? "var(--red)" : col}" stroke-width="1"/>
         ${rim}${sparkle}
-        <text x="${cx.toFixed(1)}" y="${GY + 18}" class="td-pct" text-anchor="middle">${Math.round(w.used)}%</text>
-        <text x="${cx.toFixed(1)}" y="${GY + 29}" class="td-name" text-anchor="middle">${esc((m.name || w.prov).slice(0, 6))}</text>
+        <text x="${cx.toFixed(1)}" y="${GY + 18}" class="tu-pct" text-anchor="middle">${Math.round(w.used)}%</text>
+        <text x="${cx.toFixed(1)}" y="${GY + 29}" class="tu-name" text-anchor="middle">${esc((m.name || w.prov).slice(0, 6))}</text>
       </g>`;
     }).join("");
 
@@ -65,7 +65,7 @@
       const dur = Math.max(9, 20 - (s.tps || 0) / 8);
       const y = GY - 6 - (i % 3) * 12;
       const size = 3.5 + Math.min(3.5, (s.tokens || 0) / 50000);
-      return `<g class="td-deer${dead ? " dead" : ""}">
+      return `<g class="tu-deer${dead ? " dead" : ""}">
         <animateTransform attributeName="transform" type="translate" values="${-24} ${y.toFixed(1)};${W + 24} ${(y + 3).toFixed(1)}" dur="${dur}s" begin="${(-i * 3).toFixed(1)}s" repeatCount="indefinite"/>
         <ellipse cx="0" cy="0" rx="${size * 1.6}" ry="${size * .9}" fill="${dead ? "var(--red)" : m.color || "#c9a582"}"/>
         <circle cx="${size * 1.4}" cy="${-size * .9}" r="${size * .65}" fill="${dead ? "var(--red)" : m.color || "#c9a582"}"/>
@@ -81,16 +81,16 @@
     const hotN = quotas.filter(w => w.used >= 85).length;
 
     host.innerHTML = `
-      <div class="td-wrap">
-        <div class="td-head"><b>TUNDRA</b><span>丘=配额窗 雪=用量 羚=会话${hotN ? " · " + hotN + " 丘霜红" : ""}</span></div>
+      <div class="tu-wrap">
+        <div class="tu-head"><b>TUNDRA</b><span>丘=配额窗 雪=用量 羚=会话${hotN ? " · " + hotN + " 丘霜红" : ""}</span></div>
         <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet">
           <rect x="0" y="0" width="${W}" height="${H}" fill="color-mix(in srgb, #1a2028 44%, transparent)" rx="10"/>
           <rect x="14" y="${GY}" width="${W - 28}" height="3" rx="1.5" fill="#c9d5e0" opacity=".5"/>
           ${flakes}${mounds}${herd}
-          <g class="td-card">
+          <g class="tu-card">
             <rect x="14" y="14" width="126" height="40" rx="6" fill="var(--card-2)" stroke="var(--line-2)"/>
-            <text x="22" y="32" class="td-k">${fmt(k.tokens)} · ${sessions.length} 羚</text>
-            <text x="22" y="45" class="td-ksub">今日 tokens</text>
+            <text x="22" y="32" class="tu-k">${fmt(k.tokens)} · ${sessions.length} 羚</text>
+            <text x="22" y="45" class="tu-ksub">今日 tokens</text>
           </g>
         </svg>
       </div>`;

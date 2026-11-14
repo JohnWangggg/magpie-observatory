@@ -49,10 +49,10 @@
       }
       // crown — denser when hot
       const crown = `<ellipse cx="${cx}" cy="${tipY + 6}" rx="${bw.toFixed(1)}" ry="${(bh * .35).toFixed(1)}" fill="${hot ? "color-mix(in srgb, var(--red) 35%, " + col + ")" : col}" opacity="${(.5 + f * .3).toFixed(2)}"/>`;
-      return `<g class="ch-bush${hot ? " hot" : ""}">
+      return `<g class="cp-bush${hot ? " hot" : ""}">
         ${branches}${crown}
-        <text x="${cx.toFixed(1)}" y="${GY + 18}" class="ch-pct" text-anchor="middle">${Math.round(w.used)}%</text>
-        <text x="${cx.toFixed(1)}" y="${GY + 29}" class="ch-name" text-anchor="middle">${esc((m.name || w.prov).slice(0, 6))}</text>
+        <text x="${cx.toFixed(1)}" y="${GY + 18}" class="cp-pct" text-anchor="middle">${Math.round(w.used)}%</text>
+        <text x="${cx.toFixed(1)}" y="${GY + 29}" class="cp-name" text-anchor="middle">${esc((m.name || w.prov).slice(0, 6))}</text>
       </g>`;
     }).join("");
 
@@ -64,7 +64,7 @@
       const y = GY - 14 - (i % 2) * 12;
       const size = 4 + Math.min(3, (s.tokens || 0) / 80000);
       const col = dead ? "var(--red)" : (m.color || "#a88a5a");
-      return `<g class="ch-coyote${dead ? " dead" : ""}">
+      return `<g class="cp-coyote${dead ? " dead" : ""}">
         <animateTransform attributeName="transform" type="translate" values="${-26} ${y};${W + 26} ${(y + 6).toFixed(1)}" dur="${dur}s" begin="${(-i * dur / sessions.length).toFixed(1)}s" repeatCount="indefinite"/>
         <ellipse cx="0" cy="0" rx="${size * 1.7}" ry="${size * .8}" fill="${col}"/>
         <path d="M ${size * 1.4} ${-size * .3} L ${size * 2.2} ${-size * 1} L ${size * 2.6} ${-size * .8} L ${size * 1.9} ${size * .2} Z" fill="${col}"/>
@@ -81,15 +81,15 @@
     const hotN = quotas.filter(w => w.used >= 85).length;
 
     host.innerHTML = `
-      <div class="ch-wrap">
-        <div class="ch-head"><b>CHAPARRAL</b><span>灌=配额窗 高=用量 狼=会话${hotN ? " · " + hotN + " 焦冠" : ""}</span></div>
+      <div class="cp-wrap">
+        <div class="cp-head"><b>CHAPARRAL</b><span>灌=配额窗 高=用量 狼=会话${hotN ? " · " + hotN + " 焦冠" : ""}</span></div>
         <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet">
           <rect x="0" y="0" width="${W}" height="${H}" fill="color-mix(in srgb, #1c1610 52%, transparent)" rx="10"/>
           ${hill}${dry}${bushes}${coyotes}
-          <g class="ch-card">
+          <g class="cp-card">
             <rect x="14" y="14" width="126" height="40" rx="6" fill="var(--card-2)" stroke="var(--line-2)"/>
-            <text x="22" y="32" class="ch-k">${fmt(k.tokens)} · ${sessions.length} 狼</text>
-            <text x="22" y="45" class="ch-ksub">今日 tokens</text>
+            <text x="22" y="32" class="cp-k">${fmt(k.tokens)} · ${sessions.length} 狼</text>
+            <text x="22" y="45" class="cp-ksub">今日 tokens</text>
           </g>
         </svg>
       </div>`;

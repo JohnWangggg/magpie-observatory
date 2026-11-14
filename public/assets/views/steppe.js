@@ -43,10 +43,10 @@
           <animateTransform attributeName="transform" type="rotate" values="-8 ${cx} ${GY - sh - 20};8 ${cx} ${GY - sh - 20};-8 ${cx} ${GY - sh - 20}" dur="1.6s" repeatCount="indefinite"/></path>
         <circle cx="${cx}" cy="${GY - sh - 34}" r="2.2" fill="var(--red)">
           <animate attributeName="opacity" values=".9;.2;.9" dur="1s" repeatCount="indefinite"/></circle></g>` : "";
-      return `<g class="st-swell${hot ? " hot" : ""}">
+      return `<g class="sp-swell${hot ? " hot" : ""}">
         ${swell}${wind}${devil}
-        <text x="${cx.toFixed(1)}" y="${GY + 18}" class="st-pct" text-anchor="middle">${Math.round(w.used)}%</text>
-        <text x="${cx.toFixed(1)}" y="${GY + 29}" class="st-name" text-anchor="middle">${esc((m.name || w.prov).slice(0, 6))}</text>
+        <text x="${cx.toFixed(1)}" y="${GY + 18}" class="sp-pct" text-anchor="middle">${Math.round(w.used)}%</text>
+        <text x="${cx.toFixed(1)}" y="${GY + 29}" class="sp-name" text-anchor="middle">${esc((m.name || w.prov).slice(0, 6))}</text>
       </g>`;
     }).join("");
 
@@ -57,7 +57,7 @@
       const dur = Math.max(6, 14 - (s.tps || 0) / 10);
       const y = GY - 10 - (i % 3) * 16;
       const size = 4 + Math.min(4, (s.tokens || 0) / 50000);
-      return `<g class="st-horse${dead ? " dead" : ""}">
+      return `<g class="sp-horse${dead ? " dead" : ""}">
         <animateTransform attributeName="transform" type="translate" values="${-28} ${y.toFixed(1)};${W + 28} ${(y + 5).toFixed(1)}" dur="${dur}s" begin="${(-i * 2.6).toFixed(1)}s" repeatCount="indefinite"/>
         <animateTransform attributeName="transform" type="translate" values="0 0;0 ${-size * .5};0 0" dur=".45s" begin="${(-i * .2).toFixed(1)}s" repeatCount="indefinite" additive="sum"/>
         <ellipse cx="0" cy="0" rx="${size * 1.7}" ry="${size * .85}" fill="${dead ? "var(--red)" : m.color || "#a8794a"}"/>
@@ -75,16 +75,16 @@
     const hotN = quotas.filter(w => w.used >= 85).length;
 
     host.innerHTML = `
-      <div class="st-wrap">
-        <div class="st-head"><b>STEPPE</b><span>浪=配额窗 高=用量 马=会话${hotN ? " · " + hotN + " 浪风" : ""}</span></div>
+      <div class="sp-wrap">
+        <div class="sp-head"><b>STEPPE</b><span>浪=配额窗 高=用量 马=会话${hotN ? " · " + hotN + " 浪风" : ""}</span></div>
         <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet">
           <rect x="0" y="0" width="${W}" height="${H}" fill="color-mix(in srgb, #201c12 44%, transparent)" rx="10"/>
           <rect x="14" y="${GY}" width="${W - 28}" height="3" rx="1.5" fill="#c9b06a" opacity=".4"/>
           ${swells}${herd}
-          <g class="st-card">
+          <g class="sp-card">
             <rect x="14" y="14" width="126" height="40" rx="6" fill="var(--card-2)" stroke="var(--line-2)"/>
-            <text x="22" y="32" class="st-k">${fmt(k.tokens)} · ${sessions.length} 马</text>
-            <text x="22" y="45" class="st-ksub">今日 tokens</text>
+            <text x="22" y="32" class="sp-k">${fmt(k.tokens)} · ${sessions.length} 马</text>
+            <text x="22" y="45" class="sp-ksub">今日 tokens</text>
           </g>
         </svg>
       </div>`;

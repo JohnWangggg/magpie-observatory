@@ -42,10 +42,10 @@
           <animate attributeName="opacity" values=".9;0" dur="${(1.6 + k * .3).toFixed(1)}s" begin="${(-k * .5).toFixed(1)}s" repeatCount="indefinite"/></circle>`).join("") : "";
       // splash base
       const base = `<ellipse cx="${cx.toFixed(1)}" cy="${SHORE + 2}" rx="${(gap * .38).toFixed(1)}" ry="${(4 + f * 3).toFixed(1)}" fill="${col}" opacity=".35"/>`;
-      return `<g class="bh-wave${hot ? " hot" : ""}">
+      return `<g class="bh2-wave${hot ? " hot" : ""}">
         ${base}${curl}${foam}
-        <text x="${cx.toFixed(1)}" y="${SHORE + 22}" class="bh-pct" text-anchor="middle">${Math.round(w.used)}%</text>
-        <text x="${cx.toFixed(1)}" y="${SHORE + 33}" class="bh-name" text-anchor="middle">${esc((m.name || w.prov).slice(0, 6))}</text>
+        <text x="${cx.toFixed(1)}" y="${SHORE + 22}" class="bh2-pct" text-anchor="middle">${Math.round(w.used)}%</text>
+        <text x="${cx.toFixed(1)}" y="${SHORE + 33}" class="bh2-name" text-anchor="middle">${esc((m.name || w.prov).slice(0, 6))}</text>
       </g>`;
     }).join("");
 
@@ -56,7 +56,7 @@
       const dur = Math.max(6, 16 - (s.tps || 0) / 8);
       const y = SHORE + 8 + (i % 2) * 6;
       const sz = 3 + Math.min(3, (s.tokens || 0) / 50000);
-      return `<g class="bh-crab${dead ? " dead" : ""}">
+      return `<g class="bh2-crab${dead ? " dead" : ""}">
         <animateTransform attributeName="transform" type="translate" values="${-18 + i * 18} ${y};${W + 18} ${y}" dur="${dur}s" begin="${(-i * 2.4).toFixed(1)}s" repeatCount="indefinite"/>
         <ellipse cx="0" cy="0" rx="${sz}" ry="${sz * .7}" fill="${dead ? "var(--red)" : m.color || "#d9754a"}"/>
         <circle cx="${-sz * .4}" cy="${-sz * .6}" r="${sz * .18}" fill="var(--bg)"/>
@@ -71,17 +71,17 @@
     const hotN = quotas.filter(w => w.used >= 85).length;
 
     host.innerHTML = `
-      <div class="bh-wrap">
-        <div class="bh-head"><b>BEACH</b><span>浪=配额窗 高=用量 蟹=会话${hotN ? " · " + hotN + " 浪碎" : ""}</span></div>
+      <div class="bh2-wrap">
+        <div class="bh2-head"><b>BEACH</b><span>浪=配额窗 高=用量 蟹=会话${hotN ? " · " + hotN + " 浪碎" : ""}</span></div>
         <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet">
           <rect x="0" y="0" width="${W}" height="${H}" fill="color-mix(in srgb, #1a2a38 40%, transparent)" rx="10"/>
           <rect x="0" y="${SHORE}" width="${W}" height="${H - SHORE}" fill="color-mix(in srgb, #c9a875 22%, transparent)"/>
           <line x1="0" y1="${SHORE}" x2="${W}" y2="${SHORE}" stroke="var(--line-2)" stroke-opacity=".4"/>
           ${waves}${crabs}
-          <g class="bh-card">
+          <g class="bh2-card">
             <rect x="14" y="14" width="126" height="40" rx="6" fill="var(--card-2)" stroke="var(--line-2)"/>
-            <text x="22" y="32" class="bh-k">${fmt(k.tokens)} · ${sessions.length} 蟹</text>
-            <text x="22" y="45" class="bh-ksub">今日 tokens</text>
+            <text x="22" y="32" class="bh2-k">${fmt(k.tokens)} · ${sessions.length} 蟹</text>
+            <text x="22" y="45" class="bh2-ksub">今日 tokens</text>
           </g>
         </svg>
       </div>`;
