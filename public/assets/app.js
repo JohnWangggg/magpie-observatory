@@ -282,6 +282,7 @@
     { id: "moor", title: "荒野", eyebrow: "MOOR", group: "场景", icon: "i-magpie", hint: "石堆=配额窗 高=用量 羊=会话" },
     { id: "vale", title: "幽谷", eyebrow: "VALE", group: "场景", icon: "i-magpie", hint: "雾团=配额窗 浓=用量 鹿=会话" },
     { id: "understory", title: "林下", eyebrow: "UNDERSTORY", group: "场景", icon: "i-magpie", hint: "幼树=配额窗 冠密=用量 松鼠=会话" },
+    { id: "butte", title: "孤丘", eyebrow: "BUTTE", group: "场景", icon: "i-magpie", hint: "岩柱=配额窗 高=用量 鹰=会话" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
     { id: "grove", title: "果园", eyebrow: "GROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 果=用量 人=会话" },
     { id: "pond", title: "荷塘", eyebrow: "POND", group: "生态", icon: "i-magpie", hint: "莲=配额窗 漪=用量 蛙=会话" },
