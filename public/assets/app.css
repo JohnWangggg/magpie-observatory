@@ -2937,6 +2937,7 @@ body.mini .route-stage { min-height: 0 !important; }
 /* collection dot — filled once the view has been seen */
 .vm-seen { flex: none; width: 5px; height: 5px; border-radius: 50%; margin-left: 5px; background: var(--green); box-shadow: 0 0 4px var(--green); }
 .vm-seen.off { background: color-mix(in srgb, var(--line) 60%, transparent); box-shadow: none; }
+.vm-dex { margin-left: auto; font: 700 9px var(--num); color: var(--muted); padding-right: 4px; }
 .vm-row.seen .vm-item { border-left: 2px solid color-mix(in srgb, var(--green) 40%, transparent); padding-left: 8px; }
 
 /* session hover popover */
