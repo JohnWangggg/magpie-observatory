@@ -1075,3 +1075,12 @@ decision/palette）+ 复制/跳转/过滤/记忆/导出 全覆盖。审计完毕
 - **VIEW_META 趣味组** + `view-chime` + `56 VIEWS`；
   README×2 + `docs/mode-chime.png`。
 
+---
+
+## Phase 93 — 第 57 个视图 `firework`（2026-11-15 · v0.95.0）
+
+- **`firework.js/css`**：烟花——爆=会话（径/辐=Token、色=Agent、
+  哑=失败）+ 上升轨迹；双层 g 解决缩放中心；`fw-burst`/`fw-launch`/`fw-pop`。
+- **VIEW_META 趣味组** + `view-firework` + `57 VIEWS`；
+  README×2 + `docs/mode-firework.png`。
+

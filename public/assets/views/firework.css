@@ -1,0 +1,33 @@
+/* firework.css — 烟花 */
+
+.fw-wrap { height: 100%; display: flex; flex-direction: column; min-height: 0; }
+.fw-legend {
+  padding: 0 6px 6px; font-size: 10px; color: var(--dim);
+  display: flex; gap: 10px; flex: 0 0 auto; flex-wrap: wrap; align-items: center;
+}
+.fw-legend .fl-item { display: flex; align-items: center; gap: 4px; }
+.fw-legend .fl-item i { width: 6px; height: 6px; border-radius: 50%; }
+.fw-legend .fl-item.bad { color: #f26d7f; }
+.fw-legend .fl-tip { margin-left: auto; font-size: 9px; opacity: .6; }
+
+.fw-svg { flex: 1; width: 100%; min-height: 0; background: linear-gradient(180deg, rgba(10,12,26,.9), rgba(18,22,42,.7)); border-radius: 8px; }
+
+.fw-trail { animation: fw-launch .5s ease-out both; }
+.fw-b { animation: fw-burst 1.6s ease-out both; transform-origin: 0 0; }
+.fw-b.sput { animation: fw-sput 1s ease-out both; }
+.fw-b line { opacity: .8; }
+.fw-b.sput line { opacity: .4; }
+.fw-core { animation: fw-pop .4s cubic-bezier(.3,1.4,.4,1) both; }
+.fw-core.sput { animation: fw-pop-bad .5s ease-out both; }
+
+@keyframes fw-launch { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: .5; } }
+@keyframes fw-burst { 0% { transform: scale(.2); opacity: 1; } 70% { transform: scale(1); opacity: .9; } 100% { transform: scale(1.15); opacity: 0; } }
+@keyframes fw-sput { 0% { transform: scale(.3); opacity: .6; } 100% { transform: scale(.8); opacity: 0; } }
+@keyframes fw-pop { from { transform: scale(0); } to { transform: scale(1); } }
+@keyframes fw-pop-bad { from { transform: scale(0); opacity: .8; } to { transform: scale(1); opacity: .3; } }
+
+.fw-empty { height: 100%; display: flex; align-items: center; justify-content: center; color: var(--dim); font-size: 13px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .fw-trail, .fw-spoke, .fw-core { animation-duration: .001ms !important; }
+}
