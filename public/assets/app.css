@@ -2911,6 +2911,15 @@ body.mini .route-stage { min-height: 0 !important; }
 .badge.on { border-color: color-mix(in srgb, var(--amber) 40%, transparent); background: color-mix(in srgb, var(--amber) 7%, var(--card-3)); }
 .badge.on span { color: var(--amber); }
 
+/* view-collection dex progress inside the records card */
+.dex { margin: 10px 0 8px; padding: 8px 10px; border-radius: 9px; background: var(--card-3); border: 1px solid var(--line); }
+.dex-row { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 5px; }
+.dex-row b { font-size: 11px; font-weight: 700; color: var(--fg-2); }
+.dex-row span { font: 700 10px var(--num); color: var(--muted); }
+.dex-bar { height: 5px; border-radius: 3px; background: color-mix(in srgb, var(--line) 50%, transparent); overflow: hidden; }
+.dex-bar i { display: block; height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--accent), var(--accent-strong)); transition: width .5s; }
+.dex-legend { margin-top: 4px; font-size: 9px; color: var(--muted); }
+
 /* daily-goal ring on the tokens KPI card */
 .kpi-goal { display: inline-flex; align-items: center; gap: 4px; margin-left: 8px; vertical-align: middle; }
 .kpi-goal svg { width: 18px; height: 18px; }

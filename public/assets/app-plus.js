@@ -1091,6 +1091,16 @@ show(F.length-1);
         <div class="rec"><small>活跃天数</small><b>${r.daysActive} 天</b></div>
       </div>
       <div class="records-sub">成就墙 · ${Object.keys(bag).length}/${ACHIEVEMENTS.length} 已解锁</div>
+      ${(() => {
+        try {
+          const seen = JSON.parse(localStorage.getItem("magpie.viewSeen") || "[]");
+          const total = (Obs.api.VIEW_META || []).length;
+          const pct = total ? Math.min(100, Math.round(seen.length / total * 100)) : 0;
+          return `<div class="dex"><div class="dex-row"><b>图鉴</b><span>${seen.length}/${total} · ${pct}%</span></div>
+            <div class="dex-bar"><i style="width:${pct}%"></i></div>
+            <div class="dex-legend">${total ? "已看过 " + seen.length + " 个不同视图" : ""}</div></div>`;
+        } catch (_) { return ""; }
+      })()}
       <div class="badge-wall">${badges}</div>`;
     card.addEventListener("click", () => card.remove());
     document.body.appendChild(card);
