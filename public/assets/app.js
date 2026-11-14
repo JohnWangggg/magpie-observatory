@@ -1923,6 +1923,8 @@
     if (vpIcon) vpIcon.innerHTML = `<svg><use href="#${meta.icon}"/></svg>`;
     const vpThumb = $("#vp-thumb img");
     if (vpThumb) vpThumb.src = `shots/${mode}.png`;
+    const chThumb = $("#ch-thumb img");
+    if (chThumb) chThumb.src = `shots/${mode}.png`;
     const hero = $(".hero");
     if (hero) {
       hero.style.setProperty("--hero-accent", GROUP_COLORS[meta.group] || "#8b7cf6");

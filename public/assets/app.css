@@ -2343,6 +2343,9 @@ body.cinema .stellar-canvas { position: absolute; inset: 0; }
 body.cinema .cinema-hud { display: flex; animation: hudIn .4s .1s ease-out both; }
 @keyframes hudIn { from { opacity: 0; transform: translateX(-50%) translateY(10px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
 .ch-left { display: flex; align-items: center; gap: 8px; }
+.ch-thumb { display: none; width: 46px; height: 19px; border-radius: 4px; overflow: hidden; border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); }
+body.cinema .ch-thumb, body.mini .ch-thumb { display: block; }
+.ch-thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
 .ch-left b { font-size: 12px; font-weight: 650; }
 .ch-sub { font-size: 8px; color: var(--faint); letter-spacing: .14em; }
 .ch-right { display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 9.5px; color: var(--muted); }
