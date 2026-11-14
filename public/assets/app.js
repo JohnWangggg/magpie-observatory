@@ -1508,6 +1508,8 @@
   function setHeroMode(mode) {
     state.heroMode = mode;
     try {
+      const vc = parseInt(localStorage.getItem("magpie.viewCount") || "0", 10) || 0;
+      localStorage.setItem("magpie.viewCount", String(vc + 1));
       const h = JSON.parse(localStorage.getItem("magpie.viewHeat") || "{}");
       h[mode] = (h[mode] || 0) + 1;
       localStorage.setItem("magpie.viewHeat", JSON.stringify(h));

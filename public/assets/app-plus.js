@@ -266,6 +266,15 @@ show(F.length-1);
   function setCinema(on) {
     const s = state();
     if (!s) return;
+    if (on && !s.cinema) s._cinemaStart = Date.now();
+    if (!on && s._cinemaStart) {
+      const ms = Date.now() - s._cinemaStart;
+      try {
+        const acc = parseFloat(localStorage.getItem("magpie.cinemaMs") || "0") || 0;
+        localStorage.setItem("magpie.cinemaMs", String(acc + ms));
+      } catch (_) {}
+      s._cinemaStart = null;
+    }
     s.cinema = !!on;
     if (!on) s.ambient = false;
     document.body.classList.toggle("cinema", s.cinema);
@@ -1120,6 +1129,9 @@ show(F.length-1);
     { id: "parallel-3", name: "三路并发", test: s => s.active >= 3, sub: "同时 3 个会话" },
     { id: "night-owl", name: "夜航人", test: s => new Date().getHours() < 6, sub: "凌晨还在观测" },
     { id: "magpie-50", name: "鹊缘人", test: s => (parseInt(localStorage.getItem("magpie.clicks") || "0", 10) || 0) >= 50, sub: "点台鹊 50 次" },
+    { id: "view-50", name: "百景图", test: () => (parseInt(localStorage.getItem("magpie.viewCount") || "0", 10) || 0) >= 50, sub: "切换过 50 个视图" },
+    { id: "cinema-1h", name: "影院常客", test: () => (parseFloat(localStorage.getItem("magpie.cinemaMs") || "0") || 0) >= 3600000, sub: "影院累计 1 小时" },
+    { id: "fav-5", name: "收藏家", test: s => s.favCount >= 5, sub: "收藏 5 个视图" },
     { id: "magpie-200", name: "鹊上眉梢", test: s => (parseInt(localStorage.getItem("magpie.clicks") || "0", 10) || 0) >= 200, sub: "点台鹊 200 次" }
   ];
   function checkAchievements() {
@@ -1128,7 +1140,12 @@ show(F.length-1);
     let bag = {};
     try { bag = JSON.parse(localStorage.getItem("magpie.badges") || "{}"); } catch (_) {}
     const k = (s.view && s.view.kpis) || s.data.kpis;
-    const sig = { requests: k.requests || 0, tokens: k.tokens || 0, active: s.data.sessions.filter(x => x.status !== "done").length, streak: dayStreak() };
+    const sig = {
+      requests: k.requests || 0, tokens: k.tokens || 0,
+      active: s.data.sessions.filter(x => x.status !== "done").length,
+      streak: dayStreak(),
+      favCount: (s.favorites || []).length
+    };
     ACHIEVEMENTS.forEach(a => {
       if (bag[a.id] || !a.test(sig)) return;
       bag[a.id] = new Date().toISOString().slice(0, 10);
