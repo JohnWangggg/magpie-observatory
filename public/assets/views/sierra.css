@@ -1,0 +1,14 @@
+/* sierra */
+.si-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.si-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.si-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.si-head span { font-size: 8px; color: var(--muted); }
+.si-wrap svg { flex: 1; width: 100%; }
+.si-peak { transform-box: fill-box; }
+.si-peak.hot path { filter: drop-shadow(0 0 4px rgba(240,160,160,.4)); }
+.si-goat { transform-box: fill-box; }
+.si-goat.dead { opacity: .85; }
+.si-pct { font: 700 9px var(--num); fill: #d0e0e8; }
+.si-name { font: 600 7px var(--mono); fill: #8aa8b8; }
+.si-k { font: 700 10px var(--num); fill: var(--fg); }
+.si-ksub { font: 7px var(--mono); fill: var(--muted); }
