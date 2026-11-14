@@ -1,0 +1,13 @@
+/* arena */
+.aj-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.aj-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.aj-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.aj-head span { font-size: 8px; color: var(--muted); }
+.aj-wrap svg { flex: 1; width: 100%; }
+.aj-num { font: 700 8px var(--num); fill: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.5); }
+.aj-k { font: 700 14px var(--num); fill: var(--fg); }
+.aj-ksub { font: 7.5px var(--mono); fill: var(--muted); }
+.aj-banner { transform-box: fill-box; }
+.aj-banner.hot { filter: drop-shadow(0 0 4px rgba(240,180,80,.4)); }
+.aj-gladiator { transform-box: fill-box; }
+.aj-gladiator.dead { opacity: .8; }
