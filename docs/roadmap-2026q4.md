@@ -1020,3 +1020,12 @@ decision/palette）+ 复制/跳转/过滤/记忆/导出 全覆盖。审计完毕
 - **VIEW_META 趣味组** + `view-tide` + `50 VIEWS`；
   README×2 + `docs/mode-tide.png`。
 
+---
+
+## Phase 87 — 第 51 个视图 `maze`（2026-11-15 · v0.89.0）
+
+- **`maze.js/css`**：蛇行走廊——段=会话（长=Token、色=Agent、
+  死=失败）、竖连下折、迷宫网格底；`mz-draw`/`mz-pop`/`mz-blink`。
+- **VIEW_META 趣味组** + `view-maze` + `51 VIEWS`；
+  README×2 + `docs/mode-maze.png`。
+

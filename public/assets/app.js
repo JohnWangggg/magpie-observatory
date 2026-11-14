@@ -132,6 +132,7 @@
     { id: "dna", title: "DNA", eyebrow: "DNA", group: "趣味", icon: "i-magpie", hint: "对=会话 宽=Token" },
     { id: "nebula", title: "星云", eyebrow: "NEBULA", group: "趣味", icon: "i-magpie", hint: "云=会话 大=Token" },
     { id: "tide", title: "潮汐", eyebrow: "TIDE", group: "趣味", icon: "i-magpie", hint: "潮=今日量" },
+    { id: "maze", title: "迷宫", eyebrow: "MAZE", group: "趣味", icon: "i-magpie", hint: "段=会话 长=Token" },
     { id: "play", title: "开局", eyebrow: "PLAY · EVERY CALL IS A BEAT", group: "趣味", icon: "i-zap", hint: "转盘 + 判定 + 连击" }
   ];
 
@@ -2569,7 +2570,7 @@
 
   /* ------------------------------------------------------------------ init --- */
   function init() {
-    try { console.info("%c Magpie Observatory v0.88.0 · twenty-five views · 7 styles · layout settings", "color:#8b7cf6;font-weight:bold"); } catch (_) {}
+    try { console.info("%c Magpie Observatory v0.89.0 · twenty-five views · 7 styles · layout settings", "color:#8b7cf6;font-weight:bold"); } catch (_) {}
     (window.Obs && window.Obs.hooks.init || []).forEach(fn => { try { fn(apiObj); } catch (_) {} });
     try {
       const hostTheme = new URLSearchParams(location.search).get("hostTheme");
