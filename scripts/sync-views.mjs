@@ -82,7 +82,7 @@ let doc = `# Magpie Observatory · 视图图鉴 (${total})\n\n`;
 doc += "按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；\n";
 doc += "运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。\n\n";
 doc += "| 分组 | 数量 |\n|---|---|\n";
-for (const g of groups) doc += `| ${g} | ${byGroup[g].length} |\n`;
+for (const g of groups) doc += `| [${g}](#${g.replace(/\s+/g, "-")}) | ${byGroup[g].length} |\n`;
 doc += "\n---\n";
 for (const g of groups) {
   doc += `\n## ${g} (${byGroup[g].length})\n\n`;
