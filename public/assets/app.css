@@ -2821,3 +2821,12 @@ body.layout-edit .card:hover { transform: none; }
 .route-stage [data-agent] { cursor: pointer; border-radius: 4px; padding: 1px 4px; margin: -1px -4px; transition: background .15s, color .15s; }
 .route-stage [data-agent]:hover { background: color-mix(in srgb, var(--accent) 14%, transparent); }
 .route-stage [data-agent].legend-on { background: color-mix(in srgb, var(--accent) 20%, transparent); color: var(--fg); }
+
+/* filter chip: the removable badge above the session list when a legend
+   chip is filtering sessions */
+.filter-chip { display: flex; align-items: center; gap: 8px; margin: 0 0 8px; padding: 5px 10px; border-radius: 8px; background: color-mix(in srgb, var(--accent) 13%, var(--card-2)); border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); font-size: 10px; color: var(--fg-2); }
+.filter-chip[hidden] { display: none; }
+.filter-chip span { flex: 1; font-weight: 600; letter-spacing: .01em; }
+.filter-chip span::before { content: "筛选 · "; color: var(--muted); font-weight: 400; }
+.filter-chip button { border: 0; background: none; color: var(--muted); font-size: 14px; line-height: 1; cursor: pointer; padding: 0 2px; }
+.filter-chip button:hover { color: var(--fg); }

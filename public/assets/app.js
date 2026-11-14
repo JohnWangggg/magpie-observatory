@@ -1472,6 +1472,18 @@
     const list = visibleSessions();
     const live = activeSessions();
     const host = $("#session-list");
+    // Keep the clear-filter chip honest on every render pass, even the ones
+    // that short-circuit below when the session signature is unchanged.
+    const chip = $("#filter-chip");
+    if (chip) {
+      const on = !!state.filter;
+      chip.hidden = !on;
+      if (on) {
+        const label = state.filter.type === "agent" ? D.agentMeta(state.filter.value).name
+          : state.filter.type === "provider" ? D.providerMeta(state.filter.value).name : String(state.filter.value);
+        $("#filter-chip-label").textContent = label;
+      }
+    }
     const extra = state.sessionTab === "active"
       ? state.data.recent.filter(s => !list.some(x => x.id === s.id) && matchFilter(s)).slice(0, 3)
       : [];
@@ -2222,6 +2234,14 @@
       renderTrend();
     });
 
+    $("#filter-chip-x").addEventListener("click", () => {
+      state.filter = null;
+      state.selectedSession = null;
+      renderSessions();
+      renderDecision();
+      renderCustomView(state.heroMode, true);
+      toast("筛选已清除");
+    });
     $("#session-list").addEventListener("click", e => {
       const card = e.target.closest(".session-card");
       if (!card) return;
