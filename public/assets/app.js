@@ -316,7 +316,8 @@
       sections.push(`<section class="vm-group"><h4 style="--vm-g:${GROUP_COLORS[group]}"><i></i>${group}<span>${VIEW_META.filter(v => v.group === group).length}</span></h4>${items}</section>`);
     });
     host.innerHTML = sections.join("");
-    const dex = $("#vm-dex");
+    const dex = $("#vm-dex"), cnt = $("#vm-count");
+    if (cnt) cnt.textContent = `${VIEW_META.length} VIEWS`;
     if (dex) {
       try {
         const seen = JSON.parse(localStorage.getItem("magpie.viewSeen") || "[]");
