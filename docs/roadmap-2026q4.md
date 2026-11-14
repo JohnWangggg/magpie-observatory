@@ -1131,3 +1131,63 @@ decision/palette）+ 复制/跳转/过滤/记忆/导出 全覆盖。审计完毕
   README×2 + `docs/mode-vine.png`。
 - **里程碑**：v0.18 → v1.0.0，98 phase、62 视图。
 
+
+---
+
+## Phase 180–190 — v1.7.x 场景组爆发 + 陪伴彩蛋（2026-11-15 · v1.7.25）
+
+**115 视图**（63→115，+52 场景/生态组）+ 陪伴机制。
+
+### 新增视图（每图一隐喻：配额窗=实体、用量=尺寸/状态、会话=活物）
+
+| 版本 | id | 隐喻 | 实体 |
+|---|---|---|---|
+| v1.7.7 | pond | 荷塘 | 莲=配额窗 漪=用量 蛙=会话 |
+| v1.7.10 | metro | 地铁图 | 线=配额窗 宽=拥挤 车=会话 |
+| v1.7.12 | glacier | 冰川 | 冰=配额窗 高=用量 鹅=会话 |
+| v1.7.15 | volcano | 火山 | 锥=配额窗 烟=用量 鸟=会话 |
+| v1.7.16 | canyon | 峡谷 | 层=配额窗 深=用量 客=会话 |
+| v1.7.18 | lake | 湖泊 | 莲=配额窗 沉=用量 黾=会话 |
+| v1.7.20 | harvest2 | 麦田 | 垄=配额窗 穗=用量 农=会话 |
+| v1.7.23 | marina | 码头 | 船=配额窗 桅=用量 鸥=会话 |
+
+### 陪伴/好玩
+
+- **台鹊 mascot**：单击叽喳（记鹊缘 localStorage）/双击绕场一周/新会话到达自动跳（`mascot-hop`）/配额热 `.mascot-alert`/流量中 `.mascot-fly`。
+- **彩蛋**：session-list 任意位置 650ms 内点 5 次 → 台鹊飞出。
+- **成就新增**：`view-50` 百景图（切 50 视图）/`cinema-1h` 影院常客（累计 1h）/`fav-5` 收藏家/`magpie-50/200` 鹊缘/鹊上眉梢。
+- **KPI 连击火苗**：请求数卡 ≥2 天连击显示 `🔥N`。
+
+### 好用
+
+- **分享状态链接**：`?view&range&cinema` 一键复制（⌘S / palette"复制状态链接"）。
+- **默认视图**：vm-menu"默认视图"按钮/palette/rail-fav 双击——`magpie.defaultView` 落地。
+- **请求表排序**：`th[data-sort]` at/model/status/tokens/ttft/tps/cost 升降序，箭头显示方向。
+- **快捷键面板** 补 `⌘S`/`⌘E`/双击星/右键行。
+- **motion soft** 覆盖 ghost-magpie。
+
+### Bug 修复
+
+- **`app.js` 粒子循环 `length` 浮点**（`for (let i = 0; i < s.tokens / 400; i++)` → 每次渲染多 1 粒子直至爆内存）→ `Math.ceil`。
+- **index.html 11 个重复 `stage-view` id**（desert/fortune/grove/pond/metro/glacier/volcano/rain/tank/camp/harbor 各 2-3 份）→ 去重。
+- **volcano 嵌套三元引号解析**（`fill="...${hot ? "var(--red)" : "var(--line-2)"}"` 内双引号触发 parser 误读）→ 换单引号。
+
+### 埋点
+
+- `magpie.viewCount`（视图切换总数）
+- `magpie.cinemaMs`（影院累计毫秒）
+- `magpie.clicks`（台鹊点击数）
+- `magpie.badges`（成就包）
+- `magpie.viewHeat`/`viewRecent`（热度/最近）
+
+---
+
+## 下轮候选（v1.7.26+）
+
+1. **场景视图**：`river`（川=配额、鱼=会话）、`forest`（树=配额、鸟=会话）、`beach`（浪=配额、蟹=会话）、`village`（屋=配额、烟=会话）。
+2. **"今日 vs 昨日" 对比条** 显式进 hero 而非只在 attn-strip。
+3. **session-card 长按/右键** 二级动作（复制 tries、过滤 agent 已有，可加"钉到 quota 卡"）。
+4. **设置"动效"第 4 档** `bokeh`（慢 2.4×、几乎静态）。
+5. **palette 加"按组过滤"** — `group:场景` 列出场景组所有视图。
+6. **KPI 卡片拖到手记栏** → 一键把当前 token/cost 钉进自定义便签卡。
+7. **成就**：`view-all` 看过全部 115 / `quota-watch` 单窗 ≥95% 触发过 / `night-owl-2` 凌晨 ≥3 天。
