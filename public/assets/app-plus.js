@@ -1191,6 +1191,7 @@ show(F.length-1);
       if (bag[a.id] || !a.test(sig)) return;
       bag[a.id] = new Date().toISOString().slice(0, 10);
       toast(`解锁成就「${a.name}」· ${a.sub}`);
+      try { if (Obs.api.confetti) Obs.api.confetti(50 + Math.min(50, Object.keys(bag).length * 2)); } catch (_) {}
     });
     try { localStorage.setItem("magpie.badges", JSON.stringify(bag)); } catch (_) {}
   }

@@ -3252,6 +3252,50 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
     }, 2200);
   }
 
+  /* ------------------------------------------------------------- confetti --- */
+  // Lightweight canvas burst — achievement unlocks only.
+  function confetti(n) {
+    if (document.documentElement.dataset.motion === "off") return;
+    const c = document.createElement("canvas");
+    c.style.cssText = "position:fixed;inset:0;pointer-events:none;z-index:400";
+    c.width = innerWidth; c.height = innerHeight;
+    document.body.appendChild(c);
+    const ctx = c.getContext("2d");
+    const parts = [];
+    const colors = ["#8b7cf6","#4ade80","#fbbf24","#f472b6","#60a5fa","#f97316"];
+    const cx = innerWidth / 2, cy = innerHeight / 2;
+    for (let i = 0; i < (n || 60); i++) {
+      const a = Math.random() * Math.PI * 2, sp = 4 + Math.random() * 7;
+      parts.push({ x: cx, y: cy, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp - 4, r: 2 + Math.random() * 4, c: colors[i % colors.length], t: 0 });
+    }
+    const start = performance.now();
+    function frame(t) {
+      ctx.clearRect(0, 0, c.width, c.height);
+      const dt = (t - start) / 1000;
+      let alive = false;
+      parts.forEach(p => {
+        p.t += .016;
+        p.vy += .16;
+        p.x += p.vx; p.y += p.vy;
+        p.vx *= .985;
+        const life = 1 - p.t / 1.4;
+        if (life <= 0) return;
+        alive = true;
+        ctx.globalAlpha = life;
+        ctx.fillStyle = p.c;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.t * 8 + p.r);
+        ctx.fillRect(-p.r, -p.r * .5, p.r * 2, p.r);
+        ctx.restore();
+      });
+      if (alive) requestAnimationFrame(frame);
+      else c.remove();
+    }
+    requestAnimationFrame(frame);
+    setTimeout(() => { try { c.remove(); } catch (_) {} }, 2000);
+  }
+
   /* ------------------------------------------------------------------ init --- */
   function init() {
     try { console.info("%c Magpie Observatory v1.0.1 · twenty-five views · 7 styles · layout settings", "color:#8b7cf6;font-weight:bold"); } catch (_) {}
@@ -3304,7 +3348,7 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
   // The surface app-plus.js builds on. Kept tiny and stable.
   window.Obs = window.Obs || { hooks: { afterRender: [], afterTick: [], bind: [], init: [] }, game: {} };
   var apiObj = {
-    state, toast, setHeroMode, renderAll, fmtTokens, fmtMoney, fmtReset,
+    state, toast, confetti, setHeroMode, renderAll, fmtTokens, fmtMoney, fmtReset,
     computeView, drawWires, randomView, startTour, stopTour, connectLive,
     closeViewMenu,
     apiHeaders, viewMeta, VIEW_META, providerMeta: D.providerMeta, agentMeta: D.agentMeta,
