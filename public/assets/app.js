@@ -292,10 +292,11 @@
     let heat = 0, seen = false;
     try { heat = (JSON.parse(localStorage.getItem("magpie.viewHeat") || "{}"))[v.id] || 0; } catch (_) {}
     try { seen = (JSON.parse(localStorage.getItem("magpie.viewSeen") || "[]")).includes(v.id); } catch (_) {}
-    let seenDate = "";
-    try { seenDate = (JSON.parse(localStorage.getItem("magpie.viewSeenAt") || "{}"))[v.id] || ""; } catch (_) {}
+    let seenAt = "";
+    try { seenAt = (JSON.parse(localStorage.getItem("magpie.viewSeenAt") || "{}"))[v.id] || ""; } catch (_) {}
     const flame = heat >= 3 ? `<span class="vm-hot" title="常看 · ${heat} 次">🔥</span>` : "";
-    const dot = seen ? `<span class="vm-seen" title="已加入图鉴${seenDate ? ` · ${seenDate.slice(5)}` : ""}"></span>` : `<span class="vm-seen off" title="未看过"></span>`;
+    const when = seenAt ? (seenAt.length > 10 ? ` · ${seenAt.slice(5, 10)} ${seenAt.slice(11, 16)}` : ` · ${seenAt.slice(5)}`) : "";
+    const dot = seen ? `<span class="vm-seen" title="已加入图鉴${when}"></span>` : `<span class="vm-seen off" title="未看过"></span>`;
     return `<div class="vm-row${seen ? " seen" : ""}">
       <button class="vm-item" type="button" data-hero="${v.id}" data-search="${esc(search)}" role="option" aria-selected="false" style="--vm-c:${accent}">
         <span class="vm-ic"><svg><use href="#${v.icon}"/></svg></span>
@@ -1634,7 +1635,7 @@
       }
       const seenAt = JSON.parse(localStorage.getItem("magpie.viewSeenAt") || "{}");
       if (!seenAt[mode]) {
-        seenAt[mode] = new Date().toISOString().slice(0, 10);
+        seenAt[mode] = new Date().toISOString();
         localStorage.setItem("magpie.viewSeenAt", JSON.stringify(seenAt));
       }
       const h = JSON.parse(localStorage.getItem("magpie.viewHeat") || "{}");
@@ -3061,7 +3062,7 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
             seen.push(state.heroMode);
             localStorage.setItem("magpie.viewSeen", JSON.stringify(seen));
             const at = JSON.parse(localStorage.getItem("magpie.viewSeenAt") || "{}");
-            at[state.heroMode] = new Date().toISOString().slice(0, 10);
+            at[state.heroMode] = new Date().toISOString();
             localStorage.setItem("magpie.viewSeenAt", JSON.stringify(at));
             toast("图鉴加入：「" + name + "」 · " + seen.length + "/" + VIEW_META.length);
           }
