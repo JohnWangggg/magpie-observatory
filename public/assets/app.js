@@ -327,6 +327,7 @@
     { id: "meres", title: "湖沼", eyebrow: "MERES", group: "场景", icon: "i-magpie", hint: "苇床=配额窗 高=用量 骨顶鸡=会话" },
     { id: "springs", title: "山泉", eyebrow: "SPRINGS", group: "场景", icon: "i-magpie", hint: "泉=配额窗 弧高=用量 鹡鸰=会话" },
     { id: "brooks", title: "溪流", eyebrow: "BROOKS", group: "场景", icon: "i-magpie", hint: "石=配额窗 石径=用量 河乌=会话" },
+    { id: "fords", title: "浅滩", eyebrow: "FORDS", group: "场景", icon: "i-magpie", hint: "石=配额窗 石宽=用量 牛=会话" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
     { id: "grove", title: "果园", eyebrow: "GROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 果=用量 人=会话" },
     { id: "pond", title: "荷塘", eyebrow: "POND", group: "生态", icon: "i-magpie", hint: "莲=配额窗 漪=用量 蛙=会话" },
