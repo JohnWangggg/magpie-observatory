@@ -186,6 +186,7 @@
     { id: "hotpot", title: "火锅店", eyebrow: "HOTPOT", group: "场景", icon: "i-flame", hint: "锅=配额窗 料=会话 火=热度" },
     { id: "racing", title: "赛道", eyebrow: "RACING", group: "场景", icon: "i-zap", hint: "门=配额窗 车=会话 灯=热度" },
     { id: "forge", title: "铁匠铺", eyebrow: "FORGE", group: "场景", icon: "i-flame", hint: "炉=配额窗 件=会话 火=热度" },
+    { id: "reef", title: "珊瑚礁", eyebrow: "REEF", group: "生态", icon: "i-magpie", hint: "瑚=配额窗 鱼=会话 高=余量" },
     { id: "vine", title: "藤蔓", eyebrow: "VINE", group: "生态", icon: "i-magpie", hint: "叶=会话 大=Token" },
     { id: "play", title: "开局", eyebrow: "PLAY · EVERY CALL IS A BEAT", group: "趣味", icon: "i-zap", hint: "转盘 + 判定 + 连击" }
   ];
