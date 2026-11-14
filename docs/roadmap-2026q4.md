@@ -1066,3 +1066,12 @@ decision/palette）+ 复制/跳转/过滤/记忆/导出 全覆盖。审计完毕
 - **VIEW_META 趣味组** + `view-pinwheel` + `55 VIEWS`；
   README×2 + `docs/mode-pinwheel.png`。
 
+---
+
+## Phase 92 — 第 56 个视图 `chime`（2026-11-15 · v0.94.0）
+
+- **`chime.js/css`**：风铃——管=会话（长=Token、色=Agent、
+  裂=失败）+ 槌 + 顶梁；`ch-sway`/`ch-shiver`/`ch-clap`。
+- **VIEW_META 趣味组** + `view-chime` + `56 VIEWS`；
+  README×2 + `docs/mode-chime.png`。
+
