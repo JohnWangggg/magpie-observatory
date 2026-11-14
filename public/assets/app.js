@@ -335,6 +335,7 @@
     { id: "atolls", title: "环礁", eyebrow: "ATOLLS", group: "场景", icon: "i-magpie", hint: "礁环=配额窗 环径=用量 燕鸥=会话" },
     { id: "reefs", title: "礁脉", eyebrow: "REEFS", group: "场景", icon: "i-magpie", hint: "珊瑚=配额窗 高=用量 鱼群=会话" },
     { id: "lagoons", title: "泻湖", eyebrow: "LAGOONS", group: "场景", icon: "i-magpie", hint: "澙湖=配额窗 池径=用量 火烈鸟=会话" },
+    { id: "shoals", title: "浅洲", eyebrow: "SHOALS", group: "场景", icon: "i-magpie", hint: "浅洲=配额窗 丘高=用量 燕鸥=会话" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
     { id: "grove", title: "果园", eyebrow: "GROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 果=用量 人=会话" },
     { id: "pond", title: "荷塘", eyebrow: "POND", group: "生态", icon: "i-magpie", hint: "莲=配额窗 漪=用量 蛙=会话" },
