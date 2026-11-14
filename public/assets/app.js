@@ -172,6 +172,7 @@
     { id: "observatory", title: "天文台", eyebrow: "OBSERVATORY", group: "趣味", icon: "i-magpie", hint: "穹=配额窗 镜=会话 缝=用量" },
     { id: "station", title: "车站", eyebrow: "STATION", group: "趣味", icon: "i-route", hint: "灯=配额窗 车=会话 钟=当前" },
     { id: "circus", title: "马戏团", eyebrow: "CIRCUS", group: "趣味", icon: "i-magpie", hint: "索=会话 杆=token 球=配额" },
+    { id: "subway", title: "地铁图", eyebrow: "SUBWAY", group: "趣味", icon: "i-route", hint: "站=配额窗 车=会话" },
     { id: "vine", title: "藤蔓", eyebrow: "VINE", group: "趣味", icon: "i-magpie", hint: "叶=会话 大=Token" },
     { id: "play", title: "开局", eyebrow: "PLAY · EVERY CALL IS A BEAT", group: "趣味", icon: "i-zap", hint: "转盘 + 判定 + 连击" }
   ];
