@@ -757,6 +757,8 @@ show(F.length-1);
       if (q) { q.value = "err"; state().logQuery = "err"; Obs.api.renderAll(); }
       document.querySelector(".log-card, #log-body")?.scrollIntoView({ behavior: "smooth", block: "center" });
     }
+    if (dest === "records") showRecords();
+    if (dest === "weekly") weeklyReport();
   }
 
   // Bind quota card rows to the same burn jump.
@@ -1001,13 +1003,13 @@ show(F.length-1);
     const errs = (s.data.logs || []).filter(l => l.status === "err").length;
     if (errs >= 3) items.push({ cls: "bad", icon: "i-bolt", text: `${errs} 条请求失败`, sub: "点击看日志", goto: "logs", aid: "err-burst" });
     const streak = dayStreak();
-    if (streak >= 2) items.push({ cls: "good", icon: "i-flame", text: `连续使用 ${streak} 天`, sub: streak >= 7 ? "保持热度" : "", aid: "streak" });
+    if (streak >= 2) items.push({ cls: "good", icon: "i-flame", text: `连续使用 ${streak} 天`, sub: streak >= 7 ? "保持热度" : "", goto: "records", aid: "streak" });
     const act = s.data.sessions.filter(x => x.status !== "done").length;
     const heat = s.data.heatmap || [];
     const yd = heat.length >= 2 ? heat[heat.length - 2] : null;
     const delta = yd && yd.tokens ? Math.round(((k.tokens || 0) - yd.tokens) / yd.tokens * 100) : null;
     const deltaTxt = delta == null ? "" : ` · 较昨日 ${delta >= 0 ? "+" : ""}${delta}%`;
-    items.push({ cls: "calm", icon: "i-sparkle", text: `今日 ${fmtTokens(k.tokens)} tokens · ${fmtMoney(k.cost)}${deltaTxt}`, sub: `${act} 个会话活跃 · ${items.length ? "其余平稳" : "一切平稳"}` });
+    items.push({ cls: "calm", icon: "i-sparkle", text: `今日 ${fmtTokens(k.tokens)} tokens · ${fmtMoney(k.cost)}${deltaTxt}`, sub: `${act} 个会话活跃 · ${items.length ? "其余平稳" : "一切平稳"}`, goto: "weekly", aid: "daily" });
     host.hidden = false;
     const dismissed = (s.attnDismissed || new Set());
     host.innerHTML = items.filter(it => !dismissed.has(it.aid)).map(it => `<div class="attn-item ${it.cls}${it.goto ? " goto" : ""}" role="status" ${it.goto ? `data-goto="${it.goto}" data-prov="${it.prov || ""}"` : ""} data-aid="${it.aid || ""}" tabindex="0"><svg><use href="#${it.icon}"/></svg><b>${it.text}</b>${it.sub ? `<small>${it.sub}</small>` : ""}</div>`).join("");
