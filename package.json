@@ -1,6 +1,6 @@
 {
   "name": "magpie-observatory",
-  "version": "1.10.125",
+  "version": "1.10.126",
   "description": "A monitoring cockpit for Magpie: live routing with two-way magpies, quotas, usage, 22 views, cinema mode, command palette, daily digest, achievements, PWA, notifications, share card, layout edit, 7 style packs and layout settings.",
   "type": "module",
   "main": "./index.mjs",
@@ -17,7 +17,8 @@
   "scripts": {
     "preview": "node preview.mjs",
     "check": "node --check index.mjs && node --check server.mjs && node --check preview.mjs && node --check public/assets/app.js && node --check public/assets/app-plus.js && node --check public/assets/data.js && node --check public/assets/views/waterfall.js && node --check public/assets/views/swarm.js && node --check public/assets/views/treemap.js && node --check public/assets/views/sankey.js && node --check public/assets/views/funnel.js && node --check public/assets/views/latency.js && node --check public/assets/views/orrery.js && node --check public/assets/views/budget.js && node --check public/assets/views/marimekko.js && node --check public/assets/views/chord.js && node --check public/assets/views/network.js && node --check public/assets/views/stream.js && node --check public/assets/views/chips.js && node --check public/assets/views/factory.js && node --check public/assets/views/bees.js && node --check public/assets/views/stellar.js",
-    "publish:github": "bash scripts/publish-github.sh"
+    "publish:github": "bash scripts/publish-github.sh",
+    "sync-views": "node scripts/sync-views.mjs"
   },
   "keywords": [
     "magpie",
