@@ -2300,6 +2300,39 @@
       if (e.key === "Escape") cards.forEach(c => c.classList.remove("kb-focus"));
     });
 
+    // Hover a session card ~350ms → fixed popover with its tries chain and
+    // live stats; hides on leave/scroll so the list stays calm.
+    let popTimer = null;
+    const pop = document.createElement("div");
+    pop.className = "session-pop"; pop.hidden = true;
+    document.body.appendChild(pop);
+    const hidePop = () => { clearTimeout(popTimer); pop.hidden = true; };
+    $("#session-list").addEventListener("mouseover", e => {
+      const card = e.target.closest(".session-card");
+      if (!card) { return; }
+      clearTimeout(popTimer);
+      popTimer = setTimeout(() => {
+        const s = (state.data.sessions || []).concat(state.data.recent || []).find(x => x.id === card.dataset.session);
+        if (!s) return;
+        const tries = (s.tries || []).map(t =>
+          `<div class="pop-try"><span>${esc(D.providerMeta(t.provider).name)}/${esc(t.model.split("/").pop())}</span><em class="${t.state}">${t.state === "ok" ? "✓" : t.state === "fail" ? "✕" : "…"}</em></div>`).join("");
+        const subs = (s.subagents || []).length;
+        pop.innerHTML = `
+          <div class="pop-head"><b>${esc(s.title)}</b><span>${esc(STATUS_TEXT[s.status] || s.status)}</span></div>
+          <div class="pop-meta">${esc(D.agentMeta(s.agent).name)} · ${esc(s.model)} · group/${esc(s.group || "direct")}</div>
+          <div class="pop-stats"><span><b>${fmtTokens(s.tokens || 0)}</b> tok</span><span><b>${s.tps ? s.tps.toFixed(0) : "—"}</b> tok/s</span><span><b>${fmtAge(Date.now() - s.startedAt)}</b></span><span><b>${subs}</b> 子任务</span></div>
+          ${tries ? `<div class="pop-tries">${tries}</div>` : ""}`;
+        const r = card.getBoundingClientRect();
+        pop.hidden = false;
+        const pw = 260;
+        pop.style.left = Math.max(8, Math.min(window.innerWidth - pw - 8, r.left)) + "px";
+        pop.style.top = (r.bottom + 6 + pop.offsetHeight > window.innerHeight ? r.top - pop.offsetHeight - 6 : r.bottom + 6) + "px";
+      }, 350);
+    });
+    $("#session-list").addEventListener("mouseout", e => { if (e.target.closest(".session-card")) hidePop(); });
+    $("#session-list").addEventListener("scroll", hidePop, { passive: true });
+    document.addEventListener("click", e => { if (!e.target.closest(".session-pop")) hidePop(); });
+
     // Right-click a session card → copy its id to clipboard (session↔log
     // searches, support tickets). Long-press on touch also lands here.
     $("#session-list").addEventListener("contextmenu", e => {
