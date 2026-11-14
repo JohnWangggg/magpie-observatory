@@ -1,0 +1,14 @@
+/* geyser */
+.gy-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.gy-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.gy-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.gy-head span { font-size: 8px; color: var(--muted); }
+.gy-wrap svg { flex: 1; width: 100%; }
+.gy-geyser { transform-box: fill-box; }
+.gy-geyser.hot path { filter: drop-shadow(0 0 4px rgba(240,120,80,.45)); }
+.gy-tourist { transform-box: fill-box; }
+.gy-tourist.dead { opacity: .85; }
+.gy-pct { font: 700 10px var(--num); fill: var(--fg); }
+.gy-name { font: 600 7.5px var(--mono); fill: var(--muted); }
+.gy-k { font: 700 10px var(--num); fill: var(--fg); }
+.gy-ksub { font: 7px var(--mono); fill: var(--muted); }
