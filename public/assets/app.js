@@ -540,12 +540,25 @@
       const ring = it.key === "tokens" && goalPct != null
         ? `<span class="kpi-goal" title="今日目标 · 昨日 ${fmtTokens(goal)} · 已达成 ${goalPct}%"><svg viewBox="0 0 18 18"><circle cx="9" cy="9" r="7" fill="none" stroke="var(--line)" stroke-width="2.4"/><circle cx="9" cy="9" r="7" fill="none" stroke="${it.color}" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="${(goalPct / 100 * 44).toFixed(1)} 44" transform="rotate(-90 9 9)"/></svg><em>${goalPct}%</em></span>`
         : "";
-      return `<article class="kpi" style="--k-c:${it.color}">
+      return `<article class="kpi" data-kpi-jump="${it.key}" style="--k-c:${it.color}" title="点击跳到相关视图">
         <div class="kpi-label"><span>${it.label}</span><svg><use href="#${it.icon}"/></svg></div>
         <div class="kpi-value"><b>${esc(it.value)}</b><span>${esc(it.unit)}</span>${ring}</div>
         <div class="kpi-foot"><span class="kpi-delta ${deltaCls}">${deltaText}</span>${spark}</div>
       </article>`;
     }).join("");
+    $$("#kpi-row .kpi[data-kpi-jump]").forEach(el => {
+      el.style.cursor = "pointer";
+      el.addEventListener("click", () => {
+        const map = { requests: ".table-card", tokens: "trend", cost: ".quota-card", cache: ".quota-card", tps: "latency", active: "orrery" };
+        const target = map[el.dataset.kpiJump];
+        if (!target) return;
+        if (target.startsWith(".")) {
+          const node = document.querySelector(target);
+          if (node) { node.scrollIntoView({ behavior: "smooth", block: "center" }); toast("已定位"); return; }
+        }
+        if (viewRegistry()[target]) { setHeroMode(target); document.querySelector(".hero").scrollIntoView({ behavior: "smooth", block: "start" }); toast(`已切到 ${D.providerMeta ? "" : ""}${target}`); }
+      });
+    });
   }
 
   function sparkPath(vals) {
