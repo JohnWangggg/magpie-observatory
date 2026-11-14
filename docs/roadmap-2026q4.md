@@ -1002,3 +1002,12 @@ decision/palette）+ 复制/跳转/过滤/记忆/导出 全覆盖。审计完毕
 - **VIEW_META 趣味组** + `view-dna` + `48 VIEWS`；
   README×2 + `docs/mode-dna.png`。
 
+---
+
+## Phase 85 — 第 49 个视图 `nebula`（2026-11-15 · v0.87.0）
+
+- **`nebula.js/css`**：彩色星云——云团=会话（大=Token、色=Agent、
+  淡=失败）+ 丝状光 + 尘埃、`feGaussianBlur` 柔焦。
+- **VIEW_META 趣味组** + `view-nebula` + `49 VIEWS`；
+  README×2 + `docs/mode-nebula.png`。
+

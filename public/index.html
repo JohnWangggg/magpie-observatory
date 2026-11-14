@@ -50,6 +50,7 @@
 <link rel="stylesheet" href="assets/views/wave.css">
 <link rel="stylesheet" href="assets/views/galaxy.css">
 <link rel="stylesheet" href="assets/views/dna.css">
+<link rel="stylesheet" href="assets/views/nebula.css">
 <body>
 <svg class="sprite" aria-hidden="true">
   <symbol id="i-overview" viewBox="0 0 24 24"><path d="M4 13h6V4H4v9Zm0 7h6v-4H4v4Zm10 0h6v-9h-6v9Zm0-16v4h6V4h-6Z"/></symbol>
@@ -108,7 +109,7 @@
       <button class="nav-item" id="theme-toggle" title="明暗模式"><svg class="icon-moon"><use href="#i-moon"/></svg><svg class="icon-sun"><use href="#i-sun"/></svg><span>明暗</span></button>
       <button class="nav-item" id="style-toggle" title="界面风格"><svg><use href="#i-palette"/></svg><span>风格</span></button>
       <button class="nav-item" id="settings-toggle" title="布局与动效"><svg><use href="#i-settings"/></svg><span>设置</span></button>
-      <div class="rail-version">v0.86.0 <i></i> plugin</div>
+      <div class="rail-version">v0.87.0 <i></i> plugin</div>
     </div>
   </aside>
 
@@ -229,6 +230,7 @@
           <div class="stage-view" id="view-wave" hidden></div>
           <div class="stage-view" id="view-galaxy" hidden></div>
           <div class="stage-view" id="view-dna" hidden></div>
+          <div class="stage-view" id="view-nebula" hidden></div>
         </div>
         <div class="decision-strip">
           <div class="decision-icon"><svg><use href="#i-zap"/></svg></div>
@@ -454,7 +456,7 @@
   </div>
 </div>
 <div class="view-menu" id="view-menu" hidden role="dialog" aria-label="切换视图">
-  <div class="vm-head"><div><b>切换视图</b><small>48 VIEWS</small></div><button class="vm-close" id="view-menu-close" type="button" aria-label="关闭"><svg><use href="#i-x"/></svg></button></div>
+  <div class="vm-head"><div><b>切换视图</b><small>49 VIEWS</small></div><button class="vm-close" id="view-menu-close" type="button" aria-label="关闭"><svg><use href="#i-x"/></svg></button></div>
   <label class="vm-search"><svg><use href="#i-search"/></svg><input id="view-search" type="search" placeholder="搜索视图 / 分组 / 关键词" autocomplete="off"></label>
   <div class="vm-groups" id="vm-groups"></div>
   <div class="vm-none" id="vm-none" hidden>没有匹配的视图</div>
@@ -546,6 +548,7 @@
 <script src="assets/views/wave.js"></script>
 <script src="assets/views/galaxy.js"></script>
 <script src="assets/views/dna.js"></script>
+<script src="assets/views/nebula.js"></script>
 <script src="assets/app-plus.js"></script>
 <script src="assets/app.js"></script>
 </body>
