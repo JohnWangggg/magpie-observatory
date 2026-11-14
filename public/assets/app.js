@@ -343,6 +343,7 @@
     { id: "nunataks", title: "岛峰", eyebrow: "NUNATAKS", group: "场景", icon: "i-magpie", hint: "岛峰=配额窗 露高=用量 雪鹀=会话" },
     { id: "moraines", title: "冰碛", eyebrow: "MORAINES", group: "场景", icon: "i-magpie", hint: "冰碛=配额窗 丘高=用量 旱獭=会话" },
     { id: "crevasses", title: "冰裂隙", eyebrow: "CREVASSES", group: "场景", icon: "i-magpie", hint: "裂隙=配额窗 深=用量 登山者=会话" },
+    { id: "eskers", title: "蛇丘", eyebrow: "ESKERS", group: "场景", icon: "i-magpie", hint: "蛇丘=配额窗 长=用量 雷鸟=会话" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
     { id: "grove", title: "果园", eyebrow: "GROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 果=用量 人=会话" },
     { id: "pond", title: "荷塘", eyebrow: "POND", group: "生态", icon: "i-magpie", hint: "莲=配额窗 漪=用量 蛙=会话" },
