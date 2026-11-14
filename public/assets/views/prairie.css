@@ -1,0 +1,14 @@
+/* prairie */
+.pr-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.pr-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.pr-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.pr-head span { font-size: 8px; color: var(--muted); }
+.pr-wrap svg { flex: 1; width: 100%; }
+.pr-clump { transform-box: fill-box; }
+.pr-clump.hot ellipse { filter: drop-shadow(0 0 3px rgba(230,160,60,.4)); }
+.pr-prong { transform-box: fill-box; }
+.pr-prong.dead { opacity: .9; }
+.pr-pct { font: 700 10px var(--num); fill: var(--fg); }
+.pr-name { font: 600 7.5px var(--mono); fill: var(--muted); }
+.pr-k { font: 700 10px var(--num); fill: var(--fg); }
+.pr-ksub { font: 7px var(--mono); fill: var(--muted); }
