@@ -2386,6 +2386,13 @@
       toast("台鹊：" + quips[Math.floor(Math.random() * quips.length)]);
       setTimeout(() => mc2.classList.remove("mascot-hop"), 520);
     });
+    mc2.addEventListener("dblclick", () => {
+      mc2.classList.remove("mascot-lap");
+      void mc2.offsetWidth;
+      mc2.classList.add("mascot-lap");
+      toast("台鹊绕场一周！");
+      setTimeout(() => mc2.classList.remove("mascot-lap"), 3450);
+    });
     $("#filter-chip-x").addEventListener("click", () => {
       state.filter = null;
       state.selectedSession = null;
