@@ -346,6 +346,7 @@
     { id: "eskers", title: "蛇丘", eyebrow: "ESKERS", group: "场景", icon: "i-magpie", hint: "蛇丘=配额窗 长=用量 雷鸟=会话" },
     { id: "cirques", title: "冰斗", eyebrow: "CIRQUES", group: "场景", icon: "i-magpie", hint: "冰斗=配额窗 斗深=用量 山羊=会话" },
     { id: "drumlins", title: "鼓丘", eyebrow: "DRUMLINS", group: "场景", icon: "i-magpie", hint: "鼓丘=配额窗 长=用量 野兔=会话" },
+    { id: "kames", title: "冰砾阜", eyebrow: "KAMES", group: "场景", icon: "i-magpie", hint: "砾阜=配额窗 陡=用量 松鸡=会话" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
     { id: "grove", title: "果园", eyebrow: "GROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 果=用量 人=会话" },
     { id: "pond", title: "荷塘", eyebrow: "POND", group: "生态", icon: "i-magpie", hint: "莲=配额窗 漪=用量 蛙=会话" },
