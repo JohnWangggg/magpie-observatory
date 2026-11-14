@@ -313,6 +313,7 @@
     { id: "moorland", title: "荒原", eyebrow: "MOORLAND", group: "场景", icon: "i-magpie", hint: "荒原=配额窗 丘高=用量 野兔=会话" },
     { id: "vineyards", title: "葡萄园", eyebrow: "VINEYARDS", group: "场景", icon: "i-magpie", hint: "葡园=配额窗 架高=用量 麻雀=会话" },
     { id: "orchards", title: "果园", eyebrow: "ORCHARDS", group: "场景", icon: "i-magpie", hint: "果树=配额窗 冠幅=用量 蜜蜂=会话" },
+    { id: "hedges", title: "绿篱", eyebrow: "HEDGES", group: "场景", icon: "i-magpie", hint: "绿篱=配额窗 篱高=用量 瓢虫=会话" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
     { id: "grove", title: "果园", eyebrow: "GROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 果=用量 人=会话" },
     { id: "pond", title: "荷塘", eyebrow: "POND", group: "生态", icon: "i-magpie", hint: "莲=配额窗 漪=用量 蛙=会话" },
