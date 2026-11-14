@@ -1118,7 +1118,9 @@ show(F.length-1);
     { id: "tokens-1m", name: "百万字海", test: s => s.tokens >= 1e6, sub: "单日 1M tokens" },
     { id: "tokens-10m", name: "千万星河", test: s => s.tokens >= 1e7, sub: "单日 10M tokens" },
     { id: "parallel-3", name: "三路并发", test: s => s.active >= 3, sub: "同时 3 个会话" },
-    { id: "night-owl", name: "夜航人", test: s => new Date().getHours() < 6, sub: "凌晨还在观测" }
+    { id: "night-owl", name: "夜航人", test: s => new Date().getHours() < 6, sub: "凌晨还在观测" },
+    { id: "magpie-50", name: "鹊缘人", test: s => (parseInt(localStorage.getItem("magpie.clicks") || "0", 10) || 0) >= 50, sub: "点台鹊 50 次" },
+    { id: "magpie-200", name: "鹊上眉梢", test: s => (parseInt(localStorage.getItem("magpie.clicks") || "0", 10) || 0) >= 200, sub: "点台鹊 200 次" }
   ];
   function checkAchievements() {
     const s = state();
