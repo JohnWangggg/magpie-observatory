@@ -483,7 +483,7 @@ img { display: block; }
 .vm-search input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; color: var(--fg); font: inherit; font-size: 10px; }
 .vm-search input::placeholder { color: var(--faint); }
 .vm-groups { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; padding: 4px 12px 10px; overflow: auto; min-height: 0; }
-.vm-group h4 { display: flex; align-items: center; gap: 5px; margin: 2px 0 4px; font-size: 7px; font-weight: 650; letter-spacing: .14em; color: var(--faint); text-transform: uppercase; }
+.vm-group h4 { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: 5px; margin: 2px 0 4px; padding: 3px 0; font-size: 7px; font-weight: 650; letter-spacing: .14em; color: var(--faint); text-transform: uppercase; background: color-mix(in srgb, var(--card) 94%, transparent); }
 .vm-group h4 i { width: 5px; height: 5px; border-radius: 50%; background: var(--vm-g, var(--accent)); box-shadow: 0 0 7px var(--vm-g, var(--accent)); }
 .vm-group h4 span { margin-left: auto; font-family: var(--mono); font-size: 6.5px; color: var(--faint); }
 .vm-item { display: grid; grid-template-columns: 24px minmax(0, 1fr) auto; gap: 7px; align-items: center; width: 100%; padding: 5px 6px; border-radius: 8px; text-align: left; color: var(--muted); transition: background .14s, color .14s, box-shadow .14s; }

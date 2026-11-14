@@ -88,7 +88,7 @@
   function renderCustomView(mode, force) {
     const view = viewRegistry()[mode];
     const host = $("#view-" + mode);
-    if (!view || !host) return;
+    if (!view || !host) { if (!host && view) console.warn(`renderCustomView: no host for ${mode}`); return; }
     view.render(host, buildViewCtx());
     // After the view rebuilds its DOM, re-light any legend chip matching the
     // active session filter so the visual state survives every re-render.
