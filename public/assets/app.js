@@ -233,6 +233,7 @@
     { id: "oasis", title: "绿洲", eyebrow: "OASIS", group: "场景", icon: "i-magpie", hint: "泉=配额窗 涌=用量 驼=会话" },
     { id: "cascade", title: "阶瀑", eyebrow: "CASCADE", group: "用量", icon: "i-chart", hint: "级=模型 宽=份额 滴=会话" },
     { id: "delta", title: "河口", eyebrow: "DELTA", group: "场景", icon: "i-magpie", hint: "汊=配额窗 流=用量 艇=会话" },
+    { id: "solarwind", title: "太阳风", eyebrow: "SOLAR WIND", group: "天象", icon: "i-magpie", hint: "冕=配额窗 珥=用量 粒=会话" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
     { id: "grove", title: "果园", eyebrow: "GROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 果=用量 人=会话" },
     { id: "pond", title: "荷塘", eyebrow: "POND", group: "生态", icon: "i-magpie", hint: "莲=配额窗 漪=用量 蛙=会话" },
