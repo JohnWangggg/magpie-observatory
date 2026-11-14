@@ -1,0 +1,14 @@
+/* wadis */
+.wd-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.wd-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.wd-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.wd-head span { font-size: 8px; color: var(--muted); }
+.wd-wrap svg { flex: 1; width: 100%; }
+.wd-braid { transform-box: fill-box; }
+.wd-braid.hot line, .wd-braid.hot rect { filter: drop-shadow(0 0 4px rgba(240,200,100,.5)); }
+.wd-camel { transform-box: fill-box; }
+.wd-camel.dead { opacity: .85; }
+.wd-pct { font: 700 9px var(--num); fill: #c0a878; }
+.wd-name { font: 600 7px var(--mono); fill: #a08858; }
+.wd-k { font: 700 10px var(--num); fill: var(--fg); }
+.wd-ksub { font: 7px var(--mono); fill: var(--muted); }
