@@ -1,0 +1,14 @@
+/* oceans */
+.os-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.os-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.os-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.os-head span { font-size: 8px; color: var(--muted); }
+.os-wrap svg { flex: 1; width: 100%; }
+.os-swell { transform-box: fill-box; }
+.os-swell.hot path { filter: drop-shadow(0 0 4px rgba(240,200,100,.4)); }
+.os-bird { transform-box: fill-box; }
+.os-bird.dead { opacity: .85; }
+.os-pct { font: 700 9px var(--num); fill: #b0d0e8; }
+.os-name { font: 600 7px var(--mono); fill: #88a8c8; }
+.os-k { font: 700 10px var(--num); fill: var(--fg); }
+.os-ksub { font: 7px var(--mono); fill: var(--muted); }
