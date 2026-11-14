@@ -124,6 +124,7 @@
     { id: "vortex", title: "漩涡", eyebrow: "VORTEX", group: "趣味", icon: "i-magpie", hint: "螺旋=会话" },
     { id: "kaleido", title: "万花筒", eyebrow: "KALEIDO", group: "趣味", icon: "i-magpie", hint: "楔=会话 12折" },
     { id: "orbit", title: "彗星轨道", eyebrow: "ORBIT", group: "趣味", icon: "i-magpie", hint: "彗=会话 尾=弧" },
+    { id: "rain", title: "雨幕", eyebrow: "RAIN", group: "趣味", icon: "i-magpie", hint: "滴=会话 红=失败" },
     { id: "play", title: "开局", eyebrow: "PLAY · EVERY CALL IS A BEAT", group: "趣味", icon: "i-zap", hint: "转盘 + 判定 + 连击" }
   ];
 
@@ -2561,7 +2562,7 @@
 
   /* ------------------------------------------------------------------ init --- */
   function init() {
-    try { console.info("%c Magpie Observatory v0.80.0 · twenty-five views · 7 styles · layout settings", "color:#8b7cf6;font-weight:bold"); } catch (_) {}
+    try { console.info("%c Magpie Observatory v0.81.0 · twenty-five views · 7 styles · layout settings", "color:#8b7cf6;font-weight:bold"); } catch (_) {}
     (window.Obs && window.Obs.hooks.init || []).forEach(fn => { try { fn(apiObj); } catch (_) {} });
     try {
       const hostTheme = new URLSearchParams(location.search).get("hostTheme");

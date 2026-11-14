@@ -943,3 +943,13 @@ decision/palette）+ 复制/跳转/过滤/记忆/导出 全覆盖。审计完毕
 - **VIEW_META 趣味组** + `view-orbit` + `42 VIEWS`；
   README×2 + `docs/mode-orbit.png`。
 
+---
+
+## Phase 79 — 第 43 个视图 `rain`（2026-11-15 · v0.81.0）
+
+- **`rain.js/css`**：雨幕——滴=会话（长=Token、色=Agent、红=失败）、
+  `rn-fall` 无限循环、`rn-splash` 落地涟漪、`rn-cloud` 云。
+- **坑**：`both` 定格屏外→`infinite`；SMIL splash→CSS `scale(0)→scale(1)`。
+- **VIEW_META 趣味组** + `view-rain` + `43 VIEWS`；
+  README×2 + `docs/mode-rain.png`。
+
