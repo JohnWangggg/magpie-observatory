@@ -829,3 +829,20 @@ error/failed 会话 flatline，右上角 `BPM = Σtps × 0.9` 心跳读数。
 
 文件：`public/assets/views/pulse.js` + `pulse.css` + `VIEW_META`（实时组）+
 `shots/pulse.png`。
+
+
+---
+
+## 17. 微动效清单 (v1.10.129+)
+
+| 动效 | 触发 | 实现 |
+|---|---|---|
+| `viewIn` | heroMode 切换 | `.stage-view.view-enter` cubic-bezier(.2,.8,.25,1) .34s（translate+scale+blur） |
+| `view-bloom` | heroMode 切换 | `.hero.view-bloom` accent 环+光 480ms，与 viewIn 同发 |
+| `vmItemIn` | 打开视图菜单 | `.view-menu.opening .vm-item` — `calc(var(--vm-i)*14ms)` 级联延迟，cap 18 行 |
+| `statBump` | hero-stat 值变 | `.45s` 下沉弹跳 |
+| `statUp/DownGlow` | hero-stat 增减 | 600ms 绿/红脉冲，配合 count-up `setTimeout` 链（rAF 在后台 tab 不触发） |
+| `vm-thumb peek` | 菜单行悬停 420ms | 188→280px |
+| `fav-thumb peek` | 收藏位悬停 420ms | 120→200px |
+| `pal-thumb` | palette 行悬停 | 110→168px，width/height .3s 带 .18s delay |
+| `vlight` | 点缩略图 | backdrop-blur 浮层 + accent spinner + Esc/2.4s 关闭 |
