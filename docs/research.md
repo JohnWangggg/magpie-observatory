@@ -878,3 +878,26 @@ Magpie 插件宿主起 `index.mjs` → `server.mjs` 起一个 `127.0.0.1:3488` �
 
 网关地址：`MAGPIE_URL` env > `gateway.json`（10s 缓存，失败重读）> `127.0.0.1:3425`。
 `/api/usage/heatmap` 无官方端点：用 `usage?period=all` 聚合 5min 缓存兜底。
+
+
+---
+
+## 20. 完整工具链 (v1.10.129+)
+
+```bash
+npm run check          # lint-data + lint-views + sync-views — 全量静态检查
+npm run lint-data      # data.js 形状 + provider 图标 + shots 覆盖
+npm run lint-views     # views/<id>.js 注册 ObservatoryViews[id] + .css + render
+npm run sync-views     # VIEW_META → manifest.js + views-catalog.md（sanity 报告）
+npm run smoke          # 337 视图 route-stage DOM 冒烟（--errors-only 只看失败）
+npm run thumbs         # 337 PNG 全量；--ids a,b 只重截
+npm run shot           # one-shot.py — 单视图截图 + DOM/错误统计
+```
+
+CI `.github/workflows/check.yml` 跑 `npm run check`（lint-data + lint-views + sync-views）。
+
+新增视图流程：
+1. `views/<id>.js` + `.css`（可选，canvas 免） + `VIEW_META` 行
+2. `npm run check` → 结构+注册+图标+shot 占位全过
+3. `npm run thumbs -- --ids <id>` → 单点重截缩略图
+4. `npm run smoke -- --errors-only` → 渲染健康确认
