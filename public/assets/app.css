@@ -2909,3 +2909,7 @@ body.mini .route-stage { min-height: 0 !important; }
 .session-search svg { width: 11px; height: 11px; flex: none; fill: none; stroke: var(--faint); stroke-width: 1.8; }
 .session-search input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; color: var(--fg); font: inherit; font-size: 9.5px; }
 .session-search input::placeholder { color: var(--faint); }
+.session-pin { border: 0; background: none; padding: 0 4px; font-size: 10px; line-height: 1; color: var(--faint); cursor: pointer; opacity: 0; transition: opacity .15s; }
+.session-card:hover .session-pin, .session-pin.on { opacity: 1; }
+.session-pin.on { color: var(--amber); }
+.session-card.pinned { border-color: color-mix(in srgb, var(--amber) 40%, var(--line)); }

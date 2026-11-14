@@ -50,6 +50,12 @@
         const raw = JSON.parse(localStorage.getItem("magpie.favorites") || "[]");
         return Array.isArray(raw) ? raw.filter(x => typeof x === "string") : [];
       } catch (_) { return []; }
+    })(),
+    pinnedSessions: (() => {
+      try {
+        const raw = JSON.parse(localStorage.getItem("magpie.pinnedSessions") || "[]");
+        return Array.isArray(raw) ? raw.filter(x => typeof x === "string").slice(0, 12) : [];
+      } catch (_) { return []; }
     })()
   };
 
@@ -480,6 +486,10 @@
       list = list.filter(s => state.filter.type === "agent"
         ? s.agent === state.filter.value
         : s.provider === state.filter.value);
+    }
+    if (state.pinnedSessions.length) {
+      const pin = new Set(state.pinnedSessions);
+      list = list.slice().sort((a, b) => (pin.has(b.id) ? 1 : 0) - (pin.has(a.id) ? 1 : 0));
     }
     if (state.sessionQuery) {
       const q = state.sessionQuery.toLowerCase();
@@ -1540,14 +1550,16 @@
   function sessionCard(s) {
     const meta = D.agentMeta(s.agent);
     const sel = s.id === state.selectedSession;
+    const pinned = state.pinnedSessions.includes(s.id);
     const age = Date.now() - s.startedAt;
     const st = STATUS_CLASS[s.status] || "";
     const tps = s.tps ? `${s.tps.toFixed(1)} tok/s` : "— tok/s";
     const subs = (s.subagents || []).map(sub => `<div class="subagent-row"><b>${esc(sub.name)}</b><span>${esc(STATUS_TEXT[sub.status] || sub.status)}</span><span class="sub-model">${esc(sub.model)} · ${sub.tps ? sub.tps.toFixed(0) : "—"} TPS</span></div>`).join("");
-    return `<article class="session-card${sel ? " selected" : ""}${s.status === "streaming" ? " streaming" : ""}" role="button" aria-selected="${sel}" aria-label="${esc(s.title)} · ${esc(s.model)} · ${esc(STATUS_TEXT[s.status] || s.status)}" data-session="${esc(s.id)}" style="--s-c:${meta.color}" tabindex="0">
+    return `<article class="session-card${sel ? " selected" : ""}${pinned ? " pinned" : ""}${s.status === "streaming" ? " streaming" : ""}" role="button" aria-selected="${sel}" aria-label="${esc(s.title)} · ${esc(s.model)} · ${esc(STATUS_TEXT[s.status] || s.status)}" data-session="${esc(s.id)}" style="--s-c:${meta.color}" tabindex="0">
       <div class="session-top">
         <span class="session-agent"><img src="${agentIcon(s.agent)}" alt=""></span>
         <span class="session-title" title="${esc(s.title)}">${esc(s.title)}</span>
+        <button class="session-pin${pinned ? " on" : ""}" data-pin="${esc(s.id)}" title="${pinned ? "取消置顶" : "置顶会话"}" aria-label="pin">${pinned ? "★" : "☆"}</button>
         <span class="session-state ${st}">${STATUS_TEXT[s.status] || s.status}</span>
       </div>
       <div class="session-meta"><span class="session-model">${esc(s.model)}</span><span class="session-route">→ ${s.group === "最近完成" ? "最近完成" : "group/" + esc(s.group || "direct")}</span></div>
@@ -1589,7 +1601,7 @@
     // the 30-second bucket so a streaming card never looks frozen.
     const sig = [state.sessionTab,
       state.filter ? state.filter.type + ":" + state.filter.value : "",
-      state.selectedSession || "", live.length, Math.floor(Date.now() / 30000),
+      state.selectedSession || "", state.pinnedSessions.join(","), live.length, Math.floor(Date.now() / 30000),
       list.concat(extra).map(s => [s.id, s.status, s.title, s.model, s.provider, s.group,
         s.tokens, s.tps && s.tps.toFixed(1), s.fallbacks, s.startedAt, (s.subagents || []).length].join(",")).join("\u0001")
     ].join("\u0002");
@@ -2342,6 +2354,18 @@
       toast("筛选已清除");
     });
     $("#session-list").addEventListener("click", e => {
+      const pinBtn = e.target.closest(".session-pin");
+      if (pinBtn) {
+        e.stopPropagation();
+        const id = pinBtn.dataset.pin;
+        const i = state.pinnedSessions.indexOf(id);
+        if (i >= 0) state.pinnedSessions.splice(i, 1); else state.pinnedSessions.unshift(id);
+        state.pinnedSessions = state.pinnedSessions.slice(0, 12);
+        try { localStorage.setItem("magpie.pinnedSessions", JSON.stringify(state.pinnedSessions)); } catch (_) {}
+        renderSessions();
+        toast(i >= 0 ? "已取消置顶" : "会话已置顶");
+        return;
+      }
       const card = e.target.closest(".session-card");
       if (!card) return;
       const id = card.dataset.session;
