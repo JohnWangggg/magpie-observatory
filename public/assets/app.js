@@ -182,6 +182,7 @@
     { id: "subway", title: "地铁图", eyebrow: "SUBWAY", group: "场景", icon: "i-route", hint: "站=配额窗 车=会话" },
     { id: "windmill", title: "风车塔", eyebrow: "WINDMILL", group: "场景", icon: "i-magpie", hint: "塔=配额窗 叶=热度 鸟=会话" },
     { id: "orchestra", title: "管弦乐", eyebrow: "ORCHESTRA", group: "场景", icon: "i-magpie", hint: "环=配额窗 音符=会话" },
+    { id: "harvest", title: "麦田", eyebrow: "HARVEST", group: "场景", icon: "i-magpie", hint: "穗=配额窗 机=会话 高=余量" },
     { id: "vine", title: "藤蔓", eyebrow: "VINE", group: "生态", icon: "i-magpie", hint: "叶=会话 大=Token" },
     { id: "play", title: "开局", eyebrow: "PLAY · EVERY CALL IS A BEAT", group: "趣味", icon: "i-zap", hint: "转盘 + 判定 + 连击" }
   ];
