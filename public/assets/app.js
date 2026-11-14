@@ -474,7 +474,7 @@
         <span class="vm-ic"><svg><use href="#${v.icon}"/></svg></span>
         <span class="vm-copy"><b>${esc(v.title)}</b><small>${esc(v.eyebrow)}</small></span>
         <span class="vm-hint">${esc(v.hint)}</span>${flame}${dot}
-        <span class="vm-thumb" aria-hidden="true"><img src="shots/${v.id}.png" alt="" loading="lazy" onerror="this.closest('.vm-thumb').classList.add('none'); this.remove()"><i class="vm-thumb-fallback"><svg><use href="#${v.icon}"/></svg><b>${esc(v.title)}</b></i></span>
+        <span class="vm-thumb" aria-hidden="true"><img src="shots/${v.id}.png" alt="" loading="lazy" onerror="this.closest('.vm-thumb').classList.add('none'); console.info('[obs] missing shot:', '${v.id}'); this.remove()"><i class="vm-thumb-fallback"><svg><use href="#${v.icon}"/></svg><b>${esc(v.title)}</b></i></span>
       </button>
       <button class="vm-star${on ? " on" : ""}" type="button" data-fav="${v.id}" aria-pressed="${on}" aria-label="${on ? "取消收藏" : "收藏"} ${esc(v.title)}" title="${on ? "取消收藏" : "收藏"}">
         <svg><use href="#i-star"/></svg>
