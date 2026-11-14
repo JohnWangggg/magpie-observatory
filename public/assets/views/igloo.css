@@ -1,0 +1,14 @@
+/* igloo */
+.ig-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.ig-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.ig-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.ig-head span { font-size: 8px; color: var(--muted); }
+.ig-wrap svg { flex: 1; width: 100%; }
+.ig-num { font: 700 8.5px var(--num); fill: var(--fg); }
+.ig-name { font: 7px var(--mono); fill: var(--muted); }
+.ig-k { font: 700 10px var(--num); fill: var(--fg); }
+.ig-ksub { font: 7.5px var(--mono); fill: var(--muted); }
+.ig-dome { transform-box: fill-box; }
+.ig-dome.hot { filter: drop-shadow(0 0 5px rgba(240,200,100,.4)); }
+.ig-travel { transform-box: fill-box; }
+.ig-travel.dead { opacity: .8; }
