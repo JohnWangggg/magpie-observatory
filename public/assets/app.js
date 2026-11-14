@@ -2375,6 +2375,15 @@
       renderTrend();
     });
 
+    const mc2 = $("#mascot");
+    if (mc2) mc2.addEventListener("click", () => {
+      mc2.classList.remove("mascot-hop");
+      void mc2.offsetWidth;
+      mc2.classList.add("mascot-hop");
+      const quips = ["叽喳", "喳喳！", "今日宜多开会话", "token 不够就改道", "窗口快满啦", "吉签大吉", "缓存复用是好习惯", "别盯着报错看"];
+      toast("台鹊：" + quips[Math.floor(Math.random() * quips.length)]);
+      setTimeout(() => mc2.classList.remove("mascot-hop"), 520);
+    });
     $("#filter-chip-x").addEventListener("click", () => {
       state.filter = null;
       state.selectedSession = null;

@@ -2922,7 +2922,7 @@ body.mini .route-stage { min-height: 0 !important; }
  * perched and breathing; busy (active sessions): short flights across
  * the stage; alert (any window >=85%): fast wing flapping, red-ish tint.
  * Controlled by JS toggling .mascot-fly / .mascot-alert on .mascot.    */
-.card.hero > .mascot, .mascot { position: absolute; right: 20px; top: 10px; z-index: 4; width: 34px; color: var(--hero-accent, var(--accent)); opacity: .82; pointer-events: none; transition: color .3s; animation: mascotBob 3.2s ease-in-out infinite; }
+.card.hero > .mascot, .mascot { position: absolute; right: 20px; top: 10px; z-index: 4; width: 34px; color: var(--hero-accent, var(--accent)); opacity: .82; cursor: pointer; transition: color .3s; animation: mascotBob 3.2s ease-in-out infinite; }
 .mascot svg { display: block; width: 100%; height: auto; filter: drop-shadow(0 2px 3px rgba(0,0,0,.35)); }
 .mascot .ms-wing { transform-origin: 16px 12px; transition: transform .2s; }
 @keyframes mascotBob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
@@ -2936,3 +2936,6 @@ body.mini .route-stage { min-height: 0 !important; }
   50% { transform: translate(-18px,6px); } 75% { transform: translate(-60px,-4px); }
   100% { transform: translate(-8px,-14px); }
 }
+
+.mascot.mascot-hop { animation: mascotHop .5s ease-out !important; }
+@keyframes mascotHop { 0% { transform: translateY(0) scale(1); } 30% { transform: translateY(-16px) scale(1.1); } 60% { transform: translateY(0) scale(.94); } 100% { transform: translateY(0) scale(1); } }
