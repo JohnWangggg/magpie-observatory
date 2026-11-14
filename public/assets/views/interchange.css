@@ -1,0 +1,14 @@
+/* interchange */
+.io-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.io-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.io-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.io-head span { font-size: 8px; color: var(--muted); }
+.io-wrap svg { flex: 1; width: 100%; }
+.io-num { font: 700 8.5px var(--num); fill: var(--fg); }
+.io-name { font: 7px var(--mono); fill: var(--muted); }
+.io-k { font: 700 10px var(--num); fill: var(--fg); }
+.io-ksub { font: 7.5px var(--mono); fill: var(--muted); }
+.io-ramp { transform-box: fill-box; }
+.io-ramp.hot { filter: drop-shadow(0 0 4px rgba(240,200,100,.4)); }
+.io-car { transform-box: fill-box; }
+.io-car.dead { opacity: .8; }
