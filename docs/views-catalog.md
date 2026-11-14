@@ -1,11 +1,11 @@
-# Magpie Observatory · 视图图鉴 (336)
+# Magpie Observatory · 视图图鉴 (337)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
 
 | 分组 | 数量 |
 |---|---|
-| [实时](#实时) | 9 |
+| [实时](#实时) | 10 |
 | [用量](#用量) | 12 |
 | [结构](#结构) | 6 |
 | [几何](#几何) | 11 |
@@ -19,7 +19,7 @@
 
 ---
 
-## 实时 (9)
+## 实时 (10)
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
@@ -27,6 +27,7 @@
 | `waterfall` | 会话瀑布 | SESSION WATERFALL | 一次会话的时间轴 | ![waterfall](../public/shots/waterfall.png) |
 | `network` | 关系网络 | RELATION GRAPH | Agent / Provider / 模型 | ![network](../public/shots/network.png) |
 | `swarm` | 延迟蜂群 | LATENCY SWARM | TTFT 分布 | ![swarm](../public/shots/swarm.png) |
+| `pulse` | 脉搏 | PULSE MONITOR | 会话 ECG · 每行一个心跳 | — |
 | `burn` | 燃烧速率 | BURN RATE | 配额窗口烧速 / 预测重置 | ![burn](../public/shots/burn.png) |
 | `gauge` | 仪表盘 | GAUGE MATRIX | KPI/配额仪表 | ![gauge](../public/shots/gauge.png) |
 | `pinboard` | 钉板 | PINBOARD | KPI/配额/会话钉上墙 | ![pinboard](../public/shots/pinboard.png) |

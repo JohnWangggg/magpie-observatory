@@ -109,6 +109,7 @@
     { id: "waterfall", title: "会话瀑布", eyebrow: "SESSION WATERFALL", group: "实时", icon: "i-stack", hint: "一次会话的时间轴" },
     { id: "network", title: "关系网络", eyebrow: "RELATION GRAPH", group: "实时", icon: "i-magpie", hint: "Agent / Provider / 模型" },
     { id: "swarm", title: "延迟蜂群", eyebrow: "LATENCY SWARM", group: "实时", icon: "i-bolt", hint: "TTFT 分布" },
+    { id: "pulse", title: "脉搏", eyebrow: "PULSE MONITOR", group: "实时", icon: "i-pulse", hint: "会话 ECG · 每行一个心跳" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
