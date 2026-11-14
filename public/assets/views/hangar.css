@@ -1,0 +1,14 @@
+/* hangar */
+.hk-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.hk-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.hk-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.hk-head span { font-size: 8px; color: var(--muted); }
+.hk-wrap svg { flex: 1; width: 100%; }
+.hk-num { font: 700 8.5px var(--num); fill: var(--fg); }
+.hk-name { font: 7px var(--mono); fill: var(--muted); }
+.hk-k { font: 700 10px var(--num); fill: var(--fg); }
+.hk-ksub { font: 7.5px var(--mono); fill: var(--muted); }
+.hk-pad { transform-box: fill-box; }
+.hk-pad.hot { filter: drop-shadow(0 0 5px rgba(240,200,100,.4)); }
+.hk-crew { transform-box: fill-box; }
+.hk-crew.dead { opacity: .8; }
