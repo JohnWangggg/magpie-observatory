@@ -268,6 +268,7 @@
     { id: "bluff", title: "峭壁", eyebrow: "BLUFF", group: "场景", icon: "i-magpie", hint: "峭壁=配额窗 壁高=用量 燕=会话" },
     { id: "crag", title: "崖顶", eyebrow: "CRAG", group: "场景", icon: "i-magpie", hint: "崖顶=配额窗 高=用量 秃鹫=会话" },
     { id: "inlet", title: "入湾", eyebrow: "INLET", group: "场景", icon: "i-magpie", hint: "浮标=配额窗 深=用量 鸥=会话" },
+    { id: "loch", title: "湖心", eyebrow: "LOCH", group: "场景", icon: "i-magpie", hint: "深标=配额窗 深=用量 天鹅=会话" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
     { id: "grove", title: "果园", eyebrow: "GROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 果=用量 人=会话" },
     { id: "pond", title: "荷塘", eyebrow: "POND", group: "生态", icon: "i-magpie", hint: "莲=配额窗 漪=用量 蛙=会话" },
