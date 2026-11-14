@@ -155,6 +155,7 @@
     { id: "rosetta", title: "罗塞塔", eyebrow: "ROSETTA", group: "配额", icon: "i-chart", hint: "环带=配额 刻痕=会话" },
     { id: "eclipse", title: "日蚀", eyebrow: "ECLIPSE", group: "配额", icon: "i-sun", hint: "暗盘=量 冕=会话 沿=窗" },
     { id: "tapestry", title: "织锦", eyebrow: "TAPESTRY", group: "配额", icon: "i-stack", hint: "经=配额 纬=会话" },
+    { id: "lighthouse", title: "灯塔", eyebrow: "LIGHTHOUSE", group: "实时", icon: "i-pulse", hint: "塔=配额 光束=会话" },
     { id: "vine", title: "藤蔓", eyebrow: "VINE", group: "趣味", icon: "i-magpie", hint: "叶=会话 大=Token" },
     { id: "play", title: "开局", eyebrow: "PLAY · EVERY CALL IS A BEAT", group: "趣味", icon: "i-zap", hint: "转盘 + 判定 + 连击" }
   ];
