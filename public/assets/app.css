@@ -2472,6 +2472,7 @@ body.cinema ::selection { background: transparent; }
 .fav-thumb { position: absolute; left: 40px; top: 50%; transform: translateY(-50%); width: 120px; height: 48px; border-radius: 7px; overflow: hidden; border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--line)); box-shadow: 0 10px 26px rgba(0,0,0,.5); opacity: 0; pointer-events: none; z-index: 30; background: var(--card-2); }
 .fav-thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
 .fav-btn:hover .fav-thumb, .fav-thumb.on { opacity: 1; }
+.fav-thumb.peek { width: 200px; height: 80px; z-index: 40; box-shadow: 0 16px 44px rgba(0,0,0,.65); }
 
 /* daily digest — the "yesterday report" card */
 .digest {

@@ -2747,12 +2747,12 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
     $("#rail-favs").addEventListener("pointerover", e => {
       const b = e.target.closest(".fav-btn");
       const th = b && b.querySelector(".fav-thumb");
-      if (th) { th.classList.add("on"); th.style.opacity = "1"; }
+      if (th) { th.classList.add("on"); th.style.opacity = "1"; clearTimeout(th._peek); th._peek = setTimeout(() => th.classList.add("peek"), 420); }
     });
     $("#rail-favs").addEventListener("pointerout", e => {
       const b = e.target.closest(".fav-btn");
       const th = b && b.querySelector(".fav-thumb");
-      if (th && !b.contains(e.relatedTarget)) { th.classList.remove("on"); th.style.opacity = ""; }
+      if (th && !b.contains(e.relatedTarget)) { clearTimeout(th._peek); th.classList.remove("on", "peek"); th.style.opacity = ""; }
     });
     // ↑↓ on the rail → move between favs and switch views.
     $("#rail-favs").tabIndex = 0;
