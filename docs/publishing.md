@@ -153,10 +153,14 @@ For the next release, bump `package.json`, update the tag in
 ## 发版前检查
 
 ```bash
-npm run sync-views    # manifest.js + views-catalog.md 一致性
-npm run smoke         # 336 视图 route-stage 渲染冒烟（空 DOM / 页面错误）
-npm run thumbs        # 刷新 public/shots/*.png（可选，费时）
+npm run check          # lint-data + sync-views — the fast pre-flight
+npm run smoke          # 336 视图 route-stage 渲染冒烟（空 DOM / 页面错误）
+npm run thumbs         # 刷新 public/shots/*.png（可选，费时；--ids a,b 只重截指定视图）
 ```
 
-`smoke` 报告三类：`ok` / `empty stage` / `page error`。新增视图务必先跑。
+`npm run check` 已在 `.github/workflows/check.yml` 的 CI 里跑：
+`lint-data` 校验 `data.js` 的 provider/session/quota/series/heatmap 形状和
+缺失图标，`sync-views` 保持 `manifest.js` 与 `views-catalog.md` 与 `VIEW_META`
+一致。`smoke` 报告三类：`ok` / `empty stage` / `page error`。新增视图务必
+先跑 `check` + `smoke`。
 
