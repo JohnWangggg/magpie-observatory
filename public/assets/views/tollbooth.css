@@ -1,0 +1,14 @@
+/* tollbooth */
+.tb-wrap { position: relative; height: 100%; display: flex; flex-direction: column; }
+.tb-head { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 10px; font: 9px var(--mono); color: var(--muted); }
+.tb-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
+.tb-head span { font-size: 8px; color: var(--muted); }
+.tb-wrap svg { flex: 1; width: 100%; }
+.tb-num { font: 700 8.5px var(--num); fill: var(--fg); }
+.tb-name { font: 7px var(--mono); fill: var(--muted); }
+.tb-k { font: 700 10px var(--num); fill: var(--fg); }
+.tb-ksub { font: 7.5px var(--mono); fill: var(--muted); }
+.tb-booth { transform-box: fill-box; }
+.tb-booth.hot { filter: drop-shadow(0 0 4px rgba(240,200,100,.4)); }
+.tb-coll { transform-box: fill-box; }
+.tb-coll.dead { opacity: .8; }
