@@ -1075,13 +1075,26 @@
       </div>`;
     }).join("");
 
+  // Number bump: counts roll up to the new value and flash the card accent.
+  // Skipped on first paint and when motion is off.
+  function animateStat(sel, target) {
+    const el = $(sel);
+    if (!el) return;
+    const prev = parseInt(el.textContent, 10) || 0;
+    el.textContent = target;
+    if (prev === target || document.documentElement.dataset.motion === "off") return;
+    el.classList.remove("stat-bump");
+    void el.offsetWidth;
+    el.classList.add("stat-bump");
+  }
+
     const activeCount = active.length;
     $("#hub-sub").textContent = `${activeCount} 会话 · ${activeCount} 并发`;
     const dec = effectiveDecision();
     $("#hub-mode").textContent = dec && dec.session ? (dec.session.mode === "order" ? "按顺序" : dec.session.mode === "rotate" ? "轮询" : "智能路由") : "智能路由";
-    $("#hero-requests").textContent = activeCount;
-    $("#hero-fallbacks").textContent = active.reduce((a, s) => a + (s.fallbacks || 0), 0);
-    $("#hero-errors").textContent = all.filter(s => s.status === "error").length;
+    animateStat("#hero-requests", activeCount);
+    animateStat("#hero-fallbacks", active.reduce((a, s) => a + (s.fallbacks || 0), 0));
+    animateStat("#hero-errors", all.filter(s => s.status === "error").length);
 
     // Keep this stable while only token counters move: rebuilding the SVG
     // would restart every bird mid-flight.
