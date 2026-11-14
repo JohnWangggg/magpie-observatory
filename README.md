@@ -16,7 +16,7 @@ Observatory turns that stream into something you can *watch*:
 - **Live routing** — Agent → Magpie → Provider/Account, with a filled magpie
   carrying the request out and a mirrored outlined magpie bringing the answer
   back. Failed attempts stay visible as “rerouted”.
-- **Forty-four views** — one for routing, forty-three ways to look at the
+- **Forty-five views** — one for routing, forty-four ways to look at the
   same data: charts, games, ambient fields.
 - **Seven style packs** — `Control`, `Pixel`, `Paper`, `Neon`, `Terminal`,
   `Blueprint`, `Zine`; each with a light and dark variant. Light/dark and
@@ -128,7 +128,7 @@ MAGPIE_URL=http://127.0.0.1:3425 MAGPIE_KEY=... node preview.mjs
 
 The preview is for development only; the plugin uses the same service internally.
 
-## The forty-four views
+## The forty-five views
 
 | Route · two-way magpies | Radar · provider ring and quotas |
 | --- | --- |
@@ -215,6 +215,10 @@ The preview is for development only; the plugin uses the same service internally
 | Rain · requests as raindrops on a puddle | Bubbles · sessions rising |
 | --- | --- |
 | ![rain](docs/mode-rain.png) | ![bubbles](docs/mode-bubbles.png) |
+
+| Spectrum · tokens as a frequency band |
+| --- |
+| ![spectrum](docs/mode-spectrum.png) |
 
 - **Route**: the default. Magpies fly the whole `Agent → Magpie → Provider`
   path; failures remain visible.
@@ -310,6 +314,8 @@ The preview is for development only; the plugin uses the same service internally
   splash rings the puddle when it lands; red = failed.
 - **Bubbles**: sessions rise as air bubbles — size = tokens, colour = agent,
   wobble = phase; failed ones sink.
+- **Spectrum**: the token stream as a frequency spectrum — height = tokens,
+  colour = agent, width = tries; a mirrored bass-echo below.
 
 - **Burn**: every account window as a pace bar — fill shows used %, tick
   marks flat pace, a dashed notch projects end-of-window; click a row for the
@@ -319,7 +325,7 @@ The preview is for development only; the plugin uses the same service internally
 
 The hero header has a view picker instead of a wall of tabs. Press **V** (or
 click it), type to filter by name / eyebrow / group, press Enter to switch, or
-hit **随机一个** for a random view. The 44 views are grouped into
+hit **随机一个** for a random view. The 45 views are grouped into
 `实时` / `用量` / `结构` / `趣味`, and the hero accent follows the group.
 **G** starts or stops an auto tour (5 / 10 / 30-second interval in settings),
 **R** picks a random view, **F** stars the current view (favourites pin to the

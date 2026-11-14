@@ -964,3 +964,13 @@ decision/palette）+ 复制/跳转/过滤/记忆/导出 全覆盖。审计完毕
 - **VIEW_META 趣味组** + `view-bubbles` + `44 VIEWS`；
   README×2 + `docs/mode-bubbles.png`。
 
+---
+
+## Phase 81 — 第 45 个视图 `spectrum`（2026-11-15 · v0.83.0）
+
+- **`spectrum.js/css`**：频峰——高=Token、色=Agent、宽=尝试；
+  下方镜像、`sp-bounce` 弹跳、`sp-dash` 节拍线。
+- **坑**：`tries` undefined→`width="NaN"`；`sp-bounce` 起 `scaleY(.85)` 太小→`scaleY(0)`。
+- **VIEW_META 用量组** + `view-spectrum` + `45 VIEWS`；
+  README×2 + `docs/mode-spectrum.png`。
+
