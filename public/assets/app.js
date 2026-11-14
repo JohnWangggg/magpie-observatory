@@ -329,6 +329,7 @@
     { id: "brooks", title: "溪流", eyebrow: "BROOKS", group: "场景", icon: "i-magpie", hint: "石=配额窗 石径=用量 河乌=会话" },
     { id: "fords", title: "浅滩", eyebrow: "FORDS", group: "场景", icon: "i-magpie", hint: "石=配额窗 石宽=用量 牛=会话" },
     { id: "inlets", title: "入海岬", eyebrow: "INLETS", group: "场景", icon: "i-magpie", hint: "岬=配额窗 高=用量 鸬鹚=会话" },
+    { id: "creeks", title: "潮沟", eyebrow: "CREEKS", group: "场景", icon: "i-magpie", hint: "潮沟=配额窗 宽=用量 鹬=会话" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
     { id: "grove", title: "果园", eyebrow: "GROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 果=用量 人=会话" },
     { id: "pond", title: "荷塘", eyebrow: "POND", group: "生态", icon: "i-magpie", hint: "莲=配额窗 漪=用量 蛙=会话" },
