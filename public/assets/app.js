@@ -3101,6 +3101,70 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
       toast("CSV 已导出");
     });
 
+    // Weekly digest: aggregate the last 7 heatmap days + live session/quota
+    // state into a Markdown report that pastes cleanly into an issue or wiki.
+    $("#log-digest").addEventListener("click", () => {
+      const days = (state.data.heatmap || []).slice(-7);
+      const total = days.reduce((a, d) => a + (d.tokens || 0), 0);
+      const calls = days.reduce((a, d) => a + (d.calls || 0), 0);
+      const peak = days.reduce((a, d) => (d.tokens > (a.tokens || 0) ? d : a), days[0] || {});
+      const k = state.data.kpis || {};
+
+      const byProv = {};
+      (state.data.logs || []).forEach(r => {
+        const p = r.provider || "?";
+        byProv[p] = byProv[p] || { tokens: 0, calls: 0, cost: 0 };
+        byProv[p].tokens += r.tokens || 0;
+        byProv[p].calls += 1;
+        byProv[p].cost += r.cost || 0;
+      });
+      const provRows = Object.entries(byProv).sort((a, b) => b[1].tokens - a[1].tokens).slice(0, 8);
+
+      const warn = (state.data.quotas || []).flatMap(q =>
+        (q.windows || []).filter(w => (w.used || 0) >= 85).map(w => `${q.provider}/${w.name || "窗口"} ${Math.round(w.used)}%`));
+
+      const errs = (state.data.logs || []).filter(r => r.status === "err" || r.status === "fail").length;
+      const span = days.length ? `${days[0].date} ~ ${days[days.length - 1].date}` : "—";
+
+      const md = [
+        `# Magpie 使用周报`,
+        ``,
+        `> 区间 **${span}** · 导出 ${new Date().toISOString().slice(0, 16).replace("T", " ")} · ${state.mode === "live" ? "实时" : "演示"}数据`,
+        ``,
+        `## 概览`,
+        `| 指标 | 值 |`,
+        `|---|---|`,
+        `| 请求数 | ${calls.toLocaleString()} |`,
+        `| Tokens | ${fmtTokens(total)} |`,
+        `| 估算成本 | $${(total / 1e6 * 1.32).toFixed(2)} |`,
+        `| 缓存命中 | ${(k.cache || 0).toFixed(1)}% |`,
+        `| 错误请求 | ${errs} |`,
+        `| 峰值日 | ${peak.date || "—"} (${fmtTokens(peak.tokens || 0)}) |`,
+        ``,
+        `## 每日`,
+        `| 日期 | Tokens | 请求 |`,
+        `|---|---|---|`,
+        ...days.map(d => `| ${d.date} | ${fmtTokens(d.tokens || 0)} | ${(d.calls || 0).toLocaleString()} |`),
+        ``,
+        `## 服务商 Top`,
+        `| 服务商 | Tokens | 请求 | 费用 |`,
+        `|---|---|---|---|`,
+        ...(provRows.length ? provRows.map(([p, v]) => `| ${p} | ${fmtTokens(v.tokens)} | ${v.calls} | $${v.cost.toFixed(2)} |`) : ["| — | — | — | — |"]),
+        ``,
+        `## 配额告警 ≥85%`,
+        ...(warn.length ? warn.map(w => `- ⚠️ ${w}`) : ["- ✅ 全部窗口健康"]),
+        ``
+      ].join("\n");
+
+      const blob = new Blob([md], { type: "text/markdown;charset=utf-8" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `magpie-weekly-${new Date().toISOString().slice(0, 10)}.md`;
+      a.click();
+      URL.revokeObjectURL(a.href);
+      toast("周报已导出");
+    });
+
     $$(".nav-item[data-view]").forEach(b => b.addEventListener("click", () => {
       $$(".nav-item[data-view]").forEach(x => x.classList.toggle("active", x === b));
       const view = b.dataset.view;
