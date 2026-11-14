@@ -33,7 +33,7 @@ try:
             try:
                 pg.evaluate(f"window.Obs?.api?.setHeroMode('{vid}')")
                 pg.wait_for_timeout(750)
-                pg.locator(".hero").screenshot(path=str(ROOT / "public/shots" / f"{vid}.png"))
+                pg.locator(".hero .route-stage, .route-stage").screenshot(path=str(ROOT / "public/shots" / f"{vid}.png"))
                 title = pg.evaluate("document.querySelector('#hero-title')?.textContent || ''")
                 done.append((vid, title))
                 print(f"[{i}/{len(ids)}] {vid} → {title}")

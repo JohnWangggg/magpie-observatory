@@ -1895,6 +1895,12 @@
       void host.offsetWidth;
       host.classList.add("view-enter");
       setTimeout(() => host.classList.remove("view-enter"), 340);
+      // Accent bloom on the hero card — matches the view's group colour.
+      const hero = $(".hero");
+      if (hero) {
+        hero.classList.add("view-bloom");
+        setTimeout(() => hero.classList.remove("view-bloom"), 480);
+      }
     }
     if (host && state.viewScroll && state.viewScroll[mode] != null) {
       requestAnimationFrame(() => {
