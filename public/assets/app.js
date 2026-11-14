@@ -1712,6 +1712,46 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
     }
     host.innerHTML = html;
     host.scrollTop = scroll;
+    buildSessionMap(list.concat(extra));
+  }
+
+  /* ------------------------------------------------- session minimap --- */
+  let sessionMapOnScroll = null;
+  function buildSessionMap(cards) {
+    let map = $("#session-map");
+    if (!map) {
+      const host = $("#session-list");
+      if (!host || !host.parentElement) return;
+      map = document.createElement("div");
+      map.id = "session-map";
+      map.className = "session-map";
+      host.parentElement.style.position = "relative";
+      host.parentElement.appendChild(map);
+      map.addEventListener("click", e => {
+        const dot = e.target.closest(".sm-dot");
+        if (!dot) return;
+        const card = host.querySelector(`.session-card[data-session="${CSS.escape(dot.dataset.sid)}"]`);
+        if (card) card.scrollIntoView({ block: "center", behavior: "smooth" });
+      });
+      sessionMapOnScroll = () => {
+        const frac = host.scrollTop / Math.max(1, host.scrollHeight - host.clientHeight);
+        const vh = map.clientHeight;
+        const viewH = Math.min(vh, vh * (host.clientHeight / Math.max(1, host.scrollHeight)));
+        const view = map.querySelector(".sm-view");
+        if (view) {
+          view.style.height = Math.max(14, viewH) + "px";
+          view.style.top = ((vh - Math.max(14, viewH)) * frac) + "px";
+        }
+      };
+      host.addEventListener("scroll", sessionMapOnScroll, { passive: true });
+    }
+    if (cards.length < 4) { map.hidden = true; return; }
+    map.hidden = false;
+    map.innerHTML = `<i class="sm-view"></i>` + cards.map(s => {
+      const cls = s.status === "error" ? "err" : s.status === "streaming" ? "live" : state.pinnedSessions.includes(s.id) ? "pin" : "";
+      return `<i class="sm-dot ${cls}" data-sid="${esc(s.id)}" style="top:${(cards.indexOf(s) / cards.length * 100).toFixed(1)}%"></i>`;
+    }).join("");
+    if (sessionMapOnScroll) sessionMapOnScroll();
   }
 
   function renderQuotas() {

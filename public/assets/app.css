@@ -836,6 +836,14 @@ img { display: block; }
 .live-panel { grid-column: span 4; min-height: 0; display: flex; flex-direction: column; overflow: hidden; max-height: none; }
 .live-panel .card-head { padding-bottom: 10px; }
 .session-list { flex: 1; overflow-y: auto; padding: 0 10px 8px; display: flex; flex-direction: column; gap: 6px; min-height: 0; }
+.session-map { position: absolute; top: 92px; right: 2px; width: 7px; bottom: 34px; border-radius: 4px; background: color-mix(in srgb, var(--card-2) 70%, transparent); z-index: 5; pointer-events: auto; }
+.session-map .sm-view { position: absolute; left: 0; right: 0; top: 0; height: 14px; border-radius: 4px; background: color-mix(in srgb, var(--accent) 30%, transparent); border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent); }
+.session-map .sm-dot { position: absolute; left: 1px; width: 5px; height: 5px; border-radius: 50%; background: var(--muted); opacity: .55; cursor: pointer; }
+.session-map .sm-dot.live { background: var(--accent); opacity: .9; }
+.session-map .sm-dot.err { background: var(--red); opacity: .95; }
+.session-map .sm-dot.pin { background: var(--amber); opacity: .9; }
+.session-map .sm-dot:hover { transform: scale(1.5); opacity: 1; }
+
 .session-card {
   position: relative; padding: 9px 10px 9px 11px; border: 1px solid var(--line); border-radius: 9px;
   background: var(--card-2); overflow: hidden; cursor: pointer;
