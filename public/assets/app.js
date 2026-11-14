@@ -296,6 +296,7 @@
     { id: "monoliths", title: "巨石", eyebrow: "MONOLITHS", group: "场景", icon: "i-magpie", hint: "巨石=配额窗 高=用量 蜥蜴=会话" },
     { id: "towers", title: "塔楼", eyebrow: "TOWERS", group: "场景", icon: "i-magpie", hint: "塔楼=配额窗 高=用量 海鸥=会话" },
     { id: "crags", title: "峭壁", eyebrow: "CRAGS", group: "场景", icon: "i-magpie", hint: "峭壁=配额窗 高=用量 海燕=会话" },
+    { id: "mesas", title: "平顶山", eyebrow: "MESAS", group: "场景", icon: "i-magpie", hint: "平顶山=配额窗 顶宽=用量 兀鹫=会话" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
     { id: "grove", title: "果园", eyebrow: "GROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 果=用量 人=会话" },
     { id: "pond", title: "荷塘", eyebrow: "POND", group: "生态", icon: "i-magpie", hint: "莲=配额窗 漪=用量 蛙=会话" },
