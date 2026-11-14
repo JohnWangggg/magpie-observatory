@@ -1791,12 +1791,12 @@ ${quota || "| — | — | — |"}
       Object.keys(window.ObservatoryViews).sort((a, b) => (heat[b] || 0) - (heat[a] || 0)).forEach(id => {
         const v = window.ObservatoryViews[id];
         const hot = heat[id] ? " · 常用" : "";
-        items.push({ kind: "视图", icon: "i-route", title: v.title || id, sub: (v.eyebrow || "") + hot, search: (v.title + " " + (v.eyebrow || "") + " " + id).toLowerCase(), run: () => { Obs.api.setHeroMode(id); closePalette(); } });
+        items.push({ kind: "视图", icon: "i-route", title: v.title || id, sub: (v.eyebrow || "") + hot, vid: id, search: (v.title + " " + (v.eyebrow || "") + " " + id).toLowerCase(), run: () => { Obs.api.setHeroMode(id); closePalette(); } });
       });
     }
     // core views from the meta catalog
     if (s && s.VIEW_META) s.VIEW_META.forEach(v => {
-      items.push({ kind: "视图", icon: v.icon, title: v.title, sub: v.eyebrow, search: (v.title + " " + v.eyebrow + " " + v.id + " " + (v.group || "") + " " + (v.hint || "")).toLowerCase(), run: () => { Obs.api.setHeroMode(v.id); closePalette(); } });
+      items.push({ kind: "视图", icon: v.icon, title: v.title, sub: v.eyebrow, vid: v.id, search: (v.title + " " + v.eyebrow + " " + v.id + " " + (v.group || "") + " " + (v.hint || "")).toLowerCase(), run: () => { Obs.api.setHeroMode(v.id); closePalette(); } });
     });
     // actions
     items.push(
@@ -1838,7 +1838,10 @@ ${quota || "| — | — | — |"}
     if (!list) return;
     const query = (q || "").toLowerCase();
     const items = paletteItems().filter(it => !query || it.search.includes(query) || it.title.toLowerCase().includes(query));
-    list.innerHTML = items.map((it, i) => `<button class="pal-item" data-idx="${i}"><svg><use href="#${it.icon}"/></svg><span><b>${esc(it.title)}</b><small>${esc(it.sub)}</small></span><em>${esc(it.kind)}</em></button>`).join("");
+    list.innerHTML = items.map((it, i) => {
+      const thumb = it.vid ? `<span class="pal-thumb" aria-hidden="true"><img src="shots/${it.vid}.png" alt="" loading="lazy" onerror="this.remove()"></span>` : "";
+      return `<button class="pal-item" data-idx="${i}"><svg><use href="#${it.icon}"/></svg><span><b>${esc(it.title)}</b><small>${esc(it.sub)}</small></span><em>${esc(it.kind)}</em>${thumb}</button>`;
+    }).join("");
     $$(".pal-item", list).forEach(b => b.addEventListener("click", () => {
       const it = items[+b.dataset.idx];
       if (it && it.run) it.run();
