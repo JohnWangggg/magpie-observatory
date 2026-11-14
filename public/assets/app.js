@@ -615,6 +615,13 @@
       { key: "active", label: "活跃会话", value: String(k.active), unit: "个", delta: k.activeDelta, icon: "i-route", color: "#60a5fa", spark: [1,2,1,3,2,4,3,4,3,5,4,4] }
     ];
     const heat = state.data.heatmap || [];
+    // streak badge on requests KPI — fire shows when >=2 days running
+    const streakN = (() => {
+      const days = (state.data.heatmap || []).slice(-30);
+      let n = 0;
+      for (let i = days.length - 1; i >= 0; i--) { if ((days[i].tokens || 0) > 0) n++; else break; }
+      return n;
+    })();
     const yd = heat.length >= 2 ? heat[heat.length - 2] : null;
     const goal = yd && yd.tokens ? yd.tokens : 0;
     const goalPct = goal ? Math.min(100, Math.round((k.tokens / goal) * 100)) : null;
@@ -630,7 +637,7 @@
       return `<article class="kpi" data-kpi-jump="${it.key}" style="--k-c:${it.color}" title="点击跳到相关视图">
         <div class="kpi-label"><span>${it.label}</span><svg><use href="#${it.icon}"/></svg></div>
         <div class="kpi-value"><b>${esc(it.value)}</b><span>${esc(it.unit)}</span>${ring}</div>
-        <div class="kpi-foot"><span class="kpi-delta ${deltaCls}">${deltaText}</span>${spark}</div>
+        <div class="kpi-foot"><span class="kpi-delta ${deltaCls}">${deltaText}</span>${it.key === "requests" && streakN >= 2 ? `<span class="kpi-streak" title="连续活跃 ${streakN} 天"><svg viewBox="0 0 12 12"><path d="M6 1c1 2 3 3 3 5.5a3 3 0 0 1-6 0C3 4.5 4 3 6 1Z" fill="#fbbf24"/><path d="M6 4c.5 1 1.5 1.5 1.5 3a1.5 1.5 0 0 1-3 0C4.5 6 5 5 6 4Z" fill="#f59e0b"/></svg>${streakN}</span>` : ""}${spark}</div>
       </article>`;
     }).join("");
     $$("#kpi-row .kpi[data-kpi-jump]").forEach(el => {
