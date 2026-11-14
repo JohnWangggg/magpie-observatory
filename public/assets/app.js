@@ -238,6 +238,7 @@
     { id: "heath", title: "石楠原", eyebrow: "HEATH", group: "生态", icon: "i-magpie", hint: "丛=配额窗 铃=用量 蜂=会话" },
     { id: "steppe", title: "草原", eyebrow: "STEPPE", group: "场景", icon: "i-magpie", hint: "浪=配额窗 高=用量 马=会话" },
     { id: "pampa", title: "潘帕斯", eyebrow: "PAMPA", group: "场景", icon: "i-magpie", hint: "草=配额窗 径=用量 仔=会话" },
+    { id: "mesa", title: "台地", eyebrow: "MESA", group: "场景", icon: "i-magpie", hint: "台=配额窗 壁=用量 鹫=会话" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
     { id: "grove", title: "果园", eyebrow: "GROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 果=用量 人=会话" },
     { id: "pond", title: "荷塘", eyebrow: "POND", group: "生态", icon: "i-magpie", hint: "莲=配额窗 漪=用量 蛙=会话" },
