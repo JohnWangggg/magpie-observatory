@@ -317,6 +317,7 @@
     { id: "crofts", title: "石屋", eyebrow: "CROFTS", group: "场景", icon: "i-magpie", hint: "石屋=配额窗 烟囱=用量 羊群=会话" },
     { id: "paddocks", title: "围场", eyebrow: "PADDOCKS", group: "场景", icon: "i-magpie", hint: "围场=配额窗 栏长=用量 小马=会话" },
     { id: "gardens", title: "花坛", eyebrow: "GARDENS", group: "场景", icon: "i-magpie", hint: "花坛=配额窗 花量=用量 蝴蝶=会话" },
+    { id: "groves", title: "橄榄林", eyebrow: "GROVES", group: "场景", icon: "i-magpie", hint: "橄树=配额窗 冠幅=用量 雀=会话" },
     { id: "desert", title: "沙丘", eyebrow: "DESERT", group: "场景", icon: "i-magpie", hint: "丘=配额窗 高=用量 驼=会话" },
     { id: "grove", title: "果园", eyebrow: "GROVE", group: "生态", icon: "i-magpie", hint: "树=配额窗 果=用量 人=会话" },
     { id: "pond", title: "荷塘", eyebrow: "POND", group: "生态", icon: "i-magpie", hint: "莲=配额窗 漪=用量 蛙=会话" },
