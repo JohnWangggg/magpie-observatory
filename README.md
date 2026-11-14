@@ -53,7 +53,10 @@ Or in Magpie: **Plugins → Add plugin**, paste the GitHub URL or search for
 The plugin starts a local read-only service on `127.0.0.1:3488` (configurable in
 the plugin's options). The Magpie page is a launcher; the dashboard is served by
 that service so it can read all of Magpie's live APIs without relaxing the
-page's `connect-src 'none'` sandbox.
+page's `connect-src 'none'` sandbox. Magpie frames the launched page with
+`sandbox="allow-scripts"`, so the service answers the frame's `Origin: null`
+with CORS plus a per-run token that only the HTML it served carries; other
+pages get nothing.
 
 ### Install from a local checkout
 

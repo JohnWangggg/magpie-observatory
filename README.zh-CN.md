@@ -46,7 +46,10 @@ magpie plugin add github:JohnWangggg/magpie-observatory
 
 插件会在 `127.0.0.1:3488` 启动一个只读本地服务（可在插件设置里改端口）。
 Magpie 里看到的页面只是启动器；真正的仪表板由这个服务提供，因此可以读取
-Magpie 的实时接口，而不需要放宽页面的 `connect-src 'none'` 沙箱。
+Magpie 的实时接口，而不需要放宽页面的 `connect-src 'none'` 沙箱。Magpie
+用 `sandbox="allow-scripts"` 装载页面，因此服务会对框架的 `Origin: null`
+返回 CORS 和一个每次运行生成的口令（只有它发出的 HTML 里才有）；其他页面
+读不到数据。
 
 ### 从本地目录安装
 

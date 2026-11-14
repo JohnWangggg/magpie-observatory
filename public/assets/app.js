@@ -2115,6 +2115,11 @@
   // A fresh install opens the page before Magpie's gateway is up, and on a
   // moved port 3425 is not the gateway at all. Retry a couple of times, then
   // fall back to the demo and watch /api/health until the gateway answers.
+  function apiHeaders() {
+    const el = document.querySelector('meta[name="magpie-api-token"]');
+    return el && el.content ? { "x-magpie-api-token": el.content } : {};
+  }
+
   function stopGatewayWatch() {
     clearInterval(state.gatewayWatch);
     state.gatewayWatch = null;
@@ -2128,7 +2133,7 @@
       if (state.mode !== "demo") { stopGatewayWatch(); return; }
       if (++state.gatewayWatchTries > 90) { stopGatewayWatch(); return; }
       try {
-        const res = await fetch("api/health", { cache: "no-store" });
+        const res = await fetch("api/health", { cache: "no-store", headers: apiHeaders() });
         const body = await res.json();
         if (body && body.ok) {
           stopGatewayWatch();
@@ -2141,7 +2146,7 @@
 
   async function gatewayAddress() {
     try {
-      const res = await fetch("api/health", { cache: "no-store" });
+      const res = await fetch("api/health", { cache: "no-store", headers: apiHeaders() });
       const body = await res.json();
       return body && body.gateway ? body.gateway : "";
     } catch (_) { return ""; }
@@ -2267,7 +2272,7 @@
 
   /* ------------------------------------------------------------------ init --- */
   function init() {
-    try { console.info("%c Magpie Observatory v0.17.1 · twenty-one views · 7 styles · layout settings", "color:#8b7cf6;font-weight:bold"); } catch (_) {}
+    try { console.info("%c Magpie Observatory v0.18.0 · twenty-one views · 7 styles · layout settings", "color:#8b7cf6;font-weight:bold"); } catch (_) {}
     try {
       const hostTheme = new URLSearchParams(location.search).get("hostTheme");
       if (hostTheme === "light" || hostTheme === "dark") {

@@ -9,7 +9,7 @@ import http from "node:http";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { createHash } from "node:crypto";
+import { createHash, randomBytes, timingSafeEqual } from "node:crypto";
 import os from "node:os";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -22,6 +22,40 @@ const MAGPIE_KEY = (process.env.MAGPIE_KEY || "").trim();
 // on another port and a gateway started after the plugin all move it. The
 // app writes the live one to gateway.json, so read it and re-read it after a
 // failed fetch instead of pinning the default forever.
+// Magpie's plugin page runs in a sandboxed frame (sandbox="allow-scripts"),
+// so its origin is opaque: every fetch the dashboard makes arrives as
+// `Origin: null` and a same-origin read is, to the browser, cross-origin.
+// Allow exactly that origin, with a token only the served index.html knows,
+// so other pages (a data: or sandboxed frame anywhere) can't read this.
+const PAGE_TOKEN = (process.env.MAGPIE_PAGE_TOKEN || "").trim() || randomBytes(32).toString("hex");
+
+function apiCors(req) {
+  if (req.headers.origin !== "null") return null;
+  return {
+    "Access-Control-Allow-Origin": "null",
+    "Access-Control-Allow-Headers": "x-magpie-api-token",
+    "Access-Control-Allow-Methods": "GET, HEAD, OPTIONS",
+    "Access-Control-Max-Age": "600",
+    Vary: "Origin",
+  };
+}
+
+function tokenMatches(header) {
+  const got = Buffer.from(String(header || ""));
+  const want = Buffer.from(PAGE_TOKEN);
+  return got.length === want.length && got.length > 0 && timingSafeEqual(got, want);
+}
+
+// undefined origin is our own page in a tab, curl or the address bar; "null"
+// is the sandboxed frame and must carry the page's token; anything else is a
+// website's page and gets nothing.
+function apiAllowed(req) {
+  const origin = req.headers.origin;
+  if (origin === undefined) return true;
+  if (origin !== "null") return false;
+  return tokenMatches(req.headers["x-magpie-api-token"]);
+}
+
 const GATEWAY_FILE = path.join(
   process.env.MAGPIE_CONFIG_DIR || path.join(os.homedir(), ".config", "magpie"),
   "gateway.json"
@@ -45,7 +79,7 @@ async function gatewayBase(force) {
   return url;
 }
 const PERIODS = new Set(["today", "week", "month", "all"]);
-const VERSION = "0.17.1";
+const VERSION = "0.18.0";
 
 const TYPES = {
   ".html": "text/html; charset=utf-8",
@@ -297,7 +331,7 @@ export async function snapshot(period = "today", since = 0, qh = "", rq = "") {
   };
 }
 
-function json(res, status, body) {
+function json(res, status, body, extra = {}) {
   const buf = Buffer.from(JSON.stringify(body));
   res.writeHead(status, {
     "Content-Type": "application/json; charset=utf-8",
@@ -306,25 +340,39 @@ function json(res, status, body) {
     "X-Observatory-Version": VERSION,
     "X-Content-Type-Options": "nosniff",
     "Referrer-Policy": "no-referrer",
+    ...extra,
   });
   res.end(buf);
 }
 
 async function handler(req, res) {
+  const url = new URL(req.url || "/", "http://127.0.0.1");
+  const pathname = decodeURIComponent(url.pathname);
+
+  // the sandboxed page's preflight (its fetch names the token header)
+  if (req.method === "OPTIONS" && pathname.startsWith("/api/")) {
+    res.writeHead(204, { "Cache-Control": "no-store", ...(apiCors(req) || {}) });
+    res.end();
+    return;
+  }
   if (req.method !== "GET" && req.method !== "HEAD") {
-    res.writeHead(405, { "Content-Type": "text/plain; charset=utf-8", "Allow": "GET, HEAD" });
+    res.writeHead(405, { "Content-Type": "text/plain; charset=utf-8", "Allow": "GET, HEAD, OPTIONS" });
     res.end("Method not allowed");
     return;
   }
-  const url = new URL(req.url || "/", "http://127.0.0.1");
-  const pathname = decodeURIComponent(url.pathname);
+  const cors = pathname.startsWith("/api/") ? (apiCors(req) || {}) : {};
+  const sent = (status, body) => json(res, status, body, cors);
+  if (pathname.startsWith("/api/") && !apiAllowed(req)) {
+    sent(403, { ok: false, error: "forbidden" });
+    return;
+  }
 
   if (pathname === "/api/health") {
     try {
       await magpieGet("/v1/magpie/usage?period=today", 1500);
-      return json(res, 200, { ok: true, gateway: new URL(await gatewayBase()).host });
+      return sent(200, { ok: true, gateway: new URL(await gatewayBase()).host });
     } catch (err) {
-      return json(res, 503, { ok: false, gateway: new URL(await gatewayBase()).host, error: err?.message || String(err) });
+      return sent(503, { ok: false, gateway: new URL(await gatewayBase()).host, error: err?.message || String(err) });
     }
   }
   if (pathname === "/api/snapshot") {
@@ -332,11 +380,11 @@ async function handler(req, res) {
     const since = Math.max(0, Number(url.searchParams.get("since")) || 0);
     const qh = String(url.searchParams.get("qh") || "").slice(0, 40);
     const rq = String(url.searchParams.get("rq") || "").slice(0, 60);
-    try { return json(res, 200, await snapshot(period, since, qh, rq)); }
-    catch (err) { return json(res, 502, { ok: false, error: err?.message || String(err) }); }
+    try { return sent(200, await snapshot(period, since, qh, rq)); }
+    catch (err) { return sent(502, { ok: false, error: err?.message || String(err) }); }
   }
   if (pathname === "/api/version") {
-    return json(res, 200, { name: "magpie-observatory", version: VERSION });
+    return sent(200, { name: "magpie-observatory", version: VERSION });
   }
 
   let rel = pathname === "/" ? "index.html" : pathname.replace(/^\/+/, "");
@@ -345,7 +393,14 @@ async function handler(req, res) {
   try {
     const stat = await fs.stat(file);
     if (stat.isDirectory()) return handler({ ...req, url: rel.replace(/\/?$/, "/index.html") }, res);
-    const body = await fs.readFile(file);
+    let body = await fs.readFile(file);
+    if (rel === "index.html") {
+      // the sandboxed frame's fetch proves it read this page
+      body = Buffer.from(
+        body.toString("utf8").replace("</head>", `<meta name="magpie-api-token" content="${PAGE_TOKEN}"></head>`),
+        "utf8"
+      );
+    }
     res.writeHead(200, {
       "Content-Type": TYPES[path.extname(file).toLowerCase()] || "application/octet-stream",
       "Cache-Control": "no-store, max-age=0",

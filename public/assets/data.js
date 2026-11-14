@@ -379,6 +379,19 @@
   }
 
   /* --------------------------------------------------------------- live --- */
+  // Magpie frames the plugin page with sandbox="allow-scripts": its fetches
+  // carry `Origin: null` and need the token the served index.html carries.
+  const apiToken = (() => {
+    try {
+      const el = document.querySelector('meta[name="magpie-api-token"]');
+      return el && el.content ? el.content : "";
+    } catch (_) { return ""; }
+  })();
+
+  function apiHeaders() {
+    return apiToken ? { "x-magpie-api-token": apiToken } : {};
+  }
+
   // The snapshot endpoint can answer with a trace delta: it keeps the same
   // 60-route window and sends only the routes appended since `liveTrace.seq`.
   // Merge here so normalizeLive keeps seeing one complete window.
@@ -441,7 +454,7 @@
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), 8000);
     try {
-      const res = await fetch("api/snapshot" + (qs ? "?" + qs : ""), { cache: "no-store", signal: ctrl.signal });
+      const res = await fetch("api/snapshot" + (qs ? "?" + qs : ""), { cache: "no-store", signal: ctrl.signal, headers: apiHeaders() });
       if (!res.ok) throw new Error("snapshot " + res.status);
       const body = await res.json();
       if (!body || body.ok === false) throw new Error((body && body.error) || "magpie unavailable");
