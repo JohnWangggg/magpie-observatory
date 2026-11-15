@@ -2139,3 +2139,13 @@ v94 已落地:钉住钮。跳过:tokens/age(已在title)、今日重(today已)�
 3. **digest格streak环**:streak<3加警示。
 4. **palette快构**:视图id前缀"v:"搜。
 5. **回放条帧度**:加帧间差分布。
+
+## 下轮候选 v96（2026-11-15 · v95 落地后）
+
+v95 已落地:✕关钮、v:/view:前缀。跳过:sub点(accent已)、streak<3警(streak已有色彩)、帧间差(刻度已有)。
+
+1. **回放?帧卡note**:帧卡行加notes log。
+2. **session卡多选条**:multiSel>0时条高亮。
+3. **digest格月历条**:heatmap下加月历。
+4. **palette键帮**:input下加?快捷帮助。
+5. **回放条时间格式化**:h:mm:ss AM/PM。
