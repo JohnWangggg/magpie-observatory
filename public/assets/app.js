@@ -2491,7 +2491,7 @@
         <span class="session-agent"><img src="${agentIcon(s.agent)}" alt=""></span>
         <span class="session-title" title="${esc(s.title)}">${esc(s.title)}</span>
         <button class="session-pin${pinned ? " on" : ""}" data-pin="${esc(s.id)}" title="${pinned ? "取消置顶" : "置顶会话"}" aria-label="pin">${pinned ? "★" : "☆"}</button>
-        <span class="session-state ${st}">${STATUS_TEXT[s.status] || s.status}</span>
+        <span class="session-state ${st}" data-status="${esc(s.status)}" title="点击按此状态过滤">${STATUS_TEXT[s.status] || s.status}</span>
       </div>
       <div class="session-meta"><span class="session-model" data-model="${esc(s.model)}" title="点击过滤此模型日志">${esc(s.model)}</span><span class="session-route" data-group="${esc(s.group || "direct")}" title="点击过滤此路由会话">→ ${s.group === "最近完成" ? "最近完成" : "group/" + esc(s.group || "direct")}</span></div>
       <div class="session-bottom">
@@ -2510,6 +2510,7 @@
   function matchFilter(s) {
     if (!state.filter) return true;
     if (state.filter.type === "group") return (s.group || "direct") === state.filter.value;
+    if (state.filter.type === "status") return s.status === state.filter.value;
     return state.filter.type === "agent" ? s.agent === state.filter.value : s.provider === state.filter.value;
   }
 
@@ -3684,6 +3685,15 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
         state.filter = { type: "group", value: routeEl.dataset.group };
         renderSessions();
         toast(`已过滤 group/${routeEl.dataset.group}`);
+        return;
+      }
+      // Click the state chip → filter sessions to that status.
+      const stateEl = e.target.closest(".session-state[data-status]");
+      if (stateEl) {
+        e.stopPropagation();
+        state.filter = { type: "status", value: stateEl.dataset.status };
+        renderSessions();
+        toast(`已过滤 ${stateEl.textContent.trim()} 会话`);
         return;
       }
       const id = card.dataset.session;

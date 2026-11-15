@@ -3183,3 +3183,5 @@ body.mini .route-stage { min-height: 0 !important; }
 .session-model:hover { color: var(--accent); text-decoration: underline dotted; }
 .session-route { cursor: pointer; }
 .session-route:hover { color: var(--accent); }
+.session-state { cursor: pointer; }
+.session-state:hover { filter: brightness(1.3); }

@@ -104,6 +104,16 @@
       }).join("");
       if (strip) strip.innerHTML += `<div style="position:absolute;inset:0;pointer-events:none">${errDots}</div>`;
     } catch (_) {}
+    // Token-delta shimmer: a tiny tick where the frame's total tokens jumped
+    // (visible burst of work between two samples).
+    try {
+      const dts = s.replayBuf.map((f, i) => {
+        const prev = s.replayBuf[i - 1];
+        const d = prev && f.data.kpis && prev.data.kpis ? (f.data.kpis.tokens || 0) - (prev.data.kpis.tokens || 0) : 0;
+        return d > 4000 ? `<i style="position:absolute;left:${(i / Math.max(1, s.replayBuf.length - 1) * 100).toFixed(1)}%;top:0;width:3px;height:3px;background:var(--green);border-radius:50%;opacity:.7" title="第${i}帧 +${fmtTokens(d)} tok"></i>` : "";
+      }).join("");
+      if (strip) strip.innerHTML += `<div style="position:absolute;inset:0;pointer-events:none">${dts}</div>`;
+    } catch (_) {}
   }
   function scrubReplay(idx) {
     const s = state();
@@ -1476,8 +1486,8 @@ show(F.length-1);
     card.innerHTML = `
       <div class="digest-head"><b>${esc(greet)}</b><span>DAILY DIGEST</span></div>
       <div class="digest-grid">
-        <div><small>tokens</small><b>${fmtTokens(y.tokens)}${dTok != null ? `<em class="dig ${dTok >= 0 ? "up" : "down"}">${dTok >= 0 ? "▲" : "▼"}${Math.abs(dTok)}%</em>` : ""}</b></div>
-        <div><small>调用</small><b>${y.calls || 0}${dCall != null ? `<em class="dig ${dCall >= 0 ? "up" : "down"}">${dCall >= 0 ? "▲" : "▼"}${Math.abs(dCall)}%</em>` : ""}</b></div>
+        <div class="dig-tok" style="cursor:pointer" title="点击 → 滚到热度"><small>tokens</small><b>${fmtTokens(y.tokens)}${dTok != null ? `<em class="dig ${dTok >= 0 ? "up" : "down"}">${dTok >= 0 ? "▲" : "▼"}${Math.abs(dTok)}%</em>` : ""}</b></div>
+        <div class="dig-call" style="cursor:pointer" title="点击 → 滚到请求日志"><small>调用</small><b>${y.calls || 0}${dCall != null ? `<em class="dig ${dCall >= 0 ? "up" : "down"}">${dCall >= 0 ? "▲" : "▼"}${Math.abs(dCall)}%</em>` : ""}</b></div>
         <div><small>连续使用</small><b>${dayStreak()} 天</b></div>
         <div class="dig-top" data-dig-prov="${topP ? esc(topP[0]) : ""}" style="${topP ? "cursor:pointer" : ""}" title="${topP ? "点击 → 过滤 " + esc(meta ? meta.name : topP[0]) + " 会话" : ""}"><small>最常用</small><b>${meta ? esc(meta.name) : "—"}</b></div>
         ${wk || ""}
@@ -1587,6 +1597,14 @@ show(F.length-1);
         const heat = document.querySelector('[data-slot="heat"], .heatmap-card, #heatmap-card, [data-slot="rhythm"]');
         if (heat) heat.scrollIntoView({ behavior: "smooth", block: "center" });
         toast("滚到热度区 · 看周对比");
+        card.remove();
+        return;
+      }
+      else if (e.target.closest(".dig-tok") || e.target.closest(".dig-call")) {
+        const tok = e.target.closest(".dig-tok");
+        const el = document.querySelector(tok ? '[data-slot="heat"], #heatmap-card' : '[data-slot="logs"], #log-card, .log-card');
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+        toast(tok ? "滚到热度" : "滚到请求日志");
         card.remove();
         return;
       }
@@ -2399,6 +2417,11 @@ ${quota || "| — | — | — |"}
             toast(meta && meta.eyebrow ? `「${meta.title}」· ${meta.eyebrow}` : `${it.title} · ${it.sub}`);
           }
           e.preventDefault();
+        }
+        // ⌘/Ctrl + 1-9: speed-dial the Nth item in the current filtered list.
+        if (/^[1-9]$/.test(e.key) && (e.metaKey || e.ctrlKey)) {
+          const hit = items[+e.key - 1];
+          if (hit) { e.preventDefault(); hit.click(); }
         }
       });
       inp.addEventListener("input", () => { palIdx = -1; document.querySelectorAll(".pal-item").forEach(b => b.classList.remove("kb-focus")); });
