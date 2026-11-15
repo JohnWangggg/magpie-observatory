@@ -295,6 +295,8 @@
       if (gapAt >= 0 && maxGap > 5000 && strip)
         strip.innerHTML += `<i style="position:absolute;left:${(gapAt / Math.max(1, s.replayBuf.length - 1) * 100).toFixed(1)}%;top:0;bottom:0;width:2px;background:var(--faint);opacity:.8;pointer-events:none" title="帧${gapAt} 前间隔 ${(maxGap / 1000).toFixed(1)}s"></i>`;
     } catch (_) {}
+    // (per-frame error red dots above already mark error-growth frames; a
+    // shaded cluster band is unnecessary and cumulative errors never drop)
       if (dayMarks.length) strip.innerHTML += `<div style="position:absolute;inset:0;pointer-events:none">${dayMarks.map(k => `<i style="position:absolute;left:${(k / Math.max(1, s.replayBuf.length - 1) * 100).toFixed(1)}%;top:-6px;bottom:-6px;width:1px;background:var(--accent);opacity:.55" title="跨日 · 帧${k} · ${new Date(s.replayBuf[k].t).toLocaleDateString("zh-CN")}"></i>`).join("")}</div>`;
     } catch (_) {}
     // Cumulative cost at the last frame, as a tiny caption on the strip.
@@ -1876,6 +1878,14 @@ show(F.length-1);
           const yd = y.date || "";
           const n = (s.data.sessions || []).concat(s.data.recent || []).filter(x => x.startedAt && new Date(x.startedAt).toISOString().slice(0, 10) === yd).length;
           return n ? `<div><small>昨日会话</small><b>${n} <em class="dig">新增</em></b></div>` : "";
+        })()}
+        ${(() => {
+          let long = null, lms = 0;
+          (s.data.sessions || []).concat(s.data.recent || []).forEach(x => {
+            const dur = x.finishedAt && x.startedAt ? x.finishedAt - x.startedAt : (x.startedAt ? Date.now() - x.startedAt : 0);
+            if (dur > lms) { lms = dur; long = x; }
+          });
+          return long && lms > 60000 ? `<div><small>最长会话</small><b>${Math.round(lms / 60000)}m <em class="dig">${esc((long.title || "?").slice(0, 10))}</em></b></div>` : "";
         })()}
         ${(() => {
           const errs = (s.data.logs || []).filter(l => l.status === "err");
