@@ -3164,3 +3164,4 @@ body.mini .route-stage { min-height: 0 !important; }
 .vm-caret { font-style: normal; margin-left: 2px; transition: transform .18s; font-size: 8px; }
 .vm-group.collapsed .vm-caret { transform: rotate(-90deg); }
 .vm-group.collapsed .vm-row { display: none; }
+.vm-heavy { font: 700 7px var(--sans); color: var(--red); padding: 1px 3px; border: 1px solid color-mix(in srgb, var(--red) 50%, transparent); border-radius: 3px; margin-right: 3px; }

@@ -836,13 +836,16 @@
     const flame = heat >= 3 ? `<span class="vm-hot" title="常看 · ${heat} 次">🔥</span>` : "";
     const perfMs = (state.viewPerf || {})[v.id];
     const slow = perfMs != null && perfMs > 16 ? `<span class="vm-slow" title="渲染 ${perfMs}ms · 超 16ms 帧预算">⏱${perfMs}</span>` : "";
+    // Perf gate: a view whose last render blew 50ms gets a stronger hint than
+    // the plain ⏱ badge — suggests lowering motion for that visit.
+    const heavy = perfMs != null && perfMs > 50 ? `<span class="vm-heavy" title="渲染 ${perfMs}ms 偏重 · 建议轻柔动效">重</span>` : "";
     const when = seenAt ? (seenAt.length > 10 ? ` · ${seenAt.slice(5, 10)} ${seenAt.slice(11, 16)}` : ` · ${seenAt.slice(5)}`) : "";
     const dot = seen ? `<span class="vm-seen" title="已加入图鉴${when}"></span>` : `<span class="vm-seen off" title="未看过"></span>`;
     return `<div class="vm-row${seen ? " seen" : ""}">
       <button class="vm-item" type="button" data-hero="${v.id}" data-search="${esc(search)}" role="option" aria-selected="false" style="--vm-c:${accent}">
         <span class="vm-ic"><svg><use href="#${v.icon}"/></svg></span>
         <span class="vm-copy"><b>${esc(v.title)}</b><small>${esc(v.eyebrow)}</small></span>
-        <span class="vm-hint">${esc(v.hint)}</span>${flame}${slow}${dot}
+        <span class="vm-hint">${esc(v.hint)}</span>${flame}${slow}${heavy}${dot}
         <span class="vm-thumb" aria-hidden="true"><img src="shots/${v.id}.png" alt="" loading="lazy" onerror="this.closest('.vm-thumb').classList.add('none'); console.info('[obs] missing shot:', '${v.id}'); this.remove()"><i class="vm-thumb-fallback"><svg><use href="#${v.icon}"/></svg><b>${esc(v.title)}</b></i></span>
       </button>
       <button class="vm-star${on ? " on" : ""}" type="button" data-fav="${v.id}" aria-pressed="${on}" aria-label="${on ? "取消收藏" : "收藏"} ${esc(v.title)}" title="${on ? "取消收藏" : "收藏"}">

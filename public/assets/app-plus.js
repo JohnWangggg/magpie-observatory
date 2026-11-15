@@ -1351,8 +1351,16 @@ show(F.length-1);
       (log.length
         ? `<div class="gwcmp-grid" style="grid-template-columns:1fr">${log.map(e => `<div class="gc-row"><span>${esc(e.date)}</span><b>${fmtTokens(e.tokens)} · ${e.calls} 调用 · ${e.streak}天</b></div>`).join("")}</div>`
         : `<div class="digest-foot">还没有摘要历史——明日首访后生成</div>`) +
-      `<div class="digest-foot">点击关闭 · 保留最近 7 条</div>`;
-    card.addEventListener("click", () => card.remove());
+      `<div class="digest-foot"><button class="mini-btn" id="dl-copy" type="button">复制全部</button> · 保留最近 7 条 · 点击外关闭</div>`;
+    card.addEventListener("click", e => {
+      if (e.target.closest("#dl-copy")) {
+        e.stopPropagation();
+        const md = digestLog().slice().reverse().map(e => `| ${e.date} | ${e.tokens} | ${e.calls} | ${e.streak}天 |`).join("\n");
+        navigator.clipboard?.writeText(`| 日期 | tokens | 调用 | 连续 |\n|---|---|---|---|\n${md}`).then(() => toast("摘要历史已复制"));
+        return;
+      }
+      card.remove();
+    });
     document.body.appendChild(card);
     setTimeout(() => card.classList.add("in"), 10);
     closePalette();
