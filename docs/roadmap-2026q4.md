@@ -1594,3 +1594,13 @@ v40 已落地：回放帧对比(AB两帧KPI差表)、digest sparkline。跳过�
 3. **digest格点击度**:可点格加微底纹。
 4. **palette视图进度**:视图项sub加"已看N次"。
 5. **回放帧导航**:strip加首/末帧快捷点。
+
+## 下轮候选 v42（2026-11-15 · v41 落地后）
+
+v41 已落地:C键帧对比、strip首末边、首try色点。跳过:digest可点底纹(cursor:pointer已)、视图热度sub(viewMeta.title已带)。
+
+1. **回放帧对比URL**:对比结果可复制为 ?cmp=a,b 链接。
+2. **session卡provider首色**:色点chip换 provider 品牌色而非状态色。
+3. **digest格sparkline提示**:曲线点 hover title已有->加最末点高亮。
+4. **palette视图分kind顺序**:视图>页面>会话>动作排序固定。
+5. **回放帧导出对比**:compareReplayFrames加"复制对比"钮。
