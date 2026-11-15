@@ -1644,3 +1644,13 @@ v45 已落地：A/B键设循环+即时重绘。跳过：strip拖拽改AB(键设�
 3. **digest格历史**:digest卡加"昨天同时段对比"小字。
 4. **palette项热度**:动作项也加 pal-hot(按点击次数)。
 5. **回放AB持久**:replayAB存localStorage跨重开。
+
+## 下轮候选 v47（2026-11-15 · v46 落地后）
+
+v46 已落地：AB持久化+恢复、键位提示条。跳过:tries SVG链(title已链)、昨日同时段(数据无小时)、动作热度(视图已标)。
+
+1. **回放键位条X**:hint旁加退出钮(回放中无显退点)。
+2. **session卡tries时序**:try title加ms耗时链。
+3. **digest格刷新**:digest卡点击格刷新该格数据。
+4. **palette项首字母**:pal-item显示kind首字标(角标已有数字)。
+5. **回放AB拖动**:拖rep-ab带两端调区间。
