@@ -1685,3 +1685,13 @@ v49 已落地：折叠持久、tokens相对条。跳过：键位tooltip卡(title
 3. **digest周格点击**:sparkline点点击→滚到该日热度。
 4. **palette分组跳转**:Tab键在分组间跳。
 5. **回放帧缩略**:strip帧标点击弹出该帧KPI卡。
+
+## 下轮候选 v51（2026-11-15 · v50 落地+exit清diff后）
+
+v50 已落地：D键diff模式+scrub更新+exit清理。跳过:hover浮层(选中卡已展开)、sparkline点击(格滚到已)、Tab组跳(ArrowDown已)、帧缩略(点标已跳)。
+
+1. **回放diff持久**:D模式跨帧显示改为vs A帧(有AB时)。
+2. **session卡tokens条色**:tokbar色按agent品牌色。
+3. **digest格昨日同时**:卡底加"昨日此时 N tok"。
+4. **palette预览回车**:→键预览后回车直接开该视图。
+5. **回放AB导出diff**:AB对比卡加"导出diff"。
