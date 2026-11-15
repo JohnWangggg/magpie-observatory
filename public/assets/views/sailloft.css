@@ -1,0 +1,7 @@
+/* sailloft view */
+@keyframes slsew { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
+.sl-svg { display: block; width: 100%; height: 100%; }
+.sl-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.sl-maker { animation: slsew ease-in-out infinite; }
+.sl-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .sl-maker { animation: none; } }
