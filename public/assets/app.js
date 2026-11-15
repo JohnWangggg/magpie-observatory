@@ -1449,7 +1449,7 @@
         <span class="agent-live"><i></i>${a.active || "—"}</span>
         <span class="agent-load"><i style="width:${Math.round(a.tokens / maxAgentTokens * 100)}%"></i></span>
       </div>`;
-    }).join("");
+    }).join("") || `<div class="hero-empty" role="note"><b>暂无会话</b><span>等一次请求落进来 — 或者：</span><div class="hero-empty-acts"><button type="button" data-he="random">随机视图</button><button type="button" data-he="tour">巡游</button><button type="button" data-he="views">浏览 ${VIEW_META.length} 个视图</button></div></div>`;
 
     const provMap = new Map();
     all.forEach(s => {
@@ -3658,6 +3658,14 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
     });
 
     $("#route-stage").addEventListener("click", e => {
+      const he = e.target.closest("[data-he]");
+      if (he) {
+        const a = he.dataset.he;
+        if (a === "random") randomView();
+        else if (a === "tour") { if (!state.tour) startTour(); }
+        else if (a === "views") { const p = $("#view-picker"); if (p) p.click(); }
+        return;
+      }
       // Legend chips in custom views — click an agent swatch to filter the
       // session list, click again to clear. Views opt in via data-agent.
       const lgItem = e.target.closest("[data-agent]");

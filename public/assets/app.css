@@ -583,6 +583,12 @@ img { display: block; }
 .note-card.note-arm { border-color: color-mix(in srgb, var(--amber) 50%, var(--line)); box-shadow: 0 0 0 1px color-mix(in srgb, var(--amber) 20%, transparent); }
 .note-card.note-over { border-color: var(--amber); background: color-mix(in srgb, var(--amber) 5%, var(--card)); }
 .kpi[draggable="true"] { cursor: grab; }
+.hero-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; min-height: 140px; color: var(--muted); text-align: center; }
+.hero-empty b { font-size: 12px; color: var(--fg-2); }
+.hero-empty span { font-size: 9px; color: var(--faint); }
+.hero-empty-acts { display: flex; gap: 6px; margin-top: 6px; }
+.hero-empty-acts button { height: 26px; padding: 0 10px; border: 1px solid var(--line); border-radius: 7px; background: var(--card-2); color: var(--fg-2); font-size: 9px; font-weight: 600; cursor: pointer; }
+.hero-empty-acts button:hover { color: var(--fg); border-color: var(--accent); }
 .vs-row { display: grid; grid-template-columns: 48px 1fr 70px; align-items: center; gap: 10px; }
 .vs-tag { font: 700 9px var(--mono); color: var(--muted); }
 .vs-track { position: relative; height: 10px; background: var(--card-2); border-radius: 5px; overflow: hidden; }
