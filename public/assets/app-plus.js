@@ -1914,6 +1914,10 @@ show(F.length-1);
           return `<div><small>TTFT 均值</small><b>${avg < 1000 ? Math.round(avg) + "ms" : (avg / 1000).toFixed(1) + "s"} <em class="dig">${ttfts.length} 请求</em></b></div>`;
         })()}
         ${(() => {
+          const tpsMax = (s.data.logs || []).reduce((m, l) => Math.max(m, l.tps || 0), 0);
+          return tpsMax > 0 ? `<div><small>TPS 峰值</small><b>${tpsMax.toFixed(1)}/s</b></div>` : "";
+        })()}
+        ${(() => {
           try {
             const bag = JSON.parse(localStorage.getItem("magpie.badges") || "{}");
             const yd = y.date || "";

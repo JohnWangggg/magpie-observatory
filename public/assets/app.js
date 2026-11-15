@@ -1508,7 +1508,7 @@
     $("#agents-col").innerHTML = agents.map(a => {
       const meta = D.agentMeta(a.key);
       const hot = state.filter && state.filter.type === "agent" && state.filter.value === a.key;
-      return `<div class="agent-node${hot ? " hot" : ""}" data-agent="${esc(a.key)}" style="--agent-c:${meta.color}" role="button" tabindex="0" title="点击筛选 ${esc(meta.name)}">
+      return `<div class="agent-node${hot ? " hot" : ""}" data-agent="${esc(a.key)}" style="--agent-c:${meta.color}" role="button" tabindex="0" title="点击筛选 ${esc(meta.name)} · ${fmtTokens(a.tokens)} tok · ${a.active || 0} 活跃">
         <span class="agent-ic"><img src="${agentIcon(a.key)}" alt=""></span>
         <span class="agent-copy"><b>${esc(meta.name)}</b><small>group/${esc(a.group || "direct")}</small></span>
         <span class="agent-live"><i></i>${a.active || "—"}</span>
