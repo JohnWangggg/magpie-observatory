@@ -264,6 +264,8 @@
     $("#replay-time").textContent = new Date(buf[i].t).toTimeString().slice(0, 8);
     const idxEl = $("#replay-idx");
     if (idxEl) idxEl.textContent = `帧 ${i}/${buf.length - 1}`;
+    const rng = $("#replay-range");
+    if (rng) rng.title = `帧 ${i}/${buf.length - 1} · ${new Date(buf[i].t).toTimeString().slice(0, 8)}`;
     const kpiEl = $("#replay-kpi");
     if (kpiEl) { const kk = buf[i].data.kpis || {}; kpiEl.textContent = `TOK ${fmtTokens(kk.tokens || 0)} · ${kk.tps != null ? kk.tps.toFixed(1) : "—"}/s`; }
     if (kpiEl && s.replayAB) { const [a2, b2] = s.replayAB; if (i >= a2 && i <= b2) kpiEl.textContent += ` · AB ${i - a2 + 1}/${b2 - a2 + 1}`; }
