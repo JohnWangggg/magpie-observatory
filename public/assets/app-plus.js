@@ -1448,6 +1448,14 @@ show(F.length-1);
           } catch (_) { return ""; }
         })()}
       </div>
+      ${(() => {
+        // 7-day mini bar under the grid: yesterday's context at a glance.
+        const tail = days.slice(-7);
+        if (tail.length < 2) return "";
+        const max = Math.max(1, ...tail.map(d => d.tokens || 0));
+        const bars = tail.map((d, i) => `<rect x="${i * 10 + 1}" y="${26 - Math.round((d.tokens || 0) / max * 24)}" width="8" height="${Math.max(2, Math.round((d.tokens || 0) / max * 24))}" rx="1.5" fill="${i === tail.length - 2 ? "var(--accent)" : "color-mix(in srgb, var(--accent) 30%, transparent)"}"><title>${d.date} · ${d.tokens}</title></rect>`).join("");
+        return `<svg class="dig-bars" viewBox="0 0 ${tail.length * 10 + 2} 28" aria-hidden="true">${bars}</svg>`;
+      })()}
       <div class="digest-foot">连续使用 ${dayStreak()} 天 · ${dTok != null ? (dTok >= 0 ? "较前日 +" + dTok + "%" : "较前日 " + dTok + "%") : "保持热度"}
         <button class="mini-btn digest-week" type="button">看周报 →</button>
         <button class="mini-btn digest-md" type="button">复制 MD</button></div>`;

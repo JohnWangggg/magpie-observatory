@@ -3168,3 +3168,4 @@ body.mini .route-stage { min-height: 0 !important; }
 @media (min-width: 1700px) {
   .vm-groups { grid-template-columns: 1fr 1fr 1fr; }
 }
+.dig-bars { display: block; margin: 8px 0 0; height: 28px; opacity: .85; }
