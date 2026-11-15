@@ -2492,6 +2492,7 @@
         <span>${fmtAge(age)}</span>
         ${s.fallbacks ? `<span class="chip amber">${s.fallbacks} 改道</span>` : ""}
         ${(s.subagents || []).length ? `<span class="chip accent" title="子代理数">${s.subagents.length} 子代理</span>` : ""}
+        ${(s.tries || []).length > 1 ? `<span class="chip accent" title="尝试次数">${s.tries.length} 试</span>` : ""}
         <span class="tps ${tpsClass(s.tps)}">${tps}</span>
       </div>
       ${subs}

@@ -1486,6 +1486,12 @@ show(F.length-1);
           } catch (_) { return ""; }
         })()}
         ${(() => {
+          const errs = (s.data.logs || []).filter(l => l.status === "err").length;
+          const calls = Math.max(1, y.calls || 0);
+          const pct = (errs / calls * 100).toFixed(1);
+          return `<div><small>错误率</small><b>${pct}% <em class="dig ${errs > calls * .05 ? "down" : "up"}">${errs} 条</em></b></div>`;
+        })()}
+        ${(() => {
           try {
             const seen = JSON.parse(localStorage.getItem("magpie.viewSeen") || "[]");
             const at = JSON.parse(localStorage.getItem("magpie.viewSeenAt") || "{}");
