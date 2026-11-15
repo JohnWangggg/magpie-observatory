@@ -152,6 +152,7 @@
     { id: "amphora", title: "双耳瓶", eyebrow: "PROVIDER AMPHORA", group: "配额", icon: "i-magpie", hint: "瓮=配额窗 酒=余量 绘=会话 倾=错" },
     { id: "semaphore", title: "旗语", eyebrow: "QUOTA SEMAPHORE", group: "配额", icon: "i-magpie", hint: "塔=配额窗 臂=用量 灯=会话 闪=错" },
     { id: "pitstop", title: "维修站", eyebrow: "PROVIDER PITSTOP", group: "用量", icon: "i-route", hint: "道=provider 车=token 胎=用量 旗=错" },
+    { id: "fireescape", title: "消防梯", eyebrow: "QUOTA FIREESCAPE", group: "配额", icon: "i-magpie", hint: "梯=配额窗 段=用量 人=会话 红=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
