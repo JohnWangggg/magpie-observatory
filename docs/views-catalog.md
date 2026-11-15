@@ -1,4 +1,4 @@
-# Magpie Observatory · 视图图鉴 (347)
+# Magpie Observatory · 视图图鉴 (348)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
@@ -8,7 +8,7 @@
 | [实时](#实时) | 12 |
 | [配额](#配额) | 6 |
 | [延迟](#延迟) | 1 |
-| [氛围](#氛围) | 2 |
+| [氛围](#氛围) | 3 |
 | [场景](#场景) | 232 |
 | [用量](#用量) | 14 |
 | [结构](#结构) | 6 |
@@ -55,12 +55,13 @@
 |---|---|---|---|---|
 | `sextant` | 六分仪 | LATITUDE OF LATENCY | 慢=高角 快=贴地平线 | ![sextant](../public/shots/sextant.png) |
 
-## 氛围 (2)
+## 氛围 (3)
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
 | `darkroom` | 暗房 | DARKROOM | 聚光灯跟手 照亮日志 | ![darkroom](../public/shots/darkroom.png) |
 | `plankton` | 浮游群 | LOG PLANKTON | 点=日志 色=provider 漂 | ![plankton](../public/shots/plankton.png) |
+| `newsreel` | 新闻片 | LOG NEWSREEL | 日志=老电影帧 底片 | — |
 
 ## 场景 (232)
 
@@ -304,7 +305,7 @@
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
 | `warehouse` | 仓库 | TOKEN WAREHOUSE | 架=provider 箱=token 灯=会话 | ![warehouse](../public/shots/warehouse.png) |
-| `cartographer` | 地图师 | USAGE CARTOGRAPHY | 峰=provider 等高线=token | — |
+| `cartographer` | 地图师 | USAGE CARTOGRAPHY | 峰=provider 等高线=token | ![cartographer](../public/shots/cartographer.png) |
 | `rings` | Token 年轮 | YEAR IN RINGS | 26 周极坐标日历 | ![rings](../public/shots/rings.png) |
 | `latency` | 延迟热力 | LATENCY HEATMAP | 时间 × 延迟 | ![latency](../public/shots/latency.png) |
 | `stream` | 流量河流 | STREAMGRAPH | Provider 增量 | ![stream](../public/shots/stream.png) |
