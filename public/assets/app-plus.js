@@ -2897,7 +2897,7 @@ ${quota || "| — | — | — |"}
       const ss = state();
       items.length = 0;
       if (ss) (ss.data.sessions || []).concat(ss.data.recent || []).forEach(x => {
-        items.push({ kind: "会话", icon: "i-overview", title: x.title || x.id, sub: `${x.agent || "?"} · ${fmtTokens(x.tokens || 0)} tok`, search: (x.title + " " + (x.agent || "") + " " + (x.model || "")).toLowerCase(), run: () => { ss.selectedSession = x.id; Obs.api.renderAll && Obs.api.renderAll(); closePalette(); } });
+        items.push({ kind: "会话", icon: "i-overview", img: Obs.api.agentIcon ? Obs.api.agentIcon(x.agent) : null, title: x.title || x.id, sub: `${x.agent || "?"} · ${fmtTokens(x.tokens || 0)} tok`, search: (x.title + " " + (x.agent || "") + " " + (x.model || "")).toLowerCase(), run: () => { ss.selectedSession = x.id; Obs.api.renderAll && Obs.api.renderAll(); closePalette(); } });
       });
       if (q2) { const keep = items.filter(it => it.search.includes(q2) || it.title.toLowerCase().includes(q2)); items.length = 0; items.push(...keep); }
     }
@@ -2911,7 +2911,8 @@ ${quota || "| — | — | — |"}
       const hotDot = it.vid && ((() => { try { return (JSON.parse(localStorage.getItem("magpie.viewHeat") || "{}"))[it.vid] || 0; } catch (_) { return 0; } })() >= 3) ? `<i class="pal-hot" title="常用"></i>` : "";
       const numBadge = i < 9 ? `<i class="pal-num" title="⌘${i + 1} 直达">${i + 1}</i>` : "";
       const kindDot = `<i style="display:inline-block;width:4px;height:4px;border-radius:50%;margin-right:5px;vertical-align:middle;background:var(--kdot, var(--muted))"></i>`;
-      return head + `<button class="pal-item" data-idx="${i}" title="${it.vid ? "id: " + it.vid : ""}" style="--kdot:${{ "视图": "var(--accent)", "页面": "var(--green)", "会话": "var(--amber)", "动作": "var(--cyan, var(--accent-strong))", "重跑": "var(--red)" }[it.kind] || "var(--muted)"}">${kindDot}<svg><use href="#${it.icon}"/></svg><span><b>${esc(it.title)}</b><small>${esc(it.sub)}</small></span><em>${esc(it.kind)}</em>${thumb}${hotDot}${numBadge}</button>`;
+      const iconHtml = it.img ? `<img src="${it.img}" alt="" style="width:14px;height:14px;border-radius:50%;flex:none">` : `<svg><use href="#${it.icon}"/></svg>`;
+      return head + `<button class="pal-item" data-idx="${i}" title="${it.vid ? "id: " + it.vid : ""}" style="--kdot:${{ "视图": "var(--accent)", "页面": "var(--green)", "会话": "var(--amber)", "动作": "var(--cyan, var(--accent-strong))", "重跑": "var(--red)" }[it.kind] || "var(--muted)"}">${kindDot}${iconHtml}<span><b>${esc(it.title)}</b><small>${esc(it.sub)}</small></span><em>${esc(it.kind)}</em>${thumb}${hotDot}${numBadge}</button>`;
     }).join("");
     if (!list.innerHTML.trim()) {
       list.innerHTML = `<div class="pal-kind">提示</div><div class="pal-empty" style="padding:10px 14px;font-size:9.5px;color:var(--muted)">没有匹配项 · 前缀 v:视图 g:跳转 s:会话 m:便签 a:动作 · ⌘1-9 直达 · → 预览 · 视图名/orrery · agent名/claude · 命令/导出/回放</div>`;
