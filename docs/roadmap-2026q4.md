@@ -2129,3 +2129,13 @@ v93 已落地:token amber。跳过:模式标(回放标已)、=0%平(△0已)、�
 3. **digest格日标**:heatmap cell今日加重。
 4. **palette键历**:⌘N后记住。
 5. **回放条视图标**:回放条add视图icon。
+
+## 下轮候选 v95（2026-11-15 · v94 落地后）
+
+v94 已落地:钉住钮。跳过:tokens/age(已在title)、今日重(today已)、⌘N历(cmdHist已)、视图标(回放标已)。
+
+1. **回放?帧卡close**:加✕显式关(钉住时也需)。
+2. **session卡sub列**:subagents>0加色点。
+3. **digest格streak环**:streak<3加警示。
+4. **palette快构**:视图id前缀"v:"搜。
+5. **回放条帧度**:加帧间差分布。
