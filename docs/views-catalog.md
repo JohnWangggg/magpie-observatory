@@ -1,4 +1,4 @@
-# Magpie Observatory · 视图图鉴 (340)
+# Magpie Observatory · 视图图鉴 (341)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
@@ -8,6 +8,7 @@
 | [实时](#实时) | 10 |
 | [配额](#配额) | 6 |
 | [延迟](#延迟) | 1 |
+| [氛围](#氛围) | 1 |
 | [用量](#用量) | 12 |
 | [结构](#结构) | 6 |
 | [几何](#几何) | 11 |
@@ -50,7 +51,13 @@
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
-| `sextant` | 六分仪 | LATITUDE OF LATENCY | 慢=高角 快=贴地平线 | — |
+| `sextant` | 六分仪 | LATITUDE OF LATENCY | 慢=高角 快=贴地平线 | ![sextant](../public/shots/sextant.png) |
+
+## 氛围 (1)
+
+| id | 标题 | eyebrow | 说明 | 预览 |
+|---|---|---|---|---|
+| `darkroom` | 暗房 | DARKROOM | 聚光灯跟手 照亮日志 | — |
 
 ## 用量 (12)
 
