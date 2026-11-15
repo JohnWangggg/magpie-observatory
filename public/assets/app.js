@@ -409,6 +409,7 @@
     { id: "oarmaker", title: "桨匠", eyebrow: "PROVIDER OARMAKER", group: "用量", icon: "i-magpie", hint: "架=provider 桨=token 削=会话 裂=错" },
     { id: "canvas", title: "帆布", eyebrow: "PROVIDER CANVAS", group: "用量", icon: "i-magpie", hint: "机=provider 线=token 织=会话 断=错" },
     { id: "rigger", title: "索具", eyebrow: "PROVIDER RIGGER", group: "用量", icon: "i-magpie", hint: "架=provider 绳=token 缠=会话 散=错" },
+    { id: "anchorsmith", title: "锚匠", eyebrow: "PROVIDER ANCHORSMITH", group: "用量", icon: "i-magpie", hint: "炉=provider 锚=token 焊=会话 裂=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
