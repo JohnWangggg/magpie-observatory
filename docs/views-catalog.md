@@ -1,4 +1,4 @@
-# Magpie Observatory · 视图图鉴 (498)
+# Magpie Observatory · 视图图鉴 (499)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
@@ -10,7 +10,7 @@
 | [延迟](#延迟) | 2 |
 | [氛围](#氛围) | 3 |
 | [场景](#场景) | 233 |
-| [用量](#用量) | 108 |
+| [用量](#用量) | 109 |
 | [天象](#天象) | 17 |
 | [洞察](#洞察) | 10 |
 | [结构](#结构) | 6 |
@@ -95,7 +95,7 @@
 | `icehouse` | 冰窖 | QUOTA ICEHOUSE | 窖=配额窗 冰=余量 夫=会话 融=错 | ![icehouse](../public/shots/icehouse.png) |
 | `qanat` | 坎儿井 | QUOTA QANAT | 井=配额窗 水=余量 夫=会话 塌=错 | ![qanat](../public/shots/qanat.png) |
 | `watertower` | 水塔 | QUOTA WATERTOWER | 罐=配额窗 水=余量 阀=会话 爆=错 | ![watertower](../public/shots/watertower.png) |
-| `nilometer` | 尼罗水位计 | QUOTA NILOMETER | 井=配额窗 水=余量 读=会话 淤=错 | — |
+| `nilometer` | 尼罗水位计 | QUOTA NILOMETER | 井=配额窗 水=余量 读=会话 淤=错 | ![nilometer](../public/shots/nilometer.png) |
 | `rosetta` | 罗塞塔 | ROSETTA | 环带=配额 刻痕=会话 | ![rosetta](../public/shots/rosetta.png) |
 | `eclipse` | 日蚀 | ECLIPSE | 暗盘=量 冕=会话 沿=窗 | ![eclipse](../public/shots/eclipse.png) |
 | `tapestry` | 织锦 | TAPESTRY | 经=配额 纬=会话 | ![tapestry](../public/shots/tapestry.png) |
@@ -354,7 +354,7 @@
 | `reserve2` | 保护区二号 | RESERVE II | 观测=配额窗 隙=用量 栖枝=过热 守护=会话 | ![reserve2](../public/shots/reserve2.png) |
 | `desert` | 沙丘 | DESERT | 丘=配额窗 高=用量 驼=会话 | ![desert](../public/shots/desert.png) |
 
-## 用量 (108)
+## 用量 (109)
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
@@ -454,6 +454,7 @@
 | `brinepan` | 煮盐盘 | PROVIDER BRINEPAN | 盘=provider 盐=token 人=会话 焦=错 | ![brinepan](../public/shots/brinepan.png) |
 | `stampmill` | 捣矿磨 | PROVIDER STAMPMILL | 架=provider 锤=token 工=会话 脱=错 | ![stampmill](../public/shots/stampmill.png) |
 | `leachpit` | 淋灰坑 | PROVIDER LEACHPIT | 斗=provider 碱=token 人=会话 漏=错 | ![leachpit](../public/shots/leachpit.png) |
+| `netloft` | 织网楼 | PROVIDER NETLOFT | 网=provider 目=token 工=会话 破=错 | — |
 | `rings` | Token 年轮 | YEAR IN RINGS | 26 周极坐标日历 | ![rings](../public/shots/rings.png) |
 | `latency` | 延迟热力 | LATENCY HEATMAP | 时间 × 延迟 | ![latency](../public/shots/latency.png) |
 | `stream` | 流量河流 | STREAMGRAPH | Provider 增量 | ![stream](../public/shots/stream.png) |
