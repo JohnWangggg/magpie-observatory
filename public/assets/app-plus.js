@@ -1328,6 +1328,14 @@ show(F.length-1);
           const emodel = errs.filter(l => l.provider === ep).map(l => (l.model || "").split("/").pop()).sort((a, b) => (errs.filter(x => (x.model || "").split("/").pop() === b).length - errs.filter(x => (x.model || "").split("/").pop() === a).length))[0];
           return `<div><small>错误聚类</small><b>${errs.length} <em class="dig down">${esc(ename)}·${en}</em></b><small style="display:block;margin-top:2px">${esc(emodel || "")}</small></div>`;
         })()}
+        ${(() => {
+          try {
+            const bag = JSON.parse(localStorage.getItem("magpie.badges") || "{}");
+            const yd = y.date || "";
+            const newly = Object.entries(bag).filter(([, d]) => String(d).slice(0, 10) >= yd).length;
+            return newly ? `<div><small>昨日解锁</small><b>${newly} <em class="dig up">新成就</em></b></div>` : "";
+          } catch (_) { return ""; }
+        })()}
       </div>
       <div class="digest-foot">连续使用 ${dayStreak()} 天 · ${dTok != null ? (dTok >= 0 ? "较前日 +" + dTok + "%" : "较前日 " + dTok + "%") : "保持热度"}
         <button class="mini-btn digest-week" type="button">看周报 →</button>
@@ -1335,7 +1343,8 @@ show(F.length-1);
     card.addEventListener("click", e => {
       if (e.target.closest(".digest-week")) { weeklyReport(); }
       else if (e.target.closest(".digest-md")) {
-        const md = `## 昨日观测 ${y.date || today}\n- tokens: ${fmtTokens(y.tokens)} (${y.calls || 0} 调用)\n- 连续使用: ${dayStreak()} 天\n- 最常用: ${meta ? meta.name : "—"}\n- 图鉴: ${(() => { try { return JSON.parse(localStorage.getItem("magpie.viewSeen") || "[]").length; } catch (_) { return "?"; } })()}/${(Obs.api.VIEW_META || []).length}\n`;
+        const errs = (s.data.logs || []).filter(l => l.status === "err").length;
+        const md = `## 昨日观测 ${y.date || today}\n- tokens: ${fmtTokens(y.tokens)} (${y.calls || 0} 调用)\n- 连续使用: ${dayStreak()} 天\n- 最常用: ${meta ? meta.name : "—"}\n- 错误: ${errs} 条\n- 图鉴: ${(() => { try { return JSON.parse(localStorage.getItem("magpie.viewSeen") || "[]").length; } catch (_) { return "?"; } })()}/${(Obs.api.VIEW_META || []).length}\n`;
         navigator.clipboard?.writeText(md).then(() => toast("昨日摘要已复制"));
       }
       card.remove();
