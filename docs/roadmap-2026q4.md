@@ -1907,3 +1907,13 @@ v71 已落地：snaps清空、(N)总显、dataset防污染。跳过:tokbar粗(�
 3. **digest格趋势箭**:本月累计加同比箭头。
 4. **palette视图缩略**:pal-thumb失败时显view id占位。
 5. **回放AB拖全带**:拖带中部平移区间。
+
+## 下轮候选 v73（2026-11-15 · v72 落地后）
+
+v72 已落地：AB拖平移、provider色点。跳过：键位分组(14键已列)、同比箭头(无年数据)、thumb占位(onerror已remove)。
+
+1. **回放AB拖端时显值**:拖端点实时toast帧号(非只在up时)。
+2. **session卡tokens微条**:tokbar色按tokens梯度。
+3. **digest格达标率**:加本月达标天数率。
+4. **palette组排**:重跑组提最前(已有?)。
+5. **回放帧缩略图**:?帧卡加存PNG微图。
