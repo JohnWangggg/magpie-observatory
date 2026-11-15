@@ -24,7 +24,7 @@
 
     const modelStats = new Map();
     logs.forEach(l => {
-      const ms = l.ttft_ms || l.ms || 0;
+      const ms = l.ttft || l.ms || 0;
       if (!ms) return;
       const m = (l.model || "?").split("/").pop();
       if (!modelStats.has(m)) modelStats.set(m, { n: 0, ms: 0, prov: l.provider, model: m });

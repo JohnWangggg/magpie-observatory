@@ -43,7 +43,7 @@
     const provTok = new Map();
     logs.forEach(l => {
       const p = l.provider || "?";
-      provTok.set(p, (provTok.get(p) || 0) + (l.tok_in || l.tok_out || 0));
+      provTok.set(p, (provTok.get(p) || 0) + ((l.tokens || 0)));
     });
     const rows = [...provTok.entries()].map(([name, tok]) => ({
       name, tok, live: sessions.filter(s => s.provider === name).length, col: metaOf(name).color || "#8b7cf6",

@@ -40,7 +40,7 @@
 
     // pebbles per active session at its hour mark
     sessions.forEach((s, i) => {
-      const t = new Date(s.since || s.started || Date.now());
+      const t = new Date(Date.now() - (s.startedAgo || 0));
       const hh = t.getHours() + t.getMinutes() / 60;
       const a = ((hh - 12) / 12) * Math.PI;
       const r = R * (0.3 + 0.5 * (i % 4) / 3);

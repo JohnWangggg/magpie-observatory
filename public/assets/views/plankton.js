@@ -16,9 +16,9 @@
 
     const W = host.clientWidth || 800, H = host.clientHeight || 300;
     const dots = logs.slice(-160).map((l, i) => {
-      const col = l.status === "err" || l.status === "fail" ? "#e06048" : (metaOf(l.provider).color || "#8b7cf6");
+      const col = l.status === "err" ? "#e06048" : (metaOf(l.provider).color || "#8b7cf6");
       const x = (i * 89.7 + 13) % W, y = (i * 61.3 + 29) % H;
-      const sz = 1.2 + Math.min(4, (l.tok_out || 0) / 4000);
+      const sz = 1.2 + Math.min(4, (l.tokens || 0) / 12000);
       return { x, y, sz, col, l };
     });
 

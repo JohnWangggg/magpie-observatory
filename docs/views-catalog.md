@@ -345,7 +345,7 @@
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
-| `ledger` | 账本 | PROVIDER LEDGER | 栏=provider 行=日志 Σ=token | — |
+| `ledger` | 账本 | PROVIDER LEDGER | 栏=provider 行=日志 Σ=token | ![ledger](../public/shots/ledger.png) |
 | `forecast` | 预测 | FORECAST | 烧线+虚线投影 · ⚠=重置前耗尽 | ![forecast](../public/shots/forecast.png) |
 | `trophies` | 成就 | TROPHIES | 徽章架 · 环=解锁进度 | ![trophies](../public/shots/trophies.png) |
 | `burnrate` | 燃尽 | BURNRATE | 本月每日成本 · 虚线=月末预测 | ![burnrate](../public/shots/burnrate.png) |

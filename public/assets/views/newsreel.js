@@ -18,10 +18,10 @@
     const frames = logs.slice(-12).map((l, i) => ({
       prov: (l.provider || "?").split("/").pop().slice(0, 12),
       model: (l.model || "?").split("/").pop().slice(0, 20),
-      err: l.status === "err" || l.status === "fail",
-      tok: (l.tok_in || 0) + (l.tok_out || 0),
+      err: l.status === "err",
+      tok: (l.tokens || 0),
       col: metaOf(l.provider).color || "#8b7cf6",
-      t: l.t || l.ts || Date.now(),
+      t: new Date(l.at || 0).getTime() || Date.now(),
     }));
 
     let g = `<rect width="${W}" height="${H}" fill="#0d0a08"/>`;

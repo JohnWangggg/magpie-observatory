@@ -59,7 +59,7 @@
       const prov = q.provider || "";
       const live = sessions.filter(s => (s.provider || "").toLowerCase() === prov.toLowerCase()).length;
       const provLogs = logs.filter(l => (l.provider || "").toLowerCase() === prov.toLowerCase());
-      const errRate = provLogs.length ? provLogs.filter(l => l.status === "err" || l.status === "fail").length / provLogs.length : 0;
+      const errRate = provLogs.length ? provLogs.filter(l => l.status === "err").length / provLogs.length : 0;
       (q.windows || []).forEach(w => {
         rows.push({ prov: q.name || prov, name: w.name, used: w.used, remaining: Math.max(0, 100 - (w.used || 0)), errRate, col: metaOf(prov).color || "#8b7cf6" });
       });

@@ -39,7 +39,7 @@
 
     const W = host.clientWidth || 800, H = host.clientHeight || 300;
     const provs = [...new Set([...sessions.map(s => s.provider), ...logs.slice(-80).map(l => l.provider)])].filter(Boolean);
-    const errProvs = new Set(logs.slice(-30).filter(l => l.status === "err" || l.status === "fail").map(l => l.provider));
+    const errProvs = new Set(logs.slice(-30).filter(l => l.status === "err").map(l => l.provider));
 
     const rows = provs.map(p => ({
       name: p, live: sessions.filter(s => s.provider === p).length, err: errProvs.has(p),

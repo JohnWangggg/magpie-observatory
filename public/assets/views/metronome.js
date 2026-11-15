@@ -17,7 +17,7 @@
 
     // requests/min from the last 60s of logs
     const now = Date.now();
-    const recent = logs.filter(l => now - (l.t || l.ts || now) < 60000);
+    const recent = logs.filter(l => { const t = new Date(l.at || 0).getTime() || now; return now - t < 60000; });
     const rpm = recent.length; // per-minute rate
     // beat period: 60rpm→1s per swing; scale 30–600rpm → 2.0–0.1s period
     const period = Math.max(0.1, Math.min(2.0, 60 / Math.max(1, rpm)));

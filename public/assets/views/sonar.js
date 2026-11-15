@@ -17,7 +17,7 @@
     const cx = W / 2, cy = H / 2, R = Math.min(W, H) / 2 - 24;
 
     const provs = [...new Set([...sessions.map(s => s.provider), ...logs.slice(-60).map(l => l.provider)])].filter(Boolean);
-    const errProvs = new Set(logs.slice(-30).filter(l => l.status === "err" || l.status === "fail").map(l => l.provider));
+    const errProvs = new Set(logs.slice(-30).filter(l => l.status === "err").map(l => l.provider));
 
     let contacts = "";
     provs.forEach((p, i) => {

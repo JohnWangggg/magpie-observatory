@@ -33,7 +33,7 @@
       const entries = logs.filter(l => l.provider === p).slice(-7);
       const live = sessions.filter(s => s.provider === p).length;
       let tok = 0, req = 0, err = 0;
-      entries.forEach(l => { tok += (l.tok_in || 0) + (l.tok_out || 0); req++; if (l.status === "err" || l.status === "fail") err++; });
+      entries.forEach(l => { tok += (l.tokens || 0); req++; if (l.status === "err") err++; });
 
       // column header
       g += `<text x="${(x + colW / 2).toFixed(0)}" y="${top - 4}" text-anchor="middle" class="lg-hd" fill="${col}">${esc(p.split("/").pop().slice(0, 12))}</text>`;
@@ -44,8 +44,8 @@
       // entries — newest at top of the column's page
       entries.slice().reverse().forEach((l, j) => {
         const y = top + 26 + j * 16;
-        const isErr = l.status === "err" || l.status === "fail";
-        const amt = ((l.tok_in || 0) + (l.tok_out || 0)) / 1000;
+        const isErr = l.status === "err";
+        const amt = ((l.tokens || 0)) / 1000;
         g += `<text x="${x + 10}" y="${y.toFixed(0)}" class="lg-en" fill="${isErr ? "var(--red)" : "var(--fg-2)"}" font-weight="${isErr ? 700 : 500}">${isErr ? "‡ " : ""}${amt.toFixed(1)}k</text>`;
         g += `<text x="${x + colW - 10}" y="${y.toFixed(0)}" text-anchor="end" class="lg-en2" fill="var(--faint)">${(l.model || "?").split("/").pop().slice(0, 6)}</text>`;
       });

@@ -26,7 +26,7 @@
     recent.forEach((l, i) => {
       const x = (i % cols) * cw + cw / 2, y = Math.floor(i / cols) * ch + ch / 2;
       const col = metaOf(l.provider).color || "#8b7cf6";
-      const err = l.status === "err" || l.status === "fail";
+      const err = l.status === "err";
       under += `<g class="dk-under" data-gx="${x.toFixed(0)}" data-gy="${y.toFixed(0)}">
         <rect x="${(x - 3).toFixed(0)}" y="${(y - 3).toFixed(0)}" width="6" height="6" rx="1.5"
               fill="${err ? "var(--red)" : col}" opacity=".6"/>
