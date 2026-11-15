@@ -1,4 +1,4 @@
-# Magpie Observatory · 视图图鉴 (526)
+# Magpie Observatory · 视图图鉴 (527)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
@@ -10,7 +10,7 @@
 | [延迟](#延迟) | 2 |
 | [氛围](#氛围) | 3 |
 | [场景](#场景) | 233 |
-| [用量](#用量) | 135 |
+| [用量](#用量) | 136 |
 | [天象](#天象) | 17 |
 | [洞察](#洞察) | 10 |
 | [结构](#结构) | 6 |
@@ -355,7 +355,7 @@
 | `reserve2` | 保护区二号 | RESERVE II | 观测=配额窗 隙=用量 栖枝=过热 守护=会话 | ![reserve2](../public/shots/reserve2.png) |
 | `desert` | 沙丘 | DESERT | 丘=配额窗 高=用量 驼=会话 | ![desert](../public/shots/desert.png) |
 
-## 用量 (135)
+## 用量 (136)
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
@@ -481,7 +481,8 @@
 | `gigmill` | 起绒机 | PROVIDER GIGMILL | 辊=provider 绒=token 工=会话 撕=错 | ![gigmill](../public/shots/gigmill.png) |
 | `pinmill` | 制针坊 | PROVIDER PINMILL | 轮=provider 针=token 工=会话 折=错 | ![pinmill](../public/shots/pinmill.png) |
 | `wirebench` | 拉丝台 | PROVIDER WIREBENCH | 台=provider 线=token 人=会话 断=错 | ![wirebench](../public/shots/wirebench.png) |
-| `nailery` | 钉坊 | PROVIDER NAILERY | 砧=provider 钉=token 匠=会话 弯=错 | — |
+| `nailery` | 钉坊 | PROVIDER NAILERY | 砧=provider 钉=token 匠=会话 弯=错 | ![nailery](../public/shots/nailery.png) |
+| `finery` | 精炼炉 | PROVIDER FINERY | 炉=provider 团=token 工=会话 冷=错 | — |
 | `rings` | Token 年轮 | YEAR IN RINGS | 26 周极坐标日历 | ![rings](../public/shots/rings.png) |
 | `latency` | 延迟热力 | LATENCY HEATMAP | 时间 × 延迟 | ![latency](../public/shots/latency.png) |
 | `stream` | 流量河流 | STREAMGRAPH | Provider 增量 | ![stream](../public/shots/stream.png) |
