@@ -1,0 +1,7 @@
+/* stewpond view */
+@keyframes spnet { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(-5deg); } }
+.sp-svg { display: block; width: 100%; height: 100%; }
+.sp-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.sp-monk { animation: spnet ease-in-out infinite; transform-origin: bottom left; }
+.sp-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .sp-monk { animation: none; } }
