@@ -242,6 +242,7 @@
     { id: "lightship", title: "灯船", eyebrow: "PROVIDER LIGHTSHIP", group: "用量", icon: "i-magpie", hint: "船=provider 光=token 守=会话 熄=错" },
     { id: "watertower", title: "水塔", eyebrow: "QUOTA WATERTOWER", group: "配额", icon: "i-magpie", hint: "罐=配额窗 水=余量 阀=会话 爆=错" },
     { id: "lagar", title: "踏酒槽", eyebrow: "PROVIDER LAGAR", group: "用量", icon: "i-magpie", hint: "槽=provider 汁=token 人=会话 漏=错" },
+    { id: "dragonbone", title: "龙骨水车", eyebrow: "PROVIDER DRAGONBONE", group: "用量", icon: "i-magpie", hint: "槽=provider 板=token 摇=会话 落=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
