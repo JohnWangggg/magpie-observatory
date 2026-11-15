@@ -1937,3 +1937,13 @@ v74 已落地:帧导出、最慢⚠。跳过:月内比(上月token已)、组色(
 3. **digest格饼图**:加本日调用provider分布饼。
 4. **palette视图图标**:视图组kind项前加view icon。
 5. **回放速度忆**:loadReplaySpeed从localStorage。
+
+## 下轮候选 v76（2026-11-15 · v75 落地后）
+
+v75 已落地:帧KPI chip、速度记忆。跳过:TOK排序(tps已)、饼图(chip已)、视图icon(kindDot已)。
+
+1. **回放D对比补齐**:D键diff加errors列。
+2. **session卡agent图标**:卡首add agent字母泡。
+3. **digest格周曲线**:加本周tokens迷你折线。
+4. **palette搜索分**:命中数<=3时加"直达"提示。
+5. **回放帧标记跳**:mark tick点击跳该帧。
