@@ -346,6 +346,7 @@
     { id: "triphammer", title: "锤锻坊", eyebrow: "PROVIDER TRIPHAMMER", group: "用量", icon: "i-magpie", hint: "锤=provider 锻=token 工=会话 落=错" },
     { id: "drawkiln", title: "抽料窑", eyebrow: "PROVIDER DRAWKILN", group: "用量", icon: "i-magpie", hint: "窑=provider 料=token 工=会话 堵=错" },
     { id: "bleachgreen", title: "漂青场", eyebrow: "PROVIDER BLEACHGREEN", group: "用量", icon: "i-magpie", hint: "场=provider 匹=token 工=会话 焦=错" },
+    { id: "sailmaker", title: "帆匠坊", eyebrow: "PROVIDER SAILMAKER", group: "用量", icon: "i-magpie", hint: "台=provider 帆=token 匠=会话 撕=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
