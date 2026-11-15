@@ -192,6 +192,24 @@
         }
         try { localStorage.setItem("magpie.replayAB", JSON.stringify(s.replayAB)); } catch (_) {}
       };
+      if (!strip.dataset.hoverBound || !strip.querySelector(".rep-hover-tip")) {
+        strip.dataset.hoverBound = "1";
+        const tip = document.createElement("div");
+        tip.className = "rep-hover-tip";
+        tip.style.cssText = "position:absolute;top:-16px;padding:0 4px;font:7px var(--num);color:var(--fg);background:var(--card);border:1px solid var(--line);border-radius:3px;pointer-events:none;white-space:nowrap;transform:translateX(-50%);z-index:3";
+        tip.hidden = true;
+        strip.appendChild(tip);
+        strip.addEventListener("mousemove", e => {
+          if (e.target.dataset?.mi != null) { tip.hidden = true; return; }
+          const bb = strip.getBoundingClientRect();
+          const fi = Math.round(((e.clientX - bb.left) / bb.width) * max);
+          const ci = clamp(fi, 0, s.replayBuf.length - 1);
+          tip.textContent = `帧${ci} · ${s.replayBuf[ci] ? new Date(s.replayBuf[ci].t).toTimeString().slice(0, 8) : ""}`;
+          tip.style.left = `${(ci / max * 100).toFixed(1)}%`;
+          tip.hidden = false;
+        });
+        strip.addEventListener("mouseleave", () => { tip.hidden = true; });
+      }
       // (start-time A-B band uses .rep-ab too so contextmenu can clear it)
       // A-B loop highlight: a red band over the looped stretch.
       if (s.replayAB) {
