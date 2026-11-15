@@ -305,6 +305,7 @@
     { id: "pressroom", title: "印刷坊", eyebrow: "PROVIDER PRESSROOM", group: "用量", icon: "i-magpie", hint: "机=provider 张=token 匠=会话 污=错" },
     { id: "bindery", title: "装订坊", eyebrow: "PROVIDER BINDERY", group: "用量", icon: "i-magpie", hint: "架=provider 帖=token 工=会话 散=错" },
     { id: "paperpress", title: "压纸坊", eyebrow: "PROVIDER PAPERPRESS", group: "用量", icon: "i-magpie", hint: "压=provider 帖=token 工=会话 皱=错" },
+    { id: "bodger", title: "绿木工", eyebrow: "PROVIDER BODGER", group: "用量", icon: "i-magpie", hint: "马=provider 腿=token 工=会话 裂=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
