@@ -2407,6 +2407,10 @@
     const st = STATUS_CLASS[s.status] || "";
     const tps = s.tps ? `${s.tps.toFixed(1)} tok/s` : "— tok/s";
     const subs = (s.subagents || []).map(sub => `<div class="subagent-row"><b>${esc(sub.name)}</b><span>${esc(STATUS_TEXT[sub.status] || sub.status)}</span><span class="sub-model">${esc(sub.model)} · ${sub.tps ? sub.tps.toFixed(0) : "—"} TPS</span></div>`).join("");
+    // Selected card → inline tries detail (was: right-click popover only).
+    const triesDetail = (sel && (s.tries || []).length > 1)
+      ? `<div class="tries-detail">${s.tries.map(t => `<div class="try-row"><em class="${t.state === "ok" ? "ok" : "fail"}">${t.state === "ok" ? "✓" : "✗"}</em><span>${esc(D.providerMeta(t.provider)?.name || t.provider)}</span><span class="try-model">${esc((t.model || "").split("/").pop())}</span><span>${t.ms ? (t.ms >= 1000 ? (t.ms/1000).toFixed(1) + "s" : Math.round(t.ms) + "ms") : "—"}</span></div>`).join("")}</div>`
+      : "";
     return `<article class="session-card${sel ? " selected" : ""}${pinned ? " pinned" : ""}${s.status === "streaming" ? " streaming" : ""}" role="button" aria-selected="${sel}" aria-label="${esc(s.title)} · ${esc(s.model)} · ${esc(STATUS_TEXT[s.status] || s.status)}" data-session="${esc(s.id)}" style="--s-c:${meta.color}" tabindex="0">
       <div class="session-top">
         <span class="session-agent"><img src="${agentIcon(s.agent)}" alt=""></span>
@@ -2422,6 +2426,7 @@
         <span class="tps ${tpsClass(s.tps)}">${tps}</span>
       </div>
       ${subs}
+      ${triesDetail}
     </article>`;
   }
 

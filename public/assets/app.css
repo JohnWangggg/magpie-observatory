@@ -950,6 +950,11 @@ img { display: block; }
 .subagent-row::before { content: "↳"; color: var(--faint); }
 .subagent-row b { font-size: 8.5px; color: var(--fg-2); font-weight: 550; }
 .subagent-row .sub-model { font-family: var(--mono); color: var(--faint); margin-left: auto; }
+.tries-detail { margin: 6px 0 0; padding: 5px 8px; border-top: 1px dashed var(--line); background: color-mix(in srgb, var(--s-c, var(--accent)) 4%, transparent); border-radius: 0 0 7px 7px; }
+.try-row { display: flex; align-items: center; gap: 7px; font: 500 9px var(--mono); color: var(--muted); padding: 2px 0; }
+.try-row em { width: 12px; font-style: normal; font-weight: 700; }
+.try-row em.ok { color: var(--green); } .try-row em.fail { color: var(--red); }
+.try-row .try-model { flex: 1; color: var(--faint); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .session-ghost { flex: 1; min-height: 120px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; border: 1px dashed var(--line); border-radius: 9px; color: var(--faint); font-size: 8.5px; text-align: center; }
 .session-ghost b { font-size: 9.5px; font-weight: 550; color: var(--muted); }
 .session-ghost small { font-size: 7.5px; color: var(--faint); }
