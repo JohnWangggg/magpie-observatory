@@ -440,6 +440,7 @@
     { id: "thatcher", title: "茅屋", eyebrow: "PROVIDER THATCHER", group: "用量", icon: "i-magpie", hint: "屋=provider 束=token 缮=会话 滑=错" },
     { id: "combmaker", title: "栉坊", eyebrow: "PROVIDER COMBMAKER", group: "用量", icon: "i-magpie", hint: "架=provider 齿=token 锯=会话 裂=错" },
     { id: "cutler", title: "刀坊", eyebrow: "PROVIDER CUTLER", group: "用量", icon: "i-magpie", hint: "轮=provider 刃=token 磨=会话 断=错" },
+    { id: "brazier", title: "铜坊", eyebrow: "PROVIDER BRAZIER", group: "用量", icon: "i-magpie", hint: "炉=provider 釜=token 焊=会话 漏=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
