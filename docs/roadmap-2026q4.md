@@ -1866,3 +1866,13 @@ v67 已落地：键位提示、pin光晕。跳过:5天活性格(sparkline已)、
 3. **digest格streak条**:streak加5格周活性块。
 4. **palette热区icon**:视图kind点换缩略图标。
 5. **回放strip帧标**:tick hover放大1.3x。
+
+## 下轮候选 v69（2026-11-15 · v68 落地后）
+
+v68 已落地：14键卡、5格活性。跳过：pin时间(无戳)、缩略icon(dot已)、tick放大(密集已)。
+
+1. **回放AB存组**:AB区间命名存localStorage(多组下拉)。
+2. **session卡tps图**:tps chip旁加3点迷你sparkline。
+3. **digest格达标**:今日达标状态徽章。
+4. **palette视图ID**:视图项sub加id。
+5. **回放帧快照**:?帧卡加"存快照到digest"钮。
