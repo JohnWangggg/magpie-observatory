@@ -1533,3 +1533,13 @@ v34 已落地：alt+dblclick JSON、回放当前帧游标、palette hot角标。
 3. **digest格未看数**:图鉴格旁加"今日新看N"。
 4. **palette视图按字母**:视图项按标题首字分组(非kind)。
 5. **session卡subagent行点击**:→过滤该subagent。
+
+## 下轮候选 v36（2026-11-15 · v35 落地后）
+
+v35 已落地：ctxMenu tries统计、subagent行过滤、图鉴今日新看、回放A-B循环。跳过：字母分组(kind分段已够)。
+
+1. **回放AB区间高亮**:strip上AB段画红色带。
+2. **session卡拖拽到compare-pane**:拖会话进对比区。
+3. **digest调用格点击改**:→log卡片高亮今日行。
+4. **palette视图热键1-9**:展示序号角标(非⌘)。
+5. **session卡swipe左**:→复制ID(触摸)。
