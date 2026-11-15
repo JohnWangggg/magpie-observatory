@@ -246,6 +246,7 @@
     { id: "pumpjack", title: "磕头机", eyebrow: "PROVIDER PUMPJACK", group: "用量", icon: "i-magpie", hint: "架=provider 冲=token 工=会话 齿=错" },
     { id: "ropeway", title: "索道", eyebrow: "PROVIDER ROPEWAY", group: "用量", icon: "i-magpie", hint: "架=provider 斗=token 工=会话 落=错" },
     { id: "canallock", title: "船闸", eyebrow: "PROVIDER CANALLOCK", group: "用量", icon: "i-magpie", hint: "室=provider 水=token 工=会话 漏=错" },
+    { id: "bascule", title: "开启桥", eyebrow: "PROVIDER BASCULE", group: "用量", icon: "i-magpie", hint: "瓣=provider 角=token 工=会话 卡=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
