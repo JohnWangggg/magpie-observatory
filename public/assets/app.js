@@ -2547,7 +2547,8 @@
     ].join("\u0002");
     if (host.dataset.sig === sig) return;
     host.dataset.sig = sig;
-    $("#active-count").textContent = String(live.length);
+    const unseen = list.filter(x => !(state._seenSessions && state._seenSessions.has(x.id))).length;
+    $("#active-count").textContent = String(live.length) + (unseen ? ` · ${unseen}新` : "");
     const scroll = host.scrollTop;
     host.dataset.tab = state.sessionTab;
     // Recent tab: group long lists by provider (divider when provider changes).

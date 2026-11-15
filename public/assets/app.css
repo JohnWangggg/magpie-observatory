@@ -3192,3 +3192,5 @@ body.mini .route-stage { min-height: 0 !important; }
 .pal-num { position: absolute; left: 4px; top: 4px; font: 700 7px var(--num); color: var(--faint); font-style: normal; }
 .session-card.unseen { border-color: color-mix(in srgb, var(--accent) 24%, var(--line)); }
 .session-card.unseen::after { content: ""; position: absolute; top: 6px; right: 6px; width: 4px; height: 4px; background: var(--accent); border-radius: 50%; opacity: .5; }
+.pal-thumb:hover img { transform: scale(2.4); z-index: 5; }
+.pal-thumb img { transition: transform .18s ease; }

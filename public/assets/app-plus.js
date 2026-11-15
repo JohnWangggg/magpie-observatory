@@ -1564,7 +1564,8 @@ show(F.length-1);
             const total = (Obs.api.VIEW_META || []).length;
             const pct = total ? Math.round(seen.length / total * 100) : 0;
             const todayNew = seen.filter(id => at[id] === today).length;
-            return `<div class="dig-dex" style="cursor:pointer" title="点击 → 打开视图菜单"><small>图鉴</small><b>${seen.length}/${total} <em class="dig">${pct}%${todayNew ? ` · 今日+${todayNew}` : ""}</em></b></div>`;
+            const lastMeta = seen.length && Obs.api.viewMeta ? Obs.api.viewMeta(seen[seen.length - 1]) : null;
+            return `<div class="dig-dex" style="cursor:pointer" title="${lastMeta ? "最近新增:「" + esc(lastMeta.title) + "」 · " : ""}点击 → 打开视图菜单"><small>图鉴</small><b>${seen.length}/${total} <em class="dig">${pct}%${todayNew ? ` · 今日+${todayNew}` : ""}</em></b></div>`;
           } catch (_) { return ""; }
         })()}
         ${(() => {
