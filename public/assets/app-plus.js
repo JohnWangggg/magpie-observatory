@@ -72,6 +72,7 @@
     try { const v = +(localStorage.getItem("magpie.replaySpeed") || "0"); if (v) s.replaySpeed = v; } catch (_) {}
     const spd = $("#replay-speed"); if (spd) spd.textContent = (s.replaySpeed || 1) + "×";
     const db = $("#replay-diff-btn"); if (db && !db.dataset.bound) { db.dataset.bound = "1"; db.addEventListener("click", () => document.dispatchEvent(new KeyboardEvent("keydown", { key: "d" }))); }
+    const t60 = $("#replay-tail60"); if (t60 && !t60.dataset.bound) { t60.dataset.bound = "1"; t60.addEventListener("click", () => { const tgt = Math.max(0, s.replayBuf.length - 60); range.value = tgt; scrubReplay(tgt); }); }
     scrubReplay(s.replay.idx);
     toast("回放模式 · 拖动时间轴 · R 或 × 退出");
     const hint = bar && bar.querySelector(".rep-hint");
