@@ -1,0 +1,7 @@
+/* tinsmith view */
+@keyframes tsplanish { 0%,100% { transform: translateX(0); } 50% { transform: translateX(-3px); } }
+.ts-svg { display: block; width: 100%; height: 100%; }
+.ts-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.ts-man { animation: tsplanish ease-in-out infinite; }
+.ts-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .ts-man { animation: none; } }
