@@ -1,0 +1,7 @@
+/* leatherseller view */
+@keyframes lslmeasure { 0%,100% { transform: translateX(0); } 50% { transform: translateX(3px); } }
+.lsl-svg { display: block; width: 100%; height: 100%; }
+.lsl-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.lsl-man { animation: lslmeasure ease-in-out infinite; }
+.lsl-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .lsl-man { animation: none; } }
