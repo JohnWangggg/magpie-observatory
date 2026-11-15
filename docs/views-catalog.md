@@ -1,4 +1,4 @@
-# Magpie Observatory · 视图图鉴 (615)
+# Magpie Observatory · 视图图鉴 (616)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
@@ -10,7 +10,7 @@
 | [延迟](#延迟) | 2 |
 | [氛围](#氛围) | 3 |
 | [场景](#场景) | 233 |
-| [用量](#用量) | 224 |
+| [用量](#用量) | 225 |
 | [天象](#天象) | 17 |
 | [洞察](#洞察) | 10 |
 | [结构](#结构) | 6 |
@@ -355,7 +355,7 @@
 | `reserve2` | 保护区二号 | RESERVE II | 观测=配额窗 隙=用量 栖枝=过热 守护=会话 | ![reserve2](../public/shots/reserve2.png) |
 | `desert` | 沙丘 | DESERT | 丘=配额窗 高=用量 驼=会话 | ![desert](../public/shots/desert.png) |
 
-## 用量 (224)
+## 用量 (225)
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
@@ -570,7 +570,8 @@
 | `salter` | 腌坊 | PROVIDER SALTER | 槽=provider 鱼=token 腌=会话 腐=错 | ![salter](../public/shots/salter.png) |
 | `besom` | 扫帚坊 | PROVIDER BESOM | 凳=provider 帚=token 扎=会话 散=错 | ![besom](../public/shots/besom.png) |
 | `confectioner` | 糖果坊 | PROVIDER CONFECTIONER | 案=provider 糖=token 拉=会话 焦=错 | ![confectioner](../public/shots/confectioner.png) |
-| `organbuilder` | 管风琴坊 | PROVIDER ORGANBUILDER | 架=provider 管=token 校=会话 凹=错 | — |
+| `organbuilder` | 管风琴坊 | PROVIDER ORGANBUILDER | 架=provider 管=token 校=会话 凹=错 | ![organbuilder](../public/shots/organbuilder.png) |
+| `flutemaker` | 笛坊 | PROVIDER FLUTEMAKER | 床=provider 笛=token 铰=会话 裂=错 | — |
 | `rings` | Token 年轮 | YEAR IN RINGS | 26 周极坐标日历 | ![rings](../public/shots/rings.png) |
 | `latency` | 延迟热力 | LATENCY HEATMAP | 时间 × 延迟 | ![latency](../public/shots/latency.png) |
 | `stream` | 流量河流 | STREAMGRAPH | Provider 增量 | ![stream](../public/shots/stream.png) |
