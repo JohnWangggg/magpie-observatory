@@ -1,0 +1,7 @@
+/* gooseherd view */
+@keyframes gshcall { 0%,100% { transform: rotate(0); } 50% { transform: rotate(4deg); } }
+.gsh-svg { display: block; width: 100%; height: 100%; }
+.gsh-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.gsh-man { animation: gshcall ease-in-out infinite; transform-origin: 0 12px; }
+.gsh-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .gsh-man { animation: none; } }

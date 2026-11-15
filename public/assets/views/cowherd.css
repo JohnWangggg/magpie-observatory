@@ -1,0 +1,7 @@
+/* cowherd view */
+@keyframes cwhdrive { 0%,100% { transform: translateX(0); } 50% { transform: translateX(4px); } }
+.cwh-svg { display: block; width: 100%; height: 100%; }
+.cwh-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.cwh-man { animation: cwhdrive ease-in-out infinite; }
+.cwh-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .cwh-man { animation: none; } }
