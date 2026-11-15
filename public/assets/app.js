@@ -4144,6 +4144,14 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
         range.value = next;
         range.dispatchEvent(new Event("input", { bubbles: true }));
       }
+      // B during replay → bookmark the current frame (magpie.replayMarks).
+      if (e.key.toLowerCase() === "b" && state.replay && !e.metaKey && !e.ctrlKey && !e.altKey) {
+        e.preventDefault();
+        const marks = (() => { try { return JSON.parse(localStorage.getItem("magpie.replayMarks") || "[]"); } catch (_) { return []; } })();
+        marks.push({ idx: state.replay.idx, t: Date.now() });
+        try { localStorage.setItem("magpie.replayMarks", JSON.stringify(marks.slice(-20))); } catch (_) {}
+        toast(`回放书签 · 第 ${state.replay.idx} 帧（共 ${marks.length} 个）`);
+      }
       if (e.key.toLowerCase() === "g" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); if (state.tour) stopTour(); else { closeViewMenu(); startTour(); } }
       if (e.key.toLowerCase() === "f" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); toggleFavorite(state.heroMode); }
       if (e.key.toLowerCase() === "n" && !e.metaKey && !e.ctrlKey && !e.altKey) {
