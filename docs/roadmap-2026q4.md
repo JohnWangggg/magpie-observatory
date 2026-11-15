@@ -2523,3 +2523,13 @@ v132 已落地:TTFT均值格(r.ttft已验证)。跳过:其余。
 3. **pal常用组**:heat>=3的项聚"常用"组。
 4. **digest格tps峰值**:max tps。
 5. **session卡agent色边**。
+
+## 下轮候选 v134（2026-11-15 · v133 落地后）
+
+v133 已落地:TPS峰值格、agent节点title值。跳过:常用组/闪标/色边。
+
+1. **session卡agent色边**。
+2. **digest格平均会话tokens**。
+3. **回放条帧卡next/prev持久**:已有。
+4. **pal跳转项按prov排序**。
+5. **live-foot会话数**:活跃N/总计M。
