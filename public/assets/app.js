@@ -326,6 +326,7 @@
     { id: "hooper", title: "箍匠坊", eyebrow: "PROVIDER HOOPER", group: "用量", icon: "i-magpie", hint: "桶=provider 箍=token 匠=会话 脱=错" },
     { id: "mint", title: "铸币坊", eyebrow: "PROVIDER MINT", group: "用量", icon: "i-magpie", hint: "压=provider 币=token 工=会话 裂=错" },
     { id: "litho", title: "石印坊", eyebrow: "PROVIDER LITHO", group: "用量", icon: "i-magpie", hint: "版=provider 印=token 工=会话 糊=错" },
+    { id: "pottery", title: "陶坊", eyebrow: "PROVIDER POTTERY", group: "用量", icon: "i-magpie", hint: "轮=provider 坯=token 工=会话 塌=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
