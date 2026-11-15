@@ -1,4 +1,4 @@
-# Magpie Observatory · 视图图鉴 (625)
+# Magpie Observatory · 视图图鉴 (626)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
@@ -10,7 +10,7 @@
 | [延迟](#延迟) | 2 |
 | [氛围](#氛围) | 3 |
 | [场景](#场景) | 233 |
-| [用量](#用量) | 234 |
+| [用量](#用量) | 235 |
 | [天象](#天象) | 17 |
 | [洞察](#洞察) | 10 |
 | [结构](#结构) | 6 |
@@ -355,7 +355,7 @@
 | `reserve2` | 保护区二号 | RESERVE II | 观测=配额窗 隙=用量 栖枝=过热 守护=会话 | ![reserve2](../public/shots/reserve2.png) |
 | `desert` | 沙丘 | DESERT | 丘=配额窗 高=用量 驼=会话 | ![desert](../public/shots/desert.png) |
 
-## 用量 (234)
+## 用量 (235)
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
@@ -580,7 +580,8 @@
 | `narrowboat` | 窄船 | PROVIDER NARROWBOAT | 舱=provider 箱=token 舵=会话 倾=错 | ![narrowboat](../public/shots/narrowboat.png) |
 | `harbormaster` | 港务 | PROVIDER HARBORMASTER | 楼=provider 船=token 旗=会话 缠=错 | ![harbormaster](../public/shots/harbormaster.png) |
 | `customshouse` | 关楼 | PROVIDER CUSTOMSHOUSE | 署=provider 包=token 戳=会话 锁=错 | ![customshouse](../public/shots/customshouse.png) |
-| `pilothouse` | 引航 | PROVIDER PILOTHOUSE | 站=provider 舟=token 读=会话 雾=错 | — |
+| `pilothouse` | 引航 | PROVIDER PILOTHOUSE | 站=provider 舟=token 读=会话 雾=错 | ![pilothouse](../public/shots/pilothouse.png) |
+| `lookout` | 瞭望塔 | PROVIDER LOOKOUT | 台=provider 帆=token 望=会话 破=错 | — |
 | `rings` | Token 年轮 | YEAR IN RINGS | 26 周极坐标日历 | ![rings](../public/shots/rings.png) |
 | `latency` | 延迟热力 | LATENCY HEATMAP | 时间 × 延迟 | ![latency](../public/shots/latency.png) |
 | `stream` | 流量河流 | STREAMGRAPH | Provider 增量 | ![stream](../public/shots/stream.png) |
