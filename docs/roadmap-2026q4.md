@@ -1927,3 +1927,13 @@ v73 已落地：AB中拖平移、本月达标。跳过:实时帧号(title重绘�
 3. **digest格月内比**:本月累计vs上月同期。
 4. **palette视图组色**:kindDot视图色按图鉴组。
 5. **回放AB边界吸附**:拖端点吸附到mark帧。
+
+## 下轮候选 v75（2026-11-15 · v74 落地后）
+
+v74 已落地:帧导出、最慢⚠。跳过:月内比(上月token已)、组色(kindDot已)、端吸附(自由拖已)。
+
+1. **回放播放KPI**:回放条加当前帧kpi chip。
+2. **session卡tokens排序**:点TOK span按tokens排序。
+3. **digest格饼图**:加本日调用provider分布饼。
+4. **palette视图图标**:视图组kind项前加view icon。
+5. **回放速度忆**:loadReplaySpeed从localStorage。
