@@ -2335,6 +2335,12 @@
       hero.style.setProperty("--hero-accent", GROUP_COLORS[meta.group] || "#8b7cf6");
       hero.dataset.mode = mode;
     }
+    // Group filter follows the hero: switching to a view outside the scoped
+    // group re-scopes the menu so chips and the stage never disagree.
+    if (state.vmGroup && meta.group !== state.vmGroup) {
+      state.vmGroup = meta.group;
+      try { localStorage.setItem("magpie.vmGroup", meta.group); } catch (_) {}
+    }
     if (state.tour) updateTourCount();
     $$(".view-menu .vm-item").forEach(b => {
       const on = b.dataset.hero === mode;
@@ -3541,10 +3547,20 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
             const col = u >= 88 ? "var(--red)" : u >= 70 ? "var(--amber)" : meta.color;
             return `<div class="pop-try"><span>${esc(w.name)}</span><em class="${u >= 88 ? "fail" : "ok"}" style="color:${col}">${u}% · ${esc(fmtReset(w.resetsIn))}</em></div>`;
           }).join("");
+          // sparkline of the first window's remaining-% history
+          const qh = (state.data.quotaHistory || []).find(x => x.provider === q.provider);
+          const pts = qh && qh.lines && qh.lines[0] ? qh.lines[0].points : null;
+          let spark = "";
+          if (pts && pts.length >= 2) {
+            const w0 = 240, h0 = 34, lefts = pts.map(p => p.left);
+            const lo = Math.min(...lefts), hi = Math.max(...lefts, lo + 1);
+            const xy = pts.map((p, i) => `${(i / (pts.length - 1) * w0).toFixed(1)},${(h0 - 3 - (p.left - lo) / (hi - lo) * (h0 - 7)).toFixed(1)}`).join(" ");
+            spark = `<svg class="qp-spark" viewBox="0 0 ${w0} ${h0}" aria-hidden="true"><polyline points="${xy}" fill="none" stroke="${meta.color}" stroke-width="1.4"/><text x="2" y="9" font-size="7" fill="var(--faint)">剩 ${lefts[lefts.length-1].toFixed(0)}%</text></svg>`;
+          }
           qpop.innerHTML = `
             <div class="pop-head"><b>${esc(meta.name || q.provider)}</b><span>${esc(q.plan || "")}</span></div>
             <div class="pop-meta">${esc(q.name)}${q.user ? " · " + esc(q.user) : ""}${q.balance ? " · 余额 " + esc(q.balance) : ""}</div>
-            <div class="pop-tries">${rows || '<div class="pop-try"><span>无窗口数据</span></div>'}</div>`;
+            <div class="pop-tries">${rows || '<div class="pop-try"><span>无窗口数据</span></div>'}</div>${spark}`;
           const r = item.getBoundingClientRect();
           qpop.hidden = false;
           const pw = 260;
