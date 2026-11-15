@@ -194,6 +194,12 @@
       }
       cur.style.left = (i / Math.max(1, buf.length - 1) * 100).toFixed(1) + "%";
     }
+    // Live diff strip (D key): keeps Δ vs frame 0 fresh while scrubbing.
+    const dEl = $("#rep-diff");
+    if (dEl && s._replayDiff) {
+      const base = buf[0] && buf[0].data.kpis, curK = buf[i].data.kpis;
+      if (base && curK) dEl.textContent = `Δ vs 首帧 · tok ${((curK.tokens - base.tokens) >= 0 ? "+" : "")}${fmtTokens(curK.tokens - base.tokens)} · err ${(curK.errors || 0) - (base.errors || 0)}`;
+    }
   }
   function exitReplay() {
     const s = state();
@@ -2142,6 +2148,26 @@ show(F.length-1);
         if (stripEl) { stripEl.querySelectorAll(".rep-ab").forEach(x => x.remove()); if (st.replayAB) { const mx = Math.max(1, st.replayBuf.length - 1), l = st.replayAB[0] / mx * 100, w = (st.replayAB[1] - st.replayAB[0]) / mx * 100; stripEl.insertAdjacentHTML("beforeend", `<i class="rep-ab" style="position:absolute;left:${l.toFixed(1)}%;width:${w.toFixed(1)}%;top:0;height:100%;background:color-mix(in srgb,var(--amber) 20%,transparent);pointer-events:none" title="A-B循环 ${st.replayAB[0]}→${st.replayAB[1]}"></i>`); } }
         toast(st.replayAB ? `A-B 循环 ${st.replayAB[0]}→${st.replayAB[1]}` : "A-B 循环已取消");
         try { localStorage.setItem("magpie.replayAB", JSON.stringify(st.replayAB)); } catch (_) {}
+      }
+      // D → diff mode: a floating strip showing current-frame KPIs vs frame 0
+      // while scrubbing, so drift over the replay is visible without AB.
+      if (e.key === "d" || e.key === "D") {
+        e.preventDefault();
+        const st = state();
+        st._replayDiff = !st._replayDiff;
+        let dEl = $("#rep-diff");
+        if (st._replayDiff) {
+          if (!dEl) {
+            dEl = document.createElement("div");
+            dEl.id = "rep-diff";
+            dEl.style.cssText = "position:absolute;right:12px;top:-26px;font:9px var(--num);color:var(--muted);background:var(--card);border:1px solid var(--line);border-radius:6px;padding:3px 8px;pointer-events:none;z-index:5";
+            $("#replay-bar")?.appendChild(dEl);
+          }
+          const base = st.replayBuf[0] && st.replayBuf[0].data.kpis;
+          const cur = st.replayBuf[+($("#replay-range")?.value || 0)]?.data.kpis;
+          if (base && cur) dEl.textContent = `Δ vs 首帧 · tok ${((cur.tokens - base.tokens) >= 0 ? "+" : "")}${fmtTokens(cur.tokens - base.tokens)} · err ${(cur.errors || 0) - (base.errors || 0)}`;
+        } else if (dEl) dEl.remove();
+        toast(st._replayDiff ? "diff 模式开 · D 关" : "diff 模式关");
       }
     });
     ["rule-quota", "rule-err", "rule-cost"].forEach(id => {
