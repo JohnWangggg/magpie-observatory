@@ -1,0 +1,5 @@
+/* clocktower view */
+.ct2-svg { display: block; width: 100%; height: 100%; }
+.ct2-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.ct2-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+.ct2-bell { filter: drop-shadow(0 0 3px currentColor); }

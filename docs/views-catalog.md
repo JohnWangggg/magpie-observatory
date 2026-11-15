@@ -1,4 +1,4 @@
-# Magpie Observatory · 视图图鉴 (353)
+# Magpie Observatory · 视图图鉴 (354)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
@@ -6,7 +6,7 @@
 | 分组 | 数量 |
 |---|---|
 | [实时](#实时) | 13 |
-| [配额](#配额) | 6 |
+| [配额](#配额) | 7 |
 | [延迟](#延迟) | 2 |
 | [氛围](#氛围) | 3 |
 | [场景](#场景) | 233 |
@@ -39,12 +39,13 @@
 | `lighthouse` | 灯塔 | LIGHTHOUSE | 塔=配额 光束=会话 | ![lighthouse](../public/shots/lighthouse.png) |
 | `harbor` | 港口 | HARBOR | 船=agent 箱=tries 浮标=配额 | ![harbor](../public/shots/harbor.png) |
 
-## 配额 (6)
+## 配额 (7)
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
 | `compass` | 罗盘 | QUOTA COMPASS | 窗=表盘 针=燃速 环=余量 | ![compass](../public/shots/compass.png) |
 | `barometer` | 气压计 | BURN BAROMETER | 燃速=气压 错=风暴 | ![barometer](../public/shots/barometer.png) |
+| `clocktower` | 钟楼 | QUOTA CLOCKTOWER | 盘=配额窗 针=燃速 铃=临近重置 | — |
 | `rosetta` | 罗塞塔 | ROSETTA | 环带=配额 刻痕=会话 | ![rosetta](../public/shots/rosetta.png) |
 | `eclipse` | 日蚀 | ECLIPSE | 暗盘=量 冕=会话 沿=窗 | ![eclipse](../public/shots/eclipse.png) |
 | `tapestry` | 织锦 | TAPESTRY | 经=配额 纬=会话 | ![tapestry](../public/shots/tapestry.png) |
@@ -70,7 +71,7 @@
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
 | `neighborhood` | 街坊 | PROVIDER BLOCK | 房=provider 灯=会话 烟=错 | ![neighborhood](../public/shots/neighborhood.png) |
-| `beacon` | 烽火台 | SIGNAL BEACONS | 火=provider 焰=会话 烟=用量 | — |
+| `beacon` | 烽火台 | SIGNAL BEACONS | 火=provider 焰=会话 烟=用量 | ![beacon](../public/shots/beacon.png) |
 | `orrery` | 轨道星图 | ORRERY | 行星与卫星 | ![orrery](../public/shots/orrery.png) |
 | `factory` | 请求工厂 | REQUEST FACTORY | 排队 → 完成 | ![factory](../public/shots/factory.png) |
 | `bakery` | 面包房 | BAKERY | 炉=agent 包=会话 计=配额 | ![bakery](../public/shots/bakery.png) |
