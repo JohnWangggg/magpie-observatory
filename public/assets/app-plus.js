@@ -1472,6 +1472,22 @@ show(F.length-1);
       try { localStorage.setItem("magpie.scratchNotes", JSON.stringify(list)); } catch (_) {}
       renderScratch();
     });
+    card.addEventListener("dblclick", e => {
+      const chip = e.target.closest(".note-chip");
+      const b = chip && chip.querySelector("b");
+      if (!b || e.target.closest("[data-note-rm]")) return;
+      b.contentEditable = "true"; b.focus();
+      const sel = getSelection(); sel && sel.selectAllChildren(b);
+      const done = () => {
+        b.contentEditable = "false";
+        const i = +chip.querySelector("[data-note-rm]").dataset.noteRm;
+        const list = scratch();
+        if (list[i]) { list[i].label = b.textContent.trim().slice(0, 40) || list[i].label; try { localStorage.setItem("magpie.scratchNotes", JSON.stringify(list)); } catch (_) {} }
+        renderScratch();
+      };
+      b.addEventListener("blur", done, { once: true });
+      b.addEventListener("keydown", ev => { if (ev.key === "Enter") { ev.preventDefault(); b.blur(); } }, { once: true });
+    });
     renderScratch();
   }
 
