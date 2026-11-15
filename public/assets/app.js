@@ -3793,7 +3793,13 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
     computeView();
     renderAll();
     bindEvents();
-    setHeroMode(state.heroMode);
+    // ?view= wins, then the double-clicked default, then the built-in route.
+    const qView = new URLSearchParams(location.search).get("view");
+    const storedView = (() => { try { return localStorage.getItem("magpie.defaultView"); } catch (_) { return null; } })();
+    const bootView = (qView && viewRegistry()[qView]) ? qView
+      : (storedView && viewRegistry()[storedView]) ? storedView
+      : state.heroMode;
+    setHeroMode(bootView);
     setInterval(demoTick, 1200);
     // Rotate one live fact in the status bar; data refreshes keep it current.
     setInterval(() => {
