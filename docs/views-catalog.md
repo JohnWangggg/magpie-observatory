@@ -1,4 +1,4 @@
-# Magpie Observatory · 视图图鉴 (662)
+# Magpie Observatory · 视图图鉴 (663)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
@@ -10,7 +10,7 @@
 | [延迟](#延迟) | 2 |
 | [氛围](#氛围) | 3 |
 | [场景](#场景) | 233 |
-| [用量](#用量) | 271 |
+| [用量](#用量) | 272 |
 | [天象](#天象) | 17 |
 | [洞察](#洞察) | 10 |
 | [结构](#结构) | 6 |
@@ -355,7 +355,7 @@
 | `reserve2` | 保护区二号 | RESERVE II | 观测=配额窗 隙=用量 栖枝=过热 守护=会话 | ![reserve2](../public/shots/reserve2.png) |
 | `desert` | 沙丘 | DESERT | 丘=配额窗 高=用量 驼=会话 | ![desert](../public/shots/desert.png) |
 
-## 用量 (271)
+## 用量 (272)
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
@@ -617,7 +617,8 @@
 | `dyer` | 染坊 | PROVIDER DYER | 缸=provider 布=token 搅=会话 焦=错 | ![dyer](../public/shots/dyer.png) |
 | `carder` | 梳毛 | PROVIDER CARDER | 台=provider 束=token 梳=会话 缠=错 | ![carder](../public/shots/carder.png) |
 | `woolcomber` | 梳羊毛 | PROVIDER WOOLCOMBER | 架=provider 束=token 抽=会话 缠=错 | ![woolcomber](../public/shots/woolcomber.png) |
-| `feltmaker` | 毡坊 | PROVIDER FELTMAKER | 台=provider 层=token 滚=会话 裂=错 | — |
+| `feltmaker` | 毡坊 | PROVIDER FELTMAKER | 台=provider 层=token 滚=会话 裂=错 | ![feltmaker](../public/shots/feltmaker.png) |
+| `armorer` | 甲坊 | PROVIDER ARMORER | 炉=provider 甲=token 锤=会话 裂=错 | — |
 | `rings` | Token 年轮 | YEAR IN RINGS | 26 周极坐标日历 | ![rings](../public/shots/rings.png) |
 | `latency` | 延迟热力 | LATENCY HEATMAP | 时间 × 延迟 | ![latency](../public/shots/latency.png) |
 | `stream` | 流量河流 | STREAMGRAPH | Provider 增量 | ![stream](../public/shots/stream.png) |
