@@ -1523,7 +1523,8 @@ show(F.length-1);
       })()}
       <div class="digest-foot">连续使用 ${dayStreak()} 天 · ${dTok != null ? (dTok >= 0 ? "较前日 +" + dTok + "%" : "较前日 " + dTok + "%") : "保持热度"}
         <button class="mini-btn digest-week" type="button">看周报 →</button>
-        <button class="mini-btn digest-md" type="button">复制 MD</button></div>`;
+        <button class="mini-btn digest-md" type="button">复制 MD</button>
+        <button class="mini-btn digest-csv" type="button">复制 CSV</button></div>`;
     card.addEventListener("click", e => {
       const errCell = e.target.closest(".dig-err");
       if (errCell) {
@@ -1553,6 +1554,11 @@ show(F.length-1);
         const errs = (s.data.logs || []).filter(l => l.status === "err").length;
         const md = `## 昨日观测 ${y.date || today}\n- tokens: ${fmtTokens(y.tokens)} (${y.calls || 0} 调用)\n- 连续使用: ${dayStreak()} 天\n- 最常用: ${meta ? meta.name : "—"}\n- 错误: ${errs} 条\n- 图鉴: ${(() => { try { return JSON.parse(localStorage.getItem("magpie.viewSeen") || "[]").length; } catch (_) { return "?"; } })()}/${(Obs.api.VIEW_META || []).length}\n`;
         navigator.clipboard?.writeText(md).then(() => toast("昨日摘要已复制"));
+      }
+      else if (e.target.closest(".digest-csv")) {
+        const errs = (s.data.logs || []).filter(l => l.status === "err").length;
+        const csv = `date,tokens,calls,streak,top_provider,errors\n${y.date || today},${y.tokens || 0},${y.calls || 0},${dayStreak()},${topP ? topP[0] : ""},${errs}`;
+        navigator.clipboard?.writeText(csv).then(() => toast("昨日摘要 CSV 已复制"));
       }
       card.remove();
     });
@@ -2207,6 +2213,7 @@ ${quota || "| — | — | — |"}
       { kind: "动作", icon: "i-pause", title: s && s.paused ? "继续演示" : "暂停演示", sub: "快捷键 Space", search: "pause 暂停 播放".toLowerCase(), run: () => $("#demo-toggle").click() },
       { kind: "动作", icon: "i-clock", title: "回放最近3分钟", sub: "快捷键 R", search: "replay 回放 时间轴".toLowerCase(), run: () => { state() && state().replay ? exitReplay() : startReplay(); } },
       { kind: "动作", icon: "i-clock", title: "回放速度", sub: `${s && s.replaySpeed ? s.replaySpeed : 1}× · 点击循环 1→2→4`, search: "replay speed 速度 倍速".toLowerCase(), run: () => { cycleReplaySpeed(); closePalette(); } },
+      { kind: "动作", icon: "i-clock", title: "回放循环", sub: `${s && s.replayLoop ? "已开" : "已关"} · 播完自动回头`, search: "replay loop 循环 重复".toLowerCase(), run: () => { if (s) { s.replayLoop = !s.replayLoop; const b = $("#replay-speed"); if (b) b.title = `回放速度 · 循环${s.replayLoop ? "开" : "关"}`; toast(`回放循环 ${s.replayLoop ? "开" : "关"}`); } closePalette(); } },
       { kind: "动作", icon: "i-pin", title: "回放书签", sub: "列出 B 键标记帧 · 点击跳转", search: "replay bookmark 书签 标记 帧".toLowerCase(), run: showReplayMarks },
       { kind: "动作", icon: "i-link", title: "复制回放书签 JSON", sub: "B 键标记帧导出", search: "replay marks export 复制 书签 json".toLowerCase(), run: () => { let m = []; try { m = JSON.parse(localStorage.getItem("magpie.replayMarks") || "[]"); } catch (_) {} navigator.clipboard?.writeText(JSON.stringify(m, null, 2)).then(() => toast(m.length + " 个书签已复制")); closePalette(); } },
       { kind: "动作", icon: "i-link", title: "复制状态链接", sub: "?view&range&cinema 快照 URL · ⌘S", search: "share 分享 链接 状态 url".toLowerCase(), run: shareStateLink },
@@ -2276,9 +2283,14 @@ ${quota || "| — | — | — |"}
     if (!list) return;
     const query = (q || "").toLowerCase();
     const items = paletteItems().filter(it => !query || it.search.includes(query) || it.title.toLowerCase().includes(query));
+    // Group items by kind: a slim section label before each run of the same
+    // kind (视图 / 跳转 / 动作 / 重跑). Keeps the long list scannable.
+    let lastKind = "";
     list.innerHTML = items.map((it, i) => {
       const thumb = it.vid ? `<span class="pal-thumb" aria-hidden="true"><img src="shots/${it.vid}.png" alt="" loading="lazy" onerror="this.remove()"></span>` : "";
-      return `<button class="pal-item" data-idx="${i}"><svg><use href="#${it.icon}"/></svg><span><b>${esc(it.title)}</b><small>${esc(it.sub)}</small></span><em>${esc(it.kind)}</em>${thumb}</button>`;
+      const head = it.kind !== lastKind ? `<div class="pal-kind">${esc(it.kind)}</div>` : "";
+      lastKind = it.kind;
+      return head + `<button class="pal-item" data-idx="${i}"><svg><use href="#${it.icon}"/></svg><span><b>${esc(it.title)}</b><small>${esc(it.sub)}</small></span><em>${esc(it.kind)}</em>${thumb}</button>`;
     }).join("");
     $$(".pal-item", list).forEach(b => b.addEventListener("click", (e) => {
       const it = items[+b.dataset.idx];
