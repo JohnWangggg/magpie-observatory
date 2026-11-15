@@ -101,8 +101,8 @@
     const max = Math.max(1, s.replayBuf.length - 1);
     if (strip) {
       strip.innerHTML = marks.length > 10
-        ? marks.map(m => `<i style="position:absolute;left:${(m.idx / max * 100).toFixed(1)}%;top:2px;width:3px;height:5px;background:var(--amber);border-radius:1px;opacity:.55;cursor:pointer" data-mi="${m.idx}" title="跳到第 ${m.idx} 帧"></i>`).join("")
-        : marks.map(m => `<i style="position:absolute;left:${(m.idx / max * 100).toFixed(1)}%;top:0;width:4px;height:8px;background:var(--amber);border-radius:1px;cursor:pointer" data-mi="${m.idx}" title="跳到第 ${m.idx} 帧"></i>`).join("");
+        ? marks.map(m => `<i style="position:absolute;left:${(m.idx / max * 100).toFixed(1)}%;top:2px;width:3px;height:5px;background:var(--amber);border-radius:1px;opacity:.55;cursor:pointer" data-mi="${m.idx}" title="跳到第 ${m.idx} 帧 · ${s.replayBuf[m.idx] ? new Date(s.replayBuf[m.idx].t).toTimeString().slice(0, 8) : ""}"></i>`).join("")
+        : marks.map(m => `<i style="position:absolute;left:${(m.idx / max * 100).toFixed(1)}%;top:0;width:4px;height:8px;background:var(--amber);border-radius:1px;cursor:pointer" data-mi="${m.idx}" title="跳到第 ${m.idx} 帧 · ${s.replayBuf[m.idx] ? new Date(s.replayBuf[m.idx].t).toTimeString().slice(0, 8) : ""}"></i>`).join("");
       strip.onclick = e => { const j = e.target.closest?.(".rep-edge")?.dataset.jump; if (j != null) { range.value = j; scrubReplay(+j); return; } const i = e.target.dataset.mi; if (i != null) { range.value = i; scrubReplay(+i); } };
       // Shaded spans between consecutive B-marks: a mark pair = a watched
       // stretch, drawn as a translucent band.
@@ -1709,6 +1709,7 @@ show(F.length-1);
         return `<svg class="dig-bars" viewBox="0 0 72 28" aria-hidden="true">${tail.map((d, i) => `<rect x="${Math.max(0, i * (70 / (tail.length - 1)) - 3).toFixed(1)}" y="${(26 - (d.tokens || 0) / max * 22).toFixed(1)}" width="6" height="${Math.max(2, ((d.tokens || 0) / max * 22)).toFixed(1)}" rx="1" fill="color-mix(in srgb, var(--accent) 22%, transparent)"><title>${d.date} · ${d.tokens}</title></rect>`).join("")}<polyline points="${pts}" fill="none" stroke="var(--accent)" stroke-width="1.2" stroke-linejoin="round" opacity=".9"/>${tail.map((d, i) => { const spike = (d.tokens || 0) > avg * 2; return `<circle cx="${(i * (70 / (tail.length - 1))).toFixed(1)}" cy="${(26 - (d.tokens || 0) / max * 22).toFixed(1)}" r="${i === tail.length - 2 ? 2.4 : 1.4}" fill="${spike ? "var(--red)" : i === tail.length - 2 ? "var(--accent)" : "color-mix(in srgb, var(--accent) 60%, transparent)"}" stroke="${i === tail.length - 2 ? "#fff" : "none"}" stroke-width=".8"><title>${d.date} · ${d.tokens}${spike ? " · 尖峰·超均值" + Math.round((d.tokens || 0) / Math.max(1, avg)) + "x" : ""}</title></circle>`; }).join("")}</svg>`;
       })()}
       <div class="digest-foot">连续使用 ${dayStreak()} 天 · ${dTok != null ? (dTok >= 0 ? "较前日 +" + dTok + "%" : "较前日 " + dTok + "%") : "保持热度"}
+      ${(() => { const mo = new Date().toISOString().slice(0, 7); const mSum = days.filter(d => (d.date || "").startsWith(mo)).reduce((a, d) => a + (d.tokens || 0), 0); return mSum ? `<div style="font-size:8.5px;color:var(--faint);margin-top:2px">本月累计 ${fmtTokens(mSum)} tokens</div>` : ""; })()}
         <button class="mini-btn digest-week" type="button">看周报 →</button>
         <button class="mini-btn digest-md" type="button">复制 MD</button>
         <button class="mini-btn digest-csv" type="button">复制 CSV</button>
