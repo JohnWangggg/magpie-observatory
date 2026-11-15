@@ -1,0 +1,7 @@
+/* tentmaker view */
+@keyframes tmseam { 0%,100% { transform: translateX(0); } 50% { transform: translateX(3px); } }
+.tm-svg { display: block; width: 100%; height: 100%; }
+.tm-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.tm-man { animation: tmseam ease-in-out infinite; }
+.tm-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .tm-man { animation: none; } }
