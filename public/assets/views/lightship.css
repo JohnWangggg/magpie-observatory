@@ -1,0 +1,9 @@
+/* lightship view */
+@keyframes lsglow { 0%,100% { opacity: .8; } 50% { opacity: .4; } }
+@keyframes lsrock { 0%,100% { transform: rotate(-.5deg); } 50% { transform: rotate(.5deg); } }
+.ls-svg { display: block; width: 100%; height: 100%; }
+.ls-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.ls-lamp { animation: lsglow ease-in-out infinite; }
+.ls-keeper { transition: transform .2s; }
+.ls-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .ls-lamp { animation: none; } }
