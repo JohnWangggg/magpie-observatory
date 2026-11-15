@@ -2213,3 +2213,13 @@ v101 已落地:上季对比。跳过:帧号/route/AB中点/scroll(已)。
 3. **digest格年累计**:加"本年X"。
 4. **palette重跑首**:重跑项置顶已有。
 5. **回放条AB名**:A/B标title带帧。
+
+## 下轮候选 v103（2026-11-15 · v102 落地后）
+
+v102 已落地:本年累计。跳过:帧号/子链/重跑/AB title(均已)。
+
+1. **回放条cur标title**:in-scrub标帧号。
+2. **session卡改道chip title链**:已有→道链。
+3. **digest格去同期**:近7日均加上年同期。
+4. **palette m:词**:输入m取memo。
+5. **回放AB拖动**:帧号tooltip随。
