@@ -22,7 +22,12 @@
     { id: "cache90",icon: "◎", name: "缓存大师",  desc: "缓存命中 ≥90%",            metal: "silver", check: c => ({ v: (c.cache || 0) / 90, max: 1 }) },
     { id: "quiet",  icon: "☾", name: "绿窗满营",  desc: "全部配额窗 <85%",          metal: "jade",   check: c => ({ v: c.hotWindows === 0 ? 1 : 0, max: 1 }) },
     { id: "swarm8", icon: "❋", name: "八仙过海",  desc: "同时在线 ≥8 会话",         metal: "amber",  check: c => ({ v: c.activeNow / 8, max: 1 }) },
-    { id: "year",   icon: "◐", name: "周年纪",    desc: "热力历史 ≥300 天",         metal: "gold",   check: c => ({ v: (c.days || 0) / 300, max: 1 }) }
+    { id: "year",   icon: "◐", name: "周年纪",    desc: "热力历史 ≥300 天",         metal: "gold",   check: c => ({ v: (c.days || 0) / 300, max: 1 }) },
+    { id: "dex50",  icon: "▣", name: "半百图鉴",  desc: "图鉴 ≥50 视图",            metal: "silver", check: c => ({ v: c.seenN / 50, max: 1 }) },
+    { id: "dexall", icon: "❂", name: "全图鉴",    desc: "看完全部视图",             metal: "jade",   check: c => ({ v: c.seenN / Math.max(1, c.viewTotal), max: 1 }) },
+    { id: "night",  icon: "☽", name: "夜航人",    desc: "凌晨 0-6 点有事件",        metal: "amber",  check: c => ({ v: c.nightHits ? 1 : 0, max: 1 }) },
+    { id: "clean",  icon: "✓", name: "零错日",    desc: "今日日志无错误",           metal: "silver", check: c => ({ v: c.errToday === 0 && c.logsToday > 0 ? 1 : 0, max: 1 }) },
+    { id: "favs8",  icon: "★", name: "收藏家",    desc: "收藏 ≥8 视图",             metal: "amber",  check: c => ({ v: c.favN / 8, max: 1 }) }
   ];
 
   const METAL = {
@@ -46,9 +51,20 @@
     const hotWindows = quotas.reduce((a, q) => a + (q.windows || []).filter(w => (w.used || 0) >= 85).length, 0);
     const activeNow = (ctx.data.sessions || []).filter(s => s.status !== "done").length;
 
+    const logs = ctx.data.logs || [];
+    const today = new Date().toISOString().slice(0, 10);
+    const logsToday = logs.filter(r => String(r.at || "").slice(0, 10) === today).length;
+    const errToday = logs.filter(r => String(r.at || "").slice(0, 10) === today && r.status === "err").length;
+    const nightHits = logs.filter(r => { const h = new Date(r.at).getHours(); return h >= 0 && h < 6; }).length;
+    let seenN = 0, favN = 0;
+    try { seenN = (JSON.parse(localStorage.getItem("magpie.viewSeen") || "[]")).length; } catch (_) {}
+    try { favN = (JSON.parse(localStorage.getItem("magpie.favorites") || "[]")).length; } catch (_) {}
+
     const c = {
       totalEver, peakCalls: peakDay.calls || 0, peakTokens: peakDay.tokens || 0,
-      streak, provToday, cache: k.cache, hotWindows, activeNow, days: days.length
+      streak, provToday, cache: k.cache, hotWindows, activeNow, days: days.length,
+      seenN, viewTotal: (window.Obs && Obs.api && Obs.api.VIEW_META || []).length || 700,
+      nightHits, errToday, logsToday, favN
     };
 
     const badges = BADGES.map(b => {
@@ -58,12 +74,13 @@
     });
     const unlockedN = badges.filter(b => b.unlocked).length;
 
-    const W = 400, H = 300, COLS = 4, ROWS = 3;
-    const cw = W / COLS, ch = (H - 60) / ROWS;
+    const W = 400, H = 300, COLS = 5;
+    const ROWS = Math.ceil(badges.length / COLS);
+    const cw = W / COLS, ch = (H - 40) / ROWS;
 
     const shelf = badges.map((b, i) => {
       const cx = cw * (i % COLS) + cw / 2;
-      const cy = 30 + ch * Math.floor(i / COLS) + ch / 2 - 8;
+      const cy = 24 + ch * Math.floor(i / COLS) + ch / 2 - 8;
       const met = METAL[b.metal] || METAL.silver;
       const R = 17;
       // progress ring (unlocked → full)
@@ -85,8 +102,8 @@
     }).join("");
 
     // shelf rails
-    const rails = [0, 1, 2].map(r =>
-      `<line x1="10" y1="${30 + ch * (r + 1) - 4}" x2="${W - 10}" y2="${30 + ch * (r + 1) - 4}" stroke="var(--line-2)" stroke-width="1" opacity=".5"/>`).join("");
+    const rails = Array.from({ length: ROWS - 1 }, (_, r) =>
+      `<line x1="10" y1="${24 + ch * (r + 1) - 4}" x2="${W - 10}" y2="${24 + ch * (r + 1) - 4}" stroke="var(--line-2)" stroke-width="1" opacity=".5"/>`).join("");
 
     // polishing cloths — sessions buffing
     const sessions = (ctx.data.sessions || []).filter(s => s.status !== "done").slice(0, 3);

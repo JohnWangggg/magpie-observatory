@@ -27,6 +27,7 @@
     view: null,
     wireSig: "",
     unseenOnly: false,
+    vmGroup: null,
     events: 0,
     tickerIndex: 0,
     lastTick: Date.now(),
@@ -854,19 +855,27 @@
       .filter(v => v && !state.favorites.includes(v.id))
       .slice(0, 6);
     if (recent.length) {
-      sections.push(`<section class="vm-group vm-recent"><h4 style="--vm-g:var(--green)"><i></i>最近<span>${recent.length}</span></h4>${recent.map(v => menuItem(v, "var(--green)")).join("")}</section>`);
+      sections.push(`<section class="vm-group vm-recent" data-group="recent"><h4 style="--vm-g:var(--green)"><i></i>最近<span>${recent.length}</span></h4>${recent.map(v => menuItem(v, "var(--green)")).join("")}</section>`);
     }
     const favs = state.favorites
       .map(id => VIEW_META.find(v => v.id === id))
       .filter(Boolean);
     if (favs.length) {
-      sections.push(`<section class="vm-group vm-fav"><h4 style="--vm-g:var(--amber)"><i></i>收藏<span>${favs.length}</span></h4>${favs.map(v => menuItem(v, "var(--amber)")).join("")}</section>`);
+      sections.push(`<section class="vm-group vm-fav" data-group="fav"><h4 style="--vm-g:var(--amber)"><i></i>收藏<span>${favs.length}</span></h4>${favs.map(v => menuItem(v, "var(--amber)")).join("")}</section>`);
     }
     VIEW_GROUPS.forEach(group => {
       const items = VIEW_META.filter(v => v.group === group).map(v => menuItem(v, GROUP_COLORS[group])).join("");
-      sections.push(`<section class="vm-group"><h4 style="--vm-g:${GROUP_COLORS[group]}"><i></i>${group}<span>${VIEW_META.filter(v => v.group === group).length}</span></h4>${items}</section>`);
+      sections.push(`<section class="vm-group" data-group="${group}"><h4 style="--vm-g:${GROUP_COLORS[group]}"><i></i>${group}<span>${VIEW_META.filter(v => v.group === group).length}</span></h4>${items}</section>`);
     });
     host.innerHTML = sections.join("");
+    // Group filter chips — one-tap scope of the 700-view catalog.
+    const filt = $("#vm-filters");
+    if (filt) {
+      const counts = {};
+      VIEW_META.forEach(v => { counts[v.group] = (counts[v.group] || 0) + 1; });
+      filt.innerHTML = `<button type="button" class="vm-chip${!state.vmGroup ? " on" : ""}" data-vg="" style="--vc:var(--accent)">全部<span>${VIEW_META.length}</span></button>` +
+        VIEW_GROUPS.map(g => `<button type="button" class="vm-chip${state.vmGroup === g ? " on" : ""}" data-vg="${g}" style="--vc:${GROUP_COLORS[g]}"><i></i>${g}<span>${counts[g] || 0}</span></button>`).join("");
+    }
     // 14-day switch-count sparkline in the picker header.
     const spark = $("#vm-spark");
     if (spark) {
@@ -980,7 +989,9 @@
       r.hidden = !item || item.hidden;
     });
     $$(".view-menu .vm-group").forEach(g => {
-      g.hidden = !Array.from(g.querySelectorAll(".vm-item")).some(b => !b.hidden);
+      const dg = g.dataset.group || "";
+      const scoped = !state.vmGroup || dg === state.vmGroup;
+      g.hidden = !scoped || !Array.from(g.querySelectorAll(".vm-item")).some(b => !b.hidden);
     });
     const none = $("#vm-none");
     if (none) none.hidden = shown > 0;
@@ -3223,6 +3234,14 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
       vmNew.classList.toggle("on", state.unseenOnly);
       filterViewMenu($("#view-search") ? $("#view-search").value : "");
     });
+    const vmFilters = $("#vm-filters");
+    if (vmFilters) vmFilters.addEventListener("click", e => {
+      const chip = e.target.closest(".vm-chip");
+      if (!chip) return;
+      state.vmGroup = chip.dataset.vg || null;
+      $$(".vm-chip", vmFilters).forEach(c => c.classList.toggle("on", (c.dataset.vg || null) === state.vmGroup));
+      filterViewMenu($("#view-search") ? $("#view-search").value : "");
+    });
     $("#view-search").addEventListener("keydown", e => {
       if (e.key === "Enter") {
         const first = $(".view-menu .vm-item:not([hidden])");
@@ -3513,7 +3532,8 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
         <button data-act="copy-id"><svg><use href="#i-link"/></svg>复制会话 ID</button>
         <button data-act="copy-tries"><svg><use href="#i-arrow"/></svg>复制 tries 链</button>
         <button data-act="filter"><svg><use href="#i-search"/></svg>只看 ${esc(D.agentMeta(ctxSess.agent).name)}</button>
-        <button data-act="logs"><svg><use href="#i-db"/></svg>跳到日志</button>`;
+        <button data-act="logs"><svg><use href="#i-db"/></svg>跳到日志</button>
+        <button data-act="quota"><svg><use href="#i-pin"/></svg>钉到配额</button>`;
       ctxMenu.hidden = false;
       const mw = 168;
       ctxMenu.style.left = Math.min(e.clientX, innerWidth - mw - 8) + "px";
@@ -3537,6 +3557,14 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
       if (act === "logs") {
         const card = document.querySelector(".table-card");
         if (card) { card.scrollIntoView({ behavior: "smooth", block: "center" }); toast("已跳到日志"); }
+      }
+      if (act === "quota") {
+        const prov = ctxSess.provider;
+        const card = document.querySelector(`.quota-item.goto[data-prov="${CSS.escape(prov)}"]`);
+        const quotaCard = document.querySelector(".quota-card");
+        if (quotaCard) quotaCard.scrollIntoView({ behavior: "smooth", block: "center" });
+        if (card) { card.classList.add("pulse"); setTimeout(() => card.classList.remove("pulse"), 1600); toast(`已定位配额：${D.providerMeta(prov).name}`); }
+        else toast(`${D.providerMeta(prov).name} 无配额窗口`);
       }
       hideCtx();
     });
