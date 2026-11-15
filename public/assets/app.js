@@ -178,6 +178,7 @@
     { id: "steelyard", title: "杆秤", eyebrow: "PROVIDER STEELYARD", group: "用量", icon: "i-chart", hint: "杆=provider 砣=token 钩=会话 断=错" },
     { id: "pergola", title: "藤架", eyebrow: "QUOTA PERGOLA", group: "配额", icon: "i-magpie", hint: "拱=配额窗 藤=用量 凳=会话 折=错" },
     { id: "rigging", title: "索具", eyebrow: "QUOTA RIGGING", group: "配额", icon: "i-magpie", hint: "桅=配额窗 帆=用量 旗=会话 绳=错" },
+    { id: "orangery", title: "橘温室", eyebrow: "PROVIDER ORANGERY", group: "用量", icon: "i-magpie", hint: "树=provider 果=token 壶=会话 裂=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
