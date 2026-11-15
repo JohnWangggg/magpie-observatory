@@ -341,6 +341,7 @@
     { id: "brickfield", title: "砖窑场", eyebrow: "PROVIDER BRICKFIELD", group: "用量", icon: "i-magpie", hint: "窑=provider 砖=token 工=会话 塌=错" },
     { id: "gloryhole", title: "吹制坊", eyebrow: "PROVIDER GLORYHOLE", group: "用量", icon: "i-magpie", hint: "炉=provider 泡=token 工=会话 裂=错" },
     { id: "topcart", title: "顶车坊", eyebrow: "PROVIDER TOPCART", group: "用量", icon: "i-magpie", hint: "轮=provider 股=token 车=会话 绷=错" },
+    { id: "hogshead", title: "大桶坊", eyebrow: "PROVIDER HOGSHEAD", group: "用量", icon: "i-magpie", hint: "桶=provider 箍=token 匠=会话 崩=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
