@@ -1473,3 +1473,13 @@ v28 已落地：回放错误红点、session路由chip过滤group(matchFilter补
 3. **digest格点击通用化**:tokens格→heat;调用格→log列表。
 4. **palette视图热键提示**:常用视图项显示"按数字N直达"。
 5. **回放帧差分**:相邻帧tokens差值标记在strip。
+
+## 下轮候选 v30（2026-11-15 · v29 全落地后）
+
+v29 已落地：session状态chip过滤、palette⌘数字、回放tokens差分点、digest tok/call格点击。全部消化。
+
+1. **session卡shift+click range选**:multiSel区间选择(上一次点击到当前)。
+2. **digest图鉴格点击**:→打开view-menu。
+3. **回放帧tps曲线**:strip上加mini tps sparkline。
+4. **palette空态**:无结果时显示"试试⌘1-9/→预览"提示。
+5. **session卡双击标题**:→复制title+model。
