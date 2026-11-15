@@ -1674,3 +1674,14 @@ v48 已落地：Shift10帧、Shift微调、分组折叠。跳过：model首行(�
 3. **digest格目标态**:dig-goal点击格→切目标档位(attn已做同键)。
 4. **palette折叠记忆**:折叠组存localStorage跨开。
 5. **回放AB循环播**:循环开时播放只在AB内回绕(现有?)。
+
+## 下轮候选 v50（2026-11-15 · v49 落地后·半百轮）
+
+v49 已落地：折叠持久、tokens相对条。跳过：键位tooltip卡(title已含)、digest格切档(attn已做)、AB循环(已内建)。
+
+半百轮——一条有体量的:
+1. **回放diff模式**:回放中按 D → 当前帧 vs 首帧KPI差浮条(一直显示)。
+2. **session卡hover浮层**:卡片右缘浮tries+quota(不选中,延迟350ms)。
+3. **digest周格点击**:sparkline点点击→滚到该日热度。
+4. **palette分组跳转**:Tab键在分组间跳。
+5. **回放帧缩略**:strip帧标点击弹出该帧KPI卡。
