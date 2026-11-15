@@ -158,6 +158,7 @@
     { id: "croft", title: "小农场", eyebrow: "QUOTA CROFT", group: "配额", icon: "i-magpie", hint: "垄=配额窗 沟=用量 羊=会话 云=错" },
     { id: "tidemill", title: "潮汐磨坊", eyebrow: "QUOTA TIDEMILL", group: "配额", icon: "i-magpie", hint: "轮=配额窗 速=用量 鱼=会话" },
     { id: "tramway", title: "缆车", eyebrow: "PROVIDER TRAMWAY", group: "实时", icon: "i-server", hint: "索=provider 车=会话 断=错" },
+    { id: "belljar", title: "钟形罩", eyebrow: "PROVIDER BELLJAR", group: "用量", icon: "i-magpie", hint: "罩=provider 植=token 露=会话 裂=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
