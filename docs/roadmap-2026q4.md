@@ -1513,3 +1513,13 @@ v32 已落地：agent icon过滤、错误率格→err日志、marks区间段+作
 3. **digest streak格点击**:→显示连续打卡明细toast。
 4. **palette视图项长按**:→直接进cinema。
 5. **session卡右上角时间hover**:fmtAge→完整时间戳title。
+
+## 下轮候选 v34（2026-11-15 · v33 落地后）
+
+v33 已落地：age全时间戳、streak格明细、回放strip游标。跳过：标题点击复制(主交互冲突)、视图长按cinema(手势复杂)。
+
+1. **session卡pin长按**:pin星长按→pin+设为选中。
+2. **回放strip当前帧游标**:replay.idx位置常显竖线(非仅hover)。
+3. **digest格统一样式**:可点格加微下划线提示。
+4. **palette视图项徽标**:常用视图显示"hot"角标。
+5. **session卡双击**:→复制会话JSON。
