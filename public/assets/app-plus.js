@@ -103,7 +103,10 @@
     s._replayTimer = setInterval(() => {
       if (!s.replay) { clearInterval(s._replayTimer); s._replayTimer = null; return; }
       const next = s.replay.idx + 1;
-      if (next >= s.replayBuf.length) { clearInterval(s._replayTimer); s._replayTimer = null; $("#replay-play").textContent = "▶"; return; }
+      if (next >= s.replayBuf.length) {
+        if (s.replayLoop) { s.replay.idx = -1; scrubReplay(0); return; }
+        clearInterval(s._replayTimer); s._replayTimer = null; $("#replay-play").textContent = "▶"; return;
+      }
       $("#replay-range").value = next;
       scrubReplay(next);
     }, Math.max(80, Math.round(600 / speed)));
@@ -1743,6 +1746,13 @@ show(F.length-1);
     $("#replay-play").addEventListener("click", toggleReplayPlay);
     $("#replay-share").addEventListener("click", shareReplayLink);
     $("#replay-speed")?.addEventListener("click", cycleReplaySpeed);
+    // Right-click the speed chip → toggle auto-loop replay.
+    $("#replay-speed")?.addEventListener("contextmenu", e => {
+      e.preventDefault();
+      state().replayLoop = !state().replayLoop;
+      e.target.title = `回放速度 · 循环${state().replayLoop ? "开" : "关"}`;
+      toast("回放循环：" + (state().replayLoop ? "开" : "关"));
+    });
     ["rule-quota", "rule-err", "rule-cost"].forEach(id => {
       const el = $("#" + id);
       if (el) el.addEventListener("input", () => {
