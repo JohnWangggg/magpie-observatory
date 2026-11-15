@@ -1282,3 +1282,13 @@ v9 已落地：heatmap 长按复制、digest 横滑关闭+Web Notification、vie
 3. **digest 历史**:digest 出现后存 magpie.digestLog(7条),可回看历史摘要。
 4. **KPI 卡双击**:除隐藏外,双击复制单卡值到剪贴板。
 5. **session 卡键盘展开**:选中后按 Enter/Space 切 tries 明细显隐(非仅点击重渲)。
+
+## 下轮候选 v11（2026-11-15 · v10 基本落地后）
+
+v10 已落地：?st= 跨设备完整状态链接、KPI 双击复制、digestLog 7条历史、键盘Enter展开tries(已由select覆盖)。跳过：聚合泳道(与tries轴+瀑布视图重复)。
+
+1. **视图性能预算**:每视图渲染计时(performance.mark),慢视图在view-menu标注。
+2. **session 卡片时间轴展开**:tries-detail 纵向甘特(每try一根bar按实际时间定位,非等宽占比)。
+3. **夜间自适应**:本地时间 19-7 点自动切 dark+低动效(可关)。
+4. **digest 周报链**:digest 含"上周vs本周"箭头对比(已有周报卡,补digest内联)。
+5. **离线 replay 回放链接**:回放链接含 st,对方打开即同视野+回放数据(需 st 含 replay 帧——太大,改共享 HTML 已有)。
