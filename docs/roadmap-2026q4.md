@@ -1252,3 +1252,13 @@ v6 已落地：digest 昨日解锁播报、digest-md 错误行、hero 右键快�
 3. **session 卡片二级**：点开卡片→内联 tries/subagents 明细(现需右键+popover)。
 4. **hero 空态智能**：route 空时按热力推荐"可能喜欢的视图"(viewHeat top)。
 5. **数据导出扩展**：digest/weekly 可复制 PNG 截图(dom-to-image 或 screenshot API)。
+
+## 下轮候选 v8（2026-11-15 · v7 部分落地后）
+
+v7 已落地：选中 session 内联 tries 明细(顺带修 fmtMs 渲染崩溃 bug)、hero 空态热力推荐、KPI 右键隐藏+恢复 chip。
+
+1. **多网关并行**：server.mjs 支持多 endpoint 池,palette compareGateways 用真实双快照而非单点回放。工作量在 server 注册 + client 并行 fetch。
+2. **PNG 导出**:dom-to-image 抓 hero/digest 为 PNG 下载(需内联依赖或自绘 canvas)。
+3. **session 卡展开持久**:selectedSession 内联明细已有,可扩展为 pin 态也展开。
+4. **trace 增时间轴**:hero-mode=route 时右下角 session 区也画 ttft/ttl 横向条。
+5. **便签卡导出**:便签内容一键复制为 markdown。
