@@ -2320,6 +2320,17 @@
     const custom = viewRegistry()[mode];
     const meta = viewMeta(mode) || { title: "实时路由", eyebrow: "LIVE ROUTING", group: "实时", icon: "i-route" };
     $("#hero-title").textContent = meta.title;
+    // a11y: announce the view switch for screen readers.
+    let live = $("#a11y-live");
+    if (!live) {
+      live = document.createElement("span");
+      live.id = "a11y-live";
+      live.setAttribute("aria-live", "polite");
+      live.setAttribute("aria-atomic", "true");
+      live.style.cssText = "position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)";
+      document.body.appendChild(live);
+    }
+    live.textContent = `已切换到 ${meta.title}`;
     const eb = $(".hero-head .eyebrow");
     if (eb) eb.innerHTML = `<span class="live-ring"></span> ${meta.eyebrow}`;
     const vpTitle = $("#vp-title"), vpEyebrow = $("#vp-eyebrow"), vpIcon = $("#vp-ic");
