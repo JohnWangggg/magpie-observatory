@@ -1947,3 +1947,13 @@ v75 已落地:帧KPI chip、速度记忆。跳过:TOK排序(tps已)、饼图(chi
 3. **digest格周曲线**:加本周tokens迷你折线。
 4. **palette搜索分**:命中数<=3时加"直达"提示。
 5. **回放帧标记跳**:mark tick点击跳该帧。
+
+## 下轮候选 v77（2026-11-15 · v76 落地后）
+
+v76 已落地:直达提示。跳过:errors(diff已有)、agent泡(img已)、周折线(sparkline已)、mark跳(data-mi已有onclick)。
+
+1. **回放?帧卡拓**:加此帧队列长/开销。
+2. **session卡status点色**:state芯片点用status色。
+3. **digest格备注**:上周同期数字旁标▲/▼。
+4. **palette视图搜索**:view id可搜(vid加search字段)。
+5. **回放AB持久**:exitReplay存AB(已有?)。
