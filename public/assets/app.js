@@ -2993,7 +2993,8 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
     $("#last-update").textContent = state.paused ? "演示已暂停" : "刚刚更新";
     const tps = state.data.sessions.filter(s => s.tps).reduce((a, s) => a + s.tps, 0);
     $("#global-tps").textContent = `${tps.toFixed(1)} tok/s`;
-    $("#clock").textContent = new Date().toLocaleTimeString("zh-CN", { hour12: false });
+    const tz = localStorage.getItem("magpie.tz") || "local";
+    $("#clock").textContent = new Date().toLocaleTimeString("zh-CN", { hour12: false, timeZone: tz === "utc" ? "UTC" : undefined }) + (tz === "utc" ? " UTC" : "");
     renderTicker();
   }
 
@@ -4175,7 +4176,8 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
     });
 
     setInterval(() => {
-      $("#clock").textContent = new Date().toLocaleTimeString("zh-CN", { hour12: false });
+      const tz = localStorage.getItem("magpie.tz") || "local";
+      $("#clock").textContent = new Date().toLocaleTimeString("zh-CN", { hour12: false, timeZone: tz === "utc" ? "UTC" : undefined }) + (tz === "utc" ? " UTC" : "");
       if (!state.paused) {
         // Refresh relative ages in the session list without a full re-render.
         $$(".session-card").forEach(card => {
@@ -4186,6 +4188,18 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
         });
       }
     }, 1000);
+
+    // Click the status clock → toggle local ⇄ UTC (persisted; shows suffix).
+    const clockEl = $("#clock");
+    if (clockEl) {
+      clockEl.style.cursor = "pointer";
+      clockEl.title = "点击切换本地 ⇄ UTC";
+      clockEl.addEventListener("click", () => {
+        const cur = localStorage.getItem("magpie.tz") || "local";
+        localStorage.setItem("magpie.tz", cur === "utc" ? "local" : "utc");
+        toast(cur === "utc" ? "时钟 → 本地时区" : "时钟 → UTC");
+      });
+    }
     (window.Obs && window.Obs.hooks.bind || []).forEach(fn => { try { fn(apiObj); } catch (_) {} });
   }
 
