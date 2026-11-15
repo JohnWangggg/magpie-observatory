@@ -412,6 +412,7 @@
     { id: "anchorsmith", title: "锚匠", eyebrow: "PROVIDER ANCHORSMITH", group: "用量", icon: "i-magpie", hint: "炉=provider 锚=token 焊=会话 裂=错" },
     { id: "compassmaker", title: "罗盘坊", eyebrow: "PROVIDER COMPASSMAKER", group: "用量", icon: "i-magpie", hint: "台=provider 盘=token 针=会话 裂=错" },
     { id: "chainmaker", title: "链匠", eyebrow: "PROVIDER CHAINMAKER", group: "用量", icon: "i-magpie", hint: "炉=provider 环=token 焊=会话 裂=错" },
+    { id: "pulleysmith", title: "滑轮坊", eyebrow: "PROVIDER PULLEYSMITH", group: "用量", icon: "i-magpie", hint: "台=provider 轮=token 修=会话 裂=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
