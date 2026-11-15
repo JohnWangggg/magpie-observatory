@@ -1957,3 +1957,13 @@ v76 已落地:直达提示。跳过:errors(diff已有)、agent泡(img已)、周�
 3. **digest格备注**:上周同期数字旁标▲/▼。
 4. **palette视图搜索**:view id可搜(vid加search字段)。
 5. **回放AB持久**:exitReplay存AB(已有?)。
+
+## 下轮候选 v78（2026-11-15 · v77 落地后）
+
+v77 已落地:较上周▲▼。跳过:帧调用/成本(已有)、status点(已)、vid搜(已)、AB持久(已)。
+
+1. **回放?帧卡会话名单**:帧卡加前3会话标题。
+2. **session卡数字动**:streaming tokens微跳动。
+3. **digest格静**:动效关时sparkline换静条。
+4. **palette改道项**:AB设后端点项进palette。
+5. **回放帧书签名**:mark加自定义名(右键edit)。
