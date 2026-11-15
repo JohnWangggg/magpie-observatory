@@ -2477,7 +2477,7 @@
     const age = Date.now() - s.startedAt;
     const st = STATUS_CLASS[s.status] || "";
     const tps = s.tps ? `${s.tps.toFixed(1)} tok/s` : "— tok/s";
-    const subs = (s.subagents || []).map(sub => `<div class="subagent-row"><b>${esc(sub.name)}</b><span>${esc(STATUS_TEXT[sub.status] || sub.status)}</span><span class="sub-model">${esc(sub.model)} · ${sub.tps ? sub.tps.toFixed(0) : "—"} TPS</span></div>`).join("");
+    const subs = (s.subagents || []).map(sub => `<div class="subagent-row" data-sub="${esc(sub.name)}" title="点击过滤含此子代理"><b>${esc(sub.name)}</b><span>${esc(STATUS_TEXT[sub.status] || sub.status)}</span><span class="sub-model">${esc(sub.model)} · ${sub.tps ? sub.tps.toFixed(0) : "—"} TPS</span></div>`).join("");
     // Selected card → inline tries detail (was: right-click popover only).
     const triesDetail = (sel && (s.tries || []).length > 1)
       ? `<div class="tries-detail">${(() => {
@@ -3732,6 +3732,15 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
         return;
       }
       const id = card.dataset.session;
+      // Click a subagent row → filter to sessions containing that subagent.
+      const subEl = e.target.closest(".subagent-row[data-sub]");
+      if (subEl) {
+        e.stopPropagation();
+        state.filter = { type: "subagent", value: subEl.dataset.sub };
+        renderSessions();
+        toast(`已过滤子代理 ${subEl.dataset.sub}`);
+        return;
+      }
       state.selectedSession = state.selectedSession === id ? null : id;
       state.filter = null;
       renderSessions();
@@ -3916,7 +3925,8 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
         <button data-act="filter"><svg><use href="#i-search"/></svg>只看 ${esc(D.agentMeta(ctxSess.agent).name)}</button>
         <button data-act="logs"><svg><use href="#i-db"/></svg>跳到日志</button>
         <button data-act="copy-info"><svg><use href="#i-doc"/></svg>复制标题+模型</button>
-        <button data-act="quota"><svg><use href="#i-pin"/></svg>钉到配额</button>`;
+        <button data-act="quota"><svg><use href="#i-pin"/></svg>钉到配额</button>
+        <button data-act="none" disabled style="opacity:.5;cursor:default"><svg><use href="#i-info"/></svg>${(ctxSess.tries || []).length} 次尝试 · ${(ctxSess.tries || []).filter(t => t.state === "ok").length} 成功</button>`;
       ctxMenu.hidden = false;
       const mw = 168;
       ctxMenu.style.left = Math.min(e.clientX, innerWidth - mw - 8) + "px";
