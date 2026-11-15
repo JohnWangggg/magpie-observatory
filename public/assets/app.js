@@ -2490,7 +2490,7 @@
     const isMulti = state.multiSel && state.multiSel.has(s.id);
     return `<article class="session-card${sel ? " selected" : ""}${pinned ? " pinned" : ""}${s.status === "streaming" ? " streaming" : ""}${isMulti ? " multi" : ""}" draggable="${isMulti ? "true" : "false"}" role="button" aria-selected="${sel}" aria-label="${esc(s.title)} · ${esc(s.model)} · ${esc(STATUS_TEXT[s.status] || s.status)}" data-session="${esc(s.id)}" style="--s-c:${meta.color}" tabindex="0">
       <div class="session-top">
-        <span class="session-agent"><img src="${agentIcon(s.agent)}" alt=""></span>
+        <span class="session-agent" data-agent="${esc(s.agent)}" title="点击过滤此 agent"><img src="${agentIcon(s.agent)}" alt=""></span>
         <span class="session-title" title="${esc(s.title)}">${esc(s.title)}</span>
         <button class="session-pin${pinned ? " on" : ""}" data-pin="${esc(s.id)}" title="${pinned ? "取消置顶" : "置顶会话"}" aria-label="pin">${pinned ? "★" : "☆"}</button>
         <span class="session-state ${st}" data-status="${esc(s.status)}" title="点击按此状态过滤">${STATUS_TEXT[s.status] || s.status}</span>
@@ -3720,6 +3720,15 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
         state.sessionSort = state.sessionSort === "tps" ? null : "tps";
         renderSessions();
         toast(state.sessionSort ? "按 TPS 排序" : "恢复默认排序");
+        return;
+      }
+      // Click the agent icon → filter the rail to that agent.
+      const agentEl = e.target.closest(".session-agent[data-agent]");
+      if (agentEl) {
+        e.stopPropagation();
+        state.filter = { type: "agent", value: agentEl.dataset.agent };
+        renderSessions();
+        toast(`已过滤 ${agentEl.dataset.agent}`);
         return;
       }
       const id = card.dataset.session;

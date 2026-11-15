@@ -84,6 +84,16 @@
       strip.innerHTML = marks.map(m => `<i style="position:absolute;left:${(m.idx / max * 100).toFixed(1)}%;top:0;width:4px;height:8px;background:var(--amber);border-radius:1px;cursor:pointer" data-mi="${m.idx}" title="跳到第 ${m.idx} 帧"></i>`).join("");
       strip.onclick = e => { const i = e.target.dataset.mi; if (i != null) { range.value = i; scrubReplay(+i); } };
     }
+      // Shaded spans between consecutive B-marks: a mark pair = a watched
+      // stretch, drawn as a translucent band.
+      try {
+        const spans = marks.slice(0, -1).map((m, i) => {
+          const n = marks[i + 1];
+          const l = m.idx / max * 100, w = (n.idx - m.idx) / max * 100;
+          return `<i style="position:absolute;left:${l.toFixed(1)}%;width:${w.toFixed(1)}%;top:0;height:100%;background:color-mix(in srgb,var(--amber) 10%,transparent);pointer-events:none" title="第${m.idx}→${n.idx}帧区段"></i>`;
+        }).join("");
+        if (spans) strip.innerHTML += `<div style="position:absolute;inset:0;pointer-events:none">${spans}</div>`;
+      } catch (_) {}
     // Session-start dots on the same strip: startedAt → position over the
     // buffer span (completion time isn't recorded; start is the marker).
     try {
@@ -1523,7 +1533,7 @@ show(F.length-1);
           const errs = (s.data.logs || []).filter(l => l.status === "err").length;
           const calls = Math.max(1, y.calls || 0);
           const pct = (errs / calls * 100).toFixed(1);
-          return `<div><small>错误率</small><b>${pct}% <em class="dig ${errs > calls * .05 ? "down" : "up"}">${errs} 条</em></b></div>`;
+          return `<div class="dig-errr" style="cursor:pointer" title="点击 → 过滤错误日志"><small>错误率</small><b>${pct}% <em class="dig ${errs > calls * .05 ? "down" : "up"}">${errs} 条</em></b></div>`;
         })()}
         ${(() => {
           try {
@@ -1631,6 +1641,15 @@ show(F.length-1);
         state().filter = { type: "subagent", value: name };
         Obs.api.renderAll && Obs.api.renderAll();
         toast(`已过滤含子代理 ${name} 的会话`);
+        card.remove();
+        return;
+      }
+      else if (e.target.closest(".dig-errr")) {
+        state().logQuery = "err";
+        const qs = $("#log-search"); if (qs) qs.value = "err";
+        const el = document.querySelector('[data-slot="logs"], #log-card, .log-card');
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+        toast("日志过滤 → err");
         card.remove();
         return;
       }
