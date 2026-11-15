@@ -85,7 +85,9 @@
     try { marks = JSON.parse(localStorage.getItem("magpie.replayMarks") || "[]"); } catch (_) {}
     const max = Math.max(1, s.replayBuf.length - 1);
     if (strip) {
-      strip.innerHTML = marks.map(m => `<i style="position:absolute;left:${(m.idx / max * 100).toFixed(1)}%;top:0;width:4px;height:8px;background:var(--amber);border-radius:1px;cursor:pointer" data-mi="${m.idx}" title="跳到第 ${m.idx} 帧"></i>`).join("");
+      strip.innerHTML = marks.length > 10
+        ? marks.map(m => `<i style="position:absolute;left:${(m.idx / max * 100).toFixed(1)}%;top:2px;width:3px;height:5px;background:var(--amber);border-radius:1px;opacity:.55;cursor:pointer" data-mi="${m.idx}" title="跳到第 ${m.idx} 帧"></i>`).join("")
+        : marks.map(m => `<i style="position:absolute;left:${(m.idx / max * 100).toFixed(1)}%;top:0;width:4px;height:8px;background:var(--amber);border-radius:1px;cursor:pointer" data-mi="${m.idx}" title="跳到第 ${m.idx} 帧"></i>`).join("");
       strip.onclick = e => { const j = e.target.closest?.(".rep-edge")?.dataset.jump; if (j != null) { range.value = j; scrubReplay(+j); return; } const i = e.target.dataset.mi; if (i != null) { range.value = i; scrubReplay(+i); } };
       // Shaded spans between consecutive B-marks: a mark pair = a watched
       // stretch, drawn as a translucent band.
@@ -118,6 +120,7 @@
       if (s.replayAB) {
         const l = s.replayAB[0] / max * 100, w = (s.replayAB[1] - s.replayAB[0]) / max * 100;
         strip.innerHTML += `<i class="rep-ab" style="position:absolute;left:${l.toFixed(1)}%;width:${w.toFixed(1)}%;top:0;height:100%;background:color-mix(in srgb,var(--amber) 20%,transparent);pointer-events:none" title="A-B循环 ${s.replayAB[0]}→${s.replayAB[1]}"></i>`;
+        strip.innerHTML += `<i style="position:absolute;left:${l.toFixed(1)}%;top:-3px;font:700 7px var(--num);color:var(--amber);pointer-events:none">A</i><i style="position:absolute;left:calc(${l.toFixed(1)}% + ${w.toFixed(1)}% - 6px);top:-3px;font:700 7px var(--num);color:var(--amber);pointer-events:none">B</i>`;
       }
       // First/last frame quick-jump paddles at the strip edges.
       strip.innerHTML += `<button type="button" class="rep-edge" data-jump="0" style="position:absolute;left:0;top:0;height:100%;width:10px;border:0;background:color-mix(in srgb,var(--accent) 12%,transparent);cursor:pointer" title="跳到首帧"></button>`;
