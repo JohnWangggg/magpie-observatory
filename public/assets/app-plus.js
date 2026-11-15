@@ -1873,6 +1873,11 @@ show(F.length-1);
           return slow ? `<div><small>最慢会话</small><b>${(sms / 1000).toFixed(1)}s <em class="dig">${esc((slow.title || "?").slice(0, 10))}</em></b></div>` : "";
         })()}
         ${(() => {
+          const yd = y.date || "";
+          const n = (s.data.sessions || []).concat(s.data.recent || []).filter(x => x.startedAt && new Date(x.startedAt).toISOString().slice(0, 10) === yd).length;
+          return n ? `<div><small>昨日会话</small><b>${n} <em class="dig">新增</em></b></div>` : "";
+        })()}
+        ${(() => {
           const errs = (s.data.logs || []).filter(l => l.status === "err");
           if (!errs.length) return `<div><small>错误</small><b>0 <em class="dig up">干净</em></b></div>`;
           const byP = {};
