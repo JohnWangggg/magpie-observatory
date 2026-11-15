@@ -1553,3 +1553,13 @@ v36 已落地：AB段红带+右键即画、pal序号角标。跳过：拖会话�
 3. **digest周环比格明细**:wk格title显示两周值。
 4. **palette动作图标统一**:动作项图标按类别(cinema/replay/share)。
 5. **session卡未看标记**:未选中过的卡加微弱边框。
+
+## 下轮候选 v38（2026-11-15 · v37 落地+伪元素fix后）
+
+v37 已落地：title首try摘要、wk明细、unseen卡标记(::after避开色条)。跳过：回放GIF提示(无GIF能力)、动作图标统一(已分组)。
+
+1. **unseen卡数汇总**:session列表头加"N新"标。
+2. **回放AB循环palette项**:AB切换+显示区间。
+3. **digest格未看日期**:图鉴格title显示最近新增视图名。
+4. **palette视图热区**:pal-thumb hover放大thumb。
+5. **session卡multisel拖拽**:multi卡拖到某卡→两卡并列选中(扩展range)。
