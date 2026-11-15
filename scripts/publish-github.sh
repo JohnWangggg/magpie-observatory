@@ -8,7 +8,7 @@ set -euo pipefail
 
 REPO="${REPO:-JohnWangggg/magpie-observatory}"
 BRANCH="${BRANCH:-main}"
-TAG="${TAG:-v0.18.0}"
+TAG="${TAG:-v1.10.130}"
 GIT_NAME="${GIT_NAME:-JohnWangggg}"
 GIT_EMAIL="${GIT_EMAIL:-JohnWangggg@users.noreply.github.com}"
 

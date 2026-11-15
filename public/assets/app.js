@@ -872,8 +872,10 @@
       sections.push(`<section class="vm-group vm-fav" data-group="fav"><h4 class="vm-h4-tog" style="--vm-g:var(--amber)" title="点击折叠/展开"><i></i>收藏<span>${favs.length}</span><em class="vm-caret">▾</em></h4>${favs.map(v => menuItem(v, "var(--amber)")).join("")}</section>`);
     }
     VIEW_GROUPS.forEach(group => {
-      const items = VIEW_META.filter(v => v.group === group).map(v => menuItem(v, GROUP_COLORS[group])).join("");
-      sections.push(`<section class="vm-group" data-group="${group}"><h4 class="vm-h4-tog" style="--vm-g:${GROUP_COLORS[group]}" title="点击折叠/展开"><i></i>${group}<span>${VIEW_META.filter(v => v.group === group).length}</span><em class="vm-caret">▾</em></h4>${items}</section>`);
+      const views = VIEW_META.filter(v => v.group === group);
+      const items = views.map(v => menuItem(v, GROUP_COLORS[group])).join("");
+      const open = views.length <= 18 || views.some(v => v.id === state.heroMode) || state.vmGroup === group;
+      sections.push(`<section class="vm-group${open ? "" : " collapsed"}" data-group="${group}"><h4 class="vm-h4-tog" style="--vm-g:${GROUP_COLORS[group]}" title="点击折叠/展开"><i></i>${group}<span>${views.length}</span><em class="vm-caret">▾</em></h4>${items}</section>`);
     });
     host.innerHTML = sections.join("");
     // Group headers toggle their section's items (collapse keeps the catalog
@@ -883,7 +885,9 @@
       host.addEventListener("click", e => {
         const h4 = e.target.closest(".vm-h4-tog");
         if (!h4) return;
-        h4.closest(".vm-group").classList.toggle("collapsed");
+        const g = h4.closest(".vm-group");
+        g.classList.toggle("collapsed");
+        g.dataset.userFold = "1";
       });
     }
     // Group filter chips — one-tap scope of the 700-view catalog.
@@ -924,6 +928,7 @@
       host.dataset.thumbBound = "1";
       host.addEventListener("pointerover", e => {
         const item = e.target.closest(".vm-item");
+        if (item && item.dataset.hero && window.ObservatoryEnsureView) window.ObservatoryEnsureView(item.dataset.hero);
         const thumb = item && item.querySelector(".vm-thumb");
         if (thumb) {
           const img = thumb.querySelector("img");
@@ -1025,10 +1030,18 @@
       const item = r.querySelector(".vm-item");
       r.hidden = !item || item.hidden;
     });
+    const filtering = !!(needle || favOnly || unseenQ || hotOnly || groupQ);
     $$(".view-menu .vm-group").forEach(g => {
       const dg = g.dataset.group || "";
       const scoped = !state.vmGroup || dg === state.vmGroup;
-      g.hidden = !scoped || !Array.from(g.querySelectorAll(".vm-item")).some(b => !b.hidden);
+      const any = Array.from(g.querySelectorAll(".vm-item")).some(b => !b.hidden);
+      g.hidden = !scoped || !any;
+      if ((filtering || (state.vmGroup && dg === state.vmGroup)) && any) g.classList.remove("collapsed");
+      else if (!filtering && !state.vmGroup && !g.dataset.userFold && dg !== "recent" && dg !== "fav") {
+        const n = g.querySelectorAll(".vm-row").length;
+        const cur = Array.from(g.querySelectorAll(".vm-item")).some(b => b.dataset.hero === state.heroMode);
+        g.classList.toggle("collapsed", n > 18 && !cur);
+      }
     });
     const none = $("#vm-none");
     if (none) {
@@ -1076,6 +1089,7 @@
     const styleMenu = $("#style-menu"), settings = $("#settings-menu");
     if (styleMenu) styleMenu.hidden = true;
     if (settings) settings.hidden = true;
+    document.querySelector("body > .digest-card")?.remove();
     if (state.tour) stopTour(true);
     menu.hidden = false;
     menu.classList.add("opening");
@@ -1412,14 +1426,14 @@
     $$("#kpi-row .kpi[data-kpi-jump]").forEach(el => {
       el.style.cursor = "pointer";
       el.addEventListener("click", () => {
-        const map = { requests: ".table-card", tokens: "trend", cost: ".quota-card", cache: ".quota-card", tps: "latency", active: "orrery" };
+        const map = { requests: ".table-card", tokens: "stream", cost: ".quota-card", cache: ".quota-card", tps: "latency", active: "orrery" };
         const target = map[el.dataset.kpiJump];
         if (!target) return;
         if (target.startsWith(".")) {
           const node = document.querySelector(target);
           if (node) { node.scrollIntoView({ behavior: "smooth", block: "center" }); toast("已定位"); return; }
         }
-        if (viewRegistry()[target]) { setHeroMode(target); document.querySelector(".hero").scrollIntoView({ behavior: "smooth", block: "start" }); toast(`已切到 ${D.providerMeta ? "" : ""}${target}`); }
+        if (viewMeta(target)) { setHeroMode(target); document.querySelector(".hero").scrollIntoView({ behavior: "smooth", block: "start" }); toast(`已切到 ${(viewMeta(target).title || target)}`); }
       });
     });
     // Right-click a KPI → hide it; "+N 已隐藏" chip restores all.
@@ -1508,11 +1522,13 @@
     $("#agents-col").innerHTML = agents.map(a => {
       const meta = D.agentMeta(a.key);
       const hot = state.filter && state.filter.type === "agent" && state.filter.value === a.key;
-      return `<div class="agent-node${hot ? " hot" : ""}" data-agent="${esc(a.key)}" style="--agent-c:${meta.color}" role="button" tabindex="0" title="点击筛选 ${esc(meta.name)} · ${fmtTokens(a.tokens)} tok · ${a.active || 0} 活跃">
+      const share = a.tokens / maxAgentTokens;
+      const heat = share >= 0.85 ? " hot-load" : share >= 0.6 ? " mid-load" : "";
+      return `<div class="agent-node${hot ? " hot" : ""}${heat}" data-agent="${esc(a.key)}" style="--agent-c:${meta.color}" role="button" tabindex="0" title="点击筛选 ${esc(meta.name)} · group/${esc(a.group || "direct")} · ${fmtTokens(a.tokens)} tok · ${a.active || 0} 活跃">
         <span class="agent-ic"><img src="${agentIcon(a.key)}" alt=""></span>
         <span class="agent-copy"><b>${esc(meta.name)}</b><small>group/${esc(a.group || "direct")}</small></span>
         <span class="agent-live"><i></i>${a.active || "—"}</span>
-        <span class="agent-load"><i style="width:${Math.round(a.tokens / maxAgentTokens * 100)}%"></i></span>
+        <span class="agent-load"><i style="width:${Math.round(share * 100)}%"></i></span>
       </div>`;
     }).join("") || (() => {
       // viewHeat-driven suggestion: the view you open most, minus the current.
@@ -1570,12 +1586,13 @@
       const quota = quotas[0] && quotas[0].windows[0] ? quotas[0].windows[0].used : 0;
       const hot = (state.filter && state.filter.type === "provider" && state.filter.value === p.key) ||
         (selectedSession() && D.providerOfModel(selectedSession().model, selectedSession().provider) === p.key);
-      return `<div class="provider-node${p.status === "serving" ? " serving" : ""}${hot ? " serving" : ""}" data-provider="${esc(p.key)}" style="--p-c:${meta.color}" role="button" tabindex="0" title="点击筛选 ${esc(meta.name)}">
+      const acctTitle = quotas.map(q => `${q.user || q.name || ""}${q.windows[0] ? " " + q.windows[0].used + "%" : ""}`).filter(Boolean).join(" · ");
+      return `<div class="provider-node${p.status === "serving" ? " serving" : ""}${hot ? " serving" : ""}" data-provider="${esc(p.key)}" style="--p-c:${meta.color}" role="button" tabindex="0" title="点击筛选 ${esc(meta.name)} · ${esc(model)}${acctTitle ? " · " + esc(acctTitle) : ""}">
         <span class="p-ic"><img src="${providerIcon(p.key)}" alt=""></span>
         <b>${esc(meta.name)}</b>
         <span class="p-state ${statusCls}"><i></i>${statusText}</span>
         <small>${esc(model)}</small>
-        <span class="p-account">${accts}${more}</span>
+        <span class="p-account" title="${esc(acctTitle)}">${accts}${more}</span>
         <span class="p-bar"><i style="width:${clamp(quota, 2, 100)}%"></i></span>
       </div>`;
     }).join("");
@@ -2441,6 +2458,7 @@
       }
     }
     $$(".stage-view").forEach(v => { v.hidden = true; });
+    if (window.ObservatoryEnsureHost) window.ObservatoryEnsureHost(mode);
     const host = $("#view-" + mode);
     if (host) {
       host.hidden = false;
@@ -2462,6 +2480,17 @@
       });
     }
     if (custom) { renderCustomView(mode, true); return; }
+    const builtin = mode === "route" || mode === "radar" || mode === "loom" || mode === "rhythm" || mode === "rings" || mode === "quota";
+    if (!builtin && window.ObservatoryEnsureView) {
+      const hostEl = $("#view-" + mode);
+      if (hostEl && !viewRegistry()[mode]) hostEl.innerHTML = `<div class="empty-state"><b>正在打开 ${esc(meta.title)}</b></div>`;
+      window.ObservatoryEnsureView(mode).then(ok => {
+        if (state.heroMode !== mode) return;
+        if (ok && viewRegistry()[mode]) renderCustomView(mode, true);
+        else if (hostEl) hostEl.innerHTML = `<div class="empty-state"><b>这个视图没有加载出来</b><span>${esc(mode)}</span></div>`;
+      });
+      return;
+    }
     if (mode === "route") { requestAnimationFrame(drawWires); ensureFlightLoop(); }
     if (mode === "radar") renderRadarView(true);
     if (mode === "loom") renderLoomView(true);
@@ -2519,6 +2548,13 @@
     if (state.filter.type === "subagent") return (s.subagents || []).some(a => a.name === state.filter.value);
     return state.filter.type === "agent" ? s.agent === state.filter.value : s.provider === state.filter.value;
   }
+  function markSessionMore() {
+    const host = $("#session-list");
+    if (!host) return;
+    const more = host.scrollHeight > host.clientHeight + 12 && host.scrollTop + host.clientHeight < host.scrollHeight - 12;
+    host.classList.toggle("has-more", more);
+  }
+
 
   function renderSessions() {
     const list = visibleSessions();
@@ -2579,6 +2615,11 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
     }
     host.innerHTML = html;
     host.scrollTop = scroll;
+    if (!host.dataset.moreBound) {
+      host.dataset.moreBound = "1";
+      host.addEventListener("scroll", () => markSessionMore(), { passive: true });
+    }
+    requestAnimationFrame(markSessionMore);
     // Re-flag .multi after a re-render so Shift+click selections survive the
     // signature-diff rebuild.
     if (state.multiSel && state.multiSel.size) {
@@ -2593,7 +2634,7 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
     const selEl = $("#session-sel-n");
     if (selEl) { const parts = []; if (selN) parts.push(`已选 ${selN}`); if (pinN) parts.push(`置顶 ${pinN}`); selEl.textContent = parts.join(" · "); selEl.hidden = !parts.length; }
     const cntEl = $("#session-cnt");
-    if (cntEl) cntEl.textContent = `${live.length} 活跃 · ${(state.data.sessions || []).length + (state.data.recent || []).length} 会话`;
+    if (cntEl) { const allS = (state.data.sessions || []).concat(state.data.recent || []); const earliest = allS.reduce((m, x) => (x.startedAt && x.startedAt < m ? x.startedAt : m), Infinity); const ageMin = earliest < Infinity ? Math.max(0, Math.round((Date.now() - earliest) / 60000)) : null; cntEl.textContent = `${live.length} 活跃 · ${allS.length} 会话`; cntEl.title = ageMin == null ? "" : `最早会话 ${ageMin >= 60 ? Math.floor(ageMin / 60) + "h" + (ageMin % 60) + "m" : ageMin + "m"} 前`; }
     buildSessionMap(list.concat(extra));
   }
 
@@ -2886,8 +2927,8 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
       const pm = D.providerMeta(r.provider);
       return `<tr class="log-tr" data-idx="${logs.indexOf(r)}" role="button" aria-expanded="false">
         <td><span class="t">${time}</span></td>
-        <td><span class="log-agent"><img src="${agentIcon(r.agent)}" alt=""><span><b>${esc(meta.name)}</b><small>${esc(r.session || "—")}</small></span></span></td>
-        <td><span class="route-cell"><img src="${providerIcon(r.provider)}" alt=""><code>${esc(r.model)}</code><span class="arrow">·</span><span style="font-size:8px;color:var(--faint)">${esc(pm.name)}</span></span></td>
+        <td><span class="log-agent" title="${esc(meta.name)} · ${esc(r.session || "—")}"><img src="${agentIcon(r.agent)}" alt=""><span><b>${esc(meta.name)}</b><small>${esc(r.session || "—")}</small></span></span></td>
+        <td><span class="route-cell" title="${esc(r.model)} · ${esc(pm.name)}"><img src="${providerIcon(r.provider)}" alt=""><code>${esc(r.model)}</code><span class="arrow">·</span><span style="font-size:8px;color:var(--faint)">${esc(pm.name)}</span></span></td>
         <td><span class="status ${STATUS_LOG[r.status] || ""}"><i></i>${r.status === "ok" ? "200" : r.status === "run" ? "流式" : r.status === "retry" ? "改道" : "错误"}</span></td>
         <td class="num">${fmtTokens(r.tokens)}</td>
         <td class="num">${r.ttft ? r.ttft + "ms" : "—"}</td>
@@ -2925,7 +2966,7 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
       const tries = (r.tries || []).map(t => {
         const tp = D.providerMeta(t.provider);
         const cls = t.state === "ok" ? "ok" : t.state === "fail" ? "fail" : "pending";
-        return `<span class="try-pill ${cls}" title="${esc(t.why || "")}"><img src="${providerIcon(t.provider)}" alt="">${esc((t.model || "").split("/").pop())}${t.state === "fail" ? " ✕" : t.state === "pending" ? " …" : ""}</span>`;
+        return `<span class="try-pill ${cls}" title="${esc(t.model || t.provider || "")}${t.why ? " · " + esc(t.why) : ""}"><img src="${providerIcon(t.provider)}" alt="">${esc((t.model || "").split("/").pop())}${t.state === "fail" ? " ✕" : t.state === "pending" ? " …" : ""}</span>`;
       }).join("");
       const det = document.createElement("tr");
       det.className = "log-detail";
@@ -3000,7 +3041,7 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
       const pm = D.providerMeta(t.provider);
       const cls = t.state === "ok" ? "ok" : t.state === "fail" ? "fail" : "pending";
       const arrow = i ? `<span class="try-arrow">›</span>` : "";
-      return `${arrow}<span class="try-pill ${cls} goto" data-prov="${esc(t.provider)}" data-model="${esc(t.model || "")}" title="${esc(t.why || "")} · 左键看配额 · 右键复制模型"><img src="${providerIcon(t.provider)}" alt="">${esc((t.model || "").split("/").pop())}${t.state === "fail" ? " ✕" : t.state === "pending" ? " …" : ""}</span>`;
+      return `${arrow}<span class="try-pill ${cls} goto" data-prov="${esc(t.provider)}" data-model="${esc(t.model || "")}" title="${esc(t.model || "")}${t.why ? " · " + esc(t.why) : ""} · 左键看配额 · 右键复制模型"><img src="${providerIcon(t.provider)}" alt="">${esc((t.model || "").split("/").pop())}${t.state === "fail" ? " ✕" : t.state === "pending" ? " …" : ""}</span>`;
     }).join("");
   }
 
@@ -3323,6 +3364,7 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
     // Fav thumbnail bubbles — JS-driven for the same reason as vm-thumb.
     $("#rail-favs").addEventListener("pointerover", e => {
       const b = e.target.closest(".fav-btn");
+      if (b && b.dataset.favView && window.ObservatoryEnsureView) window.ObservatoryEnsureView(b.dataset.favView);
       const th = b && b.querySelector(".fav-thumb");
       if (th) { th.classList.add("on"); th.style.opacity = "1"; clearTimeout(th._peek); th._peek = setTimeout(() => th.classList.add("peek"), 420); }
     });
@@ -4735,11 +4777,11 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
     renderAll();
     bindEvents();
     // ?view= wins, then the double-clicked default, then the built-in route.
+    // Modules load on demand, so a known id counts even before its script arrives.
     const qView = new URLSearchParams(location.search).get("view");
     const storedView = (() => { try { return localStorage.getItem("magpie.defaultView"); } catch (_) { return null; } })();
-    const bootView = (qView && viewRegistry()[qView]) ? qView
-      : (storedView && viewRegistry()[storedView]) ? storedView
-      : state.heroMode;
+    const knownView = id => !!id && (viewRegistry()[id] || VIEW_META.some(v => v.id === id));
+    const bootView = knownView(qView) ? qView : knownView(storedView) ? storedView : state.heroMode;
     setHeroMode(bootView);
     setInterval(demoTick, 1200);
     // Rotate one live fact in the status bar; data refreshes keep it current.

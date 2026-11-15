@@ -1,7 +1,7 @@
 # Magpie Observatory · 视图图鉴 (700)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
-运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
+运行时 `window.ObservatoryManifest` 只登记 id；`ObservatoryEnsureView(id)` 在第一次打开时加载对应 `views/*.js/.css`。
 
 | 分组 | 数量 |
 |---|---|
@@ -654,8 +654,8 @@
 | `cowherd` | 牧地 | PROVIDER COWHERD | 地=provider 牛=token 赶=会话 走=错 | ![cowherd](../public/shots/cowherd.png) |
 | `gooseherd` | 鹅滩 | PROVIDER GOOSEHERD | 滩=provider 鹅=token 呼=会话 走=错 | ![gooseherd](../public/shots/gooseherd.png) |
 | `muleteer` | 骡队 | PROVIDER MULETEER | 队=provider 驮=token 牵=会话 滑=错 | ![muleteer](../public/shots/muleteer.png) |
-| `hunter` | 猎场 | PROVIDER HUNTER | 场=provider 猎=token 弓=会话 断=错 | — |
-| `cottar` | 园圃 | PROVIDER COTTAR | 圃=provider 垄=token 锄=会话 枯=错 | — |
+| `hunter` | 猎场 | PROVIDER HUNTER | 场=provider 猎=token 弓=会话 断=错 | ![hunter](../public/shots/hunter.png) |
+| `cottar` | 园圃 | PROVIDER COTTAR | 圃=provider 垄=token 锄=会话 枯=错 | ![cottar](../public/shots/cottar.png) |
 | `rings` | Token 年轮 | YEAR IN RINGS | 26 周极坐标日历 | ![rings](../public/shots/rings.png) |
 | `latency` | 延迟热力 | LATENCY HEATMAP | 时间 × 延迟 | ![latency](../public/shots/latency.png) |
 | `stream` | 流量河流 | STREAMGRAPH | Provider 增量 | ![stream](../public/shots/stream.png) |

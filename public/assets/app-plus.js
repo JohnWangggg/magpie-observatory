@@ -1555,6 +1555,8 @@ show(F.length-1);
     };
   }
   function showRecords() {
+    const open = document.querySelector(".records-card");
+    if (open) { open.remove(); return; }
     const r = records();
     let bag = {};
     try { bag = JSON.parse(localStorage.getItem("magpie.badges") || "{}"); } catch (_) {}
@@ -1803,7 +1805,7 @@ show(F.length-1);
     const card = document.createElement("div");
     card.className = "digest-card";
     card.innerHTML = `
-      <div class="digest-head"><b>${esc(greet)}</b><span>DAILY DIGEST</span></div>
+      <div class="digest-head"><b>${esc(greet)}</b><span>DAILY DIGEST</span><button type="button" class="digest-x" aria-label="关闭">×</button></div>
       <div class="digest-grid">
         <div class="dig-tok" style="cursor:pointer" title="点击 → 滚到热度"><small>tokens</small><b>${fmtTokens(y.tokens)}${dTok != null ? `<em class="dig ${dTok >= 0 ? "up" : "down"}">${dTok >= 0 ? "▲" : "▼"}${Math.abs(dTok)}%</em>` : ""}</b></div>
         <div class="dig-call" style="cursor:pointer" title="点击 → 滚到请求日志"><small>调用</small><b>${y.calls || 0}${dCall != null ? `<em class="dig ${dCall >= 0 ? "up" : "down"}">${dCall >= 0 ? "▲" : "▼"}${Math.abs(dCall)}%</em>` : ""}</b></div>
@@ -1927,6 +1929,10 @@ show(F.length-1);
           return fb ? `<div><small>昨日改道</small><b>${fb} <em class="dig down">次</em></b></div>` : "";
         })()}
         ${(() => {
+          const mx = (s.data.logs || []).reduce((m, l) => Math.max(m, l.tokens || 0), 0);
+          return mx > 0 ? `<div><small>最大单请求</small><b>${fmtTokens(mx)} <em class="dig">tok</em></b></div>` : "";
+        })()}
+        ${(() => {
           try {
             const bag = JSON.parse(localStorage.getItem("magpie.badges") || "{}");
             const yd = y.date || "";
@@ -1939,6 +1945,7 @@ show(F.length-1);
         // 7-day mini bar under the grid: yesterday's context at a glance.
         const tail = days.slice(-7);
         if (tail.length < 2) return "";
+        const max = Math.max(1, ...tail.map(d => d.tokens || 0));
         const pts = tail.map((d, i) => `${i * (70 / (tail.length - 1))},${(26 - (d.tokens || 0) / max * 22).toFixed(1)}`).join(" ");
         const avg = tail.reduce((a, d) => a + (d.tokens || 0), 0) / tail.length;
         return `<svg class="dig-bars" viewBox="0 0 72 28" aria-hidden="true">${tail.map((d, i) => `<rect x="${Math.max(0, i * (70 / (tail.length - 1)) - 3).toFixed(1)}" y="${(26 - (d.tokens || 0) / max * 22).toFixed(1)}" width="6" height="${Math.max(2, ((d.tokens || 0) / max * 22)).toFixed(1)}" rx="1" fill="color-mix(in srgb, var(--accent) 22%, transparent)"><title>${d.date} · ${d.tokens}</title></rect>`).join("")}<polyline points="${pts}" fill="none" stroke="var(--accent)" stroke-width="1.2" stroke-linejoin="round" opacity=".9"/>${tail.map((d, i) => { const spike = (d.tokens || 0) > avg * 2; return `<circle cx="${(i * (70 / (tail.length - 1))).toFixed(1)}" cy="${(26 - (d.tokens || 0) / max * 22).toFixed(1)}" r="${i === tail.length - 2 ? 2.4 : 1.4}" fill="${spike ? "var(--red)" : i === tail.length - 2 ? "var(--accent)" : "color-mix(in srgb, var(--accent) 60%, transparent)"}" stroke="${i === tail.length - 2 ? "#fff" : "none"}" stroke-width=".8"><title>${d.date} · ${d.tokens}${spike ? " · 尖峰·超均值" + Math.round((d.tokens || 0) / Math.max(1, avg)) + "x" : ""}</title></circle>`; }).join("")}</svg>`;
@@ -2821,15 +2828,16 @@ ${quota || "| — | — | — |"}
     // 视图 section so the palette learns your habits.
     const heat = (() => { try { return JSON.parse(localStorage.getItem("magpie.viewHeat") || "{}"); } catch (_) { return {}; } })();
     // views
+    const catalog = (Obs.api && Obs.api.VIEW_META) || [];
     if (window.ObservatoryViews) {
-      Object.keys(window.ObservatoryViews).sort((a, b) => (heat[b] || 0) - (heat[a] || 0)).forEach(id => {
+      const listed = new Set(catalog.map(v => v.id));
+      Object.keys(window.ObservatoryViews).filter(id => !listed.has(id)).sort((a, b) => (heat[b] || 0) - (heat[a] || 0)).forEach(id => {
         const v = window.ObservatoryViews[id];
         const hot = heat[id] ? " · 常用" : "";
         items.push({ kind: "视图", icon: "i-route", title: v.title || id, sub: (v.eyebrow || "") + hot, vid: id, search: (v.title + " " + (v.eyebrow || "") + " " + id).toLowerCase(), run: () => { Obs.api.setHeroMode(id); closePalette(); } });
       });
     }
-    // core views from the meta catalog
-    if (s && s.VIEW_META) s.VIEW_META.forEach(v => {
+    catalog.forEach(v => {
       items.push({ kind: "视图", icon: v.icon, title: v.title, sub: v.eyebrow, vid: v.id, search: (v.title + " " + v.eyebrow + " " + v.id + " " + (v.group || "") + " " + (v.hint || "")).toLowerCase(), run: () => { Obs.api.setHeroMode(v.id); closePalette(); } });
     });
     // The currently active hero view floats to the top of the 视图 group.
@@ -2870,36 +2878,58 @@ ${quota || "| — | — | — |"}
       { kind: "动作", icon: "i-stack", title: "对比视图", sub: "当前视图 + 次近视图并排", search: "compare 对比 并排 dual side".toLowerCase(), run: toggleCompare }
     );
 
-  // Floating compare pane: renders a chosen registered view beside the hero.
+  // Floating compare pane: loads the other view on demand, then renders it.
   function toggleCompare() {
     const s = state();
     if (!s) return;
     let pane = $("#compare-pane");
     if (pane) { pane.remove(); toast("对比已关闭"); return; }
-    const reg = window.ObservatoryViews || {};
-    const ids = Object.keys(reg).filter(id => id !== s.heroMode);
-    if (!ids.length) { toast("无可用对比视图"); return; }
-    const other = (s.viewRecent || []).find(id => reg[id] && id !== s.heroMode) || ids[0];
-    pane = document.createElement("div");
-    pane.id = "compare-pane";
-    pane.innerHTML = `<div class="cmp-head"><b>${esc(reg[other].title || other)}</b><small>${esc(reg[other].eyebrow || "")}</small><button type="button" id="cmp-x" aria-label="关闭">×</button></div><div class="cmp-body" id="cmp-body"></div>`;
-    document.body.appendChild(pane);
-    try { reg[other].render($("#cmp-body"), { data: s.data, view: s.view, kpis: (s.view && s.view.kpis) || s.data.kpis || {}, fmtTokens, fmtMoney, esc, clamp, providerMeta: Obs.api.providerMeta, providerIcon: Obs.api.providerIcon, agentMeta: Obs.api.agentMeta, agentIcon: Obs.api.agentIcon, motion: document.documentElement.dataset.motion || "full", game: window.Obs && window.Obs.game }); } catch (e) { $("#cmp-body").innerHTML = `<div class="empty-row">渲染失败：${esc(e.message)}</div>`; }
-    pane.querySelector("#cmp-x").addEventListener("click", () => pane.remove());
-    toast(`对比视图：${reg[other].title || other} · Esc/× 关闭`);
+    const builtin = new Set(["route", "radar", "loom", "rhythm", "rings", "quota"]);
+    const metaOf = id => (Obs.api.viewMeta ? Obs.api.viewMeta(id) : null);
+    const catalog = ((Obs.api && Obs.api.VIEW_META) || []).map(v => v.id).filter(id => id && id !== s.heroMode && !builtin.has(id) && metaOf(id));
+    const other = (s.viewRecent || []).find(id => id !== s.heroMode && !builtin.has(id) && metaOf(id)) || catalog[0];
+    if (!other) { toast("无可用对比视图"); return; }
+    const paint = (regEntry) => {
+      if ($("#compare-pane")) return;
+      const meta = metaOf(other) || {};
+      const title = (regEntry && regEntry.title) || meta.title || other;
+      const eyebrow = (regEntry && regEntry.eyebrow) || meta.eyebrow || "";
+      pane = document.createElement("div");
+      pane.id = "compare-pane";
+      pane.innerHTML = `<div class="cmp-head"><b>${esc(title)}</b><small>${esc(eyebrow)}</small><button type="button" id="cmp-x" aria-label="关闭">×</button></div><div class="cmp-body" id="cmp-body"></div>`;
+      document.body.appendChild(pane);
+      const ctx = { data: s.data, view: s.view, kpis: (s.view && s.view.kpis) || s.data.kpis || {}, fmtTokens, fmtMoney, esc, clamp, providerMeta: Obs.api.providerMeta, providerIcon: Obs.api.providerIcon, agentMeta: Obs.api.agentMeta, agentIcon: Obs.api.agentIcon, motion: document.documentElement.dataset.motion || "full", game: window.Obs && window.Obs.game };
+      try {
+        if (regEntry && regEntry.render) regEntry.render($("#cmp-body"), ctx);
+        else $("#cmp-body").innerHTML = `<div class="empty-row">这个视图不能并排渲染</div>`;
+      } catch (e) { $("#cmp-body").innerHTML = `<div class="empty-row">渲染失败：${esc(e.message)}</div>`; }
+      pane.querySelector("#cmp-x").addEventListener("click", () => pane.remove());
+      toast(`对比视图：${title} · Esc/× 关闭`);
+      closePalette();
+    };
+    const ready = window.ObservatoryViews && window.ObservatoryViews[other];
+    if (ready) { paint(ready); return; }
+    if (!window.ObservatoryEnsureView) { toast("无可用对比视图"); return; }
+    toast("正在打开对比…");
     closePalette();
+    window.ObservatoryEnsureView(other).then(ok => {
+      const reg = window.ObservatoryViews && window.ObservatoryViews[other];
+      if (!ok || !reg) { toast("对比视图没有加载出来"); return; }
+      paint(reg);
+    });
   }
     // per-provider burn shortcuts — "看 Claude 烧速" jumps straight to the
     // window row.
     if (s && s.data.quotas) {
-      s.data.quotas.forEach(q => {
+      const burns = s.data.quotas.map(q => {
         const meta = Obs.api.providerMeta ? Obs.api.providerMeta(q.provider) : {};
-        items.push({
+        return {
           kind: "跳转", icon: "i-flame", title: `看 ${meta.name || q.provider} 烧速`,
           sub: q.name || "", search: ("burn 烧速 " + (meta.name || "") + " " + q.provider + " " + (q.name || "")).toLowerCase(),
           run: () => { gotoBurnOrLogs({ dataset: { goto: "burn", prov: q.provider } }); closePalette(); }
-        });
-      });
+        };
+      }).sort((a, b) => a.title.localeCompare(b.title, "zh"));
+      items.push(...burns);
     }
     // Re-run the last palette command (stored by title; actions only).
     try {
