@@ -2450,7 +2450,7 @@ body.cinema .ch-thumb, body.mini .ch-thumb { display: block; cursor: zoom-in; }
 .pal-copy b { font-size: 11.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .pal-copy small { font-size: 8.5px; color: var(--faint); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .pal-tag { font-size: 7.5px; color: var(--faint); padding: 2px 7px; border-radius: 99px; background: var(--card-3); flex: none; }
-.pal-thumb { position: absolute; right: 44px; top: 50%; transform: translateY(-50%); width: 110px; height: 44px; border-radius: 7px; overflow: hidden; border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--line)); box-shadow: 0 10px 26px rgba(0,0,0,.5); opacity: 0; pointer-events: none; z-index: 30; background: var(--card-2); }
+.pal-thumb { position: absolute; right: 44px; top: 50%; transform: translateY(-50%); width: 110px; height: 44px; border-radius: 7px; overflow: hidden; border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--line)); box-shadow: 0 10px 26px rgba(0,0,0,.5); opacity: 0; pointer-events: auto; z-index: 30; background: var(--card-2); }
 .pal-thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
 .pal-item:hover .pal-thumb { opacity: 1; }
 .pal-item:hover .pal-thumb { transition-delay: 0s; }
@@ -2520,7 +2520,7 @@ body.cinema ::selection { background: transparent; }
 .fav-btn:hover { color: var(--fg-2); background: var(--card-2); border-color: var(--line); }
 .fav-btn.active { color: var(--accent-strong); background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 30%, var(--line)); }
 .fav-btn[data-fav-group] { border-left: 3px solid var(--fav-g, transparent); }
-.fav-thumb { position: absolute; left: 40px; top: 50%; transform: translateY(-50%); width: 120px; height: 48px; border-radius: 7px; overflow: hidden; border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--line)); box-shadow: 0 10px 26px rgba(0,0,0,.5); opacity: 0; pointer-events: none; z-index: 30; background: var(--card-2); }
+.fav-thumb { position: absolute; left: 40px; top: 50%; transform: translateY(-50%); width: 120px; height: 48px; border-radius: 7px; overflow: hidden; border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--line)); box-shadow: 0 10px 26px rgba(0,0,0,.5); opacity: 0; pointer-events: auto; z-index: 30; background: var(--card-2); }
 .fav-thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
 .fav-btn:hover .fav-thumb, .fav-thumb.on { opacity: 1; pointer-events: auto; }
 .fav-thumb.peek { width: 200px; height: 80px; z-index: 40; box-shadow: 0 16px 44px rgba(0,0,0,.65); }
