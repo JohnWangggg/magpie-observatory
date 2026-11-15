@@ -1633,9 +1633,8 @@ show(F.length-1);
         // 7-day mini bar under the grid: yesterday's context at a glance.
         const tail = days.slice(-7);
         if (tail.length < 2) return "";
-        const max = Math.max(1, ...tail.map(d => d.tokens || 0));
-        const bars = tail.map((d, i) => `<rect x="${i * 10 + 1}" y="${26 - Math.round((d.tokens || 0) / max * 24)}" width="8" height="${Math.max(2, Math.round((d.tokens || 0) / max * 24))}" rx="1.5" fill="${i === tail.length - 2 ? "var(--accent)" : "color-mix(in srgb, var(--accent) 30%, transparent)"}"><title>${d.date} · ${d.tokens}</title></rect>`).join("");
-        return `<svg class="dig-bars" viewBox="0 0 ${tail.length * 10 + 2} 28" aria-hidden="true">${bars}</svg>`;
+        const pts = tail.map((d, i) => `${i * (70 / (tail.length - 1))},${(26 - (d.tokens || 0) / max * 22).toFixed(1)}`).join(" ");
+        return `<svg class="dig-bars" viewBox="0 0 72 28" aria-hidden="true"><polyline points="${pts}" fill="none" stroke="var(--accent)" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>${tail.map((d, i) => `<circle cx="${(i * (70 / (tail.length - 1))).toFixed(1)}" cy="${(26 - (d.tokens || 0) / max * 22).toFixed(1)}" r="1.6" fill="${i === tail.length - 2 ? "var(--accent)" : "color-mix(in srgb, var(--accent) 45%, transparent)"}"><title>${d.date} · ${d.tokens}</title></circle>`).join("")}</svg>`;
       })()}
       <div class="digest-foot">连续使用 ${dayStreak()} 天 · ${dTok != null ? (dTok >= 0 ? "较前日 +" + dTok + "%" : "较前日 " + dTok + "%") : "保持热度"}
         <button class="mini-btn digest-week" type="button">看周报 →</button>
