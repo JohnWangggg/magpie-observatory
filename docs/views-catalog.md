@@ -1,4 +1,4 @@
-# Magpie Observatory · 视图图鉴 (629)
+# Magpie Observatory · 视图图鉴 (630)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
@@ -10,7 +10,7 @@
 | [延迟](#延迟) | 2 |
 | [氛围](#氛围) | 3 |
 | [场景](#场景) | 233 |
-| [用量](#用量) | 238 |
+| [用量](#用量) | 239 |
 | [天象](#天象) | 17 |
 | [洞察](#洞察) | 10 |
 | [结构](#结构) | 6 |
@@ -355,7 +355,7 @@
 | `reserve2` | 保护区二号 | RESERVE II | 观测=配额窗 隙=用量 栖枝=过热 守护=会话 | ![reserve2](../public/shots/reserve2.png) |
 | `desert` | 沙丘 | DESERT | 丘=配额窗 高=用量 驼=会话 | ![desert](../public/shots/desert.png) |
 
-## 用量 (238)
+## 用量 (239)
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
@@ -584,7 +584,8 @@
 | `lookout` | 瞭望塔 | PROVIDER LOOKOUT | 台=provider 帆=token 望=会话 破=错 | ![lookout](../public/shots/lookout.png) |
 | `signalman` | 信号台 | PROVIDER SIGNALMAN | 塔=provider 旗=token 绞=会话 缠=错 | ![signalman](../public/shots/signalman.png) |
 | `tidegauge` | 潮位 | PROVIDER TIDEGAUGE | 尺=provider 水=token 读=会话 淤=错 | ![tidegauge](../public/shots/tidegauge.png) |
-| `tollkeeper` | 收费桥 | PROVIDER TOLLKEEPER | 亭=provider 车=token 杆=会话 卡=错 | — |
+| `tollkeeper` | 收费桥 | PROVIDER TOLLKEEPER | 亭=provider 车=token 杆=会话 卡=错 | ![tollkeeper](../public/shots/tollkeeper.png) |
+| `bridgemaster` | 桥务 | PROVIDER BRIDGEMASTER | 拱=provider 船=token 探=会话 裂=错 | — |
 | `rings` | Token 年轮 | YEAR IN RINGS | 26 周极坐标日历 | ![rings](../public/shots/rings.png) |
 | `latency` | 延迟热力 | LATENCY HEATMAP | 时间 × 延迟 | ![latency](../public/shots/latency.png) |
 | `stream` | 流量河流 | STREAMGRAPH | Provider 增量 | ![stream](../public/shots/stream.png) |
