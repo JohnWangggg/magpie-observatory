@@ -401,6 +401,7 @@
     { id: "lookout", title: "瞭望塔", eyebrow: "PROVIDER LOOKOUT", group: "用量", icon: "i-magpie", hint: "台=provider 帆=token 望=会话 破=错" },
     { id: "signalman", title: "信号台", eyebrow: "PROVIDER SIGNALMAN", group: "用量", icon: "i-magpie", hint: "塔=provider 旗=token 绞=会话 缠=错" },
     { id: "tidegauge", title: "潮位", eyebrow: "PROVIDER TIDEGAUGE", group: "用量", icon: "i-magpie", hint: "尺=provider 水=token 读=会话 淤=错" },
+    { id: "tollkeeper", title: "收费桥", eyebrow: "PROVIDER TOLLKEEPER", group: "用量", icon: "i-magpie", hint: "亭=provider 车=token 杆=会话 卡=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
