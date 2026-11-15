@@ -998,3 +998,21 @@ hover 提示 (`data-model`/`data-prov`) 或 pointer 交互。
 provider, model, status, tokens, ttft, ms, out, tps, cost}`，sessions →
 `{id, provider, model, startedAgo, ttft, tps, tokens, status, title, ...}`。
 新视图统一用这两个 shape；不写 `l.t`/`l.tok_in`/`s.since`。
+
+
+---
+
+## 26. 视图 id→title 的 lookup 机制
+
+`Obs.api.viewMeta(id)` 返回 `ObservatoryViews[id]` 的注册 meta（`{title,
+eyebrow, render}`）。VIEW_META 里的 `title` 只用于菜单展示和兜底——
+view-meta 真正来自每个 `views/<id>.js` 注册时的 `{title, eyebrow}`。
+
+含义：**两个视图可以共享同一 VIEW_META.title 但显示不同名字**。
+例如 `belltower` 在 VIEW_META 写"钟楼铃"（避免和 `clocktower` 撞名），
+但它注册时提供独立 title，所以实际渲染正确。
+
+添加新视图时：**改两个地方**
+1. `VIEW_META` 里的 `title`（菜单显示）
+2. `views/<id>.js` 里 `ObservatoryViews[id] = { title, ... }`（hero 标题）
+两边不一致会导致菜单显示一个名、hero 显示另一个。
