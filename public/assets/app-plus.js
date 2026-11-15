@@ -384,6 +384,27 @@
 
   // Palette "回放帧对比" → side-by-side KPI delta table of the A-B loop's two
   // boundary frames (right-click a mark to set the loop first).
+
+  // Palette "帧快照" → the frame KPI cards saved from the ? pop.
+  function showFrameSnaps() {
+    $(".gwcmp-card")?.remove();
+    let snaps = [];
+    try { snaps = JSON.parse(localStorage.getItem("magpie.frameSnaps") || "[]"); } catch (_) {}
+    if (!snaps.length) { toast("还没有帧快照 · 回放中按 ? 后点「存为记录」"); closePalette(); return; }
+    const card = document.createElement("div");
+    card.className = "gwcmp-card snaps-card";
+    card.innerHTML = `<div class="digest-head"><b>帧快照</b><span>${snaps.length} 条</span></div>` +
+      snaps.slice(-12).reverse().map(s2 => `<div class="cmp-r"><span>#${s2.idx}</span><b>${fmtTokens(s2.k.tokens || 0)}</b><em></em><b>${new Date(s2.t).toTimeString().slice(0, 8)}</b></div>`).join("") +
+      `<small style="opacity:.55">点击行复制该帧KPI · 点空白关</small>`;
+    card.addEventListener("click", e => {
+      const row = e.target.closest(".cmp-r");
+      if (row) { const i = [...card.querySelectorAll(".cmp-r")].indexOf(row); const s2 = snaps.slice(-12).reverse()[i]; if (s2) navigator.clipboard?.writeText(`帧${s2.idx} tok=${s2.k.tokens} tps=${s2.k.tps} calls=${s2.k.calls} err=${s2.k.errors}`).then(() => toast("已复制")); return; }
+      card.remove();
+    });
+    document.body.appendChild(card);
+    setTimeout(() => card.classList.add("in"), 10);
+    closePalette();
+  }
   function compareReplayFrames() {
     $(".gwcmp-card")?.remove();
     const s = state();
@@ -2616,6 +2637,7 @@ ${quota || "| — | — | — |"}
       { kind: "动作", icon: "i-clock", title: "回放循环", sub: `${s && s.replayLoop ? "已开" : "已关"} · 播完自动回头`, search: "replay loop 循环 重复".toLowerCase(), run: () => { if (s) { s.replayLoop = !s.replayLoop; const b = $("#replay-speed"); if (b) b.title = `回放速度 · 循环${s.replayLoop ? "开" : "关"}`; toast(`回放循环 ${s.replayLoop ? "开" : "关"}`); } closePalette(); } },
       { kind: "动作", icon: "i-stack", title: "回放帧对比", sub: "AB 区间两帧 KPI 差表", search: "replay compare 对比 ab 帧".toLowerCase(), run: compareReplayFrames },
       { kind: "动作", icon: "i-pin", title: "回放书签", sub: "列出 B 键标记帧 · 点击跳转", search: "replay bookmark 书签 标记 帧".toLowerCase(), run: showReplayMarks },
+      { kind: "动作", icon: "i-pin", title: "帧快照", sub: "?键存下的帧 KPI 列表", search: "frame snap 快照 帧 记录".toLowerCase(), run: showFrameSnaps },
       { kind: "动作", icon: "i-link", title: "复制回放书签 JSON", sub: "B 键标记帧导出", search: "replay marks export 复制 书签 json".toLowerCase(), run: () => { let m = []; try { m = JSON.parse(localStorage.getItem("magpie.replayMarks") || "[]"); } catch (_) {} navigator.clipboard?.writeText(JSON.stringify(m, null, 2)).then(() => toast(m.length + " 个书签已复制")); closePalette(); } },
       { kind: "动作", icon: "i-link", title: "复制状态链接", sub: "?view&range&cinema 快照 URL · ⌘S", search: "share 分享 链接 状态 url".toLowerCase(), run: shareStateLink },
       { kind: "动作", icon: "i-pin", title: "设为默认视图", sub: "下次打开直达当前视图", search: "default 默认 视图 pin".toLowerCase(), run: () => { if (s && s.heroMode) { localStorage.setItem("magpie.defaultView", s.heroMode); toast("默认视图：" + (Obs.api.viewMeta(s.heroMode) || {}).title); closePalette(); } } },
