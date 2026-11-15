@@ -1347,6 +1347,14 @@ show(F.length-1);
     const y2 = days[days.length - 3];
     const dTok = y2 && y2.tokens ? Math.round((y.tokens - y2.tokens) / y2.tokens * 100) : null;
     const dCall = y2 && y2.calls && y.calls != null ? Math.round((y.calls - y2.calls) / y2.calls * 100) : null;
+    // Week-over-week: last 7 days vs the 7 before them (heatmap tail).
+    const wk = (() => {
+      const last7 = days.slice(-7).reduce((a, d) => a + (d.tokens || 0), 0);
+      const prev7 = days.slice(-14, -7).reduce((a, d) => a + (d.tokens || 0), 0);
+      if (!prev7) return null;
+      const pct = Math.round((last7 - prev7) / prev7 * 100);
+      return `<div><small>周环比</small><b>${pct >= 0 ? "+" : ""}${pct}% <em class="dig ${pct >= 0 ? "up" : "down"}">${pct >= 0 ? "▲" : "▼"} vs 上周</em></b></div>`;
+    })();
     const card = document.createElement("div");
     card.className = "digest-card";
     card.innerHTML = `
@@ -1356,6 +1364,7 @@ show(F.length-1);
         <div><small>调用</small><b>${y.calls || 0}${dCall != null ? `<em class="dig ${dCall >= 0 ? "up" : "down"}">${dCall >= 0 ? "▲" : "▼"}${Math.abs(dCall)}%</em>` : ""}</b></div>
         <div><small>连续使用</small><b>${dayStreak()} 天</b></div>
         <div><small>最常用</small><b>${meta ? esc(meta.name) : "—"}</b></div>
+        ${wk || ""}
         ${(() => {
           try {
             const seen = JSON.parse(localStorage.getItem("magpie.viewSeen") || "[]");
