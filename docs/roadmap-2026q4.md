@@ -1806,3 +1806,13 @@ v61 已落地：tick时间、本月累计。跳过:try排序(原序关键)、视
 3. **digest格本月bar**:本月累计加微进度条(月中位)。
 4. **palette视图热区**:pal-thumb旁加viewHeat数。
 5. **回放AB存name**:AB区间可命名存多组。
+
+## 下轮候选 v63（2026-11-15 · v62 落地后）
+
+v62 已落地：10帧tick、本月进度条。跳过:chip品牌色(状态色优先)、heat数(hotDot已)、AB命名(单一区间已)。
+
+1. **回放AB拖拽调**:A/B字标可拖(cursor:ew-resize)。
+2. **session卡tps峰**:tps chip title显峰值tps。
+3. **digest格季链**:加本季累计。
+4. **palette分组数字**:pal-kind头加组内项数。
+5. **回放帧戳**:strip刻度hover显该帧时刻。
