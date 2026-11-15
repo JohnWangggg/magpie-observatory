@@ -1413,3 +1413,13 @@ v22 已落地：g菜单内随机视图、便签右键复制JSON、改道chip点�
 3. **vm 菜单最近常按分组**:组排序按近用次数。
 4. **session卡hover预览模型路由**:triesDetail已有,补hover延时展开。
 5. **palette视图跳转+预览**:选中视图项按→显示6字描述。
+
+## 下轮候选 v24（2026-11-15 · v23 落地后）
+
+v23 已落地：palette →预览、digest top子代理格、回放range会话起始点。跳过：vm组近用排序(组数恒定意义小)、session hover延时展开(已有chip点击)。
+
+1. **session卡tries明细可点击**:try-row点击→过滤到该provider。
+2. **digest连续使用格点击**:dayStreak格→显示近30天打卡迷你图。
+3. **view-menu近用分组**:vm组顺序按magpie.viewRecent重排。
+4. **palette最近执行区**:items顶部加"上次执行"快捷重跑(localStorage.lastCmd)。
+5. **回放速度档**:palette加 0.5×/1×/2× 回放速度切换。
