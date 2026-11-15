@@ -2885,10 +2885,11 @@ ${quota || "| — | — | — |"}
       items.push({ kind: "便签", icon: "i-overview", title: "全部便签", sub: `${(scratch() || []).length} 条`, search: "all memo", run: () => { const el = $("#note-card"); if (el) { el.hidden = false; el.scrollIntoView({ behavior: "smooth", block: "center" }); } closePalette(); } });
     }
     if (mOnly && q2) { const keep = items.filter(it => it.search.includes(q2) || it.title.toLowerCase().includes(q2)); items.length = 0; items.push(...keep); }
-    if (sOnly && s) {
+    if (sOnly) {
+      const ss = state();
       items.length = 0;
-      (s.data.sessions || []).concat(s.data.recent || []).forEach(x => {
-        items.push({ kind: "会话", icon: "i-overview", title: x.title || x.id, sub: `${x.agent || "?"} · ${fmtTokens(x.tokens || 0)} tok`, search: (x.title + " " + (x.agent || "") + " " + (x.model || "")).toLowerCase(), run: () => { state().selectedSession = x.id; Obs.api.renderAll && Obs.api.renderAll(); closePalette(); } });
+      if (ss) (ss.data.sessions || []).concat(ss.data.recent || []).forEach(x => {
+        items.push({ kind: "会话", icon: "i-overview", title: x.title || x.id, sub: `${x.agent || "?"} · ${fmtTokens(x.tokens || 0)} tok`, search: (x.title + " " + (x.agent || "") + " " + (x.model || "")).toLowerCase(), run: () => { ss.selectedSession = x.id; Obs.api.renderAll && Obs.api.renderAll(); closePalette(); } });
       });
       if (q2) { const keep = items.filter(it => it.search.includes(q2) || it.title.toLowerCase().includes(q2)); items.length = 0; items.push(...keep); }
     }
