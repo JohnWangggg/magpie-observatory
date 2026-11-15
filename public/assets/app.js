@@ -349,6 +349,7 @@
     { id: "sailmaker", title: "帆匠坊", eyebrow: "PROVIDER SAILMAKER", group: "用量", icon: "i-magpie", hint: "台=provider 帆=token 匠=会话 撕=错" },
     { id: "nursery", title: "苗圃", eyebrow: "PROVIDER NURSERY", group: "用量", icon: "i-magpie", hint: "床=provider 苗=token 工=会话 蔫=错" },
     { id: "basketry", title: "编篮坊", eyebrow: "PROVIDER BASKETRY", group: "用量", icon: "i-magpie", hint: "框=provider 股=token 工=会话 折=错" },
+    { id: "hopyard", title: "啤酒花架", eyebrow: "PROVIDER HOPYARD", group: "用量", icon: "i-magpie", hint: "架=provider 藤=token 工=会话 断=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
