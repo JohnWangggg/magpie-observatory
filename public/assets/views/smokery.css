@@ -1,0 +1,7 @@
+/* smokery view */
+@keyframes smstoke { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+.sm-svg { display: block; width: 100%; height: 100%; }
+.sm-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.sm-man { animation: smstoke ease-in-out infinite; }
+.sm-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .sm-man { animation: none; } }
