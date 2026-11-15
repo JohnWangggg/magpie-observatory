@@ -453,7 +453,9 @@
       const d = (va != null && vb != null) ? vb - va : null;
       return `<div class="cmp-r"><span>${label}</span><b>${fmt ? fmt(va) : va}</b><em class="${d > 0 ? "up" : d < 0 ? "down" : ""}">${d != null ? (d > 0 ? "+" : "") + (k === "cost" ? d.toFixed(3) : k === "tps" || k === "cache" ? d.toFixed(1) : d) : "—"}</em><b>${fmt ? fmt(vb) : vb}</b></div>`;
     }).join("");
-    card.innerHTML = `<div class="digest-head"><b>帧对比</b><span>A=${a} → B=${b}</span></div>${rows}<small style="opacity:.55">A→B 区间 ${b - a} 帧 · <button type="button" class="mini-btn cmp-copy">复制对比</button> <button type="button" class="mini-btn cmp-goto" data-f="${a}">去A</button><button type="button" class="mini-btn cmp-goto" data-f="${b}">去B</button></small>`;
+    const sessA = (fa.data.sessions || []).length, sessB = (fb.data.sessions || []).length;
+    const sessRow = `<div class="cmp-r"><span>会话</span><b>${sessA}</b><em class="${sessB > sessA ? "up" : sessB < sessA ? "down" : ""}">${sessB > sessA ? "+" + (sessB - sessA) : sessB - sessA}</em><b>${sessB}</b></div>`;
+    card.innerHTML = `<div class="digest-head"><b>帧对比</b><span>A=${a} → B=${b}</span></div>${rows}${sessRow}<small style="opacity:.55">A→B 区间 ${b - a} 帧 · <button type="button" class="mini-btn cmp-copy">复制对比</button> <button type="button" class="mini-btn cmp-goto" data-f="${a}">去A</button><button type="button" class="mini-btn cmp-goto" data-f="${b}">去B</button></small>`;
     card.addEventListener("click", e => {
       if (e.target.closest(".cmp-copy")) {
         navigator.clipboard?.writeText(`回放帧对比 A=${a} → B=${b}(区间 ${b - a} 帧)\n` + K.map(([k, label, fmt]) => `${label}: ${fmt ? fmt(fa.data.kpis?.[k]) : fa.data.kpis?.[k]} → ${fmt ? fmt(fb.data.kpis?.[k]) : fb.data.kpis?.[k]}`).join("\n")).then(() => toast("对比已复制"));
@@ -2309,6 +2311,7 @@ show(F.length-1);
           const agC = {}; (f.data.sessions || []).forEach(sx => agC[sx.agent] = (agC[sx.agent] || 0) + 1);
           const topAg = Object.entries(agC).sort((a, b) => b[1] - a[1])[0];
           if (topAg) pop.innerHTML += `<div class="cmp-r"><span>主导</span><b>${esc(topAg[0])}</b><em></em><b>${topAg[1]} 会话</b></div>`;
+          pop.innerHTML += `<div style="display:flex;gap:6px;margin-top:4px;font-size:8px">${idx > 0 ? `<button type="button" class="mini-btn fr-prev" style="font-size:8px">← 帧${idx - 1}</button>` : ""}${idx < st.replayBuf.length - 1 ? `<button type="button" class="mini-btn fr-next" style="font-size:8px">帧${idx + 1} →</button>` : ""}</div>`;
           pop.innerHTML += `<div style="margin-top:6px"><button type="button" class="mini-btn snap-save" style="font-size:8.5px">存为记录</button><button type="button" class="mini-btn snap-dl" style="font-size:8.5px;margin-left:4px">导出此帧</button></div>`;
           // Pin the pop just above the replay bar instead of the page centre.
           const barEl = $("#replay-bar");
@@ -2325,6 +2328,7 @@ show(F.length-1);
             }
             const sRow = e.target.closest("[data-sid]");
             if (sRow && sRow.dataset.sid) { const sel = document.querySelector(`.qp-item[data-ri="${sRow.dataset.sid}"]`); if (sel) sel.click(); pop.remove(); return; }
+            if (e.target.closest(".fr-prev, .fr-next")) { const nx = e.target.closest(".fr-prev") ? idx - 1 : idx + 1; pop.remove(); const r = $("#replay-range"); if (r) { r.value = nx; scrubReplay(nx); } setTimeout(() => { const ev = new KeyboardEvent("keydown", { key: "?" }); document.dispatchEvent(ev); }, 30); return; }
             pop.remove();
           });
           document.body.appendChild(pop);
