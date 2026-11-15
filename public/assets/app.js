@@ -289,6 +289,7 @@
     { id: "tarkiln", title: "沥青窑", eyebrow: "PROVIDER TARKILN", group: "用量", icon: "i-magpie", hint: "釜=provider 漆=token 工=会话 溢=错" },
     { id: "barkhouse", title: "鞣皮坊", eyebrow: "PROVIDER BARKHOUSE", group: "用量", icon: "i-magpie", hint: "磨=provider 屑=token 工=会话 卡=错" },
     { id: "sugarhouse", title: "糖坊", eyebrow: "PROVIDER SUGARHOUSE", group: "用量", icon: "i-magpie", hint: "锅=provider 沸=token 工=会话 糊=错" },
+    { id: "vinegarhouse", title: "醋坊", eyebrow: "PROVIDER VINEGARHOUSE", group: "用量", icon: "i-magpie", hint: "桶=provider 母=token 人=会话 腻=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
