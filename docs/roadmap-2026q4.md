@@ -1563,3 +1563,13 @@ v37 已落地：title首try摘要、wk明细、unseen卡标记(::after避开色�
 3. **digest格未看日期**:图鉴格title显示最近新增视图名。
 4. **palette视图热区**:pal-thumb hover放大thumb。
 5. **session卡multisel拖拽**:multi卡拖到某卡→两卡并列选中(扩展range)。
+
+## 下轮候选 v39（2026-11-15 · v38 落地+thumb fix后）
+
+v38 已落地：unseen计数、dig-dex新增名、thumb放大+pointer-events fix。跳过：回放AB palette(右键已够)、multi拖并列(拖拽语义已乱)。
+
+1. **unseen卡点开即消**:点击卡→unseen标记清(重渲染时)。
+2. **回放AB调色**:AB带用amber非红(红=错误混淆)。
+3. **digest格图鉴趋**:图鉴格加本周增势箭头。
+4. **palette视图首字跳**:输入视图id前缀直达。
+5. **session卡多选bar操作**:multi bar加"过滤所选provider"。
