@@ -355,6 +355,7 @@
     { id: "tileworks", title: "瓦作场", eyebrow: "PROVIDER TILEWORKS", group: "用量", icon: "i-magpie", hint: "窑=provider 瓦=token 工=会话 裂=错" },
     { id: "wormtub", title: "冷凝坊", eyebrow: "PROVIDER WORMTUB", group: "用量", icon: "i-magpie", hint: "槽=provider 滴=token 工=会话 漏=错" },
     { id: "tallow", title: "熬脂坊", eyebrow: "PROVIDER TALLOW", group: "用量", icon: "i-magpie", hint: "锅=provider 块=token 工=会话 糊=错" },
+    { id: "engraving", title: "雕版坊", eyebrow: "PROVIDER ENGRAVING", group: "用量", icon: "i-magpie", hint: "版=provider 线=token 工=会话 滑=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
