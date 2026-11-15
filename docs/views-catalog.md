@@ -1,4 +1,4 @@
-# Magpie Observatory · 视图图鉴 (500)
+# Magpie Observatory · 视图图鉴 (501)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
@@ -6,7 +6,7 @@
 | 分组 | 数量 |
 |---|---|
 | [实时](#实时) | 16 |
-| [配额](#配额) | 54 |
+| [配额](#配额) | 55 |
 | [延迟](#延迟) | 2 |
 | [氛围](#氛围) | 3 |
 | [场景](#场景) | 233 |
@@ -42,7 +42,7 @@
 | `lighthouse` | 灯塔 | LIGHTHOUSE | 塔=配额 光束=会话 | ![lighthouse](../public/shots/lighthouse.png) |
 | `harbor` | 港口 | HARBOR | 船=agent 箱=tries 浮标=配额 | ![harbor](../public/shots/harbor.png) |
 
-## 配额 (54)
+## 配额 (55)
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
@@ -96,6 +96,7 @@
 | `qanat` | 坎儿井 | QUOTA QANAT | 井=配额窗 水=余量 夫=会话 塌=错 | ![qanat](../public/shots/qanat.png) |
 | `watertower` | 水塔 | QUOTA WATERTOWER | 罐=配额窗 水=余量 阀=会话 爆=错 | ![watertower](../public/shots/watertower.png) |
 | `nilometer` | 尼罗水位计 | QUOTA NILOMETER | 井=配额窗 水=余量 读=会话 淤=错 | ![nilometer](../public/shots/nilometer.png) |
+| `jackwell` | 取水井 | QUOTA JACKWELL | 井=配额窗 水=余量 泵=会话 塞=错 | — |
 | `rosetta` | 罗塞塔 | ROSETTA | 环带=配额 刻痕=会话 | ![rosetta](../public/shots/rosetta.png) |
 | `eclipse` | 日蚀 | ECLIPSE | 暗盘=量 冕=会话 沿=窗 | ![eclipse](../public/shots/eclipse.png) |
 | `tapestry` | 织锦 | TAPESTRY | 经=配额 纬=会话 | ![tapestry](../public/shots/tapestry.png) |
@@ -455,7 +456,7 @@
 | `stampmill` | 捣矿磨 | PROVIDER STAMPMILL | 架=provider 锤=token 工=会话 脱=错 | ![stampmill](../public/shots/stampmill.png) |
 | `leachpit` | 淋灰坑 | PROVIDER LEACHPIT | 斗=provider 碱=token 人=会话 漏=错 | ![leachpit](../public/shots/leachpit.png) |
 | `netloft` | 织网楼 | PROVIDER NETLOFT | 网=provider 目=token 工=会话 破=错 | ![netloft](../public/shots/netloft.png) |
-| `oilpress` | 油榨坊 | PROVIDER OILPRESS | 床=provider 油=token 人=会话 裂=错 | — |
+| `oilpress` | 油榨坊 | PROVIDER OILPRESS | 床=provider 油=token 人=会话 裂=错 | ![oilpress](../public/shots/oilpress.png) |
 | `rings` | Token 年轮 | YEAR IN RINGS | 26 周极坐标日历 | ![rings](../public/shots/rings.png) |
 | `latency` | 延迟热力 | LATENCY HEATMAP | 时间 × 延迟 | ![latency](../public/shots/latency.png) |
 | `stream` | 流量河流 | STREAMGRAPH | Provider 增量 | ![stream](../public/shots/stream.png) |
