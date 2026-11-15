@@ -1856,3 +1856,13 @@ v66 已落地:tps阈值50、最佳连续。跳过:AB区间长(title已)、heat�
 3. **digest格SPARK**:streak加本周活性条(5天格)。
 4. **palette项归类**:重跑项kind改"重跑"(独立组)。
 5. **回放strip亮度**:mark tick高亮hover态。
+
+## 下轮候选 v68（2026-11-15 · v67 落地后）
+
+v67 已落地：键位提示、pin光晕。跳过:5天活性格(sparkline已)、重跑kind(已是)、tick hover(title已)。
+
+1. **回放键位卡I**:keys-card加 X/Shift 键。
+2. **session卡pin title**:pin title含时间。
+3. **digest格streak条**:streak加5格周活性块。
+4. **palette热区icon**:视图kind点换缩略图标。
+5. **回放strip帧标**:tick hover放大1.3x。
