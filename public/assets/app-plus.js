@@ -1865,6 +1865,14 @@ show(F.length-1);
           return hi >= 0 ? `<div><small>高峰时段</small><b>${String(hi).padStart(2, "0")}:00 <em class="dig">${fmtTokens(hv)}</em></b></div>` : "";
         })()}
         ${(() => {
+          let slow = null, sms = 0;
+          (s.data.sessions || []).concat(s.data.recent || []).forEach(x => {
+            const mx = Math.max(0, ...(x.tries || []).map(t => t.ms || 0));
+            if (mx > sms) { sms = mx; slow = x; }
+          });
+          return slow ? `<div><small>最慢会话</small><b>${(sms / 1000).toFixed(1)}s <em class="dig">${esc((slow.title || "?").slice(0, 10))}</em></b></div>` : "";
+        })()}
+        ${(() => {
           const errs = (s.data.logs || []).filter(l => l.status === "err");
           if (!errs.length) return `<div><small>错误</small><b>0 <em class="dig up">干净</em></b></div>`;
           const byP = {};
