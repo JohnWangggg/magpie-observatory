@@ -2373,3 +2373,13 @@ v117 已落地:跨日界线。跳过:hist计数/中位/耗时(部分已)。
 3. **回放条末30帧钮**。
 4. **digest格周中位数**:median tokens。
 5. **agent卡active count标**。
+
+## 下轮候选 v119（2026-11-15 · v118 落地后）
+
+v118 已落地:末30帧钮、近7日中位。跳过:hist计数(写入已去重)。
+
+1. **agent卡active count标**:吞吐点旁活动会话数。
+2. **session卡首试ms**:chip显示ms值。
+3. **回放条首30帧钮**。
+4. **digest格日均成本**:cost/day。
+5. **pal视图组折叠记忆**:kind collapse持久(已有)。
