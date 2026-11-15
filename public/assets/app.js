@@ -3121,13 +3121,20 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
       syncSettingsMenu();
     });
     $("#settings-menu").addEventListener("click", e => {
-      const b = e.target.closest("button[data-layout],button[data-density],button[data-motion],button[data-tour],button[data-accent]");
+      const b = e.target.closest("button[data-layout],button[data-density],button[data-motion],button[data-tour],button[data-accent],button[data-nightauto]");
       if (!b) return;
       if (b.dataset.layout) applySetting("layout", b.dataset.layout);
       if (b.dataset.density) applySetting("density", b.dataset.density);
       if (b.dataset.motion) applySetting("motion", b.dataset.motion);
       if (b.dataset.tour) applySetting("tour", b.dataset.tour);
       if (b.dataset.accent) applySetting("accent", b.dataset.accent);
+      if (b.dataset.nightauto != null) {
+        const on = b.dataset.nightauto === "on";
+        try { localStorage.setItem("magpie.nightAuto", on ? "1" : ""); } catch (_) {}
+        $$("#nightauto-seg button").forEach(x => x.classList.toggle("active", x === b));
+        applyNightAuto(true);
+        toast(on ? "夜间自适应已开" : "夜间自适应已关");
+      }
     });
     $("#style-menu").addEventListener("click", e => {
       const b = e.target.closest(".style-item");
@@ -3155,10 +3162,32 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
       }
     });
 
+    // Night-adaptive: 19:00–07:00 → dark + soft motion. Manual theme toggles
+    // stamp magpie.themeManualAt and suppress the effect until next dawn.
+    function applyNightAuto(fromToggle) {
+      const on = localStorage.getItem("magpie.nightAuto") === "1";
+      const seg = $("#nightauto-seg");
+      if (seg && !fromToggle) {
+        $$("#nightauto-seg button").forEach(x => x.classList.toggle("active", x.dataset.nightauto === (on ? "on" : "off")));
+      }
+      if (!on) return;
+      const h = new Date().getHours();
+      const night = h >= 19 || h < 7;
+      const manualAt = +(localStorage.getItem("magpie.themeManualAt") || 0);
+      const dawnToday = new Date(); dawnToday.setHours(7, 0, 0, 0);
+      const manualWins = manualAt > (night && h < 7 ? dawnToday.getTime() - 864e5 : dawnToday.getTime() - (h >= 19 ? 0 : 864e5));
+      const root = document.documentElement;
+      if (night && !manualWins) {
+        if (root.dataset.theme !== "dark") { root.dataset.theme = "dark"; localStorage.setItem("magpie.theme", "dark"); setTimeout(() => { renderTrend(); drawWires(); }, 30); }
+        if (root.dataset.motion === "full") { applySetting("motion", "soft"); }
+      }
+    }
+    applyNightAuto();
+    setInterval(applyNightAuto, 300e3);
     $("#theme-toggle").addEventListener("click", () => {
       const root = document.documentElement;
       root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";
-      try { localStorage.setItem("magpie.theme", root.dataset.theme); } catch (_) {}
+      try { localStorage.setItem("magpie.theme", root.dataset.theme); localStorage.setItem("magpie.themeManualAt", String(Date.now())); } catch (_) {}
       setTimeout(() => { renderTrend(); drawWires(); }, 30);
     });
 
