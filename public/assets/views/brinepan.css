@@ -1,0 +1,9 @@
+/* brinepan view */
+@keyframes bpskim { 0%,100% { transform: translateX(0); } 50% { transform: translateX(-3px); } }
+@keyframes bprise { 0%,100% { opacity: .4; } 50% { opacity: .7; } }
+.bp-svg { display: block; width: 100%; height: 100%; }
+.bp-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.bp-man { animation: bpskim ease-in-out infinite; }
+.bp-steam { animation: bprise ease-in-out infinite; }
+.bp-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .bp-man, .bp-steam { animation: none; } }
