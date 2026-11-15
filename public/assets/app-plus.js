@@ -2283,6 +2283,17 @@ ${quota || "| — | — | — |"}
           if (hit) hit.click();
           palIdx = -1;
         }
+        // → on a focused item: peek at its detail (view items get the 6-char
+        // description; actions get a longer search string preview).
+        if (e.key === "ArrowRight" && palIdx >= 0) {
+          const b = items[palIdx];
+          const it = b && paletteItems().filter(x => !inp.value || x.search.includes(inp.value.toLowerCase()) || x.title.toLowerCase().includes(inp.value.toLowerCase()))[+b.dataset.idx];
+          if (it) {
+            const meta = it.vid && Obs.api.viewMeta ? Obs.api.viewMeta(it.vid) : null;
+            toast(meta && meta.eyebrow ? `「${meta.title}」· ${meta.eyebrow}` : `${it.title} · ${it.sub}`);
+          }
+          e.preventDefault();
+        }
       });
       inp.addEventListener("input", () => { palIdx = -1; document.querySelectorAll(".pal-item").forEach(b => b.classList.remove("kb-focus")); });
     }
