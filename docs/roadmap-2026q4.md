@@ -1523,3 +1523,13 @@ v33 已落地：age全时间戳、streak格明细、回放strip游标。跳过�
 3. **digest格统一样式**:可点格加微下划线提示。
 4. **palette视图项徽标**:常用视图显示"hot"角标。
 5. **session卡双击**:→复制会话JSON。
+
+## 下轮候选 v35（2026-11-15 · v34 落地后）
+
+v34 已落地：alt+dblclick JSON、回放当前帧游标、palette hot角标。跳过：pin长按(pin已是单击,长按增复杂度)、digest格统一样式(各格已cursor:pointer)。
+
+1. **回放区间A-B循环**:长按mark设A,再按设B,区间循环播放。
+2. **session卡右键菜单tries数**:ctxMenu补"N次尝试"行。
+3. **digest格未看数**:图鉴格旁加"今日新看N"。
+4. **palette视图按字母**:视图项按标题首字分组(非kind)。
+5. **session卡subagent行点击**:→过滤该subagent。
