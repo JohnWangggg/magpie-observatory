@@ -1654,3 +1654,13 @@ v46 已落地：AB持久化+恢复、键位提示条。跳过:tries SVG链(title
 3. **digest格刷新**:digest卡点击格刷新该格数据。
 4. **palette项首字母**:pal-item显示kind首字标(角标已有数字)。
 5. **回放AB拖动**:拖rep-ab带两端调区间。
+
+## 下轮候选 v48（2026-11-15 · v47 落地后）
+
+v47 已落地：try链耗时。撤回:rep-exit(replay-x已有)。跳过:AB拖两端(键设+右键已多径)、digest格刷新(整卡一渲染)、kind角标(数字已)。
+
+1. **回放AB shift微调**:Shift+A/B步进端点±1帧。
+2. **session卡model首行**:卡title旁加model简名(截断)。
+3. **digest格目标**:dig-goal格加达成进度条。
+4. **palette分组折叠**:pal-kind头点击折叠该组。
+5. **回放帧步幅**:Shift+←→步10帧。
