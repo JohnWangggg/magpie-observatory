@@ -1846,3 +1846,13 @@ v65 已落地：multi底纹。撤回:I交换(播放只前进,交换无义)。跳
 3. **digest格连续**:streak加"最佳连续"对照。
 4. **palette视图热区**:视图缩略thumb旁显heat数。
 5. **回放AB存储**:AB+marks一起存(现分开)。
+
+## 下轮候选 v67（2026-11-15 · v66 落地后）
+
+v66 已落地:tps阈值50、最佳连续。跳过:AB区间长(title已)、heat数(hotDot已)、AB+marks合并(分开也持久)。
+
+1. **回放键位?项**:?键位提示text加 X/I/Shift。
+2. **session卡pin色**:pin星pinned态加amber光晕。
+3. **digest格SPARK**:streak加本周活性条(5天格)。
+4. **palette项归类**:重跑项kind改"重跑"(独立组)。
+5. **回放strip亮度**:mark tick高亮hover态。
