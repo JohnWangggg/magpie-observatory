@@ -1469,7 +1469,7 @@ show(F.length-1);
       const prev7 = days.slice(-14, -7).reduce((a, d) => a + (d.tokens || 0), 0);
       if (!prev7) return null;
       const pct = Math.round((last7 - prev7) / prev7 * 100);
-      return `<div><small>周环比</small><b>${pct >= 0 ? "+" : ""}${pct}% <em class="dig ${pct >= 0 ? "up" : "down"}">${pct >= 0 ? "▲" : "▼"} vs 上周</em></b></div>`;
+      return `<div class="dig-wk" style="cursor:pointer" title="点击 → 滚到热度图"><small>周环比</small><b>${pct >= 0 ? "+" : ""}${pct}% <em class="dig ${pct >= 0 ? "up" : "down"}">${pct >= 0 ? "▲" : "▼"} vs 上周</em></b></div>`;
     })();
     const card = document.createElement("div");
     card.className = "digest-card";
@@ -1582,6 +1582,13 @@ show(F.length-1);
         const errs = (s.data.logs || []).filter(l => l.status === "err").length;
         const payload = { date: y.date || today, tokens: y.tokens || 0, calls: y.calls || 0, streak: dayStreak(), topProvider: topP ? topP[0] : null, errors: errs };
         navigator.clipboard?.writeText(JSON.stringify(payload, null, 2)).then(() => toast("昨日摘要 JSON 已复制"));
+      }
+      else if (e.target.closest(".dig-wk")) {
+        const heat = document.querySelector('[data-slot="heat"], .heatmap-card, #heatmap-card, [data-slot="rhythm"]');
+        if (heat) heat.scrollIntoView({ behavior: "smooth", block: "center" });
+        toast("滚到热度区 · 看周对比");
+        card.remove();
+        return;
       }
       card.remove();
     });
@@ -2321,6 +2328,15 @@ ${quota || "| — | — | — |"}
         if (orig && orig.kind === "动作") items.unshift({ kind: "重跑", icon: "i-arrow", title: `重跑:${last.title}`, sub: "上次执行", search: ("rerun 重跑 " + last.title).toLowerCase(), run: orig.run });
       }
     } catch (_) {}
+    // Recent-command history block: the last 5 executed actions, under their
+    // own 最近 section (re-run of the tail, not just the latest).
+    try {
+      const hist = JSON.parse(localStorage.getItem("magpie.cmdHist") || "[]");
+      hist.slice(0, 5).forEach(t => {
+        const orig = items.find(x => x.title === t && x.kind === "动作");
+        if (orig) items.push({ kind: "最近", icon: "i-clock", title: t, sub: "最近执行", search: ("recent 最近 " + t).toLowerCase(), run: orig.run });
+      });
+    } catch (_) {}
     return items;
   }
   function renderPalette(q) {
@@ -2341,7 +2357,11 @@ ${quota || "| — | — | — |"}
       const it = items[+b.dataset.idx];
       if (it && it.run) {
         // Persist the last-executed command for a one-key re-run next time.
-        try { localStorage.setItem("magpie.lastCmd", JSON.stringify({ title: it.title, at: Date.now() })); } catch (_) {}
+        try {
+          localStorage.setItem("magpie.lastCmd", JSON.stringify({ title: it.title, at: Date.now() }));
+          const hist = [it.title].concat(JSON.parse(localStorage.getItem("magpie.cmdHist") || "[]").filter(t => t !== it.title));
+          localStorage.setItem("magpie.cmdHist", JSON.stringify(hist.slice(0, 10)));
+        } catch (_) {}
         it.run();
       }
       if (it && it.vid && e.target.closest(".pal-thumb") && Obs.showVlight) Obs.showVlight(it.vid);
