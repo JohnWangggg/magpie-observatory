@@ -1880,6 +1880,7 @@ show(F.length-1);
       ${(() => { const mo = new Date().toISOString().slice(0, 7); const goal = +(localStorage.getItem("magpie.dailyGoal") || "0") || 0; const moDays = days.filter(d => (d.date || "").startsWith(mo)); const hit = moDays.filter(d => goal > 0 && (d.tokens || 0) >= goal).length; return goal > 0 && hit ? `<div style="font-size:8.5px;color:var(--faint)">本月达标 ${hit}/${moDays.length} 天 · ${Math.round(hit / Math.max(1, moDays.length) * 100)}%</div>` : ""; })()}
       ${(() => { const w1 = days.slice(-7).reduce((a, d) => a + (d.tokens || 0), 0), w0 = days.slice(-14, -7).reduce((a, d) => a + (d.tokens || 0), 0); if (!w0) return ""; const p = Math.round((w1 - w0) / w0 * 100); return `<div style="font-size:8.5px;color:var(--faint)">近7日均 ${fmtTokens(Math.round(w1 / 7))} · 较上周 ${p >= 0 ? "▲ +" : "▼ "}${p}%</div>`; })()}
       ${(() => { const t7 = days.slice(-7).map(d => d.tokens || 0).sort((a, b) => a - b); return t7.length ? `<div style="font-size:8.5px;color:var(--faint)">近7日中位 ${fmtTokens(t7[Math.floor(t7.length / 2)])}</div>` : ""; })()}
+      ${(() => { const c7 = days.slice(-7).reduce((a, d) => a + (d.cost != 0 ? d.cost : 0), 0); return c7 > 0 ? `<div style="font-size:8.5px;color:var(--faint)">近7日成本 ${fmtMoney(c7)} · 日均 ${fmtMoney(c7 / 7)}</div>` : ""; })()}
         <button class="mini-btn digest-week" type="button">看周报 →</button>
         <button class="mini-btn digest-md" type="button">复制 MD</button>
         <button class="mini-btn digest-csv" type="button">复制 CSV</button>
