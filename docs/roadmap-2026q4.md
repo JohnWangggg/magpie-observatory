@@ -1988,3 +1988,13 @@ v79 已落地:帧卡选会话。跳过:model hover(过滤已有)、周日历(hea
 3. **digest格年历**:加全年heatmap概览卡。
 4. **palette视图count**:kind头显视图总数。
 5. **回放键位always**:回放条?钮可点(键位卡)。
+
+## 下轮候选 v81（2026-11-15 · v80 落地后）
+
+v80 已落地:?钮(键位卡已存/回放条有)。跳过:收藏(滚动20足)、motion关(已读)、年历(heatmap已)、视图count((N)已)。
+
+1. **回放帧卡top agent**:加此帧top agent。
+2. **session卡改道链**:改道chip加provider列。
+3. **digest格属**:grid cell加hover型。
+4. **palette改道**:kind"重跑"改组"近作"。
+5. **回放条mark色**:mark tick hover放大1.5x。
