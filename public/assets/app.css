@@ -352,8 +352,8 @@ img { display: block; }
   z-index: 2;
 }
 .hub-rings { position: absolute; inset: -13px; border-radius: 50%; pointer-events: none; }
-.hub-rings i { position: absolute; inset: 0; border-radius: 50%; border: 1px dashed color-mix(in srgb, var(--accent) 25%, transparent); animation: spin 26s linear infinite; }
-.hub-rings i:last-child { inset: -10px; border-style: solid; border-color: color-mix(in srgb, var(--accent) 10%, transparent); animation-duration: 44s; animation-direction: reverse; }
+.hub-rings i { position: absolute; inset: 0; border-radius: 50%; border: 1px dashed color-mix(in srgb, var(--accent) 20%, transparent); animation: breathe 9s ease-in-out infinite alternate; }
+.hub-rings i:last-child { inset: -10px; border-style: solid; border-color: color-mix(in srgb, var(--accent) 8%, transparent); animation-duration: 13s; animation-delay: -4s; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .hub-logo { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; background: linear-gradient(145deg, rgba(139,124,246,.25), rgba(86,212,221,.08)); border: 1px solid rgba(139,124,246,.34); margin-bottom: 2px; }
 .hub-logo svg { width: 26px; height: 26px; fill: currentColor; stroke: none; color: var(--accent-strong); }
