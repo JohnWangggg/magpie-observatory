@@ -2068,3 +2068,13 @@ v87 已落地:帧复制、端点时刻。跳过:改道背景(chip已)、周标�
 3. **digest格夜猫**:nightOwl sub加时段。
 4. **palette视图hot区**:hot title加热度数。
 5. **回放条mark链**:mark卡行间加间隔时长。
+
+## 下轮候选 v89（2026-11-15 · v88 落地后）
+
+v88 已落地:prevΔ。跳过:pill底(chip已)、夜猫段(sub已)、hot度数(热度badge已)、mark间隔(时间差已)。
+
+1. **回放?帧卡err高亮**:errors>0加红色。
+2. **session卡已读**:seen卡片加降噪。
+3. **digest格图鉴进**:图鉴加"距下一解锁"。
+4. **palette键轮**:⌘N循环到后3。
+5. **回放条端点防拖**:AB拖端不超bounds。
