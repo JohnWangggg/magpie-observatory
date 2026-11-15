@@ -1,0 +1,7 @@
+/* inkworks view */
+@keyframes ikgrind { 0%,100% { transform: translateX(0); } 50% { transform: translateX(3px); } }
+.ik-svg { display: block; width: 100%; height: 100%; }
+.ik-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.ik-man { animation: ikgrind ease-in-out infinite; }
+.ik-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .ik-man { animation: none; } }
