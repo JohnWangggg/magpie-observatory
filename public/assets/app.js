@@ -390,6 +390,7 @@
     { id: "organbuilder", title: "管风琴坊", eyebrow: "PROVIDER ORGANBUILDER", group: "用量", icon: "i-magpie", hint: "架=provider 管=token 校=会话 凹=错" },
     { id: "flutemaker", title: "笛坊", eyebrow: "PROVIDER FLUTEMAKER", group: "用量", icon: "i-magpie", hint: "床=provider 笛=token 铰=会话 裂=错" },
     { id: "harpmaker", title: "竖琴坊", eyebrow: "PROVIDER HARPMAKER", group: "用量", icon: "i-magpie", hint: "架=provider 弦=token 雕=会话 绷=错" },
+    { id: "stevedore", title: "码头坊", eyebrow: "PROVIDER STEVEDORE", group: "用量", icon: "i-magpie", hint: "泊=provider 包=token 钩=会话 爆=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
