@@ -1765,3 +1765,13 @@ v57 已落地：kind色点、键位卡。跳过：tokbar帧号(无帧域)、图�
 3. **digest格spike标**:sparkline超均值2倍点加红标。
 4. **palette视图热度**:视图项sub加"看过N次"。
 5. **回放AB区间加签**:AB带内显"A-B"居中字。
+
+## 下轮候选 v59（2026-11-15 · v58 落地后）
+
+v58 已落地：keys-card定位、spike红标。跳过:try悬停高亮(chip小)、视图热度(hotDot已)、AB带内字(端标已)。
+
+1. **回放AB拖动边**:拖A/B字标调整端点(光标ew-resize)。
+2. **session卡行号**:卡左缘加序数(隐式rank)。
+3. **digest格spike文**:尖峰日title加"尖峰·超均值2x"。
+4. **palette预览锁**:→预览后Esc回列表。
+5. **回放strip斑马**:偶数10帧段加微底纹。
