@@ -1543,3 +1543,13 @@ v35 已落地：ctxMenu tries统计、subagent行过滤、图鉴今日新看、�
 3. **digest调用格点击改**:→log卡片高亮今日行。
 4. **palette视图热键1-9**:展示序号角标(非⌘)。
 5. **session卡swipe左**:→复制ID(触摸)。
+
+## 下轮候选 v37（2026-11-15 · v36 落地后）
+
+v36 已落地：AB段红带+右键即画、pal序号角标。跳过：拖会话进对比(布局冲突)、swipe复制ID(右滑已是pin)。
+
+1. **回放导出GIF说明**:exportReplayHtml已有,补"可录屏"提示。
+2. **session卡hover显示首条try**:title里加firstTry摘要。
+3. **digest周环比格明细**:wk格title显示两周值。
+4. **palette动作图标统一**:动作项图标按类别(cinema/replay/share)。
+5. **session卡未看标记**:未选中过的卡加微弱边框。
