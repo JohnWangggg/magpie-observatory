@@ -3646,7 +3646,21 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
       if (e.shiftKey) {
         e.preventDefault();
         const mid = card.dataset.session;
+        // Range-select: shift-click after an earlier shift-click picks every
+        // card between the two rows (file-manager semantics).
+        if (state.multiSel.size && state._lastMultiId && state._lastMultiId !== mid) {
+          const rows = $$(".session-card");
+          const a = rows.findIndex(r => r.dataset.session === state._lastMultiId);
+          const b = rows.findIndex(r => r.dataset.session === mid);
+          if (a >= 0 && b >= 0) {
+            const [lo, hi] = a < b ? [a, b] : [b, a];
+            rows.slice(lo, hi + 1).forEach(r => { state.multiSel.add(r.dataset.session); r.classList.add("multi"); });
+            renderMultiBar();
+            return;
+          }
+        }
         state.multiSel.has(mid) ? state.multiSel.delete(mid) : state.multiSel.add(mid);
+        state._lastMultiId = mid;
         card.classList.toggle("multi", state.multiSel.has(mid));
         renderMultiBar();
         return;

@@ -74,7 +74,7 @@
     if (!strip) {
       strip = document.createElement("div");
       strip.id = "replay-marks";
-      strip.style.cssText = "position:relative;height:8px;margin-top:2px";
+      strip.style.cssText = "position:relative;height:14px;margin-top:2px";
       if (bar) bar.appendChild(strip);
     }
     if (strip) {
@@ -113,6 +113,14 @@
         return d > 4000 ? `<i style="position:absolute;left:${(i / Math.max(1, s.replayBuf.length - 1) * 100).toFixed(1)}%;top:0;width:3px;height:3px;background:var(--green);border-radius:50%;opacity:.7" title="第${i}帧 +${fmtTokens(d)} tok"></i>` : "";
       }).join("");
       if (strip) strip.innerHTML += `<div style="position:absolute;inset:0;pointer-events:none">${dts}</div>`;
+    } catch (_) {}
+    // Mini tps sparkline across the strip: 40 samples of per-frame tps.
+    try {
+      const pts = s.replayBuf.map((f, i) => ({ x: i / Math.max(1, s.replayBuf.length - 1) * 100, y: f.data.kpis ? f.data.kpis.tps || 0 : 0 }));
+      const maxY = Math.max(1, ...pts.map(p => p.y));
+      const step = Math.max(1, Math.floor(pts.length / 40));
+      const poly = pts.filter((_, i) => i % step === 0).map(p => `${p.x.toFixed(1)},${(10 - p.y / maxY * 9).toFixed(1)}`).join(" ");
+      if (strip) strip.innerHTML += `<svg style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none" viewBox="0 0 100 10" preserveAspectRatio="none"><polyline points="${poly}" fill="none" stroke="var(--accent)" stroke-width=".8" opacity=".5"/></svg>`;
     } catch (_) {}
   }
   function scrubReplay(idx) {
@@ -1489,7 +1497,6 @@ show(F.length-1);
         <div class="dig-tok" style="cursor:pointer" title="点击 → 滚到热度"><small>tokens</small><b>${fmtTokens(y.tokens)}${dTok != null ? `<em class="dig ${dTok >= 0 ? "up" : "down"}">${dTok >= 0 ? "▲" : "▼"}${Math.abs(dTok)}%</em>` : ""}</b></div>
         <div class="dig-call" style="cursor:pointer" title="点击 → 滚到请求日志"><small>调用</small><b>${y.calls || 0}${dCall != null ? `<em class="dig ${dCall >= 0 ? "up" : "down"}">${dCall >= 0 ? "▲" : "▼"}${Math.abs(dCall)}%</em>` : ""}</b></div>
         <div><small>连续使用</small><b>${dayStreak()} 天</b></div>
-        <div class="dig-top" data-dig-prov="${topP ? esc(topP[0]) : ""}" style="${topP ? "cursor:pointer" : ""}" title="${topP ? "点击 → 过滤 " + esc(meta ? meta.name : topP[0]) + " 会话" : ""}"><small>最常用</small><b>${meta ? esc(meta.name) : "—"}</b></div>
         ${wk || ""}
         ${(() => {
           // Yesterday's busiest subagent across sessions (count, not tokens).
@@ -1503,7 +1510,7 @@ show(F.length-1);
             const seen = JSON.parse(localStorage.getItem("magpie.viewSeen") || "[]");
             const total = (Obs.api.VIEW_META || []).length;
             const pct = total ? Math.round(seen.length / total * 100) : 0;
-            return `<div><small>图鉴</small><b>${seen.length}/${total} <em class="dig">${pct}%</em></b></div>`;
+            return `<div class="dig-dex" style="cursor:pointer" title="点击 → 打开视图菜单"><small>图鉴</small><b>${seen.length}/${total} <em class="dig">${pct}%</em></b></div>`;
           } catch (_) { return ""; }
         })()}
         ${(() => {
@@ -1605,6 +1612,11 @@ show(F.length-1);
         const el = document.querySelector(tok ? '[data-slot="heat"], #heatmap-card' : '[data-slot="logs"], #log-card, .log-card');
         if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
         toast(tok ? "滚到热度" : "滚到请求日志");
+        card.remove();
+        return;
+      }
+      else if (e.target.closest(".dig-dex")) {
+        $("#view-picker")?.click();
         card.remove();
         return;
       }
@@ -2371,6 +2383,9 @@ ${quota || "| — | — | — |"}
       lastKind = it.kind;
       return head + `<button class="pal-item" data-idx="${i}"><svg><use href="#${it.icon}"/></svg><span><b>${esc(it.title)}</b><small>${esc(it.sub)}</small></span><em>${esc(it.kind)}</em>${thumb}</button>`;
     }).join("");
+    if (!list.innerHTML.trim()) {
+      list.innerHTML = `<div class="pal-kind">提示</div><div class="pal-empty" style="padding:10px 14px;font-size:9.5px;color:var(--muted)">没有匹配项 · 试试 ⌘1-9 直达 · → 键预览详情</div>`;
+    }
     $$(".pal-item", list).forEach(b => b.addEventListener("click", (e) => {
       const it = items[+b.dataset.idx];
       if (it && it.run) {
