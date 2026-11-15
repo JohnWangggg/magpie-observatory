@@ -1,0 +1,7 @@
+/* hatter view */
+@keyframes htblock { 0%,100% { transform: translateY(0); } 50% { transform: translateY(3px); } }
+.ht-svg { display: block; width: 100%; height: 100%; }
+.ht-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.ht-man { animation: htblock ease-in-out infinite; }
+.ht-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .ht-man { animation: none; } }

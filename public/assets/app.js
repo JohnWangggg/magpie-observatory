@@ -372,6 +372,7 @@
     { id: "jacquard", title: "提花织坊", eyebrow: "PROVIDER JACQUARD", group: "用量", icon: "i-magpie", hint: "机=provider 纹=token 工=会话 断=错" },
     { id: "lacemaker", title: "蕾丝坊", eyebrow: "PROVIDER LACEMAKER", group: "用量", icon: "i-magpie", hint: "枕=provider 辫=token 工=会话 挂=错" },
     { id: "apothecary", title: "药房", eyebrow: "PROVIDER APOTHECARY", group: "用量", icon: "i-magpie", hint: "柜=provider 瓶=token 秤=会话 裂=错" },
+    { id: "hatter", title: "帽匠坊", eyebrow: "PROVIDER HATTER", group: "用量", icon: "i-magpie", hint: "楦=provider 帽=token 工=会话 破=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
