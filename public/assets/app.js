@@ -237,6 +237,7 @@
     { id: "icehouse", title: "冰窖", eyebrow: "QUOTA ICEHOUSE", group: "配额", icon: "i-magpie", hint: "窖=配额窗 冰=余量 夫=会话 融=错" },
     { id: "implosion", title: "定向爆破", eyebrow: "PROVIDER IMPLOSION", group: "用量", icon: "i-magpie", hint: "楼=provider 药=token 手=会话 哑=错" },
     { id: "treadwheelcrane", title: "踏轮吊", eyebrow: "PROVIDER TREADWHEEL CRANE", group: "用量", icon: "i-magpie", hint: "吊=provider 包=token 人=会话 索=错" },
+    { id: "tanpit", title: "鞣皮坑", eyebrow: "PROVIDER TANPIT", group: "用量", icon: "i-magpie", hint: "坑=provider 皮=token 匠=会话 腐=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },

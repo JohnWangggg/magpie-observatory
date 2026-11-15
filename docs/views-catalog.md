@@ -1,4 +1,4 @@
-# Magpie Observatory · 视图图鉴 (464)
+# Magpie Observatory · 视图图鉴 (465)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
@@ -10,7 +10,7 @@
 | [延迟](#延迟) | 2 |
 | [氛围](#氛围) | 3 |
 | [场景](#场景) | 233 |
-| [用量](#用量) | 77 |
+| [用量](#用量) | 78 |
 | [天象](#天象) | 17 |
 | [洞察](#洞察) | 10 |
 | [结构](#结构) | 6 |
@@ -351,7 +351,7 @@
 | `reserve2` | 保护区二号 | RESERVE II | 观测=配额窗 隙=用量 栖枝=过热 守护=会话 | ![reserve2](../public/shots/reserve2.png) |
 | `desert` | 沙丘 | DESERT | 丘=配额窗 高=用量 驼=会话 | ![desert](../public/shots/desert.png) |
 
-## 用量 (77)
+## 用量 (78)
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
@@ -419,7 +419,8 @@
 | `mailcoach` | 驿马车 | PROVIDER MAILCOACH | 车=provider 袋=token 骑=会话 轮=错 | ![mailcoach](../public/shots/mailcoach.png) |
 | `puddling` | 搅炼炉 | PROVIDER PUDDLING | 炉=provider 球=token 搅=会话 冷=错 | ![puddling](../public/shots/puddling.png) |
 | `implosion` | 定向爆破 | PROVIDER IMPLOSION | 楼=provider 药=token 手=会话 哑=错 | ![implosion](../public/shots/implosion.png) |
-| `treadwheelcrane` | 踏轮吊 | PROVIDER TREADWHEEL CRANE | 吊=provider 包=token 人=会话 索=错 | — |
+| `treadwheelcrane` | 踏轮吊 | PROVIDER TREADWHEEL CRANE | 吊=provider 包=token 人=会话 索=错 | ![treadwheelcrane](../public/shots/treadwheelcrane.png) |
+| `tanpit` | 鞣皮坑 | PROVIDER TANPIT | 坑=provider 皮=token 匠=会话 腐=错 | — |
 | `rings` | Token 年轮 | YEAR IN RINGS | 26 周极坐标日历 | ![rings](../public/shots/rings.png) |
 | `latency` | 延迟热力 | LATENCY HEATMAP | 时间 × 延迟 | ![latency](../public/shots/latency.png) |
 | `stream` | 流量河流 | STREAMGRAPH | Provider 增量 | ![stream](../public/shots/stream.png) |
