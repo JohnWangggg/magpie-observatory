@@ -1314,9 +1314,14 @@ show(F.length-1);
         })()}
       </div>
       <div class="digest-foot">连续使用 ${dayStreak()} 天 · ${dTok != null ? (dTok >= 0 ? "较前日 +" + dTok + "%" : "较前日 " + dTok + "%") : "保持热度"}
-        <button class="mini-btn digest-week" type="button">看周报 →</button></div>`;
+        <button class="mini-btn digest-week" type="button">看周报 →</button>
+        <button class="mini-btn digest-md" type="button">复制 MD</button></div>`;
     card.addEventListener("click", e => {
       if (e.target.closest(".digest-week")) { weeklyReport(); }
+      else if (e.target.closest(".digest-md")) {
+        const md = `## 昨日观测 ${y.date || today}\n- tokens: ${fmtTokens(y.tokens)} (${y.calls || 0} 调用)\n- 连续使用: ${dayStreak()} 天\n- 最常用: ${meta ? meta.name : "—"}\n- 图鉴: ${(() => { try { return JSON.parse(localStorage.getItem("magpie.viewSeen") || "[]").length; } catch (_) { return "?"; } })()}/${(Obs.api.VIEW_META || []).length}\n`;
+        navigator.clipboard?.writeText(md).then(() => toast("昨日摘要已复制"));
+      }
       card.remove();
     });
     document.body.appendChild(card);
