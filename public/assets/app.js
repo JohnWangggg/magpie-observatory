@@ -3678,6 +3678,22 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
       renderSessions();
     }));
 
+    // Horizontal swipe on the session rail → active ⇄ recent tab.
+    let lpSwipeX = null;
+    const lp = $(".live-panel");
+    if (lp) {
+      lp.addEventListener("touchstart", e => { if (e.touches.length === 1) lpSwipeX = e.touches[0].clientX; }, { passive: true });
+      lp.addEventListener("touchend", e => {
+        if (lpSwipeX == null || e.changedTouches.length !== 1) return;
+        const dx = e.changedTouches[0].clientX - lpSwipeX; lpSwipeX = null;
+        if (Math.abs(dx) < 50) return;
+        const next = state.sessionTab === "active" ? "recent" : "active";
+        state.sessionTab = next;
+        $$(".mini-tab[data-session-tab]").forEach(x => x.classList.toggle("active", x.dataset.sessionTab === next));
+        renderSessions();
+      }, { passive: true });
+    }
+
     // Right-click the hero card → toggle its favorite slot on the rail.
     $(".hero").addEventListener("contextmenu", e => {
       if (e.target.closest("button, a, input, select, .decision-strip, .attn-item")) return;
