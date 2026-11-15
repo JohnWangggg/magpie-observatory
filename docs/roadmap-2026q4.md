@@ -1503,3 +1503,13 @@ v31 已落地：tps排序、palette右键默认视图、回放cost小字、子�
 3. **digest错误率格点击**:→过滤err日志。
 4. **palette视图项中键**:→新视图不关闭菜单(连续浏览)。
 5. **session卡右键菜单加"过滤此agent"**:ctxMenu补项。
+
+## 下轮候选 v33（2026-11-15 · v32 落地+fix后）
+
+v32 已落地：agent icon过滤、错误率格→err日志、marks区间段+作用域fix。跳过：中键连续浏览(auxclick复杂)。
+
+1. **session卡标题点击复制**:title点击→copy title(不选中卡)。
+2. **回放strip悬停坐标**:range+strip同步竖线游标。
+3. **digest streak格点击**:→显示连续打卡明细toast。
+4. **palette视图项长按**:→直接进cinema。
+5. **session卡右上角时间hover**:fmtAge→完整时间戳title。
