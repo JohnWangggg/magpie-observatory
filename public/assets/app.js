@@ -384,6 +384,7 @@
     { id: "japanner", title: "莳绘坊", eyebrow: "PROVIDER MAKI-E", group: "用量", icon: "i-magpie", hint: "案=provider 层=token 工=会话 泡=错" },
     { id: "banker", title: "石作台", eyebrow: "PROVIDER BANKER", group: "用量", icon: "i-magpie", hint: "台=provider 石=token 锤=会话 裂=错" },
     { id: "enameler", title: "珐琅坊", eyebrow: "PROVIDER ENAMELER", group: "用量", icon: "i-magpie", hint: "窑=provider 层=token 绘=会话 泡=错" },
+    { id: "salter", title: "腌坊", eyebrow: "PROVIDER SALTER", group: "用量", icon: "i-magpie", hint: "槽=provider 鱼=token 腌=会话 腐=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
