@@ -187,6 +187,7 @@
     { id: "aqueduct", title: "渡槽", eyebrow: "QUOTA AQUEDUCT", group: "配额", icon: "i-magpie", hint: "拱=配额窗 水=余量 桶=会话 裂=错" },
     { id: "typecase", title: "字盘", eyebrow: "PROVIDER TYPECASE", group: "用量", icon: "i-magpie", hint: "盘=provider 铅=token 手=会话 裂=错" },
     { id: "tollhouse", title: "收费站", eyebrow: "PROVIDER TOLLHOUSE", group: "用量", icon: "i-magpie", hint: "亭=provider 铃=token 旅=会话 断=错" },
+    { id: "fermentery", title: "发酵坊", eyebrow: "PROVIDER FERMENTERY", group: "用量", icon: "i-magpie", hint: "桶=provider 泡=token 管=会话 裂=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
