@@ -1,4 +1,4 @@
-# Magpie Observatory · 视图图鉴 (561)
+# Magpie Observatory · 视图图鉴 (562)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
@@ -10,7 +10,7 @@
 | [延迟](#延迟) | 2 |
 | [氛围](#氛围) | 3 |
 | [场景](#场景) | 233 |
-| [用量](#用量) | 170 |
+| [用量](#用量) | 171 |
 | [天象](#天象) | 17 |
 | [洞察](#洞察) | 10 |
 | [结构](#结构) | 6 |
@@ -355,7 +355,7 @@
 | `reserve2` | 保护区二号 | RESERVE II | 观测=配额窗 隙=用量 栖枝=过热 守护=会话 | ![reserve2](../public/shots/reserve2.png) |
 | `desert` | 沙丘 | DESERT | 丘=配额窗 高=用量 驼=会话 | ![desert](../public/shots/desert.png) |
 
-## 用量 (170)
+## 用量 (171)
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
@@ -516,7 +516,8 @@
 | `tentmaker` | 帐幕坊 | PROVIDER TENTMAKER | 架=provider 幅=token 工=会话 撕=错 | ![tentmaker](../public/shots/tentmaker.png) |
 | `horsegin` | 绞盘坊 | PROVIDER HORSEGIN | 盘=provider 桶=token 马=会话 卡=错 | ![horsegin](../public/shots/horsegin.png) |
 | `cupola` | 冶炼坊 | PROVIDER CUPOLA | 炉=provider 锭=token 工=会话 凝=错 | ![cupola](../public/shots/cupola.png) |
-| `assay` | 化验坊 | PROVIDER ASSAY | 秤=provider 码=token 师=会话 漂=错 | — |
+| `assay` | 化验坊 | PROVIDER ASSAY | 秤=provider 码=token 师=会话 漂=错 | ![assay](../public/shots/assay.png) |
+| `noria` | 链水车 | PROVIDER NORIA | 轮=provider 兜=token 工=会话 绞=错 | — |
 | `rings` | Token 年轮 | YEAR IN RINGS | 26 周极坐标日历 | ![rings](../public/shots/rings.png) |
 | `latency` | 延迟热力 | LATENCY HEATMAP | 时间 × 延迟 | ![latency](../public/shots/latency.png) |
 | `stream` | 流量河流 | STREAMGRAPH | Provider 增量 | ![stream](../public/shots/stream.png) |

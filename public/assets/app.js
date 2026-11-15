@@ -334,6 +334,7 @@
     { id: "horsegin", title: "绞盘坊", eyebrow: "PROVIDER HORSEGIN", group: "用量", icon: "i-magpie", hint: "盘=provider 桶=token 马=会话 卡=错" },
     { id: "cupola", title: "冶炼坊", eyebrow: "PROVIDER CUPOLA", group: "用量", icon: "i-magpie", hint: "炉=provider 锭=token 工=会话 凝=错" },
     { id: "assay", title: "化验坊", eyebrow: "PROVIDER ASSAY", group: "用量", icon: "i-magpie", hint: "秤=provider 码=token 师=会话 漂=错" },
+    { id: "noria", title: "链水车", eyebrow: "PROVIDER NORIA", group: "用量", icon: "i-magpie", hint: "轮=provider 兜=token 工=会话 绞=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
