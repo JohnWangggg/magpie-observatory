@@ -1,4 +1,4 @@
-# Magpie Observatory · 视图图鉴 (352)
+# Magpie Observatory · 视图图鉴 (353)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
@@ -9,7 +9,7 @@
 | [配额](#配额) | 6 |
 | [延迟](#延迟) | 2 |
 | [氛围](#氛围) | 3 |
-| [场景](#场景) | 232 |
+| [场景](#场景) | 233 |
 | [用量](#用量) | 14 |
 | [天象](#天象) | 17 |
 | [洞察](#洞察) | 10 |
@@ -32,7 +32,7 @@
 | `pulse` | 脉搏 | PULSE MONITOR | 会话 ECG · 每行一个心跳 | ![pulse](../public/shots/pulse.png) |
 | `sonar` | 声呐 | PROVIDER SONAR | provider=接触点 扫线转 | ![sonar](../public/shots/sonar.png) |
 | `metronome` | 节拍器 | REQUEST METRONOME | 摆频=请求率 | ![metronome](../public/shots/metronome.png) |
-| `weathervane` | 风向标 | PROVIDER VANE | 箭=最热provider 摆 | — |
+| `weathervane` | 风向标 | PROVIDER VANE | 箭=最热provider 摆 | ![weathervane](../public/shots/weathervane.png) |
 | `burn` | 燃烧速率 | BURN RATE | 配额窗口烧速 / 预测重置 | ![burn](../public/shots/burn.png) |
 | `gauge` | 仪表盘 | GAUGE MATRIX | KPI/配额仪表 | ![gauge](../public/shots/gauge.png) |
 | `pinboard` | 钉板 | PINBOARD | KPI/配额/会话钉上墙 | ![pinboard](../public/shots/pinboard.png) |
@@ -65,11 +65,12 @@
 | `plankton` | 浮游群 | LOG PLANKTON | 点=日志 色=provider 漂 | ![plankton](../public/shots/plankton.png) |
 | `newsreel` | 新闻片 | LOG NEWSREEL | 日志=老电影帧 底片 | ![newsreel](../public/shots/newsreel.png) |
 
-## 场景 (232)
+## 场景 (233)
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
 | `neighborhood` | 街坊 | PROVIDER BLOCK | 房=provider 灯=会话 烟=错 | ![neighborhood](../public/shots/neighborhood.png) |
+| `beacon` | 烽火台 | SIGNAL BEACONS | 火=provider 焰=会话 烟=用量 | — |
 | `orrery` | 轨道星图 | ORRERY | 行星与卫星 | ![orrery](../public/shots/orrery.png) |
 | `factory` | 请求工厂 | REQUEST FACTORY | 排队 → 完成 | ![factory](../public/shots/factory.png) |
 | `bakery` | 面包房 | BAKERY | 炉=agent 包=会话 计=配额 | ![bakery](../public/shots/bakery.png) |
