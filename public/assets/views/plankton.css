@@ -1,0 +1,12 @@
+/* plankton view */
+@keyframes pkdrift {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(4px, -6px); }
+  50% { transform: translate(-3px, -10px); }
+  75% { transform: translate(-6px, 3px); }
+  100% { transform: translate(0, 0); }
+}
+.pk-svg { display: block; width: 100%; height: 100%; }
+.pk-drift { animation: pkdrift 22s ease-in-out infinite; }
+.pk-dot { cursor: crosshair; transition: r .15s, opacity .15s; }
+@media (prefers-reduced-motion: reduce) { .pk-drift { animation: none; } }
