@@ -234,6 +234,8 @@
     { id: "transporter", title: "运输桥", eyebrow: "PROVIDER TRANSPORTER", group: "用量", icon: "i-magpie", hint: "塔=provider 车=token 渡=会话 索=错" },
     { id: "mailcoach", title: "驿马车", eyebrow: "PROVIDER MAILCOACH", group: "用量", icon: "i-magpie", hint: "车=provider 袋=token 骑=会话 轮=错" },
     { id: "puddling", title: "搅炼炉", eyebrow: "PROVIDER PUDDLING", group: "用量", icon: "i-magpie", hint: "炉=provider 球=token 搅=会话 冷=错" },
+    { id: "icehouse", title: "冰窖", eyebrow: "QUOTA ICEHOUSE", group: "配额", icon: "i-magpie", hint: "窖=配额窗 冰=余量 夫=会话 融=错" },
+    { id: "implosion", title: "定向爆破", eyebrow: "PROVIDER IMPLOSION", group: "用量", icon: "i-magpie", hint: "楼=provider 药=token 手=会话 哑=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
