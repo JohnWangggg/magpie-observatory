@@ -1403,3 +1403,13 @@ v21 已落地：digest最常用点击过滤、子代理计数badge、回放书�
 3. **session卡改道明细**:fallbacks chip点击→显示tries列表(triesDetail已有,补非selected也能看)。
 4. **view-menu随机键**:打开后按 G 随机切视图(lucky按钮的键版)。
 5. **digest子代理汇总**:digest加"昨日top子代理"格。
+
+## 下轮候选 v23（2026-11-15 · v22 落地后）
+
+v22 已落地：g菜单内随机视图、便签右键复制JSON、改道chip点击展开tries、回放书签JSON导出。跳过：回放session完成点(需时间↔帧映射)、digest top子代理。
+
+1. **回放时间轴会话完成点**:replay-marks 条下叠加 sessions 完成帧点。
+2. **digest 昨日top子代理格**:subagents 计数聚合。
+3. **vm 菜单最近常按分组**:组排序按近用次数。
+4. **session卡hover预览模型路由**:triesDetail已有,补hover延时展开。
+5. **palette视图跳转+预览**:选中视图项按→显示6字描述。
