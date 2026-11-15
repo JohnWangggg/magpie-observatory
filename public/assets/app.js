@@ -437,6 +437,7 @@
     { id: "feltmaker", title: "毡坊", eyebrow: "PROVIDER FELTMAKER", group: "用量", icon: "i-magpie", hint: "台=provider 层=token 滚=会话 裂=错" },
     { id: "armorer", title: "甲坊", eyebrow: "PROVIDER ARMORER", group: "用量", icon: "i-magpie", hint: "炉=provider 甲=token 锤=会话 裂=错" },
     { id: "stonecutter", title: "石场", eyebrow: "PROVIDER STONECUTTER", group: "用量", icon: "i-magpie", hint: "场=provider 块=token 凿=会话 裂=错" },
+    { id: "thatcher", title: "茅屋", eyebrow: "PROVIDER THATCHER", group: "用量", icon: "i-magpie", hint: "屋=provider 束=token 缮=会话 滑=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
