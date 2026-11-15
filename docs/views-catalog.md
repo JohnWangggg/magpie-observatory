@@ -1,4 +1,4 @@
-# Magpie Observatory · 视图图鉴 (427)
+# Magpie Observatory · 视图图鉴 (428)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
@@ -10,7 +10,7 @@
 | [延迟](#延迟) | 2 |
 | [氛围](#氛围) | 3 |
 | [场景](#场景) | 233 |
-| [用量](#用量) | 47 |
+| [用量](#用量) | 48 |
 | [天象](#天象) | 17 |
 | [洞察](#洞察) | 10 |
 | [结构](#结构) | 6 |
@@ -344,7 +344,7 @@
 | `reserve2` | 保护区二号 | RESERVE II | 观测=配额窗 隙=用量 栖枝=过热 守护=会话 | ![reserve2](../public/shots/reserve2.png) |
 | `desert` | 沙丘 | DESERT | 丘=配额窗 高=用量 驼=会话 | ![desert](../public/shots/desert.png) |
 
-## 用量 (47)
+## 用量 (48)
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
@@ -382,7 +382,8 @@
 | `smokehouse` | 熏房 | PROVIDER SMOKEHOUSE | 房=provider 烟=token 挂=会话 裂=错 | ![smokehouse](../public/shots/smokehouse.png) |
 | `serac` | 冰塔 | PROVIDER SERAC | 塔=provider 高=token 绳=会话 崩=错 | ![serac](../public/shots/serac.png) |
 | `filature` | 缫丝 | PROVIDER FILATURE | 盆=provider 茧=token 丝=会话 裂=错 | ![filature](../public/shots/filature.png) |
-| `malthouse` | 芽床 | PROVIDER MALTHOUSE | 床=provider 芽=token 铲=会话 焦=错 | — |
+| `malthouse` | 芽床 | PROVIDER MALTHOUSE | 床=provider 芽=token 铲=会话 焦=错 | ![malthouse](../public/shots/malthouse.png) |
+| `kelpfarm` | 藻筏 | PROVIDER KELPFARM | 筏=provider 藻=token 船=会话 断=错 | — |
 | `rings` | Token 年轮 | YEAR IN RINGS | 26 周极坐标日历 | ![rings](../public/shots/rings.png) |
 | `latency` | 延迟热力 | LATENCY HEATMAP | 时间 × 延迟 | ![latency](../public/shots/latency.png) |
 | `stream` | 流量河流 | STREAMGRAPH | Provider 增量 | ![stream](../public/shots/stream.png) |
