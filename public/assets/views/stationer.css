@@ -1,0 +1,7 @@
+/* stationer view */
+@keyframes sttwrap { 0%,100% { transform: translateX(0); } 50% { transform: translateX(3px); } }
+.stt-svg { display: block; width: 100%; height: 100%; }
+.stt-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.stt-man { animation: sttwrap ease-in-out infinite; }
+.stt-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .stt-man { animation: none; } }

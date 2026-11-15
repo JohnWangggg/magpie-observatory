@@ -443,6 +443,7 @@
     { id: "brazier", title: "铜坊", eyebrow: "PROVIDER BRAZIER", group: "用量", icon: "i-magpie", hint: "炉=provider 釜=token 焊=会话 漏=错" },
     { id: "wigmaker", title: "假发坊", eyebrow: "PROVIDER WIGMAKER", group: "用量", icon: "i-magpie", hint: "模=provider 绺=token 结=会话 散=错" },
     { id: "plumber", title: "管坊", eyebrow: "PROVIDER PLUMBER", group: "用量", icon: "i-magpie", hint: "架=provider 管=token 焊=会话 爆=错" },
+    { id: "stationer", title: "书摊", eyebrow: "PROVIDER STATIONER", group: "用量", icon: "i-magpie", hint: "摊=provider 册=token 包=会话 撕=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
