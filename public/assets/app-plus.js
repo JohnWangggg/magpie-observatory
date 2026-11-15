@@ -876,6 +876,11 @@ show(F.length-1);
       g.textAlign = "center";
       g.fillText(d.date.slice(5), x + bw / 2, base + 24);
       g.fillStyle = "rgba(255,255,255,.7)";
+      if (d.tokens === max && spark.filter(x => x.tokens === max).length === 1) {
+        g.fillStyle = "#fbbf24";
+        g.font = "600 11px Inter, sans-serif";
+        g.fillText("峰值", x + bw / 2, base - hgt - 8);
+      }
       g.font = "600 13px Inter, sans-serif";
       g.fillText(fmtTokens(d.tokens), x + bw / 2, base - hgt - 12);
       g.textAlign = "left";
@@ -1928,7 +1933,8 @@ show(F.length-1);
       }
       else if (e.target.closest(".dig-streak")) {
         const days2 = (s.data.heatmap || []).slice(-dayStreak()).map(d => `${d.date.slice(5)}:${fmtTokens(d.tokens || 0)}`).join(" · ");
-        toast(days2 ? `连续 ${dayStreak()} 天 · ${days2}` : `连续 ${dayStreak()} 天`);
+        const lastD = (s.data.heatmap || []).slice(-1)[0];
+        toast(days2 ? `连续 ${dayStreak()} 天 · 最后活跃 ${lastD ? lastD.date.slice(5) : "—"} · ${days2}` : `连续 ${dayStreak()} 天`);
         return;
       }
       card.remove();
