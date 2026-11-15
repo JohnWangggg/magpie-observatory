@@ -2260,6 +2260,14 @@ ${quota || "| — | — | — |"}
         });
       });
     }
+    // Re-run the last palette command (stored by title; actions only).
+    try {
+      const last = JSON.parse(localStorage.getItem("magpie.lastCmd") || "null");
+      if (last && last.title) {
+        const orig = items.find(x => x.title === last.title);
+        if (orig && orig.kind === "动作") items.unshift({ kind: "重跑", icon: "i-arrow", title: `重跑:${last.title}`, sub: "上次执行", search: ("rerun 重跑 " + last.title).toLowerCase(), run: orig.run });
+      }
+    } catch (_) {}
     return items;
   }
   function renderPalette(q) {
@@ -2273,7 +2281,11 @@ ${quota || "| — | — | — |"}
     }).join("");
     $$(".pal-item", list).forEach(b => b.addEventListener("click", (e) => {
       const it = items[+b.dataset.idx];
-      if (it && it.run) it.run();
+      if (it && it.run) {
+        // Persist the last-executed command for a one-key re-run next time.
+        try { localStorage.setItem("magpie.lastCmd", JSON.stringify({ title: it.title, at: Date.now() })); } catch (_) {}
+        it.run();
+      }
       if (it && it.vid && e.target.closest(".pal-thumb") && Obs.showVlight) Obs.showVlight(it.vid);
       closePalette();
     }));
