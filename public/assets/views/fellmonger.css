@@ -1,0 +1,7 @@
+/* fellmonger view */
+@keyframes fm2grade { 0%,100% { transform: translateX(0); } 50% { transform: translateX(3px); } }
+.fm2-svg { display: block; width: 100%; height: 100%; }
+.fm2-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.fm2-man { animation: fm2grade ease-in-out infinite; }
+.fm2-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .fm2-man { animation: none; } }

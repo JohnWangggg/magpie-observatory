@@ -420,6 +420,7 @@
     { id: "parchmenter", title: "羊皮纸", eyebrow: "PROVIDER PARCHMENTER", group: "用量", icon: "i-magpie", hint: "架=provider 皮=token 刮=会话 破=错" },
     { id: "vellum", title: "犊皮纸", eyebrow: "PROVIDER VELLUM", group: "用量", icon: "i-magpie", hint: "框=provider 纸=token 磨=会话 孔=错" },
     { id: "skinner", title: "剥皮", eyebrow: "PROVIDER SKINNER", group: "用量", icon: "i-magpie", hint: "梁=provider 皮=token 剔=会话 割=错" },
+    { id: "fellmonger", title: "羊毛商", eyebrow: "PROVIDER FELLMONGER", group: "用量", icon: "i-magpie", hint: "架=provider 毛=token 分=会话 蛀=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
