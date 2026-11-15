@@ -255,6 +255,7 @@
     { id: "plateway", title: "盘道", eyebrow: "PROVIDER PLATEWAY", group: "用量", icon: "i-magpie", hint: "轨=provider 车=token 工=会话 断=错" },
     { id: "whimgin", title: "马力绞盘", eyebrow: "PROVIDER WHIM GIN", group: "用量", icon: "i-magpie", hint: "轮=provider 绳=token 马=会话 断=错" },
     { id: "woolshed", title: "剪毛棚", eyebrow: "PROVIDER WOOLSHED", group: "用量", icon: "i-magpie", hint: "棚=provider 垛=token 工=会话 污=错" },
+    { id: "blockmaker", title: "滑轮匠", eyebrow: "PROVIDER BLOCKMAKER", group: "用量", icon: "i-magpie", hint: "轮=provider 槽=token 匠=会话 裂=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
