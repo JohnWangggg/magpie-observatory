@@ -173,6 +173,35 @@
     } catch (_) { toast("链接生成失败"); }
   }
 
+  // Palette "回放书签" → jump the scrubber to a B-key mark.
+  function showReplayMarks() {
+    $(".gwcmp-card")?.remove();
+    let marks = [];
+    try { marks = JSON.parse(localStorage.getItem("magpie.replayMarks") || "[]"); } catch (_) {}
+    const card = document.createElement("div");
+    card.className = "gwcmp-card";
+    card.innerHTML = `<div class="digest-head"><b>回放书签</b><span>REPLAY MARKS</span></div>` +
+      (marks.length
+        ? `<div class="gwcmp-grid" style="grid-template-columns:1fr">${marks.map((m, i) => `<div class="gc-row" data-mark="${m.idx}" style="cursor:pointer"><span>#${i + 1} · 第 ${m.idx} 帧</span><b>${new Date(m.t).toLocaleTimeString("zh-CN", { hour12: false })}</b></div>`).join("")}</div>`
+        : `<div class="digest-foot">还没有书签 · 回放中按 B 标记</div>`) +
+      `<div class="digest-foot">点击行 → 跳到该帧 · 点击外关闭</div>`;
+    card.addEventListener("click", e => {
+      const row = e.target.closest("[data-mark]");
+      if (row) {
+        const idx = +row.dataset.mark;
+        const s = state();
+        if (s && !s.replay) startReplay();
+        const range = $("#replay-range");
+        if (range && s.replay) { range.value = Math.min(+range.max, idx); scrubReplay(Math.min(+range.max, idx)); }
+        toast(`跳到第 ${idx} 帧`);
+      }
+      card.remove();
+    });
+    document.body.appendChild(card);
+    setTimeout(() => card.classList.add("in"), 10);
+    closePalette();
+  }
+
   // Download the replay buffer as a compact JSON file (delta frames, same
   // shape as shareReplayLink but on disk instead of a URL hash).
   function exportReplayJson() {
@@ -2091,6 +2120,7 @@ ${quota || "| — | — | — |"}
       { kind: "动作", icon: "i-expand", title: "影院模式", sub: "O · 全屏只看这一个视图", search: "cinema 影院 全屏".toLowerCase(), run: toggleCinema },
       { kind: "动作", icon: "i-pause", title: s && s.paused ? "继续演示" : "暂停演示", sub: "快捷键 Space", search: "pause 暂停 播放".toLowerCase(), run: () => $("#demo-toggle").click() },
       { kind: "动作", icon: "i-clock", title: "回放最近3分钟", sub: "快捷键 R", search: "replay 回放 时间轴".toLowerCase(), run: () => { state() && state().replay ? exitReplay() : startReplay(); } },
+      { kind: "动作", icon: "i-pin", title: "回放书签", sub: "列出 B 键标记帧 · 点击跳转", search: "replay bookmark 书签 标记 帧".toLowerCase(), run: showReplayMarks },
       { kind: "动作", icon: "i-link", title: "复制状态链接", sub: "?view&range&cinema 快照 URL · ⌘S", search: "share 分享 链接 状态 url".toLowerCase(), run: shareStateLink },
       { kind: "动作", icon: "i-pin", title: "设为默认视图", sub: "下次打开直达当前视图", search: "default 默认 视图 pin".toLowerCase(), run: () => { if (s && s.heroMode) { localStorage.setItem("magpie.defaultView", s.heroMode); toast("默认视图：" + (Obs.api.viewMeta(s.heroMode) || {}).title); closePalette(); } } },
       { kind: "动作", icon: "i-arrow", title: "导出今日分享图", sub: "1200×630 PNG", search: "share 分享 导出 截图".toLowerCase(), run: () => shareToday() },
