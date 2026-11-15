@@ -1705,3 +1705,13 @@ v51 已落地：diff vs A帧、?键帧KPI。跳过:tokbar品牌色(agent边已�
 3. **digest格图鉴排序**:图鉴格title加最近3新增。
 4. **palette项热键**:Ctrl+数字→组内跳(现仅全局)。
 5. **回放帧号tooltip**:strip刻度点hover显帧号+KPI。
+
+## 下轮候选 v53（2026-11-15 · v52 落地后）
+
+v52 已落地：帧卡定位回放条上、首try why。跳过：图鉴3新增(1个已)、Ctrl组内跳(数字已够)、刻度hover帧号(title已)。
+
+1. **回放键位help卡**:?键位hint点击→开全键位卡。
+2. **session卡模型tooltip**:model chip title含provider+model。
+3. **digest格图鉴全名**:图鉴格title列全新增名。
+4. **palette预览框**:→键预览帧号+KPtitle。
+5. **回放strip帧号hover**:刻度点title显帧号。
