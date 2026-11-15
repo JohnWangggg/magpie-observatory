@@ -313,6 +313,7 @@
     { id: "clockbench", title: "钟表坊", eyebrow: "PROVIDER CLOCKBENCH", group: "用量", icon: "i-magpie", hint: "轮=provider 齿=token 匠=会话 断=错" },
     { id: "lensgrinder", title: "磨镜坊", eyebrow: "PROVIDER LENSGRINDER", group: "用量", icon: "i-magpie", hint: "盘=provider 镜=token 匠=会话 干=错" },
     { id: "filer", title: "锉匠坊", eyebrow: "PROVIDER FILER", group: "用量", icon: "i-magpie", hint: "台=provider 件=token 工=会话 钝=错" },
+    { id: "planer", title: "刨床坊", eyebrow: "PROVIDER PLANER", group: "用量", icon: "i-magpie", hint: "床=provider 屑=token 工=会话 撕=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
