@@ -2161,3 +2161,13 @@ v96 已落地:foot键帮助(合并至现有foot)。跳过:帧notes(快照卡已)
 3. **digest格周平均**:加"近7日均"。
 4. **palette页面组**:页面项kind分色(已有kindDot)。
 5. **回放条标跳转**:edge钮加帧号title。
+
+## 下轮候选 v98（2026-11-15 · v97 落地后）
+
+v97 已落地:回放中角标、edge帧号、age灰化、近7日均。跳过:页面组分色(已有kindDot)。
+
+1. **回放条AB加进度**:循环中显"圈i/跨度"。
+2. **session卡模型icon**:model chip加provider icon。
+3. **digest格暑**:heatmap周末列浅标。
+4. **palette页面组**:页面kind排序第二。
+5. **回放条帧总**:range旁显"N/M帧"。
