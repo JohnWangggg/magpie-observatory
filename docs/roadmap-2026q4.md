@@ -1292,3 +1292,13 @@ v10 已落地：?st= 跨设备完整状态链接、KPI 双击复制、digestLog 
 3. **夜间自适应**:本地时间 19-7 点自动切 dark+低动效(可关)。
 4. **digest 周报链**:digest 含"上周vs本周"箭头对比(已有周报卡,补digest内联)。
 5. **离线 replay 回放链接**:回放链接含 st,对方打开即同视野+回放数据(需 st 含 replay 帧——太大,改共享 HTML 已有)。
+
+## 下轮候选 v12（2026-11-15 · v11 基本落地后）
+
+v11 已落地：夜间自适应(19-7 auto dark+soft,手动戳覆盖至次日黎明)、digest周环比、视图渲染计时+菜单标慢。跳过：digest内嵌周报链(已有周报卡按钮)。
+
+1. **tries 纵向甘特**:tries-detail 各try按真实起止时间纵向排条(非等宽占比),需 tries 含起始偏移——数据层只有 ms,近似以累加 offset。
+2. **replay 帧导出 JSON**:回放帧下载为 .json(除 HTML 外多一种)。
+3. **digestLog 回看 UI**:palette 命令"历史摘要"列出 7 条 digestLog。
+4. **view-menu 最近使用置顶**:vm-recent 区可折叠+显示次序号。
+5. **性能门**:viewPerf 平均>50ms 的视图自动建议降档动效提示。
