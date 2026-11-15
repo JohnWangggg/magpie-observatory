@@ -450,6 +450,7 @@
     { id: "upholsterer", title: "软包坊", eyebrow: "PROVIDER UPHOLSTERER", group: "用量", icon: "i-magpie", hint: "架=provider 垫=token 钉=会话 绽=错" },
     { id: "cartwright", title: "车坊", eyebrow: "PROVIDER CARTWRIGHT", group: "用量", icon: "i-magpie", hint: "架=provider 轮=token 装=会话 弯=错" },
     { id: "millwright", title: "磨架", eyebrow: "PROVIDER MILLWRIGHT", group: "用量", icon: "i-magpie", hint: "架=provider 翼=token 装=会话 弯=错" },
+    { id: "bricklayer", title: "砖墙", eyebrow: "PROVIDER BRICKLAYER", group: "用量", icon: "i-magpie", hint: "墙=provider 砖=token 砌=会话 歪=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
