@@ -2500,7 +2500,7 @@
       <div class="session-bottom">
         <span><b>${s.tokens ? fmtTokens(s.tokens) : "—"}</b> TOK</span>
         <span title="开始于 ${new Date(s.startedAt).toLocaleString("zh-CN", { hour12: false })}">${fmtAge(age)}</span>
-        ${(s.tries || []).length ? `<span class="chip" title="首次尝试 ${esc(s.tries[0].provider)} · ${s.tries[0].state}"><i style="display:inline-block;width:6px;height:6px;border-radius:50%;background:${s.tries[0].state === "ok" ? "var(--green)" : s.tries[0].state === "fail" ? "var(--red)" : "var(--muted)"}"></i></span>` : ""}
+        ${(s.tries || []).length ? `<span class="chip" title="首次尝试 ${esc(s.tries[0].provider)} · ${s.tries[0].state}"><i style="display:inline-block;width:6px;height:6px;border-radius:50%;background:${s.tries[0].state === "ok" ? "var(--green)" : s.tries[0].state === "fail" ? "var(--red)" : "var(--muted)"}"></i>${esc(D.providerMeta(s.tries[0].provider)?.name || s.tries[0].provider)}</span>` : ""}
         ${s.fallbacks ? `<span class="chip amber">${s.fallbacks} 改道</span>` : ""}
         ${(s.subagents || []).length ? `<span class="chip accent" title="子代理数">${s.subagents.length} 子代理</span>` : ""}
         ${(s.tries || []).length > 1 ? `<span class="chip accent" title="尝试次数">${s.tries.length} 试</span>` : ""}

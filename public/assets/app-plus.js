@@ -359,6 +359,22 @@
     toast(`回放已导出 ${frames.length} 帧 JSON`);
   }
 
+  // Palette "导出AB区间" → download just the looped frames as compact JSON.
+  function exportABRange() {
+    const s = state();
+    if (!s || !s.replayAB || !s.replayBuf) { toast("先右键一个书签设 A-B 区间"); closePalette(); return; }
+    const [a, b] = s.replayAB;
+    const frames = deltaFrames(s.replayBuf.slice(a, b + 1), f => ({ t: f.t, k: f.data.kpis, n: (f.data.sessions || []).length }));
+    const blob = new Blob([JSON.stringify({ v: 1, kind: "ab-range", a, b, frames }, null, 2)], { type: "application/json" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = `magpie-ab-${a}-${b}.json`;
+    link.click();
+    setTimeout(() => URL.revokeObjectURL(link.href), 2000);
+    toast(`AB 区间 ${frames.length} 帧已导出`);
+    closePalette();
+  }
+
   // Copy a link that re-opens the board in exactly this state: hero view,
   // range, and cinema flag. The inverse of applyUrlState().
   async function shareStateLink() {
@@ -2433,6 +2449,7 @@ ${quota || "| — | — | — |"}
       { kind: "动作", icon: "i-arrow", title: "导出月度分享图", sub: "近30天 · 1200×630 PNG", search: "share 分享 月度 导出 month".toLowerCase(), run: () => shareToday("month") },
       { kind: "动作", icon: "i-link", title: "导出回放播放器", sub: "独立 HTML · 帧内嵌 · 可拖条", search: "replay 回放 导出 html 播放器".toLowerCase(), run: exportReplayHtml },
       { kind: "动作", icon: "i-download", title: "导出回放 JSON", sub: "delta帧 .json 下载", search: "replay 回放 导出 json download".toLowerCase(), run: exportReplayJson },
+      { kind: "动作", icon: "i-download", title: "导出AB区间", sub: "回放 A-B 帧存为 JSON", search: "export ab replay range 导出 区间".toLowerCase(), run: exportABRange },
       { kind: "动作", icon: "i-link", title: "复制页面链接", sub: "当前视图 / 区间 / 影院", search: "link 链接 复制 分享 url".toLowerCase(), run: copySnapshotLink },
       { kind: "动作", icon: "i-link", title: "复制回放链接", sub: "近3分钟快照打包进 URL", search: "link 回放 链接 replay share".toLowerCase(), run: shareReplayLink },
       { kind: "动作", icon: "i-doc", title: "历史摘要", sub: "最近 7 条 digest 回看", search: "digest 摘要 历史 回看 log".toLowerCase(), run: showDigestLog },
