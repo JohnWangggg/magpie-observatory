@@ -2008,3 +2008,13 @@ v81 已落地:top agent、mark放大。跳过:改道chip列(tries已有)、diges
 3. **digest格达标徽**:达标日加边框。
 4. **palette视图热区**:视图项hover展预览。
 5. **回放帧比AB差**:AB卡加tps列。
+
+## 下轮候选 v83（2026-11-15 · v82 落地后）
+
+v82 已落地:达标绿边。跳过:队列数(帧KPI已)、路由带(route chip已)、视图hover预览(thumb已)、tps列(AB已有)。
+
+1. **回放?帧卡agent列**:sessions名单行加agent图标。
+2. **session卡供应商推**:tries>1加"改道自X"title。
+3. **digest格图鉴粒度**:图鉴加本月总览。
+4. **palette会话项**:recent session项可直达rail。
+5. **回放条速度标**:速度钮hover显示当前+下一。
