@@ -1908,6 +1908,12 @@ show(F.length-1);
           return `<div class="dig-err" data-dig-prov="${esc(e2)}" style="cursor:pointer" title="点击 → 日志过滤到 ${esc(nm2)}"><small>次错源</small><b>${esc(nm2)} <em class="dig down">×${n2}</em></b></div>`;
         })()}
         ${(() => {
+          const ttfts = (s.data.logs || []).map(l => l.ttft || 0).filter(t => t > 0);
+          if (!ttfts.length) return "";
+          const avg = ttfts.reduce((a, t) => a + t, 0) / ttfts.length;
+          return `<div><small>TTFT 均值</small><b>${avg < 1000 ? Math.round(avg) + "ms" : (avg / 1000).toFixed(1) + "s"} <em class="dig">${ttfts.length} 请求</em></b></div>`;
+        })()}
+        ${(() => {
           try {
             const bag = JSON.parse(localStorage.getItem("magpie.badges") || "{}");
             const yd = y.date || "";
