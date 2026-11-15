@@ -331,6 +331,7 @@
     { id: "scriptorium", title: "抄写坊", eyebrow: "PROVIDER SCRIPTORIUM", group: "用量", icon: "i-magpie", hint: "案=provider 页=token 笔=会话 污=错" },
     { id: "whipcord", title: "绞绳坊", eyebrow: "PROVIDER WHIPCORD", group: "用量", icon: "i-magpie", hint: "架=provider 股=token 工=会话 扭=错" },
     { id: "tentmaker", title: "帐幕坊", eyebrow: "PROVIDER TENTMAKER", group: "用量", icon: "i-magpie", hint: "架=provider 幅=token 工=会话 撕=错" },
+    { id: "horsegin", title: "绞盘坊", eyebrow: "PROVIDER HORSEGIN", group: "用量", icon: "i-magpie", hint: "盘=provider 桶=token 马=会话 卡=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
