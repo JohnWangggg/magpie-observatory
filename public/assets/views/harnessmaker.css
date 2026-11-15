@@ -1,0 +1,7 @@
+/* harnessmaker view */
+@keyframes hmstitch { 0%,100% { transform: translateX(0); } 50% { transform: translateX(-3px); } }
+.hm-svg { display: block; width: 100%; height: 100%; }
+.hm-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.hm-man { animation: hmstitch ease-in-out infinite; }
+.hm-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .hm-man { animation: none; } }

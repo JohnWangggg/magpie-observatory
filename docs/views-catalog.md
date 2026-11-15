@@ -1,4 +1,4 @@
-# Magpie Observatory · 视图图鉴 (542)
+# Magpie Observatory · 视图图鉴 (543)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
@@ -10,7 +10,7 @@
 | [延迟](#延迟) | 2 |
 | [氛围](#氛围) | 3 |
 | [场景](#场景) | 233 |
-| [用量](#用量) | 151 |
+| [用量](#用量) | 152 |
 | [天象](#天象) | 17 |
 | [洞察](#洞察) | 10 |
 | [结构](#结构) | 6 |
@@ -355,7 +355,7 @@
 | `reserve2` | 保护区二号 | RESERVE II | 观测=配额窗 隙=用量 栖枝=过热 守护=会话 | ![reserve2](../public/shots/reserve2.png) |
 | `desert` | 沙丘 | DESERT | 丘=配额窗 高=用量 驼=会话 | ![desert](../public/shots/desert.png) |
 
-## 用量 (151)
+## 用量 (152)
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
@@ -497,7 +497,8 @@
 | `lensgrinder` | 磨镜坊 | PROVIDER LENSGRINDER | 盘=provider 镜=token 匠=会话 干=错 | ![lensgrinder](../public/shots/lensgrinder.png) |
 | `filer` | 锉匠坊 | PROVIDER FILER | 台=provider 件=token 工=会话 钝=错 | ![filer](../public/shots/filer.png) |
 | `planer` | 刨床坊 | PROVIDER PLANER | 床=provider 屑=token 工=会话 撕=错 | ![planer](../public/shots/planer.png) |
-| `cordwain` | 制鞋坊 | PROVIDER CORDWAIN | 楦=provider 鞋=token 匠=会话 裂=错 | — |
+| `cordwain` | 制鞋坊 | PROVIDER CORDWAIN | 楦=provider 鞋=token 匠=会话 裂=错 | ![cordwain](../public/shots/cordwain.png) |
+| `harnessmaker` | 马具坊 | PROVIDER HARNESSMAKER | 轭=provider 套=token 匠=会话 松=错 | — |
 | `rings` | Token 年轮 | YEAR IN RINGS | 26 周极坐标日历 | ![rings](../public/shots/rings.png) |
 | `latency` | 延迟热力 | LATENCY HEATMAP | 时间 × 延迟 | ![latency](../public/shots/latency.png) |
 | `stream` | 流量河流 | STREAMGRAPH | Provider 增量 | ![stream](../public/shots/stream.png) |
