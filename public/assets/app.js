@@ -3689,6 +3689,25 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
       ["touchend", "touchmove", "touchcancel"].forEach(ev => ql.addEventListener(ev, () => clearTimeout(lpTimer), { passive: true }));
     }
 
+    // Right-swipe a session card → pin it (the ★ button's touch affordance).
+    let sessSwipeX = null, sessSwipeY = null;
+    $("#session-list").addEventListener("touchstart", e => {
+      const card = e.target.closest(".session-card");
+      if (e.touches.length === 1 && card) { sessSwipeX = e.touches[0].clientX; sessSwipeY = e.touches[0].clientY; }
+      else { sessSwipeX = sessSwipeY = null; }
+    }, { passive: true });
+    $("#session-list").addEventListener("touchend", e => {
+      if (sessSwipeX == null || e.changedTouches.length !== 1) return;
+      const dx = e.changedTouches[0].clientX - sessSwipeX;
+      const dy = Math.abs(e.changedTouches[0].clientY - sessSwipeY);
+      sessSwipeX = sessSwipeY = null;
+      if (dx < 70 || dy > 40) return;
+      const card = e.target.closest(".session-card");
+      if (!card) return;
+      const pin = card.querySelector("[data-pin]");
+      if (pin) pin.click();
+    }, { passive: true });
+
     // Right-click a session card → little context menu with the four things
     // you actually do with a session id. Replaces the old copy-id-only flow.
     const ctxMenu = document.createElement("div");
