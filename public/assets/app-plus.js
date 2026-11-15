@@ -170,6 +170,25 @@
     } catch (_) { toast("链接生成失败"); }
   }
 
+  // Download the replay buffer as a compact JSON file (delta frames, same
+  // shape as shareReplayLink but on disk instead of a URL hash).
+  function exportReplayJson() {
+    const s = state();
+    if (!s || !s.replayBuf || !s.replayBuf.length) { toast("还没有可回放的历史"); return; }
+    const frames = deltaFrames(s.replayBuf, f => ({
+      t: f.t,
+      k: f.data.kpis,
+      l: (f.data.logs || []).map(l => ({ a: l.agent, p: l.provider, m: l.model, st: l.status, t: l.ttft, k: l.tokens }))
+    }));
+    const blob = new Blob([JSON.stringify({ app: "magpie-observatory", kind: "replay", exportedAt: new Date().toISOString(), frames }, null, 0)], { type: "application/json" });
+    const a = document.createElement("a");
+    a.download = `magpie-replay-${new Date().toISOString().slice(0, 16).replace(/[:T]/g, "-")}.json`;
+    a.href = URL.createObjectURL(blob);
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+    toast(`回放已导出 ${frames.length} 帧 JSON`);
+  }
+
   // Copy a link that re-opens the board in exactly this state: hero view,
   // range, and cinema flag. The inverse of applyUrlState().
   async function shareStateLink() {
@@ -1322,6 +1341,22 @@ show(F.length-1);
   function digestLog() {
     try { return JSON.parse(localStorage.getItem("magpie.digestLog") || "[]"); } catch (_) { return []; }
   }
+  // Palette "历史摘要" → floating list of the last 7 digests.
+  function showDigestLog() {
+    $(".gwcmp-card")?.remove();
+    const log = digestLog().slice().reverse();
+    const card = document.createElement("div");
+    card.className = "gwcmp-card";
+    card.innerHTML = `<div class="digest-head"><b>历史摘要</b><span>DIGEST LOG</span></div>` +
+      (log.length
+        ? `<div class="gwcmp-grid" style="grid-template-columns:1fr">${log.map(e => `<div class="gc-row"><span>${esc(e.date)}</span><b>${fmtTokens(e.tokens)} · ${e.calls} 调用 · ${e.streak}天</b></div>`).join("")}</div>`
+        : `<div class="digest-foot">还没有摘要历史——明日首访后生成</div>`) +
+      `<div class="digest-foot">点击关闭 · 保留最近 7 条</div>`;
+    card.addEventListener("click", () => card.remove());
+    document.body.appendChild(card);
+    setTimeout(() => card.classList.add("in"), 10);
+    closePalette();
+  }
   function maybeShowDigest() {
     const s = state();
     if (!s || s._digestShown) return;
@@ -2019,8 +2054,10 @@ ${quota || "| — | — | — |"}
       { kind: "动作", icon: "i-arrow", title: "导出对比分享图", sub: "今日 vs 昨日 · 1200×630 PNG", search: "share 分享 对比 导出 compare".toLowerCase(), run: shareCompare },
       { kind: "动作", icon: "i-arrow", title: "导出月度分享图", sub: "近30天 · 1200×630 PNG", search: "share 分享 月度 导出 month".toLowerCase(), run: () => shareToday("month") },
       { kind: "动作", icon: "i-link", title: "导出回放播放器", sub: "独立 HTML · 帧内嵌 · 可拖条", search: "replay 回放 导出 html 播放器".toLowerCase(), run: exportReplayHtml },
+      { kind: "动作", icon: "i-download", title: "导出回放 JSON", sub: "delta帧 .json 下载", search: "replay 回放 导出 json download".toLowerCase(), run: exportReplayJson },
       { kind: "动作", icon: "i-link", title: "复制页面链接", sub: "当前视图 / 区间 / 影院", search: "link 链接 复制 分享 url".toLowerCase(), run: copySnapshotLink },
       { kind: "动作", icon: "i-link", title: "复制回放链接", sub: "近3分钟快照打包进 URL", search: "link 回放 链接 replay share".toLowerCase(), run: shareReplayLink },
+      { kind: "动作", icon: "i-doc", title: "历史摘要", sub: "最近 7 条 digest 回看", search: "digest 摘要 历史 回看 log".toLowerCase(), run: showDigestLog },
       { kind: "动作", icon: "i-db", title: "本周报告", sub: "7天柱状 + 峰值 + 最热路由", search: "weekly 周报 报告 本周".toLowerCase(), run: weeklyReport },
       { kind: "动作", icon: "i-overview", title: s && s.layoutEdit ? "退出排布模式" : "进入排布模式", sub: "拖拽重排卡片", search: "layout 排布 拖拽 布局".toLowerCase(), run: () => applyExtra("layout-edit") },
       { kind: "动作", icon: "i-server", title: "网关对比", sub: "默认 vs 锁定 · 并列四指标", search: "gateway 网关 对比 compare multi".toLowerCase(), run: compareGateways },
