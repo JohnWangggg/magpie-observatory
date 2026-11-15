@@ -1,4 +1,4 @@
-# Magpie Observatory · 视图图鉴 (383)
+# Magpie Observatory · 视图图鉴 (384)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
@@ -6,7 +6,7 @@
 | 分组 | 数量 |
 |---|---|
 | [实时](#实时) | 15 |
-| [配额](#配额) | 27 |
+| [配额](#配额) | 28 |
 | [延迟](#延迟) | 2 |
 | [氛围](#氛围) | 3 |
 | [场景](#场景) | 233 |
@@ -41,7 +41,7 @@
 | `lighthouse` | 灯塔 | LIGHTHOUSE | 塔=配额 光束=会话 | ![lighthouse](../public/shots/lighthouse.png) |
 | `harbor` | 港口 | HARBOR | 船=agent 箱=tries 浮标=配额 | ![harbor](../public/shots/harbor.png) |
 
-## 配额 (27)
+## 配额 (28)
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
@@ -67,7 +67,8 @@
 | `fireescape` | 消防梯 | QUOTA FIREESCAPE | 梯=配额窗 段=用量 人=会话 红=错 | ![fireescape](../public/shots/fireescape.png) |
 | `catacomb` | 墓窟 | QUOTA CATACOMB | 龛=配额窗 深=用量 烛=会话 髅=错 | ![catacomb](../public/shots/catacomb.png) |
 | `oast` | 烘麦窑 | QUOTA OAST | 窑=配额窗 锥=用量 风=会话 环=错 | ![oast](../public/shots/oast.png) |
-| `croft` | 小农场 | QUOTA CROFT | 垄=配额窗 沟=用量 羊=会话 云=错 | — |
+| `croft` | 小农场 | QUOTA CROFT | 垄=配额窗 沟=用量 羊=会话 云=错 | ![croft](../public/shots/croft.png) |
+| `tidemill` | 潮汐磨坊 | QUOTA TIDEMILL | 轮=配额窗 速=用量 鱼=会话 | — |
 | `rosetta` | 罗塞塔 | ROSETTA | 环带=配额 刻痕=会话 | ![rosetta](../public/shots/rosetta.png) |
 | `eclipse` | 日蚀 | ECLIPSE | 暗盘=量 冕=会话 沿=窗 | ![eclipse](../public/shots/eclipse.png) |
 | `tapestry` | 织锦 | TAPESTRY | 经=配额 纬=会话 | ![tapestry](../public/shots/tapestry.png) |

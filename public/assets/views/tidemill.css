@@ -1,0 +1,9 @@
+/* tidemill view */
+@keyframes tmspin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes tmfish { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+.tm-svg { display: block; width: 100%; height: 100%; }
+.tm-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.tm-wheel { animation: tmspin linear infinite; }
+.tm-fish { animation: tmfish ease-in-out infinite; }
+.tm-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .tm-wheel, .tm-fish { animation: none; } }
