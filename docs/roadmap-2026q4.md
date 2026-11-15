@@ -2253,3 +2253,13 @@ v105 已落地:s:/g:前缀+foot提示。pal前缀集:v/g/s/m 完成。
 3. **回放条cur标帧号title**。
 4. **session卡icon右侧**。
 5. **digest格streak具体日期**。
+
+## 下轮候选 v107（2026-11-15 · v106 落地后）
+
+v106 已落地:a:前缀、slider帧号title。跳过:!前缀(已有执行)、行号。
+
+1. **digest格streak日期**:toast已有日期串。
+2. **session卡icon右侧**。
+3. **pal行选中保留**:重渲染后保留光标行。
+4. **回放播放进度色**:strip已过部分着色。
+5. **digest格streak断点**:最后活跃日标注。
