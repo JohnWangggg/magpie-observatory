@@ -1,0 +1,8 @@
+/* metronome view */
+@keyframes mtswing { 0%, 100% { transform: rotate(-28deg); } 50% { transform: rotate(28deg); } }
+.mt-svg { display: block; width: 100%; height: 100%; }
+.mt-pend { animation: mtswing ease-in-out infinite; }
+.mt-arm { animation: mtswing ease-in-out infinite; }
+.mt-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+.mt-cap { fill: var(--faint); font: 600 9px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .mt-pend, .mt-arm { animation: none; } }

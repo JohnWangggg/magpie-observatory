@@ -1,11 +1,11 @@
-# Magpie Observatory · 视图图鉴 (342)
+# Magpie Observatory · 视图图鉴 (343)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
 
 | 分组 | 数量 |
 |---|---|
-| [实时](#实时) | 11 |
+| [实时](#实时) | 12 |
 | [配额](#配额) | 6 |
 | [延迟](#延迟) | 1 |
 | [氛围](#氛围) | 1 |
@@ -21,7 +21,7 @@
 
 ---
 
-## 实时 (11)
+## 实时 (12)
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
@@ -30,7 +30,8 @@
 | `network` | 关系网络 | RELATION GRAPH | Agent / Provider / 模型 | ![network](../public/shots/network.png) |
 | `swarm` | 延迟蜂群 | LATENCY SWARM | TTFT 分布 | ![swarm](../public/shots/swarm.png) |
 | `pulse` | 脉搏 | PULSE MONITOR | 会话 ECG · 每行一个心跳 | ![pulse](../public/shots/pulse.png) |
-| `sonar` | 声呐 | PROVIDER SONAR | provider=接触点 扫线转 | — |
+| `sonar` | 声呐 | PROVIDER SONAR | provider=接触点 扫线转 | ![sonar](../public/shots/sonar.png) |
+| `metronome` | 节拍器 | REQUEST METRONOME | 摆频=请求率 | — |
 | `burn` | 燃烧速率 | BURN RATE | 配额窗口烧速 / 预测重置 | ![burn](../public/shots/burn.png) |
 | `gauge` | 仪表盘 | GAUGE MATRIX | KPI/配额仪表 | ![gauge](../public/shots/gauge.png) |
 | `pinboard` | 钉板 | PINBOARD | KPI/配额/会话钉上墙 | ![pinboard](../public/shots/pinboard.png) |
