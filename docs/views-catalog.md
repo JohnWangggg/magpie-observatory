@@ -1,4 +1,4 @@
-# Magpie Observatory · 视图图鉴 (465)
+# Magpie Observatory · 视图图鉴 (466)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
@@ -6,7 +6,7 @@
 | 分组 | 数量 |
 |---|---|
 | [实时](#实时) | 16 |
-| [配额](#配额) | 51 |
+| [配额](#配额) | 52 |
 | [延迟](#延迟) | 2 |
 | [氛围](#氛围) | 3 |
 | [场景](#场景) | 233 |
@@ -42,7 +42,7 @@
 | `lighthouse` | 灯塔 | LIGHTHOUSE | 塔=配额 光束=会话 | ![lighthouse](../public/shots/lighthouse.png) |
 | `harbor` | 港口 | HARBOR | 船=agent 箱=tries 浮标=配额 | ![harbor](../public/shots/harbor.png) |
 
-## 配额 (51)
+## 配额 (52)
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
@@ -93,6 +93,7 @@
 | `saltern` | 盐田 | QUOTA SALTERN | 池=配额窗 盐=余量 耙=会话 决=错 | ![saltern](../public/shots/saltern.png) |
 | `dewpond` | 露池 | QUOTA DEWPOND | 池=配额窗 水=余量 羊=会话 裂=错 | ![dewpond](../public/shots/dewpond.png) |
 | `icehouse` | 冰窖 | QUOTA ICEHOUSE | 窖=配额窗 冰=余量 夫=会话 融=错 | ![icehouse](../public/shots/icehouse.png) |
+| `qanat` | 坎儿井 | QUOTA QANAT | 井=配额窗 水=余量 夫=会话 塌=错 | — |
 | `rosetta` | 罗塞塔 | ROSETTA | 环带=配额 刻痕=会话 | ![rosetta](../public/shots/rosetta.png) |
 | `eclipse` | 日蚀 | ECLIPSE | 暗盘=量 冕=会话 沿=窗 | ![eclipse](../public/shots/eclipse.png) |
 | `tapestry` | 织锦 | TAPESTRY | 经=配额 纬=会话 | ![tapestry](../public/shots/tapestry.png) |
@@ -420,7 +421,7 @@
 | `puddling` | 搅炼炉 | PROVIDER PUDDLING | 炉=provider 球=token 搅=会话 冷=错 | ![puddling](../public/shots/puddling.png) |
 | `implosion` | 定向爆破 | PROVIDER IMPLOSION | 楼=provider 药=token 手=会话 哑=错 | ![implosion](../public/shots/implosion.png) |
 | `treadwheelcrane` | 踏轮吊 | PROVIDER TREADWHEEL CRANE | 吊=provider 包=token 人=会话 索=错 | ![treadwheelcrane](../public/shots/treadwheelcrane.png) |
-| `tanpit` | 鞣皮坑 | PROVIDER TANPIT | 坑=provider 皮=token 匠=会话 腐=错 | — |
+| `tanpit` | 鞣皮坑 | PROVIDER TANPIT | 坑=provider 皮=token 匠=会话 腐=错 | ![tanpit](../public/shots/tanpit.png) |
 | `rings` | Token 年轮 | YEAR IN RINGS | 26 周极坐标日历 | ![rings](../public/shots/rings.png) |
 | `latency` | 延迟热力 | LATENCY HEATMAP | 时间 × 延迟 | ![latency](../public/shots/latency.png) |
 | `stream` | 流量河流 | STREAMGRAPH | Provider 增量 | ![stream](../public/shots/stream.png) |
