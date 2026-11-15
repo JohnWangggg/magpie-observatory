@@ -270,6 +270,7 @@
     { id: "brinepan", title: "煮盐盘", eyebrow: "PROVIDER BRINEPAN", group: "用量", icon: "i-magpie", hint: "盘=provider 盐=token 人=会话 焦=错" },
     { id: "stampmill", title: "捣矿磨", eyebrow: "PROVIDER STAMPMILL", group: "用量", icon: "i-magpie", hint: "架=provider 锤=token 工=会话 脱=错" },
     { id: "leachpit", title: "淋灰坑", eyebrow: "PROVIDER LEACHPIT", group: "用量", icon: "i-magpie", hint: "斗=provider 碱=token 人=会话 漏=错" },
+    { id: "nilometer", title: "尼罗水位计", eyebrow: "QUOTA NILOMETER", group: "配额", icon: "i-magpie", hint: "井=配额窗 水=余量 读=会话 淤=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
