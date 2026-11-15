@@ -1,0 +1,7 @@
+/* tidegauge view */
+@keyframes tgread { 0%,100% { transform: translateX(0); } 50% { transform: translateX(-2px); } }
+.tg-svg { display: block; width: 100%; height: 100%; }
+.tg-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.tg-man { animation: tgread ease-in-out infinite; }
+.tg-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .tg-man { animation: none; } }
