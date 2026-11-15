@@ -359,6 +359,7 @@
     { id: "polelathe", title: "杆车床", eyebrow: "PROVIDER POLELATHE", group: "用量", icon: "i-magpie", hint: "床=provider 坯=token 工=会话 甩=错" },
     { id: "heckle", title: "梳麻坊", eyebrow: "PROVIDER HECKLE", group: "用量", icon: "i-magpie", hint: "台=provider 缕=token 工=会话 折=错" },
     { id: "inkworks", title: "制墨坊", eyebrow: "PROVIDER INKWORKS", group: "用量", icon: "i-magpie", hint: "锅=provider 锭=token 工=会话 裂=错" },
+    { id: "oysterbed", title: "牡蛎床", eyebrow: "PROVIDER OYSTERBED", group: "用量", icon: "i-magpie", hint: "床=provider 蚝=token 舟=会话 碎=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
