@@ -3181,3 +3181,5 @@ body.mini .route-stage { min-height: 0 !important; }
 .pal-kind { position: sticky; top: 0; background: color-mix(in srgb, var(--card) 96%, transparent); z-index: 2; }
 .session-model { cursor: pointer; }
 .session-model:hover { color: var(--accent); text-decoration: underline dotted; }
+.session-route { cursor: pointer; }
+.session-route:hover { color: var(--accent); }

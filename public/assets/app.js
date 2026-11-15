@@ -2493,7 +2493,7 @@
         <button class="session-pin${pinned ? " on" : ""}" data-pin="${esc(s.id)}" title="${pinned ? "取消置顶" : "置顶会话"}" aria-label="pin">${pinned ? "★" : "☆"}</button>
         <span class="session-state ${st}">${STATUS_TEXT[s.status] || s.status}</span>
       </div>
-      <div class="session-meta"><span class="session-model" data-model="${esc(s.model)}" title="点击过滤此模型日志">${esc(s.model)}</span><span class="session-route">→ ${s.group === "最近完成" ? "最近完成" : "group/" + esc(s.group || "direct")}</span></div>
+      <div class="session-meta"><span class="session-model" data-model="${esc(s.model)}" title="点击过滤此模型日志">${esc(s.model)}</span><span class="session-route" data-group="${esc(s.group || "direct")}" title="点击过滤此路由会话">→ ${s.group === "最近完成" ? "最近完成" : "group/" + esc(s.group || "direct")}</span></div>
       <div class="session-bottom">
         <span><b>${s.tokens ? fmtTokens(s.tokens) : "—"}</b> TOK</span>
         <span>${fmtAge(age)}</span>
@@ -2509,6 +2509,7 @@
 
   function matchFilter(s) {
     if (!state.filter) return true;
+    if (state.filter.type === "group") return (s.group || "direct") === state.filter.value;
     return state.filter.type === "agent" ? s.agent === state.filter.value : s.provider === state.filter.value;
   }
 
@@ -3674,6 +3675,15 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
         const qs2 = $("#log-search"); if (qs2) qs2.value = state.logQuery;
         renderLogs();
         toast(`日志过滤 → ${modelEl.dataset.model.split("/").pop()}`);
+        return;
+      }
+      // Click the route chip → filter sessions to that routing group.
+      const routeEl = e.target.closest(".session-route[data-group]");
+      if (routeEl) {
+        e.stopPropagation();
+        state.filter = { type: "group", value: routeEl.dataset.group };
+        renderSessions();
+        toast(`已过滤 group/${routeEl.dataset.group}`);
         return;
       }
       const id = card.dataset.session;

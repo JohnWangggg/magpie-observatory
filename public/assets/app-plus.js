@@ -93,6 +93,17 @@
         .map(x => `<i style="position:absolute;left:${((x.startedAt - t0) / span * 100).toFixed(1)}%;top:6px;width:4px;height:4px;background:var(--accent);border-radius:50%;opacity:.6" title="${esc(x.title)} 开始"></i>`).join("");
       if (strip) strip.innerHTML += `<div style="position:absolute;inset:0;pointer-events:none">${dots}</div>`;
     } catch (_) {}
+    // Error-frame dots: red tick wherever the frame's cumulative errors rose
+    // (a failure happened inside that frame's window).
+    try {
+      const errDots = s.replayBuf.map((f, i) => {
+        const prev = s.replayBuf[i - 1];
+        const e0 = prev && prev.data.kpis ? prev.data.kpis.errors || 0 : 0;
+        const e1 = f.data.kpis ? f.data.kpis.errors || 0 : 0;
+        return e1 > e0 ? `<i style="position:absolute;left:${(i / Math.max(1, s.replayBuf.length - 1) * 100).toFixed(1)}%;top:0;width:4px;height:4px;background:var(--red);border-radius:50%" title="第${i}帧 +${e1 - e0} 错误"></i>` : "";
+      }).join("");
+      if (strip) strip.innerHTML += `<div style="position:absolute;inset:0;pointer-events:none">${errDots}</div>`;
+    } catch (_) {}
   }
   function scrubReplay(idx) {
     const s = state();
