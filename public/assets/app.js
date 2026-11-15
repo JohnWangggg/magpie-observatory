@@ -3701,9 +3701,14 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
       const dx = e.changedTouches[0].clientX - sessSwipeX;
       const dy = Math.abs(e.changedTouches[0].clientY - sessSwipeY);
       sessSwipeX = sessSwipeY = null;
-      if (dx < 70 || dy > 40) return;
+      if (dy > 40) return;
       const card = e.target.closest(".session-card");
       if (!card) return;
+      if (dx < -70) {
+        navigator.clipboard?.writeText(card.dataset.session).then(() => toast("会话 ID 已复制"));
+        return;
+      }
+      if (dx < 70) return;
       const pin = card.querySelector("[data-pin]");
       if (pin) pin.click();
     }, { passive: true });
