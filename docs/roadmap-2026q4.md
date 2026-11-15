@@ -1232,3 +1232,13 @@ v4 已落地：share `&group=`、hero 左右滑切视图（组作用域）、rep
 3. **性能再压**：700 视图菜单首开 innerHTML 换成 DocumentFragment + 分批 chunk（目前 ~140ms 可接受但仍有提升空间）。
 4. **离线壳**：PWA manifest + sw 缓存静态资源（serve 静态文件可注册）。
 5. **视图收藏分组**：收藏按组聚合显示在 rail-favs。
+
+## 下轮候选 v6（2026-11-15 · v5 全部落地后）
+
+v5 已落地：对比面板用 viewRecent 次近项、quota 长按复制详情、live-panel 滑切 tab、PWA 确认完整（manifest+sw+离线缓存）、rail-favs 组色左边框。
+
+1. **深度联动**：digest 引用 magpie.badges 做"昨日解锁"播报；digest-md 含错误聚类行。
+2. **多网关**：quota/compare 支持并行拉两个网关快照对比（compareGateways 基础设施已有）。
+3. **视图快捷设置**：hero 区右键菜单（非仅收星）——随机/巡游/对比/导出入口。
+4. **session 分组**：live-panel 按 group 或 provider 分节显示（长列表可读性）。
+5. **KPI 自定义**：KPI 行可选卡（隐藏/重排持久化，与 layoutEdit 不同粒度）。
