@@ -2028,3 +2028,13 @@ v83 已落地:agent icon、速度title。跳过:供应商推(title已)、图鉴�
 3. **digest格图鉴提**:图鉴加"本月重点"tag。
 4. **palette改道项**:kind"重跑"放最前。
 5. **回放帧AB差加行**:AB卡加session差行。
+
+## 下轮候选 v85（2026-11-15 · v84 落地后）
+
+v84 已落地:prev/next链、sessions差。跳过:事件toast(chip已)、重点tag(达标已)、重跑置顶(已)。
+
+1. **回放?帧卡跳码**:帧卡加"输帧号跳"input。
+2. **session卡拖选**:拖选框选多会话(简化:多选模式)。
+3. **digest格月历**:heatmap旁加月历切换。
+4. **palette键数**:pal-item加键位号(⌘N已)。
+5. **回放条D开关**:回放条加diff切换钮。
