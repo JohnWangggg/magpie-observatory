@@ -1,4 +1,4 @@
-# Magpie Observatory · 视图图鉴 (343)
+# Magpie Observatory · 视图图鉴 (344)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
@@ -9,10 +9,10 @@
 | [配额](#配额) | 6 |
 | [延迟](#延迟) | 1 |
 | [氛围](#氛围) | 1 |
+| [场景](#场景) | 232 |
 | [用量](#用量) | 12 |
 | [结构](#结构) | 6 |
 | [几何](#几何) | 11 |
-| [场景](#场景) | 231 |
 | [趣味](#趣味) | 6 |
 | [生态](#生态) | 31 |
 | [天象](#天象) | 16 |
@@ -31,7 +31,7 @@
 | `swarm` | 延迟蜂群 | LATENCY SWARM | TTFT 分布 | ![swarm](../public/shots/swarm.png) |
 | `pulse` | 脉搏 | PULSE MONITOR | 会话 ECG · 每行一个心跳 | ![pulse](../public/shots/pulse.png) |
 | `sonar` | 声呐 | PROVIDER SONAR | provider=接触点 扫线转 | ![sonar](../public/shots/sonar.png) |
-| `metronome` | 节拍器 | REQUEST METRONOME | 摆频=请求率 | — |
+| `metronome` | 节拍器 | REQUEST METRONOME | 摆频=请求率 | ![metronome](../public/shots/metronome.png) |
 | `burn` | 燃烧速率 | BURN RATE | 配额窗口烧速 / 预测重置 | ![burn](../public/shots/burn.png) |
 | `gauge` | 仪表盘 | GAUGE MATRIX | KPI/配额仪表 | ![gauge](../public/shots/gauge.png) |
 | `pinboard` | 钉板 | PINBOARD | KPI/配额/会话钉上墙 | ![pinboard](../public/shots/pinboard.png) |
@@ -61,54 +61,11 @@
 |---|---|---|---|---|
 | `darkroom` | 暗房 | DARKROOM | 聚光灯跟手 照亮日志 | ![darkroom](../public/shots/darkroom.png) |
 
-## 用量 (12)
+## 场景 (232)
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
-| `rings` | Token 年轮 | YEAR IN RINGS | 26 周极坐标日历 | ![rings](../public/shots/rings.png) |
-| `latency` | 延迟热力 | LATENCY HEATMAP | 时间 × 延迟 | ![latency](../public/shots/latency.png) |
-| `stream` | 流量河流 | STREAMGRAPH | Provider 增量 | ![stream](../public/shots/stream.png) |
-| `quota` | 额度燃尽 | QUOTA PACE | 窗口燃尽与预测 | ![quota](../public/shots/quota.png) |
-| `budget` | 额度预算 | BUDGET BULLETS | 阈值与配速 | ![budget](../public/shots/budget.png) |
-| `candle` | K线吞吐 | CANDLE THROUGHPUT | OHLC·涨跌K线 | ![candle](../public/shots/candle.png) |
-| `mosaic` | 马赛克 | MOSAIC | 每请求一块砖 | ![mosaic](../public/shots/mosaic.png) |
-| `quilt` | 拼布 | QUILT | 每会话一块布 | ![quilt](../public/shots/quilt.png) |
-| `spectrum` | 频谱 | SPECTRUM | 峰=会话 高=Token | ![spectrum](../public/shots/spectrum.png) |
-| `wave` | 波浪线 | WAVE | 双轨波形 | ![wave](../public/shots/wave.png) |
-| `tidepool` | 潮汐池 | TIDEPOOL | 水位=配额 浪=TPS | ![tidepool](../public/shots/tidepool.png) |
-| `cascade` | 阶瀑 | CASCADE | 级=模型 宽=份额 滴=会话 | ![cascade](../public/shots/cascade.png) |
-
-## 结构 (6)
-
-| id | 标题 | eyebrow | 说明 | 预览 |
-|---|---|---|---|---|
-| `treemap` | 成本结构 | COST TREEMAP | Provider → 模型 | ![treemap](../public/shots/treemap.png) |
-| `marimekko` | 结构马赛克 | MARIMEKKO | 列宽 / 带高 | ![marimekko](../public/shots/marimekko.png) |
-| `sankey` | 路由流向 | ROUTING FLOW | Agent → Provider | ![sankey](../public/shots/sankey.png) |
-| `chord` | 流向和弦 | CHORD | 左右弧彩带 | ![chord](../public/shots/chord.png) |
-| `funnel` | 请求漏斗 | REQUEST FUNNEL | 发出 → 成功 | ![funnel](../public/shots/funnel.png) |
-| `prism` | 棱镜 | PRISM | 白光分成Provider份额 | ![prism](../public/shots/prism.png) |
-
-## 几何 (11)
-
-| id | 标题 | eyebrow | 说明 | 预览 |
-|---|---|---|---|---|
-| `radar` | 路由雷达 | RADAR SCAN | Provider 环 | ![radar](../public/shots/radar.png) |
-| `loom` | 请求织机 | REQUEST LOOM | 请求织成彩带 | ![loom](../public/shots/loom.png) |
-| `rhythm` | 请求节奏 | RHYTHM | 16 步节拍 | ![rhythm](../public/shots/rhythm.png) |
-| `origami` | 折纸 | ORIGAMI | 纸鹤=会话 | ![origami](../public/shots/origami.png) |
-| `mandala` | 曼陀罗 | MANDALA | 瓣=会话 环=尝试 | ![mandala](../public/shots/mandala.png) |
-| `vortex` | 漩涡 | VORTEX | 螺旋=会话 | ![vortex](../public/shots/vortex.png) |
-| `kaleido` | 万花筒 | KALEIDO | 楔=会话 12折 | ![kaleido](../public/shots/kaleido.png) |
-| `dna` | DNA | DNA | 对=会话 宽=Token | ![dna](../public/shots/dna.png) |
-| `quartz` | 晶簇 | QUARTZ | 晶=会话 高=Token | ![quartz](../public/shots/quartz.png) |
-| `ripple` | 涟漪 | RIPPLE | 滴=会话 大=Token | ![ripple](../public/shots/ripple.png) |
-| `pendulum` | 摆锤 | PENDULUM | 摆=会话 长=Token | ![pendulum](../public/shots/pendulum.png) |
-
-## 场景 (231)
-
-| id | 标题 | eyebrow | 说明 | 预览 |
-|---|---|---|---|---|
+| `neighborhood` | 街坊 | PROVIDER BLOCK | 房=provider 灯=会话 烟=错 | — |
 | `orrery` | 轨道星图 | ORRERY | 行星与卫星 | ![orrery](../public/shots/orrery.png) |
 | `factory` | 请求工厂 | REQUEST FACTORY | 排队 → 完成 | ![factory](../public/shots/factory.png) |
 | `bakery` | 面包房 | BAKERY | 炉=agent 包=会话 计=配额 | ![bakery](../public/shots/bakery.png) |
@@ -340,6 +297,50 @@
 | `oasis2` | 绿洲二号 | OASIS II | 椰=配额窗 叶展=用量 蜃=过热 驼客=会话 | ![oasis2](../public/shots/oasis2.png) |
 | `reserve2` | 保护区二号 | RESERVE II | 观测=配额窗 隙=用量 栖枝=过热 守护=会话 | ![reserve2](../public/shots/reserve2.png) |
 | `desert` | 沙丘 | DESERT | 丘=配额窗 高=用量 驼=会话 | ![desert](../public/shots/desert.png) |
+
+## 用量 (12)
+
+| id | 标题 | eyebrow | 说明 | 预览 |
+|---|---|---|---|---|
+| `rings` | Token 年轮 | YEAR IN RINGS | 26 周极坐标日历 | ![rings](../public/shots/rings.png) |
+| `latency` | 延迟热力 | LATENCY HEATMAP | 时间 × 延迟 | ![latency](../public/shots/latency.png) |
+| `stream` | 流量河流 | STREAMGRAPH | Provider 增量 | ![stream](../public/shots/stream.png) |
+| `quota` | 额度燃尽 | QUOTA PACE | 窗口燃尽与预测 | ![quota](../public/shots/quota.png) |
+| `budget` | 额度预算 | BUDGET BULLETS | 阈值与配速 | ![budget](../public/shots/budget.png) |
+| `candle` | K线吞吐 | CANDLE THROUGHPUT | OHLC·涨跌K线 | ![candle](../public/shots/candle.png) |
+| `mosaic` | 马赛克 | MOSAIC | 每请求一块砖 | ![mosaic](../public/shots/mosaic.png) |
+| `quilt` | 拼布 | QUILT | 每会话一块布 | ![quilt](../public/shots/quilt.png) |
+| `spectrum` | 频谱 | SPECTRUM | 峰=会话 高=Token | ![spectrum](../public/shots/spectrum.png) |
+| `wave` | 波浪线 | WAVE | 双轨波形 | ![wave](../public/shots/wave.png) |
+| `tidepool` | 潮汐池 | TIDEPOOL | 水位=配额 浪=TPS | ![tidepool](../public/shots/tidepool.png) |
+| `cascade` | 阶瀑 | CASCADE | 级=模型 宽=份额 滴=会话 | ![cascade](../public/shots/cascade.png) |
+
+## 结构 (6)
+
+| id | 标题 | eyebrow | 说明 | 预览 |
+|---|---|---|---|---|
+| `treemap` | 成本结构 | COST TREEMAP | Provider → 模型 | ![treemap](../public/shots/treemap.png) |
+| `marimekko` | 结构马赛克 | MARIMEKKO | 列宽 / 带高 | ![marimekko](../public/shots/marimekko.png) |
+| `sankey` | 路由流向 | ROUTING FLOW | Agent → Provider | ![sankey](../public/shots/sankey.png) |
+| `chord` | 流向和弦 | CHORD | 左右弧彩带 | ![chord](../public/shots/chord.png) |
+| `funnel` | 请求漏斗 | REQUEST FUNNEL | 发出 → 成功 | ![funnel](../public/shots/funnel.png) |
+| `prism` | 棱镜 | PRISM | 白光分成Provider份额 | ![prism](../public/shots/prism.png) |
+
+## 几何 (11)
+
+| id | 标题 | eyebrow | 说明 | 预览 |
+|---|---|---|---|---|
+| `radar` | 路由雷达 | RADAR SCAN | Provider 环 | ![radar](../public/shots/radar.png) |
+| `loom` | 请求织机 | REQUEST LOOM | 请求织成彩带 | ![loom](../public/shots/loom.png) |
+| `rhythm` | 请求节奏 | RHYTHM | 16 步节拍 | ![rhythm](../public/shots/rhythm.png) |
+| `origami` | 折纸 | ORIGAMI | 纸鹤=会话 | ![origami](../public/shots/origami.png) |
+| `mandala` | 曼陀罗 | MANDALA | 瓣=会话 环=尝试 | ![mandala](../public/shots/mandala.png) |
+| `vortex` | 漩涡 | VORTEX | 螺旋=会话 | ![vortex](../public/shots/vortex.png) |
+| `kaleido` | 万花筒 | KALEIDO | 楔=会话 12折 | ![kaleido](../public/shots/kaleido.png) |
+| `dna` | DNA | DNA | 对=会话 宽=Token | ![dna](../public/shots/dna.png) |
+| `quartz` | 晶簇 | QUARTZ | 晶=会话 高=Token | ![quartz](../public/shots/quartz.png) |
+| `ripple` | 涟漪 | RIPPLE | 滴=会话 大=Token | ![ripple](../public/shots/ripple.png) |
+| `pendulum` | 摆锤 | PENDULUM | 摆=会话 长=Token | ![pendulum](../public/shots/pendulum.png) |
 
 ## 趣味 (6)
 

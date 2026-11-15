@@ -116,6 +116,7 @@
     { id: "darkroom", title: "暗房", eyebrow: "DARKROOM", group: "氛围", icon: "i-magpie", hint: "聚光灯跟手 照亮日志" },
     { id: "sonar", title: "声呐", eyebrow: "PROVIDER SONAR", group: "实时", icon: "i-pulse", hint: "provider=接触点 扫线转" },
     { id: "metronome", title: "节拍器", eyebrow: "REQUEST METRONOME", group: "实时", icon: "i-pulse", hint: "摆频=请求率" },
+    { id: "neighborhood", title: "街坊", eyebrow: "PROVIDER BLOCK", group: "场景", icon: "i-magpie", hint: "房=provider 灯=会话 烟=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
