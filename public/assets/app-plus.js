@@ -1539,7 +1539,7 @@ show(F.length-1);
       const prev7 = days.slice(-14, -7).reduce((a, d) => a + (d.tokens || 0), 0);
       if (!prev7) return null;
       const pct = Math.round((last7 - prev7) / prev7 * 100);
-      return `<div class="dig-wk" style="cursor:pointer" title="点击 → 滚到热度图"><small>周环比</small><b>${pct >= 0 ? "+" : ""}${pct}% <em class="dig ${pct >= 0 ? "up" : "down"}">${pct >= 0 ? "▲" : "▼"} vs 上周</em></b></div>`;
+      return `<div class="dig-wk" style="cursor:pointer" title="近7天 ${fmtTokens(last7)} tok · 前7天 ${fmtTokens(prev7)} tok · 点击滚到热度"><small>周环比</small><b>${pct >= 0 ? "+" : ""}${pct}% <em class="dig ${pct >= 0 ? "up" : "down"}">${pct >= 0 ? "▲" : "▼"} vs 上周</em></b></div>`;
     })();
     const card = document.createElement("div");
     card.className = "digest-card";

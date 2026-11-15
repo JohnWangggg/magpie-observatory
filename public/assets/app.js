@@ -2488,10 +2488,11 @@
         })()}${s.tries.map(t => `<div class="try-row" data-prov="${esc(t.provider)}"><em class="${t.state === "ok" ? "ok" : "fail"}">${t.state === "ok" ? "✓" : "✗"}</em><span>${esc(D.providerMeta(t.provider)?.name || t.provider)}</span><span class="try-model">${esc((t.model || "").split("/").pop())}</span><span>${t.ms ? (t.ms >= 1000 ? (t.ms/1000).toFixed(1) + "s" : Math.round(t.ms) + "ms") : "—"}</span></div>`).join("")}</div>`
       : "";
     const isMulti = state.multiSel && state.multiSel.has(s.id);
-    return `<article class="session-card${sel ? " selected" : ""}${pinned ? " pinned" : ""}${s.status === "streaming" ? " streaming" : ""}${isMulti ? " multi" : ""}" draggable="${isMulti ? "true" : "false"}" role="button" aria-selected="${sel}" aria-label="${esc(s.title)} · ${esc(s.model)} · ${esc(STATUS_TEXT[s.status] || s.status)}" data-session="${esc(s.id)}" style="--s-c:${meta.color}" tabindex="0">
+    const seenBefore = state._seenSessions && state._seenSessions.has(s.id);
+    return `<article class="session-card${sel ? " selected" : ""}${pinned ? " pinned" : ""}${s.status === "streaming" ? " streaming" : ""}${isMulti ? " multi" : ""}${seenBefore ? "" : " unseen"}" draggable="${isMulti ? "true" : "false"}" role="button" aria-selected="${sel}" aria-label="${esc(s.title)} · ${esc(s.model)} · ${esc(STATUS_TEXT[s.status] || s.status)}" data-session="${esc(s.id)}" style="--s-c:${meta.color}" tabindex="0">
       <div class="session-top">
         <span class="session-agent" data-agent="${esc(s.agent)}" title="点击过滤此 agent"><img src="${agentIcon(s.agent)}" alt=""></span>
-        <span class="session-title" data-title="${esc(s.title)}" title="${esc(s.title)} · 点击复制">${esc(s.title)}</span>
+        <span class="session-title" data-title="${esc(s.title)}" title="${esc(s.title)}${(s.tries || []).length ? " · " + esc(D.providerMeta(s.tries[0].provider)?.name || s.tries[0].provider) : ""}">${esc(s.title)}</span>
         <button class="session-pin${pinned ? " on" : ""}" data-pin="${esc(s.id)}" title="${pinned ? "取消置顶" : "置顶会话"}" aria-label="pin">${pinned ? "★" : "☆"}</button>
         <span class="session-state ${st}" data-status="${esc(s.status)}" title="点击按此状态过滤">${STATUS_TEXT[s.status] || s.status}</span>
       </div>
@@ -3742,6 +3743,9 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
         return;
       }
       state.selectedSession = state.selectedSession === id ? null : id;
+      // Track which cards have been opened (drives the .unseen ring).
+      state._seenSessions = state._seenSessions || new Set();
+      if (state.selectedSession) state._seenSessions.add(state.selectedSession);
       state.filter = null;
       renderSessions();
       renderRouteStage();
