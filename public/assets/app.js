@@ -406,6 +406,7 @@
     { id: "shipwright", title: "船匠", eyebrow: "PROVIDER SHIPWRIGHT", group: "用量", icon: "i-magpie", hint: "台=provider 肋=token 斫=会话 裂=错" },
     { id: "ropemaker", title: "索匠", eyebrow: "PROVIDER ROPEMAKER", group: "用量", icon: "i-magpie", hint: "槽=provider 股=token 转=会话 结=错" },
     { id: "mastmaker", title: "桅匠", eyebrow: "PROVIDER MASTMAKER", group: "用量", icon: "i-magpie", hint: "架=provider 杆=token 整=会话 裂=错" },
+    { id: "oarmaker", title: "桨匠", eyebrow: "PROVIDER OARMAKER", group: "用量", icon: "i-magpie", hint: "架=provider 桨=token 削=会话 裂=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
