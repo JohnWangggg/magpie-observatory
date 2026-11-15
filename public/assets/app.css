@@ -3087,6 +3087,7 @@ body.mini .route-stage { min-height: 0 !important; }
 .session-ctx button { display: flex; align-items: center; gap: 8px; width: 100%; padding: 7px 10px; border: 0; background: none; color: var(--fg-2); font: 500 11px var(--sans); text-align: left; border-radius: 6px; cursor: pointer; }
 .session-ctx button:hover { background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--fg); }
 .session-ctx button svg { width: 13px; height: 13px; flex: none; stroke: var(--muted); fill: none; stroke-width: 2; }
+.session-ctx .ctx-title { padding: 6px 10px 4px; font: 600 9px var(--mono); letter-spacing: .08em; color: var(--faint); border-bottom: 1px dashed var(--line); margin-bottom: 3px; }
 
 /* 看周报 link inside the daily digest */
 .digest-week { margin-left: 8px; font-size: 9px; padding: 3px 8px; }

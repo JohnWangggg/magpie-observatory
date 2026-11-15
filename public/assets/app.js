@@ -3694,11 +3694,40 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
       }, { passive: true });
     }
 
-    // Right-click the hero card → toggle its favorite slot on the rail.
+    // Right-click the hero card → quick actions menu (was: favorites only).
+    const hMenu = document.createElement("div");
+    hMenu.className = "session-ctx"; hMenu.hidden = true;
+    document.body.appendChild(hMenu);
+    function heroMenu(x, y) {
+      const fav = state.favorites.includes(state.heroMode);
+      const meta = viewMeta(state.heroMode);
+      hMenu.innerHTML = `
+        <div class="ctx-title">${esc(meta.title)} · ${esc(meta.group)}</div>
+        <button type="button" data-act="fav"><svg><use href="#i-star"/></svg>${fav ? "取消收藏" : "收藏此视图"}</button>
+        <button type="button" data-act="random"><svg><use href="#i-sparkle"/></svg>随机视图</button>
+        <button type="button" data-act="tour"><svg><use href="#i-route"/></svg>开始巡游</button>
+        <button type="button" data-act="compare"><svg><use href="#i-stack"/></svg>对比视图</button>
+        <button type="button" data-act="shot"><svg><use href="#i-link"/></svg>复制状态链接</button>
+        <button type="button" data-act="export"><svg><use href="#i-doc"/></svg>导出今日票据</button>`;
+      hMenu.style.left = Math.min(x, innerWidth - 200) + "px";
+      hMenu.style.top = Math.min(y, innerHeight - hMenu.offsetHeight - 8) + "px";
+      hMenu.hidden = false;
+    }
+    hMenu.addEventListener("click", e => {
+      const act = e.target.closest("[data-act]")?.dataset.act;
+      hMenu.hidden = true;
+      if (act === "fav") toggleFavorite(state.heroMode);
+      else if (act === "random") { const id = randViewId(); if (id) setHeroMode(id); }
+      else if (act === "tour") { startTour(); }
+      else if (act === "compare") { toast("palette → 对比视图"); const p = $("#cmd-open"); if (p) p.click(); }
+      else if (act === "shot") { const btn = $("#share-link"); if (btn) btn.click(); }
+      else if (act === "export") { const btn = $("#report-copy"); if (btn) btn.click(); else toast("票据入口在周报内"); }
+    });
+    document.addEventListener("click", e => { if (!e.target.closest(".session-ctx")) hMenu.hidden = true; });
     $(".hero").addEventListener("contextmenu", e => {
       if (e.target.closest("button, a, input, select, .decision-strip, .attn-item")) return;
       e.preventDefault();
-      toggleFavorite(state.heroMode);
+      heroMenu(e.clientX, e.clientY);
     });
 
     // Double-click the hero title → copy the view's name.
