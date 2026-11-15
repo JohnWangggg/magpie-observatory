@@ -1,0 +1,7 @@
+/* gunsmith view */
+@keyframes gsmfile { 0%,100% { transform: translateX(0); } 50% { transform: translateX(-4px); } }
+.gsm-svg { display: block; width: 100%; height: 100%; }
+.gsm-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.gsm-man { animation: gsmfile ease-in-out infinite; }
+.gsm-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .gsm-man { animation: none; } }
