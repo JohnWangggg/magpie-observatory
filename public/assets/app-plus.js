@@ -1510,7 +1510,7 @@ show(F.length-1);
       <div class="digest-grid">
         <div class="dig-tok" style="cursor:pointer" title="点击 → 滚到热度"><small>tokens</small><b>${fmtTokens(y.tokens)}${dTok != null ? `<em class="dig ${dTok >= 0 ? "up" : "down"}">${dTok >= 0 ? "▲" : "▼"}${Math.abs(dTok)}%</em>` : ""}</b></div>
         <div class="dig-call" style="cursor:pointer" title="点击 → 滚到请求日志"><small>调用</small><b>${y.calls || 0}${dCall != null ? `<em class="dig ${dCall >= 0 ? "up" : "down"}">${dCall >= 0 ? "▲" : "▼"}${Math.abs(dCall)}%</em>` : ""}</b></div>
-        <div><small>连续使用</small><b>${dayStreak()} 天</b></div>
+        <div class="dig-streak" style="cursor:pointer" title="点击 → 连续打卡明细"><small>连续使用</small><b>${dayStreak()} 天</b></div>
         ${wk || ""}
         ${(() => {
           // Yesterday's busiest subagent across sessions (count, not tokens).
@@ -1649,6 +1649,11 @@ show(F.length-1);
         if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
         toast("日志过滤 → err");
         card.remove();
+        return;
+      }
+      else if (e.target.closest(".dig-streak")) {
+        const days2 = (s.data.heatmap || []).slice(-dayStreak()).map(d => `${d.date.slice(5)}:${fmtTokens(d.tokens || 0)}`).join(" · ");
+        toast(days2 ? `连续 ${dayStreak()} 天 · ${days2}` : `连续 ${dayStreak()} 天`);
         return;
       }
       card.remove();
@@ -1966,14 +1971,26 @@ show(F.length-1);
     // Hover the scrubber → native tooltip previews the frame under the cursor
     // (tps + tokens of that snapshot, no re-render).
     const rr = $("#replay-range");
-    if (rr) rr.addEventListener("mousemove", e => {
-      const s2 = state();
-      if (!s2 || !s2.replay || !s2.replayBuf.length) return;
-      const frac = (e.clientX - rr.getBoundingClientRect().left) / rr.getBoundingClientRect().width;
-      const i = Math.min(s2.replayBuf.length - 1, Math.max(0, Math.round(frac * (s2.replayBuf.length - 1))));
-      const f = s2.replayBuf[i] && s2.replayBuf[i].data;
-      if (f && f.kpis) rr.title = `#${i} · ${fmtTokens(f.kpis.tokens || 0)} tok · ${f.kpis.tps != null ? f.kpis.tps.toFixed(1) : "—"} tok/s · ${f.kpis.errors || 0} 错误`;
-    });
+    if (rr) {
+      const stripEl = $("#replay-marks");
+      let cur = stripEl && stripEl.querySelector(".rep-cursor");
+      if (stripEl && !cur) {
+        cur = document.createElement("i");
+        cur.className = "rep-cursor";
+        cur.style.cssText = "position:absolute;top:0;width:1px;height:100%;background:var(--fg-2);opacity:0;pointer-events:none;z-index:3";
+        stripEl.appendChild(cur);
+      }
+      rr.addEventListener("mousemove", e => {
+        const s2 = state();
+        if (!s2 || !s2.replay || !s2.replayBuf.length) return;
+        const frac = (e.clientX - rr.getBoundingClientRect().left) / rr.getBoundingClientRect().width;
+        const i = Math.min(s2.replayBuf.length - 1, Math.max(0, Math.round(frac * (s2.replayBuf.length - 1))));
+        const f = s2.replayBuf[i] && s2.replayBuf[i].data;
+        if (f && f.kpis) rr.title = `#${i} · ${fmtTokens(f.kpis.tokens || 0)} tok · ${f.kpis.tps != null ? f.kpis.tps.toFixed(1) : "—"} tok/s · ${f.kpis.errors || 0} 错误`;
+        if (cur) { cur.style.left = (frac * 100).toFixed(1) + "%"; cur.style.opacity = ".8"; }
+      });
+      rr.addEventListener("mouseleave", () => { if (cur) cur.style.opacity = "0"; });
+    }
     // Right-click the speed chip → toggle auto-loop replay.
     $("#replay-speed")?.addEventListener("contextmenu", e => {
       e.preventDefault();

@@ -2491,14 +2491,14 @@
     return `<article class="session-card${sel ? " selected" : ""}${pinned ? " pinned" : ""}${s.status === "streaming" ? " streaming" : ""}${isMulti ? " multi" : ""}" draggable="${isMulti ? "true" : "false"}" role="button" aria-selected="${sel}" aria-label="${esc(s.title)} · ${esc(s.model)} · ${esc(STATUS_TEXT[s.status] || s.status)}" data-session="${esc(s.id)}" style="--s-c:${meta.color}" tabindex="0">
       <div class="session-top">
         <span class="session-agent" data-agent="${esc(s.agent)}" title="点击过滤此 agent"><img src="${agentIcon(s.agent)}" alt=""></span>
-        <span class="session-title" title="${esc(s.title)}">${esc(s.title)}</span>
+        <span class="session-title" data-title="${esc(s.title)}" title="${esc(s.title)} · 点击复制">${esc(s.title)}</span>
         <button class="session-pin${pinned ? " on" : ""}" data-pin="${esc(s.id)}" title="${pinned ? "取消置顶" : "置顶会话"}" aria-label="pin">${pinned ? "★" : "☆"}</button>
         <span class="session-state ${st}" data-status="${esc(s.status)}" title="点击按此状态过滤">${STATUS_TEXT[s.status] || s.status}</span>
       </div>
       <div class="session-meta"><span class="session-model" data-model="${esc(s.model)}" title="点击过滤此模型日志">${esc(s.model)}</span><span class="session-route" data-group="${esc(s.group || "direct")}" title="点击过滤此路由会话">→ ${s.group === "最近完成" ? "最近完成" : "group/" + esc(s.group || "direct")}</span></div>
       <div class="session-bottom">
         <span><b>${s.tokens ? fmtTokens(s.tokens) : "—"}</b> TOK</span>
-        <span>${fmtAge(age)}</span>
+        <span title="开始于 ${new Date(s.startedAt).toLocaleString("zh-CN", { hour12: false })}">${fmtAge(age)}</span>
         ${s.fallbacks ? `<span class="chip amber">${s.fallbacks} 改道</span>` : ""}
         ${(s.subagents || []).length ? `<span class="chip accent" title="子代理数">${s.subagents.length} 子代理</span>` : ""}
         ${(s.tries || []).length > 1 ? `<span class="chip accent" title="尝试次数">${s.tries.length} 试</span>` : ""}
