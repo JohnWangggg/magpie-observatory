@@ -3570,7 +3570,7 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
         bar = document.createElement("div");
         bar.id = "multi-bar";
         bar.className = "session-ctx";
-        bar.innerHTML = `<span class="ctx-title" id="mb-n"></span><button type="button" data-mb="pin">置顶选中</button><button type="button" data-mb="copy">复制 ID</button><button type="button" data-mb="clear">清除</button>`;
+        bar.innerHTML = `<span class="ctx-title" id="mb-n"></span><button type="button" data-mb="pin">置顶选中</button><button type="button" data-mb="prov">过滤所选 provider</button><button type="button" data-mb="copy">复制 ID</button><button type="button" data-mb="clear">清除</button>`;
         bar.addEventListener("click", ev => {
           const act = ev.target.closest("[data-mb]")?.dataset.mb;
           if (!act) return;
@@ -3582,6 +3582,11 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
             toast(`已置顶 ${ids.length} 个会话`);
           } else if (act === "copy") {
             navigator.clipboard?.writeText(ids.join("\n")).then(() => toast(`已复制 ${ids.length} 个 ID`));
+          } else if (act === "prov") {
+            // Filter the rail to the provider(s) shared by the selection.
+            const provs = [...new Set(ids.map(id => ((state.data.sessions || []).concat(state.data.recent || []).find(x => x.id === id) || {}).provider).filter(Boolean))];
+            if (provs.length === 1) { state.filter = { type: "provider", value: provs[0] }; toast(`已过滤 ${provs[0]}`); }
+            else toast(`选中跨 ${provs.length} 个 provider:${provs.join(", ")}`);
           }
           state.multiSel.clear();
           $$(".session-card.multi").forEach(c => c.classList.remove("multi"));

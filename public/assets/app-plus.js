@@ -105,14 +105,14 @@
         strip.querySelectorAll(".rep-ab").forEach(x => x.remove());
         if (s.replayAB) {
           const l = s.replayAB[0] / max * 100, w = (s.replayAB[1] - s.replayAB[0]) / max * 100;
-          strip.insertAdjacentHTML("beforeend", `<i class="rep-ab" style="position:absolute;left:${l.toFixed(1)}%;width:${w.toFixed(1)}%;top:0;height:100%;background:color-mix(in srgb,var(--red) 18%,transparent);pointer-events:none" title="A-B循环 ${s.replayAB[0]}→${s.replayAB[1]}"></i>`);
+          strip.insertAdjacentHTML("beforeend", `<i class="rep-ab" style="position:absolute;left:${l.toFixed(1)}%;width:${w.toFixed(1)}%;top:0;height:100%;background:color-mix(in srgb,var(--amber) 20%,transparent);pointer-events:none" title="A-B循环 ${s.replayAB[0]}→${s.replayAB[1]}"></i>`);
         }
       };
       // (start-time A-B band uses .rep-ab too so contextmenu can clear it)
       // A-B loop highlight: a red band over the looped stretch.
       if (s.replayAB) {
         const l = s.replayAB[0] / max * 100, w = (s.replayAB[1] - s.replayAB[0]) / max * 100;
-        strip.innerHTML += `<i class="rep-ab" style="position:absolute;left:${l.toFixed(1)}%;width:${w.toFixed(1)}%;top:0;height:100%;background:color-mix(in srgb,var(--red) 18%,transparent);pointer-events:none" title="A-B循环 ${s.replayAB[0]}→${s.replayAB[1]}"></i>`;
+        strip.innerHTML += `<i class="rep-ab" style="position:absolute;left:${l.toFixed(1)}%;width:${w.toFixed(1)}%;top:0;height:100%;background:color-mix(in srgb,var(--amber) 20%,transparent);pointer-events:none" title="A-B循环 ${s.replayAB[0]}→${s.replayAB[1]}"></i>`;
       }
     }
     // Session-start dots on the same strip: startedAt → position over the
