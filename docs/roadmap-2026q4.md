@@ -2273,3 +2273,13 @@ v107 已落地:回放条已过部分着色。跳过:其余(均已有)。
 3. **digest格streak断点**。
 4. **回放条hover帧预览**:mousemove显帧号tip。
 5. **agent卡token率**:吞吐sparkline标。
+
+## 下轮候选 v109（2026-11-15 · v108 落地后）
+
+v108 已落地:hover帧tip。跳过:光标保留/session icon(均已有)。
+
+1. **digest格streak断点**:streak toast加最后活跃日。
+2. **agent卡sparkline峰标**:吞吐点最大值标。
+3. **回放条minimap**:密度缩略(帧token)。 
+4. **pal?输入空显前缀帮助**:空query行提示前缀。
+5. **回放条快捷键?标**。
