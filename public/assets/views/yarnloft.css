@@ -1,0 +1,7 @@
+/* yarnloft view */
+@keyframes ylcrank { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(5deg); } }
+.yl-svg { display: block; width: 100%; height: 100%; }
+.yl-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.yl-winder { animation: ylcrank ease-in-out infinite; transform-origin: 12px 0; }
+.yl-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .yl-winder { animation: none; } }
