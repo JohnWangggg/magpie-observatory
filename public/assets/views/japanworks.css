@@ -1,0 +1,7 @@
+/* japanworks view */
+@keyframes jpdip { 0%,100% { transform: translateY(0); } 50% { transform: translateY(3px); } }
+\.jp-svg { display: block; width: 100%; height: 100%; }
+\.jp-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+\.jp-man { animation: jpdip ease-in-out infinite; }
+\.jp-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { \.jp-man { animation: none; } }
