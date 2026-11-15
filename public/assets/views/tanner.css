@@ -1,0 +1,7 @@
+/* tanner view */
+@keyframes tnrrake { 0%,100% { transform: translateX(0); } 50% { transform: translateX(3px); } }
+.tnr-svg { display: block; width: 100%; height: 100%; }
+.tnr-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.tnr-man { animation: tnrrake ease-in-out infinite; }
+.tnr-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .tnr-man { animation: none; } }
