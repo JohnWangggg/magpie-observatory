@@ -1443,3 +1443,13 @@ v25 已落地：palette回放循环、digest复制CSV、palette按kind分段。�
 3. **palette视图缩略图hover放大**:pal-thumb hover→lightbox缩略预览。
 4. **digest错误率格**:errs/calls百分比格。
 5. **回放帧跳转±10**:range旁«»按钮跳10帧。
+
+## 下轮候选 v27（2026-11-15 · v26 全落地后）
+
+v26 已落地：回放±10帧+悬停预览、digest错误率格、tries计数chip。全部 5 项消化。
+
+1. **palette pal-kind吸顶**:分段标签sticky(与vm-filters一致)。
+2. **digest可复制JSON**:digest-csv旁加JSON按钮。
+3. **session卡模型点击**:model名点击→logQuery=该模型。
+4. **回放首/末帧键**:replay中按 Home/End跳帧。
+5. **vm-lucky未看优先**:🎲偏向magpie.viewSeen外视图。
