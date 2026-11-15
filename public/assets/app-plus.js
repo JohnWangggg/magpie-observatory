@@ -328,6 +328,7 @@
     if (!s) return;
     s.replaySpeed = ((s.replaySpeed || 1) >= 4) ? 1 : (s.replaySpeed || 1) * 2;
     const b = $("#replay-speed"); if (b) b.textContent = s.replaySpeed + "×";
+    if (b) b.title = `回放速度 ${s.replaySpeed}× · 点击→${s.replaySpeed >= 4 ? 1 : s.replaySpeed * 2}×`;
     // live-respeed a running timer
     if (s._replayTimer) { clearInterval(s._replayTimer); s._replayTimer = null; $("#replay-play").textContent = "▶"; toggleReplayPlay(); }
     toast(`回放速度 ${s.replaySpeed}×`);
@@ -2304,7 +2305,7 @@ show(F.length-1);
           pop.className = "gwcmp-card frame-pop";
           const k = f.data.kpis || {};
           pop.innerHTML = `<div class="digest-head"><b>帧 ${idx}</b><span>${new Date(f.t).toTimeString().slice(0, 8)}</span></div><div class="cmp-r"><span>TOK</span><b>${fmtTokens(k.tokens)}</b><em></em><b>${k.tps != null ? k.tps.toFixed(1) : "—"}/s</b></div><div class="cmp-r"><span>调用</span><b>${k.calls || 0}</b><em></em><b>${k.errors || 0} 错</b></div><div class="cmp-r"><span>会话</span><b>${(f.data.sessions || []).length}</b><em></em><b>${fmtMoney(k.cost)}</b></div>`;
-          pop.innerHTML += ((f.data.sessions || []).slice(0, 3).map(sx => `<div class="cmp-r" data-sid="${esc(sx.id || "")}" style="cursor:pointer" title="点击选此会话"><span>${esc((sx.title || "?").slice(0, 14))}</span><b>${fmtTokens(sx.tokens || 0)}</b><em></em><b>${esc(sx.agent || "")}</b></div>`).join("") + ((f.data.sessions || []).length > 3 ? `<small style="opacity:.55">+${(f.data.sessions || []).length - 3} 会话</small>` : ""));
+          pop.innerHTML += ((f.data.sessions || []).slice(0, 3).map(sx => `<div class="cmp-r" data-sid="${esc(sx.id || "")}" style="cursor:pointer" title="点击选此会话"><span><img src="${Obs.api.agentIcon(sx.agent)}" style="width:9px;height:9px;border-radius:50%;vertical-align:middle;margin-right:3px">${esc((sx.title || "?").slice(0, 14))}</span><b>${fmtTokens(sx.tokens || 0)}</b><em></em><b>${esc(sx.agent || "")}</b></div>`).join("") + ((f.data.sessions || []).length > 3 ? `<small style="opacity:.55">+${(f.data.sessions || []).length - 3} 会话</small>` : ""));
           const agC = {}; (f.data.sessions || []).forEach(sx => agC[sx.agent] = (agC[sx.agent] || 0) + 1);
           const topAg = Object.entries(agC).sort((a, b) => b[1] - a[1])[0];
           if (topAg) pop.innerHTML += `<div class="cmp-r"><span>主导</span><b>${esc(topAg[0])}</b><em></em><b>${topAg[1]} 会话</b></div>`;
