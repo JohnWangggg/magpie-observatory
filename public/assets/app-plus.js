@@ -1352,7 +1352,8 @@ show(F.length-1);
     card.className = "gwcmp-card";
     card.innerHTML = `<div class="digest-head"><b>历史摘要</b><span>DIGEST LOG</span></div>` +
       (log.length
-        ? `<div class="gwcmp-grid" style="grid-template-columns:1fr">${log.map(e => `<div class="gc-row"><span>${esc(e.date)}</span><b>${fmtTokens(e.tokens)} · ${e.calls} 调用 · ${e.streak}天</b></div>`).join("")}</div>`
+        ? `<div class="gwcmp-grid" style="grid-template-columns:1fr">${log.map(e => `<div class="gc-row"><span>${esc(e.date)}</span><b>${fmtTokens(e.tokens)} · ${e.calls} 调用 · ${e.streak}天</b></div>`).join("")}</div>` +
+          `<svg class="dig-bars" viewBox="0 0 ${log.length * 10 + 2} 28" style="margin-top:6px">${(() => { const mx = Math.max(1, ...log.map(e => e.tokens || 0)); return log.map((e, i) => `<rect x="${i * 10 + 1}" y="${26 - Math.round((e.tokens || 0) / mx * 24)}" width="8" height="${Math.max(2, Math.round((e.tokens || 0) / mx * 24))}" rx="1.5" fill="var(--accent)" opacity="${(.4 + i / log.length * .6).toFixed(2)}"/>`).join(""); })()}</svg>`
         : `<div class="digest-foot">还没有摘要历史——明日首访后生成</div>`) +
       `<div class="digest-foot"><button class="mini-btn" id="dl-copy" type="button">复制全部</button> · 保留最近 7 条 · 点击外关闭</div>`;
     card.addEventListener("click", e => {
@@ -2106,7 +2107,8 @@ ${quota || "| — | — | — |"}
       { kind: "动作", icon: "i-trophy", title: "个人战绩", sub: "等级 / 连击 / 纪录", search: "records 战绩 等级 成就".toLowerCase(), run: showRecords },
       { kind: "动作", icon: "i-link", title: "复制视图快照", sub: "当前视图 + KPI + 配额摘要", search: "snapshot 快照 复制 copy".toLowerCase(), run: copyViewSnapshot },
       { kind: "动作", icon: "i-doc", title: "复制今日票据", sub: "markdown 摘要 · 日报/聊天直贴", search: "receipt 票据 摘要 markdown copy".toLowerCase(), run: copyReceipt },
-      { kind: "动作", icon: "i-stack", title: "对比视图", sub: "当前视图 + 随机视图并排", search: "compare 对比 并排 dual side".toLowerCase(), run: toggleCompare }
+      { kind: "动作", icon: "i-check", title: "恢复隐藏 KPI", sub: (() => { try { return JSON.parse(localStorage.getItem("magpie.kpiHidden") || "[]").length + " 已隐藏"; } catch (_) { return "0"; } })(), search: "kpi 隐藏 恢复 hidden restore".toLowerCase(), run: () => { localStorage.removeItem("magpie.kpiHidden"); Obs.api.renderAll && Obs.api.renderAll(); toast("KPI 已恢复"); closePalette(); } },
+      { kind: "动作", icon: "i-stack", title: "对比视图", sub: "当前视图 + 次近视图并排", search: "compare 对比 并排 dual side".toLowerCase(), run: toggleCompare }
     );
 
   // Floating compare pane: renders a chosen registered view beside the hero.

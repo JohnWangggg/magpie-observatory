@@ -3788,6 +3788,7 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
         <button data-act="copy-tries"><svg><use href="#i-arrow"/></svg>复制 tries 链</button>
         <button data-act="filter"><svg><use href="#i-search"/></svg>只看 ${esc(D.agentMeta(ctxSess.agent).name)}</button>
         <button data-act="logs"><svg><use href="#i-db"/></svg>跳到日志</button>
+        <button data-act="copy-info"><svg><use href="#i-doc"/></svg>复制标题+模型</button>
         <button data-act="quota"><svg><use href="#i-pin"/></svg>钉到配额</button>`;
       ctxMenu.hidden = false;
       const mw = 168;
@@ -3799,6 +3800,7 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
       if (!b || !ctxSess) { hideCtx(); return; }
       const act = b.dataset.act;
       if (act === "copy-id") navigator.clipboard?.writeText(ctxSess.id).then(() => toast("会话 ID 已复制"));
+      if (act === "copy-info") navigator.clipboard?.writeText(`${ctxSess.title} · ${ctxSess.model} · ${fmtTokens(ctxSess.tokens || 0)} tok`).then(() => toast("标题+模型已复制"));
       if (act === "copy-tries") {
         const t = (ctxSess.tries || []).map(x => `${D.providerMeta(x.provider).name}/${x.model.split("/").pop()} ${x.state === "ok" ? "✓" : "✕"}`).join(" → ");
         navigator.clipboard?.writeText(`${ctxSess.title} | ${fmtTokens(ctxSess.tokens || 0)} tok | ${t || ctxSess.model}`).then(() => toast("tries 链已复制"));
