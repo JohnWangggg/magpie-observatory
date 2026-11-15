@@ -1,4 +1,4 @@
-# Magpie Observatory · 视图图鉴 (406)
+# Magpie Observatory · 视图图鉴 (407)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
@@ -6,7 +6,7 @@
 | 分组 | 数量 |
 |---|---|
 | [实时](#实时) | 16 |
-| [配额](#配额) | 38 |
+| [配额](#配额) | 39 |
 | [延迟](#延迟) | 2 |
 | [氛围](#氛围) | 3 |
 | [场景](#场景) | 233 |
@@ -42,7 +42,7 @@
 | `lighthouse` | 灯塔 | LIGHTHOUSE | 塔=配额 光束=会话 | ![lighthouse](../public/shots/lighthouse.png) |
 | `harbor` | 港口 | HARBOR | 船=agent 箱=tries 浮标=配额 | ![harbor](../public/shots/harbor.png) |
 
-## 配额 (38)
+## 配额 (39)
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
@@ -80,6 +80,7 @@
 | `lockgate` | 船闸 | QUOTA LOCKGATE | 闸=配额窗 水=余量 船=会话 闸=错 | ![lockgate](../public/shots/lockgate.png) |
 | `pergola` | 藤架 | QUOTA PERGOLA | 拱=配额窗 藤=用量 凳=会话 折=错 | ![pergola](../public/shots/pergola.png) |
 | `rigging` | 索具 | QUOTA RIGGING | 桅=配额窗 帆=用量 旗=会话 绳=错 | ![rigging](../public/shots/rigging.png) |
+| `papermill` | 抄纸坊 | QUOTA PAPERMILL | 槽=配额窗 浆=余量 纸=会话 裂=错 | — |
 | `rosetta` | 罗塞塔 | ROSETTA | 环带=配额 刻痕=会话 | ![rosetta](../public/shots/rosetta.png) |
 | `eclipse` | 日蚀 | ECLIPSE | 暗盘=量 冕=会话 沿=窗 | ![eclipse](../public/shots/eclipse.png) |
 | `tapestry` | 织锦 | TAPESTRY | 经=配额 纬=会话 | ![tapestry](../public/shots/tapestry.png) |
@@ -361,7 +362,7 @@
 | `sounder` | 测深锤 | PROVIDER SOUNDER | 坠=provider 深=token 溅=会话 断=错 | ![sounder](../public/shots/sounder.png) |
 | `odeon` | 乐厅 | PROVIDER ODEON | 环=provider 座=token 炬=会话 | ![odeon](../public/shots/odeon.png) |
 | `steelyard` | 杆秤 | PROVIDER STEELYARD | 杆=provider 砣=token 钩=会话 断=错 | ![steelyard](../public/shots/steelyard.png) |
-| `orangery` | 橘温室 | PROVIDER ORANGERY | 树=provider 果=token 壶=会话 裂=错 | — |
+| `orangery` | 橘温室 | PROVIDER ORANGERY | 树=provider 果=token 壶=会话 裂=错 | ![orangery](../public/shots/orangery.png) |
 | `rings` | Token 年轮 | YEAR IN RINGS | 26 周极坐标日历 | ![rings](../public/shots/rings.png) |
 | `latency` | 延迟热力 | LATENCY HEATMAP | 时间 × 延迟 | ![latency](../public/shots/latency.png) |
 | `stream` | 流量河流 | STREAMGRAPH | Provider 增量 | ![stream](../public/shots/stream.png) |
