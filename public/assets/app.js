@@ -320,6 +320,7 @@
     { id: "pewterer", title: "白镴坊", eyebrow: "PROVIDER PEWTERER", group: "用量", icon: "i-magpie", hint: "埚=provider 罐=token 匠=会话 干=错" },
     { id: "cannonfoundry", title: "铸炮坊", eyebrow: "PROVIDER CANNONFOUNDRY", group: "用量", icon: "i-magpie", hint: "镗=provider 炮=token 匠=会话 砂=错" },
     { id: "farrier", title: "蹄铁坊", eyebrow: "PROVIDER FARRIER", group: "用量", icon: "i-magpie", hint: "箱=provider 蹄=token 匠=会话 偏=错" },
+    { id: "knifegrinder", title: "磨刀坊", eyebrow: "PROVIDER KNIFEGRINDER", group: "用量", icon: "i-magpie", hint: "轮=provider 刀=token 工=会话 缺=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
