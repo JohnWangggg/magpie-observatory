@@ -1796,3 +1796,13 @@ v60 已落地：digest柱线混合。跳过:G帧集导出(播放器已)、多选
 3. **digest格月链**:digest卡底加"本月累计"。
 4. **palette视图次数**:视图sub加"看过N次"。
 5. **回放AB循环导出**:AB区间存share-link(非JSON下载)。
+
+## 下轮候选 v62（2026-11-15 · v61 落地后）
+
+v61 已落地：tick时间、本月累计。跳过:try排序(原序关键)、视图N次(heat点已)、AB share-link(JSON已)。
+
+1. **回放strip帧号点**:刻度下加小tick点每10帧。
+2. **session卡首try色**:chip provider名按品牌色。
+3. **digest格本月bar**:本月累计加微进度条(月中位)。
+4. **palette视图热区**:pal-thumb旁加viewHeat数。
+5. **回放AB存name**:AB区间可命名存多组。
