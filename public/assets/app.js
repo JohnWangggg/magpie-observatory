@@ -3582,6 +3582,20 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
       ql.addEventListener("mouseout", e => { if (e.target.closest(".quota-item")) hideQPop(); });
       ql.addEventListener("scroll", hideQPop, { passive: true });
       document.addEventListener("click", e => { if (!e.target.closest(".quota-pop")) hideQPop(); });
+      // Long-press a quota row → copy that provider's window details.
+      let lpTimer = null;
+      ql.addEventListener("touchstart", e => {
+        const item = e.target.closest(".quota-item");
+        if (!item) return;
+        lpTimer = setTimeout(() => {
+          const q = (state.data.quotas || []).find(x => x.provider === item.dataset.prov);
+          if (!q) return;
+          const meta = D.providerMeta(q.provider);
+          const rows = (q.windows || []).map(w => `${w.name}: ${Math.round(w.used || 0)}% (${fmtReset(w.resetsIn)})`).join(" | ");
+          navigator.clipboard?.writeText(`${meta.name || q.provider} · ${q.name}${q.user ? " " + q.user : ""} · ${rows}`).then(() => toast("配额详情已复制"));
+        }, 600);
+      }, { passive: true });
+      ["touchend", "touchmove", "touchcancel"].forEach(ev => ql.addEventListener(ev, () => clearTimeout(lpTimer), { passive: true }));
     }
 
     // Right-click a session card → little context menu with the four things

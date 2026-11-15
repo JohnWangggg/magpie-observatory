@@ -1946,7 +1946,7 @@ ${quota || "| — | — | — |"}
     const reg = window.ObservatoryViews || {};
     const ids = Object.keys(reg).filter(id => id !== s.heroMode);
     if (!ids.length) { toast("无可用对比视图"); return; }
-    const other = ids[Math.floor(Math.random() * ids.length)];
+    const other = (s.viewRecent || []).find(id => reg[id] && id !== s.heroMode) || ids[0];
     pane = document.createElement("div");
     pane.id = "compare-pane";
     pane.innerHTML = `<div class="cmp-head"><b>${esc(reg[other].title || other)}</b><small>${esc(reg[other].eyebrow || "")}</small><button type="button" id="cmp-x" aria-label="关闭">×</button></div><div class="cmp-body" id="cmp-body"></div>`;
