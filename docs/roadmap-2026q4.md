@@ -1634,3 +1634,13 @@ v44 已落地：try链title、帧号刻度、对比卡去A/B。跳过：图鉴�
 3. **digest格周视图**:图鉴格旁加本周新增缩略名。
 4. **palette视图最近**:视图项按viewHeat desc重排。
 5. **回放AB快速设**:回放中按 A 设当前帧为A,B设B(替代右键)。
+
+## 下轮候选 v46（2026-11-15 · v45 落地+即时重绘fix后）
+
+v45 已落地：A/B键设循环+即时重绘。跳过：strip拖拽改AB(键设已快)、try链右缘图(chip已足)、视图heat重排(search已分组)。
+
+1. **回放键位help**:回放条加 ? 标提示 A/B/C/Home/End。
+2. **session卡tries图**:tries链 title 升级为小SVG链(hover popover)。
+3. **digest格历史**:digest卡加"昨天同时段对比"小字。
+4. **palette项热度**:动作项也加 pal-hot(按点击次数)。
+5. **回放AB持久**:replayAB存localStorage跨重开。
