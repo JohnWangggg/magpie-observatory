@@ -1,0 +1,4 @@
+/* shottower view */
+.st-svg { display: block; width: 100%; height: 100%; }
+.st-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.st-lab { fill: var(--fg-2); font: 600 8px var(--mono); }

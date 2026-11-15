@@ -172,6 +172,7 @@
     { id: "doocot", title: "鸽舍", eyebrow: "QUOTA DOOCOT", group: "配额", icon: "i-magpie", hint: "舍=配额窗 巢=余量 鸽=会话 瓦=错" },
     { id: "vault", title: "金库", eyebrow: "QUOTA VAULT", group: "配额", icon: "i-magpie", hint: "门=配额窗 开=余量 锭=用量 锁=会话 钻=错" },
     { id: "ferry", title: "渡口", eyebrow: "QUOTA FERRY", group: "配额", icon: "i-magpie", hint: "渡=配额窗 程=用量 客=会话 绳=错" },
+    { id: "shottower", title: "弹塔", eyebrow: "QUOTA SHOTTOWER", group: "配额", icon: "i-magpie", hint: "塔=配额窗 高=用量 丸=会话 裂=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
