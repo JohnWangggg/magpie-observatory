@@ -1353,3 +1353,13 @@ v16 已落地：session 多选 Shift+click+批量条(置顶/复制/清除)、hea
 3. **view-menu 列数自适应**:1700px 3列已有,补 2200px+ 4列。
 4. **回放书签**:回放中按 B 标记当前帧,加 magpie.replayMarks。
 5. **KPI 右键菜单**:单击跳/右键隐藏已有,补 palette 列出隐藏项。
+
+## 下轮候选 v18（2026-11-15 · v17 部分落地后）
+
+v17 已落地：session多选+批量条、.multi跨tick持久、回放B帧书签、vm 4列、heat-cell日期过滤确认。
+
+1. **digestLog 趋势 mini bar**:历史摘要浮卡加 7 天柱状。
+2. **palette 列隐藏 KPI**:命令"已隐藏 N 个 KPI · 恢复"进 paletteItems。
+3. **session 卡片右键扩展**:现有5项,补"复制标题+模型"格式串。
+4. **回放书签跳转**:palette 列 replayMarks 点击跳帧。
+5. **digest 声音**:digest 出现时低声提示音(与 beep 复用,可关)。
