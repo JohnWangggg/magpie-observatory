@@ -2363,3 +2363,13 @@ v116 已落地:达标率、age超时色。跳过:median/计数/区间。
 3. **digest格周中位**:median。
 4. **session卡首个尝试耗时**:ms标。
 5. **replay条日界线**:跨日帧分隔。
+
+## 下轮候选 v118（2026-11-15 · v117 落地后）
+
+v117 已落地:跨日界线。跳过:hist计数/中位/耗时(部分已)。
+
+1. **pal最近✓计数**:同命令×N。
+2. **session卡首个尝试ms**:已在chip title。
+3. **回放条末30帧钮**。
+4. **digest格周中位数**:median tokens。
+5. **agent卡active count标**。
