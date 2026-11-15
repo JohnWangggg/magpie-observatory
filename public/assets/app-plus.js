@@ -201,6 +201,7 @@
       }
       // First/last frame quick-jump paddles at the strip edges.
       strip.innerHTML += `<button type="button" class="rep-edge" data-jump="0" style="position:absolute;left:0;top:0;height:100%;width:10px;border:0;background:color-mix(in srgb,var(--accent) 12%,transparent);cursor:pointer" title="跳到首帧 帧0"></button>`;
+      strip.innerHTML += `<i class="rep-played" style="position:absolute;left:0;width:0;top:0;height:100%;background:color-mix(in srgb,var(--accent) 18%,transparent);pointer-events:none"></i>`;
       strip.innerHTML += `<button type="button" class="rep-edge" data-jump="${s.replayBuf.length - 1}" style="position:absolute;right:0;top:0;height:100%;width:10px;border:0;background:color-mix(in srgb,var(--accent) 12%,transparent);cursor:pointer" title="跳到末帧 帧${s.replayBuf.length - 1}"></button>`;
     }
       // Frame-number scale: 3 ticks (start / mid / end) so the strip reads
@@ -266,6 +267,8 @@
     if (idxEl) idxEl.textContent = `帧 ${i}/${buf.length - 1}`;
     const rng = $("#replay-range");
     if (rng) rng.title = `帧 ${i}/${buf.length - 1} · ${new Date(buf[i].t).toTimeString().slice(0, 8)}`;
+    const played = document.querySelector("#replay-strip .rep-played");
+    if (played) played.style.width = `${(i / Math.max(1, buf.length - 1) * 100).toFixed(1)}%`;
     const kpiEl = $("#replay-kpi");
     if (kpiEl) { const kk = buf[i].data.kpis || {}; kpiEl.textContent = `TOK ${fmtTokens(kk.tokens || 0)} · ${kk.tps != null ? kk.tps.toFixed(1) : "—"}/s`; }
     if (kpiEl && s.replayAB) { const [a2, b2] = s.replayAB; if (i >= a2 && i <= b2) kpiEl.textContent += ` · AB ${i - a2 + 1}/${b2 - a2 + 1}`; }
