@@ -1,0 +1,7 @@
+/* palmento view */
+@keyframes pmplunge { 0%,100% { transform: translateY(0); } 50% { transform: translateY(4px); } }
+.pm-svg { display: block; width: 100%; height: 100%; }
+.pm-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.pm-treader { animation: pmplunge ease-in-out infinite; }
+.pm-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .pm-treader { animation: none; } }
