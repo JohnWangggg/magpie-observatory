@@ -252,6 +252,7 @@
     { id: "blastfurnace", title: "高炉", eyebrow: "PROVIDER BLAST FURNACE", group: "用量", icon: "i-magpie", hint: "炉=provider 焰=token 工=会话 凝=错" },
     { id: "mashtun", title: "糖化槽", eyebrow: "PROVIDER MASH TUN", group: "用量", icon: "i-magpie", hint: "槽=provider 醪=token 工=会话 焦=错" },
     { id: "boxbellows", title: "箱风箱", eyebrow: "PROVIDER BOX BELLOWS", group: "用量", icon: "i-magpie", hint: "箱=provider 塞=token 工=会话 裂=错" },
+    { id: "plateway", title: "盘道", eyebrow: "PROVIDER PLATEWAY", group: "用量", icon: "i-magpie", hint: "轨=provider 车=token 工=会话 断=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
