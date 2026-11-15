@@ -122,7 +122,7 @@
           s.replayAB = ab;
           strip.querySelectorAll(".rep-ab, .rep-ab-end").forEach(x => x.remove());
           const l = ab[0] / max * 100, w = (ab[1] - ab[0]) / max * 100;
-          strip.insertAdjacentHTML("beforeend", `<i class="rep-ab" style="position:absolute;left:${l.toFixed(1)}%;width:${w.toFixed(1)}%;top:0;height:100%;background:color-mix(in srgb,var(--amber) 20%,transparent);pointer-events:none"></i><i class="rep-ab-end" data-end="0" style="position:absolute;left:${l.toFixed(1)}%;top:-3px;font:700 7px var(--num);color:var(--amber);cursor:ew-resize">A</i><i class="rep-ab-end" data-end="1" style="position:absolute;left:calc(${l.toFixed(1)}% + ${w.toFixed(1)}% - 6px);top:-3px;font:700 7px var(--num);color:var(--amber);cursor:ew-resize">B</i>`);
+          strip.insertAdjacentHTML("beforeend", `<i class="rep-ab" style="position:absolute;left:${l.toFixed(1)}%;width:${w.toFixed(1)}%;top:0;height:100%;background:color-mix(in srgb,var(--amber) 20%,transparent);pointer-events:none"></i><i class="rep-ab-end" data-end="0" style="position:absolute;left:${l.toFixed(1)}%;top:-3px;font:700 7px var(--num);color:var(--amber);cursor:ew-resize" title="A端 帧${ab[0]} · ${s.replayBuf[ab[0]] ? new Date(s.replayBuf[ab[0]].t).toTimeString().slice(0, 5) : ""}">A</i><i class="rep-ab-end" data-end="1" style="position:absolute;left:calc(${l.toFixed(1)}% + ${w.toFixed(1)}% - 6px);top:-3px;font:700 7px var(--num);color:var(--amber);cursor:ew-resize" title="B端 帧${ab[1]} · ${s.replayBuf[ab[1]] ? new Date(s.replayBuf[ab[1]].t).toTimeString().slice(0, 5) : ""}">B</i>`);
         };
         const up = () => {
           try { localStorage.setItem("magpie.replayAB", JSON.stringify(s.replayAB)); } catch (_) {}
@@ -196,7 +196,7 @@
       // A-B loop highlight: a red band over the looped stretch.
       if (s.replayAB) {
         const l = s.replayAB[0] / max * 100, w = (s.replayAB[1] - s.replayAB[0]) / max * 100;
-        strip.innerHTML += `<i class="rep-ab" data-pan="1" style="position:absolute;left:${l.toFixed(1)}%;width:${w.toFixed(1)}%;top:0;height:100%;background:color-mix(in srgb,var(--amber) 20%,transparent);cursor:grab" title="A-B循环 ${s.replayAB[0]}→${s.replayAB[1]} · 拖动平移"></i>`;
+        strip.innerHTML += `<i class="rep-ab" data-pan="1" style="position:absolute;left:${l.toFixed(1)}%;width:${w.toFixed(1)}%;top:0;height:100%;background:color-mix(in srgb,var(--amber) 20%,transparent);cursor:grab" title="A-B循环 ${s.replayAB[0]}→${s.replayAB[1]} · ${s.replayBuf[s.replayAB[0]] && s.replayBuf[s.replayAB[1]] ? Math.round((s.replayBuf[s.replayAB[1]].t - s.replayBuf[s.replayAB[0]].t) / 1000) + "s" : ""} · 拖动平移"></i>`;
         strip.innerHTML += `<i class="rep-ab-end" data-end="0" style="position:absolute;left:${l.toFixed(1)}%;top:-3px;font:700 7px var(--num);color:var(--amber);cursor:ew-resize" title="A端 帧${s.replayAB[0]} · ${s.replayBuf[s.replayAB[0]] ? new Date(s.replayBuf[s.replayAB[0]].t).toTimeString().slice(0, 5) : ""}">A</i><i class="rep-ab-end" data-end="1" style="position:absolute;left:calc(${l.toFixed(1)}% + ${w.toFixed(1)}% - 6px);top:-3px;font:700 7px var(--num);color:var(--amber);cursor:ew-resize" title="B端 帧${s.replayAB[1]} · ${s.replayBuf[s.replayAB[1]] ? new Date(s.replayBuf[s.replayAB[1]].t).toTimeString().slice(0, 5) : ""}">B</i>`;
       }
       // First/last frame quick-jump paddles at the strip edges.
