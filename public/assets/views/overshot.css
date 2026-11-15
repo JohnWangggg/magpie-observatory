@@ -1,0 +1,8 @@
+/* overshot view */
+@keyframes ovturn { to { transform: rotate(360deg); } }
+.ov-svg { display: block; width: 100%; height: 100%; }
+.ov-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.ov-wheel { animation: ovturn linear infinite; transform-origin: center; }
+.ov-launder { transition: opacity .2s; }
+.ov-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .ov-wheel { animation: none; } }
