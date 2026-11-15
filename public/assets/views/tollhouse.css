@@ -1,0 +1,7 @@
+/* tollhouse view */
+@keyframes thring { 0%,100% { transform: rotate(-8deg); } 50% { transform: rotate(8deg); } }
+.th-svg { display: block; width: 100%; height: 100%; }
+.th-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.th-bell { animation: thring ease-in-out infinite; transform-origin: top center; }
+.th-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .th-bell { animation: none; } }
