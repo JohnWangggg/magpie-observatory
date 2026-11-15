@@ -1,4 +1,4 @@
-# Magpie Observatory · 视图图鉴 (533)
+# Magpie Observatory · 视图图鉴 (534)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
@@ -10,7 +10,7 @@
 | [延迟](#延迟) | 2 |
 | [氛围](#氛围) | 3 |
 | [场景](#场景) | 233 |
-| [用量](#用量) | 142 |
+| [用量](#用量) | 143 |
 | [天象](#天象) | 17 |
 | [洞察](#洞察) | 10 |
 | [结构](#结构) | 6 |
@@ -355,7 +355,7 @@
 | `reserve2` | 保护区二号 | RESERVE II | 观测=配额窗 隙=用量 栖枝=过热 守护=会话 | ![reserve2](../public/shots/reserve2.png) |
 | `desert` | 沙丘 | DESERT | 丘=配额窗 高=用量 驼=会话 | ![desert](../public/shots/desert.png) |
 
-## 用量 (142)
+## 用量 (143)
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
@@ -488,7 +488,8 @@
 | `pressroom` | 印刷坊 | PROVIDER PRESSROOM | 机=provider 张=token 匠=会话 污=错 | ![pressroom](../public/shots/pressroom.png) |
 | `bindery` | 装订坊 | PROVIDER BINDERY | 架=provider 帖=token 工=会话 散=错 | ![bindery](../public/shots/bindery.png) |
 | `paperpress` | 压纸坊 | PROVIDER PAPERPRESS | 压=provider 帖=token 工=会话 皱=错 | ![paperpress](../public/shots/paperpress.png) |
-| `bodger` | 绿木工 | PROVIDER BODGER | 马=provider 腿=token 工=会话 裂=错 | — |
+| `bodger` | 绿木工 | PROVIDER BODGER | 马=provider 腿=token 工=会话 裂=错 | ![bodger](../public/shots/bodger.png) |
+| `joinery` | 细木坊 | PROVIDER JOINERY | 台=provider 榫=token 工=会话 崩=错 | — |
 | `rings` | Token 年轮 | YEAR IN RINGS | 26 周极坐标日历 | ![rings](../public/shots/rings.png) |
 | `latency` | 延迟热力 | LATENCY HEATMAP | 时间 × 延迟 | ![latency](../public/shots/latency.png) |
 | `stream` | 流量河流 | STREAMGRAPH | Provider 增量 | ![stream](../public/shots/stream.png) |
