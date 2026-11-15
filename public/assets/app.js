@@ -193,6 +193,7 @@
     { id: "ropewalk", title: "绳廊", eyebrow: "PROVIDER ROPEWALK", group: "用量", icon: "i-magpie", hint: "道=provider 捻=token 转=会话 断=错" },
     { id: "brickyard", title: "砖窑", eyebrow: "PROVIDER BRICKYARD", group: "用量", icon: "i-magpie", hint: "窑=provider 烟=token 车=会话 裂=错" },
     { id: "overshot", title: "水轮", eyebrow: "PROVIDER OVERSHOT", group: "用量", icon: "i-magpie", hint: "轮=provider 斗=token 槽=会话 裂=错" },
+    { id: "smokehouse", title: "熏房", eyebrow: "PROVIDER SMOKEHOUSE", group: "用量", icon: "i-magpie", hint: "房=provider 烟=token 挂=会话 裂=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },

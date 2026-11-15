@@ -1,0 +1,7 @@
+/* smokehouse view */
+@keyframes shdrift { 0% { opacity: 0; transform: translate(0, 0); } 40% { opacity: .8; } 100% { opacity: 0; transform: translate(12px, -12px); } }
+.sh-svg { display: block; width: 100%; height: 100%; }
+.sh-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.sh-smoke { animation: shdrift ease-in-out infinite; }
+.sh-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .sh-smoke { animation: none; opacity: .5; } }
