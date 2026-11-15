@@ -125,7 +125,7 @@
     }
       // Frame-number scale: 3 ticks (start / mid / end) so the strip reads
       // as an axis instead of an anonymous bar.
-      strip.innerHTML += `<div style="position:absolute;left:0;right:0;bottom:-2px;display:flex;justify-content:space-between;pointer-events:none;font:7px var(--num);color:var(--faint)"><span>0</span><span>${Math.round(max / 2)}</span><span>${s.replayBuf.length - 1}</span></div>`;
+      strip.innerHTML += `<div style="position:absolute;left:0;right:0;bottom:-2px;display:flex;justify-content:space-between;pointer-events:none;font:7px var(--num);color:var(--faint)" title="帧刻度：0 → ${s.replayBuf.length - 1}"><span>0</span><span>${Math.round(max / 2)}</span><span>${s.replayBuf.length - 1}</span></div>`;
     // Session-start dots on the same strip: startedAt → position over the
     // buffer span (completion time isn't recorded; start is the marker).
     try {

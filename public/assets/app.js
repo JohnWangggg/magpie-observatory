@@ -2496,7 +2496,7 @@
         <button class="session-pin${pinned ? " on" : ""}" data-pin="${esc(s.id)}" title="${pinned ? "取消置顶" : "置顶会话"}" aria-label="pin">${pinned ? "★" : "☆"}</button>
         <span class="session-state ${st}" data-status="${esc(s.status)}" title="点击按此状态过滤">${STATUS_TEXT[s.status] || s.status}</span>
       </div>
-      <div class="session-meta"><span class="session-model" data-model="${esc(s.model)}" title="点击过滤此模型日志">${esc(s.model)}</span><span class="session-route" data-group="${esc(s.group || "direct")}" title="点击过滤此路由会话">→ ${s.group === "最近完成" ? "最近完成" : "group/" + esc(s.group || "direct")}</span></div>
+      <div class="session-meta"><span class="session-model" data-model="${esc(s.model)}" title="点击过滤此模型日志 · ${esc(D.providerMeta(s.provider || s.tries?.[0]?.provider)?.name || s.provider || s.tries?.[0]?.provider || "?")}/${esc(s.model)}">${esc(s.model)}</span><span class="session-route" data-group="${esc(s.group || "direct")}" title="点击过滤此路由会话">→ ${s.group === "最近完成" ? "最近完成" : "group/" + esc(s.group || "direct")}</span></div>
       <div class="session-bottom">
         <span><b>${s.tokens ? fmtTokens(s.tokens) : "—"}</b> TOK</span>
         <span title="开始于 ${new Date(s.startedAt).toLocaleString("zh-CN", { hour12: false })}">${fmtAge(age)}</span>
