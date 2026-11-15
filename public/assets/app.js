@@ -3521,6 +3521,37 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
       renderCustomView(state.heroMode, true);
       toast("筛选已清除");
     });
+    // Floating batch bar shown while session multi-select is non-empty.
+    function renderMultiBar() {
+      let bar = $("#multi-bar");
+      const n = (state.multiSel && state.multiSel.size) || 0;
+      if (!n) { if (bar) bar.remove(); return; }
+      if (!bar) {
+        bar = document.createElement("div");
+        bar.id = "multi-bar";
+        bar.className = "session-ctx";
+        bar.innerHTML = `<span class="ctx-title" id="mb-n"></span><button type="button" data-mb="pin">置顶选中</button><button type="button" data-mb="copy">复制 ID</button><button type="button" data-mb="clear">清除</button>`;
+        bar.addEventListener("click", ev => {
+          const act = ev.target.closest("[data-mb]")?.dataset.mb;
+          if (!act) return;
+          const ids = [...(state.multiSel || [])];
+          if (act === "pin") {
+            ids.forEach(id => { if (!state.pinnedSessions.includes(id)) state.pinnedSessions.unshift(id); });
+            state.pinnedSessions = state.pinnedSessions.slice(0, 12);
+            try { localStorage.setItem("magpie.pinnedSessions", JSON.stringify(state.pinnedSessions)); } catch (_) {}
+            toast(`已置顶 ${ids.length} 个会话`);
+          } else if (act === "copy") {
+            navigator.clipboard?.writeText(ids.join("\n")).then(() => toast(`已复制 ${ids.length} 个 ID`));
+          }
+          state.multiSel.clear();
+          $$(".session-card.multi").forEach(c => c.classList.remove("multi"));
+          renderMultiBar(); renderSessions();
+        });
+        document.body.appendChild(bar);
+      }
+      bar.querySelector("#mb-n").textContent = `已选 ${n}`;
+      bar.style.left = "auto"; bar.style.right = "16px"; bar.style.bottom = "16px"; bar.style.top = "auto";
+    }
     $("#session-list").addEventListener("click", e => {
       // easter egg: tap any session-row area 5x quickly → tiny magpie flies out
       {
@@ -3557,6 +3588,23 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
       }
       const card = e.target.closest(".session-card");
       if (!card) return;
+      // Multi-select: Shift+click toggles a checked set; a floating batch bar
+      // handles bulk pin/copy. Shift-click never selects the card.
+      state.multiSel = state.multiSel || new Set();
+      if (e.shiftKey) {
+        e.preventDefault();
+        const mid = card.dataset.session;
+        state.multiSel.has(mid) ? state.multiSel.delete(mid) : state.multiSel.add(mid);
+        card.classList.toggle("multi", state.multiSel.has(mid));
+        renderMultiBar();
+        return;
+      }
+      if (state.multiSel.size) {
+        // Exiting multi-select on a plain click: clear the checked set.
+        state.multiSel.clear();
+        $$(".session-card.multi").forEach(c => c.classList.remove("multi"));
+        renderMultiBar();
+      }
       const id = card.dataset.session;
       state.selectedSession = state.selectedSession === id ? null : id;
       state.filter = null;
