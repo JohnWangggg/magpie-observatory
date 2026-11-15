@@ -2489,7 +2489,7 @@
       : "";
     const isMulti = state.multiSel && state.multiSel.has(s.id);
     const seenBefore = state._seenSessions && state._seenSessions.has(s.id);
-    return `<article class="session-card${sel ? " selected" : ""}${pinned ? " pinned" : ""}${s.status === "streaming" ? " streaming" : ""}${isMulti ? " multi" : ""}${seenBefore ? "" : " unseen"}" draggable="${isMulti ? "true" : "false"}" role="button" aria-selected="${sel}" aria-label="${esc(s.title)} · ${esc(s.model)} · ${esc(STATUS_TEXT[s.status] || s.status)}" data-session="${esc(s.id)}" style="--s-c:${meta.color}" tabindex="0">
+    return `<article class="session-card${sel ? " selected" : ""}${pinned ? " pinned" : ""}${s.status === "streaming" ? " streaming" : ""}${isMulti ? " multi" : ""}${seenBefore ? "" : " unseen"} st-${s.status}" draggable="${isMulti ? "true" : "false"}" role="button" aria-selected="${sel}" aria-label="${esc(s.title)} · ${esc(s.model)} · ${esc(STATUS_TEXT[s.status] || s.status)}" data-session="${esc(s.id)}" style="--s-c:${meta.color}" tabindex="0">
       <div class="session-top">
         <span class="session-agent" data-agent="${esc(s.agent)}" title="点击过滤此 agent"><img src="${agentIcon(s.agent)}" alt=""></span>
         <span class="session-title" data-title="${esc(s.title)}" title="${esc(s.title)}${(s.tries || []).length ? " · " + esc(D.providerMeta(s.tries[0].provider)?.name || s.tries[0].provider) : ""}">${esc(s.title)}</span>

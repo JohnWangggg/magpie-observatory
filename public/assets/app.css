@@ -3199,3 +3199,7 @@ body.mini .route-stage { min-height: 0 !important; }
 .cmp-r b { text-align: right; font: 700 10px var(--num); }
 .cmp-r em { font-style: normal; text-align: center; font-size: 8.5px; }
 .cmp-r em.up { color: var(--green); } .cmp-r em.down { color: var(--red); }
+.session-card.st-ok::before { background: var(--green); }
+.session-card.st-fail::before { background: var(--red); opacity: .9; }
+.session-card.st-queued::before { background: var(--amber); }
+.session-card.st-streaming::before { background: var(--accent); }

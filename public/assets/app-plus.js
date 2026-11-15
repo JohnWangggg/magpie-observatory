@@ -129,6 +129,15 @@
         document.addEventListener("mouseup", up);
       }); }
       // Shaded spans between consecutive B-marks: a mark pair = a watched
+      if (!strip.dataset.dblBound) { strip.dataset.dblBound = "1"; strip.addEventListener("dblclick", e => {
+        const st = state();
+        if (st && st.replayAB) {
+          st.replayAB = null;
+          try { localStorage.setItem("magpie.replayAB", "null"); } catch (_) {}
+          strip.querySelectorAll(".rep-ab, .rep-ab-end").forEach(x => x.remove());
+          toast("A-B 循环已清");
+        }
+      }); }
       // stretch, drawn as a translucent band.
       const spans = marks.slice(0, -1).map((m, i) => {
         const n = marks[i + 1];
