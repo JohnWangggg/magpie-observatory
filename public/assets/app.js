@@ -248,6 +248,7 @@
     { id: "canallock", title: "船闸", eyebrow: "PROVIDER CANALLOCK", group: "用量", icon: "i-magpie", hint: "室=provider 水=token 工=会话 漏=错" },
     { id: "bascule", title: "开启桥", eyebrow: "PROVIDER BASCULE", group: "用量", icon: "i-magpie", hint: "瓣=provider 角=token 工=会话 卡=错" },
     { id: "smokejack", title: "烟轮", eyebrow: "PROVIDER SMOKEJACK", group: "用量", icon: "i-magpie", hint: "囱=provider 轮=token 叉=会话 垢=错" },
+    { id: "flapgate", title: "潮闸", eyebrow: "PROVIDER FLAPGATE", group: "用量", icon: "i-magpie", hint: "涵=provider 板=token 守=会话 卡=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
