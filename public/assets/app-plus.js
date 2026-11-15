@@ -210,6 +210,13 @@
         });
         strip.addEventListener("mouseleave", () => { tip.hidden = true; });
       }
+      // Per-frame token-density minimap along the bottom edge.
+      try {
+        const toks = s.replayBuf.map(f => (f.data.kpis || {}).tokens || 0);
+        const deltas = toks.map((t, k) => k === 0 ? 0 : Math.max(0, t - toks[k - 1]));
+        const dmax = Math.max(1, ...deltas);
+        strip.innerHTML += `<div style="position:absolute;left:0;right:0;bottom:0;height:3px;pointer-events:none;display:flex;align-items:flex-end;gap:0">${deltas.map(d => `<i style="flex:1;height:${Math.max(10, d / dmax * 100).toFixed(0)}%;background:color-mix(in srgb,var(--accent) ${(20 + d / dmax * 60).toFixed(0)}%,transparent)"></i>`).join("")}</div>`;
+      } catch (_) {}
       // (start-time A-B band uses .rep-ab too so contextmenu can clear it)
       // A-B loop highlight: a red band over the looped stretch.
       if (s.replayAB) {
@@ -2831,7 +2838,7 @@ ${quota || "| — | — | — |"}
       return head + `<button class="pal-item" data-idx="${i}" title="${it.vid ? "id: " + it.vid : ""}" style="--kdot:${{ "视图": "var(--accent)", "页面": "var(--green)", "会话": "var(--amber)", "动作": "var(--cyan, var(--accent-strong))", "重跑": "var(--red)" }[it.kind] || "var(--muted)"}">${kindDot}<svg><use href="#${it.icon}"/></svg><span><b>${esc(it.title)}</b><small>${esc(it.sub)}</small></span><em>${esc(it.kind)}</em>${thumb}${hotDot}${numBadge}</button>`;
     }).join("");
     if (!list.innerHTML.trim()) {
-      list.innerHTML = `<div class="pal-kind">提示</div><div class="pal-empty" style="padding:10px 14px;font-size:9.5px;color:var(--muted)">没有匹配项 · 试试 ⌘1-9 直达 · → 预览 · 视图名/orrery · agent名/claude · 命令/导出/回放</div>`;
+      list.innerHTML = `<div class="pal-kind">提示</div><div class="pal-empty" style="padding:10px 14px;font-size:9.5px;color:var(--muted)">没有匹配项 · 前缀 v:视图 g:跳转 s:会话 m:便签 a:动作 · ⌘1-9 直达 · → 预览 · 视图名/orrery · agent名/claude · 命令/导出/回放</div>`;
     } else {
       const n = list.querySelectorAll(".pal-item").length;
       if (n > 0 && n <= 3) list.insertAdjacentHTML("afterbegin", `<div class="pal-empty" style="padding:6px 14px 0;font-size:8.5px;color:var(--faint)">仅 ${n} 项 · 按 Enter 直达首个</div>`);
