@@ -1638,7 +1638,7 @@ show(F.length-1);
     host.innerHTML = list.map((n, i) => `<div class="note-chip" draggable="true" data-note-i="${i}"><b>${esc(n.label)}</b><span>${esc(n.value)}</span><small>${esc(n.at)}</small><button type="button" data-note-rm="${i}" aria-label="移除">×</button></div>`).join("");
   }
   function bindScratch() {
-    const card = $("#note-card"), row = $("#kpi-row");
+    const card = $("#note-card"), row = $("#kpi-row"), host = $("#note-list");
     if (!card || !row) return;
     row.addEventListener("dragstart", e => {
       const kpi = e.target.closest(".kpi");
