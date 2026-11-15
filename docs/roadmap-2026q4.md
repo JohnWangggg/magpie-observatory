@@ -1332,3 +1332,13 @@ v14 已落地：回放←→帧步进、digest首访/里程碑问候、digest错
 3. **错误聚类下钻加固**:下钻时同设 logFilterModel=ep 的 model(若有单model聚类)。
 4. **view-menu 尺寸**:大屏下 menu 列数改 3(目前 2 列 700 项滚动长)。
 5. **回放自动循环**:回放到底自动回头(可关)。
+
+## 下轮候选 v16（2026-11-15 · v15 全部落地后）
+
+v15 已落地：session左滑复制ID、view-menu大屏3列、digest 7天迷你柱状、回放循环(右键speed)。
+
+1. **digest 会话展开**:digest 卡点击会话区→展开为完整面板(非仅toast)。
+2. **st 链接二维码**:shareStateLink 生成时显示 QR(canvas自绘或外联,~80行)。
+3. **view-menu 行高自适应**:按viewport密度调 vm-row padding。
+4. **session 卡批量**:多选模式(长按进多选,批量pin/复制)。
+5. **回放共享帧**:replay st链接含首帧预览图(URL过长则跳过)。
