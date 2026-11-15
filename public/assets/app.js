@@ -434,6 +434,7 @@
     { id: "dyer", title: "染坊", eyebrow: "PROVIDER DYER", group: "用量", icon: "i-magpie", hint: "缸=provider 布=token 搅=会话 焦=错" },
     { id: "carder", title: "梳毛", eyebrow: "PROVIDER CARDER", group: "用量", icon: "i-magpie", hint: "台=provider 束=token 梳=会话 缠=错" },
     { id: "woolcomber", title: "梳羊毛", eyebrow: "PROVIDER WOOLCOMBER", group: "用量", icon: "i-magpie", hint: "架=provider 束=token 抽=会话 缠=错" },
+    { id: "feltmaker", title: "毡坊", eyebrow: "PROVIDER FELTMAKER", group: "用量", icon: "i-magpie", hint: "台=provider 层=token 滚=会话 裂=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
