@@ -1,0 +1,7 @@
+/* slater view */
+@keyframes sltnail { 0%,100% { transform: rotate(14deg); } 40% { transform: rotate(14deg) rotate(-10deg); } }
+.slt-svg { display: block; width: 100%; height: 100%; }
+.slt-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.slt-man { animation: sltnail ease-in-out infinite; transform-origin: 0 12px; }
+.slt-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .slt-man { animation: none; } }
