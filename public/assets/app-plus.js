@@ -1302,6 +1302,16 @@ show(F.length-1);
             return `<div><small>本周收集</small><b>${recent} <em class="dig">新视图</em></b></div>`;
           } catch (_) { return ""; }
         })()}
+        ${(() => {
+          const errs = (s.data.logs || []).filter(l => l.status === "err");
+          if (!errs.length) return `<div><small>错误</small><b>0 <em class="dig up">干净</em></b></div>`;
+          const byP = {};
+          errs.forEach(l => { byP[l.provider] = (byP[l.provider] || 0) + 1; });
+          const [ep, en] = Object.entries(byP).sort((a, b) => b[1] - a[1])[0];
+          const ename = Obs.api.providerMeta ? Obs.api.providerMeta(ep).name : ep;
+          const emodel = errs.filter(l => l.provider === ep).map(l => (l.model || "").split("/").pop()).sort((a, b) => (errs.filter(x => (x.model || "").split("/").pop() === b).length - errs.filter(x => (x.model || "").split("/").pop() === a).length))[0];
+          return `<div><small>错误聚类</small><b>${errs.length} <em class="dig down">${esc(ename)}·${en}</em></b><small style="display:block;margin-top:2px">${esc(emodel || "")}</small></div>`;
+        })()}
       </div>
       <div class="digest-foot">连续使用 ${dayStreak()} 天 · ${dTok != null ? (dTok >= 0 ? "较前日 +" + dTok + "%" : "较前日 " + dTok + "%") : "保持热度"}
         <button class="mini-btn digest-week" type="button">看周报 →</button></div>`;

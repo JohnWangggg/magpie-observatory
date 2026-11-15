@@ -1398,6 +1398,17 @@
     const pctC = yC ? Math.round((tC - yC) / yC * 100) : null;
     if (nT) nT.innerHTML = fmtTokens(tT) + (pctT != null ? `<em>${pctT >= 0 ? "+" : ""}${pctT}%</em>` : "");
     if (nC) nC.innerHTML = fmtMoney(tC) + (pctC != null ? `<em>${pctC >= 0 ? "+" : ""}${pctC}%</em>` : "");
+    // 本周(近7天) vs 上周(前7天)
+    const wT = heat.slice(-7).reduce((a, d) => a + (d.tokens || 0), 0);
+    const wP = heat.slice(-14, -7).reduce((a, d) => a + (d.tokens || 0), 0);
+    const wEl = $("#vs-week-t"), wpEl = $("#vs-week-p"), wN = $("#vs-w-num");
+    if (wEl && wpEl && wN) {
+      const wMax = Math.max(wT, wP, 1);
+      wEl.style.setProperty("--vs", Math.round(wT / wMax * 100) + "%");
+      wpEl.style.setProperty("--vs", Math.round(wP / wMax * 100) + "%");
+      const pctW = wP ? Math.round((wT - wP) / wP * 100) : null;
+      wN.innerHTML = fmtTokens(wT) + (pctW != null ? `<em>${pctW >= 0 ? "+" : ""}${pctW}%</em>` : "");
+    }
   }
 
   function sparkPath(vals) {
