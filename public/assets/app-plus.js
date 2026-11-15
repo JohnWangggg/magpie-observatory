@@ -197,8 +197,9 @@
     // Live diff strip (D key): keeps Δ vs frame 0 fresh while scrubbing.
     const dEl = $("#rep-diff");
     if (dEl && s._replayDiff) {
-      const base = buf[0] && buf[0].data.kpis, curK = buf[i].data.kpis;
-      if (base && curK) dEl.textContent = `Δ vs 首帧 · tok ${((curK.tokens - base.tokens) >= 0 ? "+" : "")}${fmtTokens(curK.tokens - base.tokens)} · err ${(curK.errors || 0) - (base.errors || 0)}`;
+      const baseI = s.replayAB ? s.replayAB[0] : 0;
+      const base = buf[baseI] && buf[baseI].data.kpis, curK = buf[i].data.kpis;
+      if (base && curK) dEl.textContent = `Δ vs ${s.replayAB ? "A帧" : "首帧"} · tok ${((curK.tokens - base.tokens) >= 0 ? "+" : "")}${fmtTokens(curK.tokens - base.tokens)} · err ${(curK.errors || 0) - (base.errors || 0)}`;
     }
   }
   function exitReplay() {
@@ -2170,6 +2171,23 @@ show(F.length-1);
           if (base && cur) dEl.textContent = `Δ vs 首帧 · tok ${((cur.tokens - base.tokens) >= 0 ? "+" : "")}${fmtTokens(cur.tokens - base.tokens)} · err ${(cur.errors || 0) - (base.errors || 0)}`;
         } else if (dEl) dEl.remove();
         toast(st._replayDiff ? "diff 模式开 · D 关" : "diff 模式关");
+      }
+      // ? → pop a KPI card for the current frame.
+      if (e.key === "?") {
+        e.preventDefault();
+        const st = state();
+        const idx = +(r?.value || 0);
+        const f = st.replayBuf[idx];
+        if (f) {
+          $(".frame-pop")?.remove();
+          const pop = document.createElement("div");
+          pop.className = "gwcmp-card frame-pop";
+          const k = f.data.kpis || {};
+          pop.innerHTML = `<div class="digest-head"><b>帧 ${idx}</b><span>${new Date(f.t).toTimeString().slice(0, 8)}</span></div><div class="cmp-r"><span>TOK</span><b>${fmtTokens(k.tokens)}</b><em></em><b>${k.tps != null ? k.tps.toFixed(1) : "—"}/s</b></div><div class="cmp-r"><span>调用</span><b>${k.calls || 0}</b><em></em><b>${k.errors || 0} 错</b></div><div class="cmp-r"><span>会话</span><b>${(f.data.sessions || []).length}</b><em></em><b>${fmtMoney(k.cost)}</b></div>`;
+          pop.addEventListener("click", () => pop.remove());
+          document.body.appendChild(pop);
+          setTimeout(() => pop.classList.add("in"), 10);
+        }
       }
     });
     ["rule-quota", "rule-err", "rule-cost"].forEach(id => {
