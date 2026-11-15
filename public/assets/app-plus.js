@@ -2784,8 +2784,10 @@ ${quota || "| — | — | — |"}
     const query = (q || "").toLowerCase();
     const vOnly = query.startsWith("v:") || query.startsWith("view:");
     const mOnly = query.startsWith("m:") || query.startsWith("memo:");
-    const q2 = vOnly ? query.replace(/^v(iew)?:/, "") : mOnly ? query.replace(/^m(emo)?:/, "") : query;
-    const items = paletteItems().filter(it => (!q2 || it.search.includes(q2) || it.title.toLowerCase().includes(q2)) && (!vOnly || it.kind === "视图"));
+    const sOnly = query.startsWith("s:") || query.startsWith("sess:");
+    const gOnly = query.startsWith("g:") || query.startsWith("goto:");
+    const q2 = vOnly ? query.replace(/^v(iew)?:/, "") : mOnly ? query.replace(/^m(emo)?:/, "") : sOnly ? query.replace(/^s(ess)?:/, "") : gOnly ? query.replace(/^g(oto)?:/, "") : query;
+    const items = paletteItems().filter(it => (!q2 || it.search.includes(q2) || it.title.toLowerCase().includes(q2)) && (!vOnly || it.kind === "视图") && (!sOnly || it.kind === "会话") && (!gOnly || it.kind === "跳转"));
     if (mOnly) {
       items.length = 0;
       (scratch() || []).forEach(n => items.push({ kind: "便签", icon: "i-overview", title: n.label, sub: `${n.value} · ${n.at}`, search: (n.label + " " + n.value).toLowerCase(), run: () => { navigator.clipboard?.writeText(`${n.label}: ${n.value}`).then(() => toast("已复制便签")); closePalette(); } }));
