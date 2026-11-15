@@ -1816,6 +1816,13 @@ show(F.length-1);
           return `<div class="dig-errr" style="cursor:pointer" title="点击 → 过滤错误日志"><small>错误率</small><b>${pct}% <em class="dig ${errs > calls * .05 ? "down" : "up"}">${errs} 条</em></b></div>`;
         })()}
         ${(() => {
+          if (!topP) return "";
+          const topM = {};
+          (s.data.logs || []).forEach(l => { topM[l.model || "?"] = (topM[l.model || "?"] || 0) + (l.tokens || 0); });
+          const [tm, tn] = Object.entries(topM).sort((a, b) => b[1] - a[1])[0] || [];
+          return `<div class="dig-top" data-dig-prov="${esc(topP[0])}" style="cursor:pointer" title="点击 → 会话过滤到 ${esc(meta?.name || topP[0])}"><small>最常用</small><b>${esc(meta?.name || topP[0])} <em class="dig">${fmtTokens(topP[1])}</em></b><small style="display:block;margin-top:2px">${esc((tm || "").split("/").pop() || "—")}${tn ? " · " + fmtTokens(tn) : ""}</small></div>`;
+        })()}
+        ${(() => {
           try {
             const seen = JSON.parse(localStorage.getItem("magpie.viewSeen") || "[]");
             const at = JSON.parse(localStorage.getItem("magpie.viewSeenAt") || "{}");
