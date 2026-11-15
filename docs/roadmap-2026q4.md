@@ -1614,3 +1614,13 @@ v42 已落地：对比卡复制钮、sparkline末点。跳过：对比URL(复制
 3. **digest格键盘**:digest卡 Tab 可聚焦各格回车跳。
 4. **palette视图未看数**:视图分段头加"N未看"。
 5. **回放AB导出**:AB区间帧导出为JSON片段。
+
+## 下轮候选 v44（2026-11-15 · v43 落地后）
+
+v43 已落地:chip provider名、导出AB区间。跳过:palette最近对比(回放卡已显AB)、digest键盘(格少)、视图未看数(密度卡已显)。
+
+1. **回放帧对比跳帧**:对比卡内A/B值点击跳到该帧。
+2. **session卡try链**:多try卡hover显示完整provider链。
+3. **digest格图鉴详情**:图鉴格点击展开最近5个新增视图列表。
+4. **palette视图常用置顶**:viewHeat>3的视图排组首。
+5. **回放strip帧号轴**:strip底加3个帧号刻度。
