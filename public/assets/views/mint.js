@@ -1,7 +1,7 @@
 /* ---------------------------------------------------------------------- mint
  * Mint view — a row of screw presses, one per provider.
- * Struck coins stacked by the dies = tokens; a minter swinging
- * the arm for live sessions; a split planchet marks errors.
+ * Struck coins stacked on the table = tokens; a moneyer
+ * swinging the arm for live sessions; a clipped coin marks errors.
  * ----------------------------------------------------------------- */
 
 (() => {
@@ -24,52 +24,54 @@
       err: logs.slice(-30).some(l => l.provider === name && l.status === "err"),
       col: metaOf(name).color || "#8b7cf6",
     })).sort((a, b) => b.tok - a.tok).slice(0, 5);
-    if (!rows.length) { host.innerHTML = `<div class="mt-empty">暂无铸币坊</div>`; return; }
+    if (!rows.length) { host.innerHTML = `<div class="mi-empty">暂无铸币坊</div>`; return; }
     const maxTok = Math.max(1, ...rows.map(r => r.tok));
 
     let g = `<rect width="${W}" height="${H}" fill="var(--bg)"/>`;
-    // mint floor
     g += `<rect y="${floorY}" width="${W}" height="${H - floorY}" fill="var(--card-2)"/>`;
 
     const seg = W / (rows.length + 1);
     rows.forEach((r, i) => {
       const x = seg * (i + 1);
-      const metal = r.err ? "#e06048" : r.tok > maxTok * .5 ? "#e0c878" : "#b09858";
-      const pressW = seg * .45;
-      const pressY = floorY - 34;
-      // the screw press — two cheeks with a crossbeam and a screw down the middle
-      g += `<line x1="${x - pressW * .28}" y1="${floorY}" x2="${x - pressW * .28}" y2="${pressY}" stroke="${r.col}" stroke-width="1.8"/>`;
-      g += `<line x1="${x + pressW * .28}" y1="${floorY}" x2="${x + pressW * .28}" y2="${pressY}" stroke="${r.col}" stroke-width="1.8"/>`;
-      g += `<line x1="${x - pressW * .32}" y1="${pressY}" x2="${x + pressW * .32}" y2="${pressY}" stroke="${r.col}" stroke-width="1.8"/>`;
-      // screw + swing arm
-      g += `<line x1="${x}" y1="${pressY - 8}" x2="${x}" y2="${pressY + 14}" stroke="${r.col}" stroke-width="2.2"/>`;
-      g += `<line x1="${x - pressW * .2}" y1="${pressY - 4}" x2="${x + pressW * .2}" y2="${pressY - 4}" stroke="${r.col}" stroke-width="1.4"/>`;
-      g += `<circle cx="${x - pressW * .2}" cy="${pressY - 4}" r="2" fill="${r.col}"/>`;
-      g += `<circle cx="${x + pressW * .2}" cy="${pressY - 4}" r="2" fill="${r.col}"/>`;
-      // the dies — upper and lower blocks on the bed
-      g += `<rect x="${x - pressW * .12}" y="${pressY + 14}" width="${pressW * .24}" height="5" fill="var(--card-3)" stroke="${r.col}" stroke-width=".9"/>`;
-      g += `<rect x="${x - pressW * .12}" y="${floorY - 10}" width="${pressW * .24}" height="5" fill="var(--card-3)" stroke="${r.col}" stroke-width=".9"/>`;
-      // the planchet between the dies
-      g += `<ellipse cx="${x}" cy="${floorY - 8}" rx="${pressW * .1}" ry="3" fill="${metal}" stroke="${r.col}" stroke-width=".8"/>`;
-      // struck coins — a stack beside the press, count by tokens
-      const coins = Math.min(4, 1 + Math.ceil(r.tok / maxTok * 3));
+      const specie = r.err ? "#e06048" : r.tok > maxTok * .5 ? "#e0c050" : "#908038";
+      const pW = seg * .36;
+      const pTop = floorY - 42;
+      // the screw press — frame with a weighted arm
+      g += `<rect x="${x - pW * .4}" y="${pTop + 14}" width="${pW * .8}" height="${floorY - pTop - 14}" rx="2" fill="var(--card-3)" stroke="${r.col}" stroke-width="1.3"/>`;
+      // screw column
+      g += `<rect x="${x - 3}" y="${pTop}" width="6" height="20" fill="var(--card-3)" stroke="${r.col}" stroke-width="1"/>`;
+      // the swinging arm — long bar with ball weights
+      g += `<line x1="${x - pW * .55}" y1="${pTop + 4}" x2="${x + pW * .55}" y2="${pTop + 4}" stroke="${r.col}" stroke-width="2"/>`;
+      g += `<circle cx="${x - pW * .55}" cy="${pTop + 4}" r="3" fill="${r.col}"/>`;
+      g += `<circle cx="${x + pW * .55}" cy="${pTop + 4}" r="3" fill="${r.col}"/>`;
+      // the die box — lower die and collar
+      g += `<rect x="${x - pW * .14}" y="${pTop + 20}" width="${pW * .28}" height="8" fill="var(--card-2)" stroke="${r.col}" stroke-width=".9"/>`;
+      // a blank on the die
+      g += `<ellipse cx="${x}" cy="${pTop + 24}" rx="4" ry="2" fill="${r.err ? "var(--red)" : specie}"/>`;
+      // struck coins — stacked on a side table, count by tokens
+      g += `<line x1="${x + pW * .55}" y1="${floorY}" x2="${x + pW * .55}" y2="${floorY - 10}" stroke="${r.col}" stroke-width="1"/>`;
+      g += `<line x1="${x + pW * .44}" y1="${floorY - 10}" x2="${x + pW * .68}" y2="${floorY - 10}" stroke="${r.col}" stroke-width="1.2"/>`;
+      const coins = Math.min(4, Math.ceil(r.tok / maxTok * 4));
       for (let c = 0; c < coins; c++) {
-        g += `<ellipse cx="${x + pressW * .38}" cy="${floorY - 5 - c * 4}" rx="5" ry="2" fill="${c === 0 && r.err ? "var(--red)" : metal}" stroke="${r.col}" stroke-width=".6"/>`;
+        g += `<ellipse cx="${x + pW * .56}" cy="${floorY - 12 - c * 3}" rx="6" ry="2.4" fill="${c === 0 && r.err ? "var(--red)" : specie}" stroke="${r.col}" stroke-width=".5"/>`;
       }
-      // minter swinging the arm for live sessions — figure at the beam end
+      // a bag of blanks beside
+      g += `<path d="M ${x - pW * .68} ${floorY - 2} q -4 -10 2 -14 q 6 4 2 14 z" fill="var(--card-3)" stroke="${r.col}" stroke-width=".9"/>`;
+      g += `<line x1="${x - pW * .68}" y1="${floorY - 14}" x2="${x - pW * .66}" y2="${floorY - 17}" stroke="${r.col}" stroke-width=".8"/>`;
+      // moneyer swinging for live sessions
       if (r.live) {
-        g += `<g class="mt-man" style="animation-delay: ${(i * .3).toFixed(1)}s" transform="translate(${x - pressW * .42} ${pressY - 10})">
+        g += `<g class="mi-man" style="animation-delay: ${(i * .3).toFixed(1)}s" transform="translate(${x - pW * .62} ${pTop - 4})">
           <circle r="3.5" fill="var(--card-3)" stroke="${r.col}" stroke-width="1"/>
           <rect x="-3" y="3" width="7" height="9" rx="1" fill="var(--card-3)" stroke="${r.col}" stroke-width="1"/>
-          <line x1="3" y1="5" x2="15" y2="3" stroke="${r.col}" stroke-width="1.3"/>
+          <line x1="3" y1="5" x2="12" y2="9" stroke="${r.col}" stroke-width="1.1"/>
         </g>`;
       }
-      // split planchet — a cracked blank on the bed on errors
-      if (r.err) g += `<line x1="${x - 4}" y1="${floorY - 8}" x2="${x + 4}" y2="${floorY - 8}" stroke="var(--red)" stroke-width="1.4"/>`;
-      g += `<text x="${x}" y="${floorY + 18}" text-anchor="middle" class="mt-lab">${esc(String(r.name).split("/").pop().slice(0, 8))} ${(r.tok / 1000).toFixed(0)}k${r.live ? "·" + r.live : ""}${r.err ? " ‡" : ""}</text>`;
+      // clipped coin — a shaved edge on errors
+      if (r.err) g += `<path d="M ${x + pW * .56} ${floorY - 15} q -4 2 -2 5" stroke="var(--red)" stroke-width="1.2" fill="none"/>`;
+      g += `<text x="${x}" y="${floorY + 18}" text-anchor="middle" class="mi-lab">${esc(String(r.name).split("/").pop().slice(0, 8))} ${(r.tok / 1000).toFixed(0)}k${r.live ? "·" + r.live : ""}${r.err ? " ‡" : ""}</text>`;
     });
 
-    host.innerHTML = `<svg class="mt-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">${g}</svg>`;
+    host.innerHTML = `<svg class="mi-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">${g}</svg>`;
   }
 
   window.ObservatoryViews = window.ObservatoryViews || {};
