@@ -1,4 +1,4 @@
-# Magpie Observatory · 视图图鉴 (445)
+# Magpie Observatory · 视图图鉴 (446)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
@@ -6,7 +6,7 @@
 | 分组 | 数量 |
 |---|---|
 | [实时](#实时) | 16 |
-| [配额](#配额) | 48 |
+| [配额](#配额) | 49 |
 | [延迟](#延迟) | 2 |
 | [氛围](#氛围) | 3 |
 | [场景](#场景) | 233 |
@@ -42,7 +42,7 @@
 | `lighthouse` | 灯塔 | LIGHTHOUSE | 塔=配额 光束=会话 | ![lighthouse](../public/shots/lighthouse.png) |
 | `harbor` | 港口 | HARBOR | 船=agent 箱=tries 浮标=配额 | ![harbor](../public/shots/harbor.png) |
 
-## 配额 (48)
+## 配额 (49)
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
@@ -90,6 +90,7 @@
 | `caskhouse` | 酒桶 | QUOTA CASKHOUSE | 桶=配额窗 箍=余量 滴=会话 崩=错 | ![caskhouse](../public/shots/caskhouse.png) |
 | `clough` | 闸阀 | QUOTA CLOUGH | 闸=配额窗 水=余量 板=用量 桨=会话 翘=错 | ![clough](../public/shots/clough.png) |
 | `headgear` | 井架 | QUOTA HEADGEAR | 塔=配额窗 罐=余量 笼=会话 脱=错 | ![headgear](../public/shots/headgear.png) |
+| `saltern` | 盐田 | QUOTA SALTERN | 池=配额窗 盐=余量 耙=会话 决=错 | — |
 | `rosetta` | 罗塞塔 | ROSETTA | 环带=配额 刻痕=会话 | ![rosetta](../public/shots/rosetta.png) |
 | `eclipse` | 日蚀 | ECLIPSE | 暗盘=量 冕=会话 沿=窗 | ![eclipse](../public/shots/eclipse.png) |
 | `tapestry` | 织锦 | TAPESTRY | 经=配额 纬=会话 | ![tapestry](../public/shots/tapestry.png) |
@@ -400,7 +401,7 @@
 | `limekiln` | 石灰窑 | PROVIDER LIMEKILN | 窑=provider 火=token 拱=会话 塌=错 | ![limekiln](../public/shots/limekiln.png) |
 | `charcoalmeiler` | 炭堆 | PROVIDER CHARCOAL MEILER | 堆=provider 孔=token 匠=会话 喷=错 | ![charcoalmeiler](../public/shots/charcoalmeiler.png) |
 | `cressbed` | 水芹床 | PROVIDER CRESSBED | 槽=provider 芹=token 采=会话 污=错 | ![cressbed](../public/shots/cressbed.png) |
-| `glasshouse` | 玻璃坊 | PROVIDER GLASSHOUSE | 炉=provider 泡=token 匠=会话 裂=错 | — |
+| `glasshouse` | 玻璃坊 | PROVIDER GLASSHOUSE | 炉=provider 泡=token 匠=会话 裂=错 | ![glasshouse](../public/shots/glasshouse.png) |
 | `rings` | Token 年轮 | YEAR IN RINGS | 26 周极坐标日历 | ![rings](../public/shots/rings.png) |
 | `latency` | 延迟热力 | LATENCY HEATMAP | 时间 × 延迟 | ![latency](../public/shots/latency.png) |
 | `stream` | 流量河流 | STREAMGRAPH | Provider 增量 | ![stream](../public/shots/stream.png) |
