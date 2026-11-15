@@ -3666,6 +3666,26 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
       navigator.clipboard?.writeText(meta.title).then(() => toast(`视图名已复制：${meta.title}`));
     });
 
+    // Horizontal swipe on the hero → prev/next view in the current group scope
+    // (or full catalog). Touch + two-finger trackpad flick.
+    let swipeX = null, swipeY = null;
+    $(".hero").addEventListener("touchstart", e => {
+      if (e.touches.length !== 1) { swipeX = null; return; }
+      swipeX = e.touches[0].clientX; swipeY = e.touches[0].clientY;
+    }, { passive: true });
+    $(".hero").addEventListener("touchend", e => {
+      if (swipeX == null || e.changedTouches.length !== 1) return;
+      const dx = e.changedTouches[0].clientX - swipeX;
+      const dy = e.changedTouches[0].clientY - swipeY;
+      swipeX = null;
+      if (Math.abs(dx) < 60 || Math.abs(dy) > Math.abs(dx) * 0.6) return;
+      const pool = VIEW_META.filter(v => !state.vmGroup || v.group === state.vmGroup);
+      const idx = pool.findIndex(v => v.id === state.heroMode);
+      if (idx < 0) return;
+      setHeroMode(pool[(idx + (dx < 0 ? 1 : -1) + pool.length) % pool.length].id);
+      toast(dx < 0 ? "← 下一视图" : "→ 上一视图");
+    }, { passive: true });
+
     // Double-click the decision strip title → copy the session title.
     $("#decision-title").addEventListener("dblclick", e => {
       e.stopPropagation();

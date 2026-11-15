@@ -99,15 +99,25 @@
   function toggleReplayPlay() {
     const s = state();
     if (!s || !s.replay) return;
-    if (s._replayTimer) { clearInterval(s._replayTimer); s._replayTimer = null; $("#replay-play").textContent = "▶"; return; }
+    const speed = s.replaySpeed || 1;
     s._replayTimer = setInterval(() => {
       if (!s.replay) { clearInterval(s._replayTimer); s._replayTimer = null; return; }
       const next = s.replay.idx + 1;
       if (next >= s.replayBuf.length) { clearInterval(s._replayTimer); s._replayTimer = null; $("#replay-play").textContent = "▶"; return; }
       $("#replay-range").value = next;
       scrubReplay(next);
-    }, 600);
+    }, Math.max(80, Math.round(600 / speed)));
     $("#replay-play").textContent = "⏸";
+  }
+
+  function cycleReplaySpeed() {
+    const s = state();
+    if (!s) return;
+    s.replaySpeed = ((s.replaySpeed || 1) >= 4) ? 1 : (s.replaySpeed || 1) * 2;
+    const b = $("#replay-speed"); if (b) b.textContent = s.replaySpeed + "×";
+    // live-respeed a running timer
+    if (s._replayTimer) { clearInterval(s._replayTimer); s._replayTimer = null; $("#replay-play").textContent = "▶"; toggleReplayPlay(); }
+    toast(`回放速度 ${s.replaySpeed}×`);
   }
 
 
@@ -169,6 +179,7 @@
     if (s.heroMode && s.heroMode !== "route") p.set("view", s.heroMode);
     if (s.range && s.range !== "today") p.set("range", s.range);
     if (s.cinema) p.set("cinema", "1");
+    if (s.vmGroup) p.set("group", s.vmGroup);
     const url = location.origin + location.pathname + (p.size ? "?" + p : "");
     try {
       await navigator.clipboard.writeText(url);
@@ -749,6 +760,11 @@ show(F.length-1);
       Obs.api.computeView(); Obs.api.renderAll();
     }
     if (p.get("cinema") === "1") setCinema(true);
+    const g = p.get("group");
+    if (g) {
+      s.vmGroup = g;
+      try { localStorage.setItem("magpie.vmGroup", g); } catch (_) {}
+    }
     const gw = p.get("gw");
     if (gw !== null) {
       if (gw) localStorage.setItem("magpie.gw", gw); else localStorage.removeItem("magpie.gw");
@@ -1566,6 +1582,7 @@ show(F.length-1);
     $("#replay-range").addEventListener("input", e => scrubReplay(+e.target.value));
     $("#replay-play").addEventListener("click", toggleReplayPlay);
     $("#replay-share").addEventListener("click", shareReplayLink);
+    $("#replay-speed")?.addEventListener("click", cycleReplaySpeed);
     ["rule-quota", "rule-err", "rule-cost"].forEach(id => {
       const el = $("#" + id);
       if (el) el.addEventListener("input", () => {
