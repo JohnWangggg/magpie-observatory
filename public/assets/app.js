@@ -471,6 +471,8 @@
     { id: "cowherd", title: "牧地", eyebrow: "PROVIDER COWHERD", group: "用量", icon: "i-magpie", hint: "地=provider 牛=token 赶=会话 走=错" },
     { id: "gooseherd", title: "鹅滩", eyebrow: "PROVIDER GOOSEHERD", group: "用量", icon: "i-magpie", hint: "滩=provider 鹅=token 呼=会话 走=错" },
     { id: "muleteer", title: "骡队", eyebrow: "PROVIDER MULETEER", group: "用量", icon: "i-magpie", hint: "队=provider 驮=token 牵=会话 滑=错" },
+    { id: "hunter", title: "猎场", eyebrow: "PROVIDER HUNTER", group: "用量", icon: "i-magpie", hint: "场=provider 猎=token 弓=会话 断=错" },
+    { id: "cottar", title: "园圃", eyebrow: "PROVIDER COTTAR", group: "用量", icon: "i-magpie", hint: "圃=provider 垄=token 锄=会话 枯=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },

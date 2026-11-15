@@ -1,4 +1,4 @@
-# Magpie Observatory · 视图图鉴 (698)
+# Magpie Observatory · 视图图鉴 (700)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
@@ -10,7 +10,7 @@
 | [延迟](#延迟) | 2 |
 | [氛围](#氛围) | 3 |
 | [场景](#场景) | 233 |
-| [用量](#用量) | 307 |
+| [用量](#用量) | 309 |
 | [天象](#天象) | 17 |
 | [洞察](#洞察) | 10 |
 | [结构](#结构) | 6 |
@@ -355,7 +355,7 @@
 | `reserve2` | 保护区二号 | RESERVE II | 观测=配额窗 隙=用量 栖枝=过热 守护=会话 | ![reserve2](../public/shots/reserve2.png) |
 | `desert` | 沙丘 | DESERT | 丘=配额窗 高=用量 驼=会话 | ![desert](../public/shots/desert.png) |
 
-## 用量 (307)
+## 用量 (309)
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
@@ -650,10 +650,12 @@
 | `forester` | 林圃 | PROVIDER FORESTER | 圃=provider 苗=token 栽=会话 枯=错 | ![forester](../public/shots/forester.png) |
 | `scrivener` | 书案 | PROVIDER SCRIVENER | 案=provider 页=token 抄=会话 污=错 | ![scrivener](../public/shots/scrivener.png) |
 | `goatherd` | 山羊坡 | PROVIDER GOATHERD | 坡=provider 羊=token 呼=会话 走=错 | ![goatherd](../public/shots/goatherd.png) |
-| `swineherd` | 橡林 | PROVIDER SWINEHERD | 林=provider 豕=token 摇=会话 走=错 | — |
-| `cowherd` | 牧地 | PROVIDER COWHERD | 地=provider 牛=token 赶=会话 走=错 | — |
-| `gooseherd` | 鹅滩 | PROVIDER GOOSEHERD | 滩=provider 鹅=token 呼=会话 走=错 | — |
-| `muleteer` | 骡队 | PROVIDER MULETEER | 队=provider 驮=token 牵=会话 滑=错 | — |
+| `swineherd` | 橡林 | PROVIDER SWINEHERD | 林=provider 豕=token 摇=会话 走=错 | ![swineherd](../public/shots/swineherd.png) |
+| `cowherd` | 牧地 | PROVIDER COWHERD | 地=provider 牛=token 赶=会话 走=错 | ![cowherd](../public/shots/cowherd.png) |
+| `gooseherd` | 鹅滩 | PROVIDER GOOSEHERD | 滩=provider 鹅=token 呼=会话 走=错 | ![gooseherd](../public/shots/gooseherd.png) |
+| `muleteer` | 骡队 | PROVIDER MULETEER | 队=provider 驮=token 牵=会话 滑=错 | ![muleteer](../public/shots/muleteer.png) |
+| `hunter` | 猎场 | PROVIDER HUNTER | 场=provider 猎=token 弓=会话 断=错 | — |
+| `cottar` | 园圃 | PROVIDER COTTAR | 圃=provider 垄=token 锄=会话 枯=错 | — |
 | `rings` | Token 年轮 | YEAR IN RINGS | 26 周极坐标日历 | ![rings](../public/shots/rings.png) |
 | `latency` | 延迟热力 | LATENCY HEATMAP | 时间 × 延迟 | ![latency](../public/shots/latency.png) |
 | `stream` | 流量河流 | STREAMGRAPH | Provider 增量 | ![stream](../public/shots/stream.png) |
