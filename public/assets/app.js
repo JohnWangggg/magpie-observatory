@@ -977,10 +977,29 @@
   }
 
   function filterViewMenu(query) {
-    const needle = String(query || "").trim().toLowerCase();
+    let needle = String(query || "").trim().toLowerCase();
+    // 前缀语法: fav: / unseen: / hot: / group:X(组名)
+    let favOnly = false, unseenQ = false, hotOnly = false, groupQ = null;
+    const m = needle.match(/^([a-z]+|fav|unseen|hot|group):(\S*)\s*/);
+    if (m) {
+      const key = m[1], val = m[2];
+      if (key === "fav") favOnly = true;
+      else if (key === "unseen") unseenQ = true;
+      else if (key === "hot") hotOnly = true;
+      else if (key === "group" && val) groupQ = VIEW_GROUPS.find(g => g.toLowerCase().includes(val)) || null;
+      needle = needle.slice(m[0].length).trim();
+    }
+    const heat = (() => { try { return JSON.parse(localStorage.getItem("magpie.viewHeat") || "{}"); } catch (_) { return {}; } })();
     let shown = 0;
     $$(".view-menu .vm-item").forEach(b => {
-      const on = (!needle || b.dataset.search.includes(needle)) && !(state.unseenOnly && b.closest(".vm-row").classList.contains("seen"));
+      const row = b.closest(".vm-row");
+      const id = b.dataset.hero;
+      const on = (!needle || b.dataset.search.includes(needle))
+        && !(state.unseenOnly && row.classList.contains("seen"))
+        && !(favOnly && !state.favorites.includes(id))
+        && !(unseenQ && row.classList.contains("seen"))
+        && !(hotOnly && (heat[id] || 0) < 3)
+        && !(groupQ && (row.closest(".vm-group")?.dataset.group !== groupQ));
       b.hidden = !on;
       if (on) shown++;
     });
