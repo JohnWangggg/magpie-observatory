@@ -124,6 +124,7 @@
     { id: "sundial", title: "日晷", eyebrow: "HOUR SUNDIAL", group: "天象", icon: "i-clock", hint: "影=时刻 石=会话 刻=小时" },
     { id: "ledger", title: "账本", eyebrow: "PROVIDER LEDGER", group: "洞察", icon: "i-doc", hint: "栏=provider 行=日志 Σ=token" },
     { id: "astrolabe", title: "星盘", eyebrow: "ASTROLABE", group: "延迟", icon: "i-route", hint: "model=纬圈 provider=指针" },
+    { id: "weathervane", title: "风向标", eyebrow: "PROVIDER VANE", group: "实时", icon: "i-bolt", hint: "箭=最热provider 摆" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },

@@ -1,0 +1,9 @@
+/* weathervane view */
+@keyframes wvswing { 0%,100% { transform: rotate(-14deg); } 50% { transform: rotate(14deg); } }
+@keyframes wvgust { 0% { transform: translateX(0); opacity: 0; } 20% { opacity: .6; } 100% { transform: translateX(60px); opacity: 0; } }
+.wv-svg { display: block; width: 100%; height: 100%; }
+.wv-dir { fill: var(--faint); font: 700 11px var(--mono); }
+.wv-hd { fill: var(--fg); font: 700 9px var(--mono); }
+.wv-wind { animation: wvgust 3.6s ease-in-out infinite; }
+.wv-arrow { animation: wvswing 3.4s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { .wv-arrow, .wv-wind { animation: none; } }
