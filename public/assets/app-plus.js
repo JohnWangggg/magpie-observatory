@@ -81,6 +81,8 @@
       card.innerHTML = `<div class="digest-head"><b>回放键位</b><span>KEYS</span></div>` + [["空格", "播放/暂停"], ["←→", "步进 1 帧"], ["Shift+←→", "步 10 帧"], ["Home/End", "首/末帧"], ["A / B", "设循环端点"], ["Shift+A/B", "端点微调 ±1"], ["X", "清 A-B 循环"], ["C", "A-B 帧对比"], ["D", "diff vs 首/A 帧"], ["?", "当前帧 KPI"], ["R", "退出回放"]].map(([k, d]) => `<div class="cmp-r"><span>${k}</span><b></b><em></em><b>${d}</b></div>`).join("");
       card.addEventListener("click", () => card.remove());
       document.body.appendChild(card);
+      const rb = $("#replay-bar");
+      if (rb) { const bb = rb.getBoundingClientRect(); card.style.top = "auto"; card.style.left = bb.left + bb.width / 2 + "px"; card.style.bottom = (innerHeight - bb.top + 8) + "px"; }
       setTimeout(() => card.classList.add("in"), 10);
     }); }
     // Tick strip under the scrubber: one dot per B-key mark, click to jump.
@@ -1700,7 +1702,8 @@ show(F.length-1);
         const tail = days.slice(-7);
         if (tail.length < 2) return "";
         const pts = tail.map((d, i) => `${i * (70 / (tail.length - 1))},${(26 - (d.tokens || 0) / max * 22).toFixed(1)}`).join(" ");
-        return `<svg class="dig-bars" viewBox="0 0 72 28" aria-hidden="true"><polyline points="${pts}" fill="none" stroke="var(--accent)" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>${tail.map((d, i) => `<circle cx="${(i * (70 / (tail.length - 1))).toFixed(1)}" cy="${(26 - (d.tokens || 0) / max * 22).toFixed(1)}" r="${i === tail.length - 2 ? 2.6 : 1.6}" fill="${i === tail.length - 2 ? "var(--accent)" : "color-mix(in srgb, var(--accent) 45%, transparent)"}" stroke="${i === tail.length - 2 ? "#fff" : "none"}" stroke-width=".8"><title>${d.date} · ${d.tokens}</title></circle>`).join("")}</svg>`;
+        const avg = tail.reduce((a, d) => a + (d.tokens || 0), 0) / tail.length;
+        return `<svg class="dig-bars" viewBox="0 0 72 28" aria-hidden="true"><polyline points="${pts}" fill="none" stroke="var(--accent)" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>${tail.map((d, i) => { const spike = (d.tokens || 0) > avg * 2; return `<circle cx="${(i * (70 / (tail.length - 1))).toFixed(1)}" cy="${(26 - (d.tokens || 0) / max * 22).toFixed(1)}" r="${i === tail.length - 2 ? 2.6 : 1.6}" fill="${spike ? "var(--red)" : i === tail.length - 2 ? "var(--accent)" : "color-mix(in srgb, var(--accent) 45%, transparent)"}" stroke="${i === tail.length - 2 ? "#fff" : "none"}" stroke-width=".8"><title>${d.date} · ${d.tokens}${spike ? " · 尖峰" : ""}</title></circle>`; }).join("")}</svg>`;
       })()}
       <div class="digest-foot">连续使用 ${dayStreak()} 天 · ${dTok != null ? (dTok >= 0 ? "较前日 +" + dTok + "%" : "较前日 " + dTok + "%") : "保持热度"}
         <button class="mini-btn digest-week" type="button">看周报 →</button>
