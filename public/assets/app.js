@@ -216,6 +216,7 @@
     { id: "sailloft", title: "帆篷", eyebrow: "PROVIDER SAILLOFT", group: "用量", icon: "i-magpie", hint: "帆=provider 板=token 匠=会话 撕=错" },
     { id: "limekiln", title: "石灰窑", eyebrow: "PROVIDER LIMEKILN", group: "用量", icon: "i-magpie", hint: "窑=provider 火=token 拱=会话 塌=错" },
     { id: "charcoalmeiler", title: "炭堆", eyebrow: "PROVIDER CHARCOAL MEILER", group: "用量", icon: "i-magpie", hint: "堆=provider 孔=token 匠=会话 喷=错" },
+    { id: "cressbed", title: "水芹床", eyebrow: "PROVIDER CRESSBED", group: "用量", icon: "i-magpie", hint: "槽=provider 芹=token 采=会话 污=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
