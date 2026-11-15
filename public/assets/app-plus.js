@@ -2768,6 +2768,9 @@ ${quota || "| — | — | — |"}
     }).join("");
     if (!list.innerHTML.trim()) {
       list.innerHTML = `<div class="pal-kind">提示</div><div class="pal-empty" style="padding:10px 14px;font-size:9.5px;color:var(--muted)">没有匹配项 · 试试 ⌘1-9 直达 · → 预览 · 视图名/orrery · agent名/claude · 命令/导出/回放</div>`;
+    } else {
+      const n = list.querySelectorAll(".pal-item").length;
+      if (n > 0 && n <= 3) list.insertAdjacentHTML("afterbegin", `<div class="pal-empty" style="padding:6px 14px 0;font-size:8.5px;color:var(--faint)">仅 ${n} 项 · 按 Enter 直达首个</div>`);
     }
     // Click a kind header to collapse/expand its group (persisted per kind).
     let collapsed = new Set();
