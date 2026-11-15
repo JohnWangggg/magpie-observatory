@@ -1,0 +1,7 @@
+/* stargate view */
+@keyframes sgpulse { 0% { stroke-opacity: .35; } 50% { stroke-opacity: 1; } 100% { stroke-opacity: .35; } }
+.sg-svg { display: block; width: 100%; height: 100%; }
+.sg-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.sg-ring { animation: sgpulse ease-in-out infinite; }
+.sg-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .sg-ring { animation: none; } }
