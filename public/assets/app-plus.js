@@ -1789,6 +1789,13 @@ show(F.length-1);
           return topSub ? `<div class="dig-sub" data-sub="${esc(topSub[0])}" style="cursor:pointer" title="点击 → 过滤含此子代理的会话"><small>子代理</small><b>${esc(topSub[0])} ×${topSub[1]}</b></div>` : "";
         })()}
         ${(() => {
+          const errs = (s.data.logs || []).filter(l => l.status === "err").length;
+          const total = (s.data.logs || []).length;
+          if (!total) return "";
+          const pct = Math.round(errs / total * 100);
+          return `<div class="dig-errr" style="cursor:pointer" title="点击 → 日志过滤 err"><small>错误率</small><b>${pct}% <em class="dig ${pct > 5 ? "down" : ""}">${errs}/${total}</em></b></div>`;
+        })()}
+        ${(() => {
           try {
             const seen = JSON.parse(localStorage.getItem("magpie.viewSeen") || "[]");
             const at = JSON.parse(localStorage.getItem("magpie.viewSeenAt") || "{}");
