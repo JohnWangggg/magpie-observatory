@@ -1,0 +1,7 @@
+/* cordwainer view */
+@keyframes cdwsew { 0%,100% { transform: translateX(0); } 50% { transform: translateX(3px); } }
+.cdw-svg { display: block; width: 100%; height: 100%; }
+.cdw-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.cdw-man { animation: cdwsew ease-in-out infinite; }
+.cdw-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .cdw-man { animation: none; } }

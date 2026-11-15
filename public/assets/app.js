@@ -425,6 +425,7 @@
     { id: "tailor", title: "裁缝", eyebrow: "PROVIDER TAILOR", group: "用量", icon: "i-magpie", hint: "台=provider 料=token 缝=会话 剪=错" },
     { id: "shoemaker", title: "鞋匠", eyebrow: "PROVIDER SHOEMAKER", group: "用量", icon: "i-magpie", hint: "楦=provider 鞋=token 缝=会话 崩=错" },
     { id: "bootmaker", title: "靴匠", eyebrow: "PROVIDER BOOTMAKER", group: "用量", icon: "i-magpie", hint: "树=provider 靴=token 拉=会话 裂=错" },
+    { id: "cordwainer", title: "革鞋", eyebrow: "PROVIDER CORDWAINER", group: "用量", icon: "i-magpie", hint: "台=provider 鞋=token 缝=会话 裂=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
