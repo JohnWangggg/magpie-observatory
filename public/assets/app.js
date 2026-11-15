@@ -2587,6 +2587,10 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
         if (c) c.classList.add("multi");
       });
     }
+    // Selection count in the live foot so multi-select state is visible.
+    const selN = state.multiSel ? state.multiSel.size : 0;
+    const selEl = $("#session-sel-n");
+    if (selEl) { selEl.textContent = selN ? `已选 ${selN}` : ""; selEl.hidden = !selN; }
     buildSessionMap(list.concat(extra));
   }
 
