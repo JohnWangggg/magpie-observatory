@@ -395,9 +395,10 @@
     card.className = "gwcmp-card snaps-card";
     card.innerHTML = `<div class="digest-head"><b>帧快照</b><span>${snaps.length} 条</span></div>` +
       snaps.slice(-12).reverse().map((s2, i, arr) => { const dt = i > 0 ? Math.round((arr[i - 1].t - s2.t) / 1000) : null; return `<div class="cmp-r"><span>#${s2.idx}</span><b>${fmtTokens(s2.k.tokens || 0)}</b><em>${dt != null ? "-" + dt + "s" : ""}</em><b>${new Date(s2.t).toTimeString().slice(0, 8)}</b></div>`; }).join("") +
-      `<small style="opacity:.55">点击行复制该帧KPI · 点空白关</small>`;
+      `<small style="opacity:.55">点击行复制该帧KPI · <button type="button" class="mini-btn snap-clear" style="font-size:8px">清空</button> · 点空白关</small>`;
     card.addEventListener("click", e => {
       const row = e.target.closest(".cmp-r");
+      if (e.target.closest(".snap-clear")) { try { localStorage.setItem("magpie.frameSnaps", "[]"); } catch (_) {} card.remove(); toast("帧快照已清空"); return; }
       if (row) { const i = [...card.querySelectorAll(".cmp-r")].indexOf(row); const s2 = snaps.slice(-12).reverse()[i]; if (s2) navigator.clipboard?.writeText(`帧${s2.idx} tok=${s2.k.tokens} tps=${s2.k.tps} calls=${s2.k.calls} err=${s2.k.errors}`).then(() => toast("已复制")); return; }
       card.remove();
     });
@@ -2735,7 +2736,8 @@ ${quota || "| — | — | — |"}
     let collapsed = new Set();
     try { collapsed = new Set(JSON.parse(localStorage.getItem("magpie.palCollapse") || "[]")); } catch (_) {}
     $$(".pal-kind", list).forEach(h => {
-      const kind = h.textContent.trim();
+      const kind = h.dataset.kind || h.textContent.trim().replace(/\s*\(\d+\)$/, "");
+      h.dataset.kind = kind;
       h.style.cursor = "pointer";
       h.title = "点击折叠/展开该组";
       let n = h.nextElementSibling;
@@ -2748,7 +2750,7 @@ ${quota || "| — | — | — |"}
         const collapse = !(n2 && n2.style.display === "none");
         while (n2 && !n2.classList.contains("pal-kind")) { n2.style.display = collapse ? "none" : ""; n2 = n2.nextElementSibling; }
         h.style.opacity = collapse ? ".45" : "";
-        h.textContent = collapse ? kind + " (" + (function () { let c = 0, m = h.nextElementSibling; while (m && !m.classList.contains("pal-kind")) { c++; m = m.nextElementSibling; } return c; })() + ")" : kind;
+        h.textContent = kind + " (" + (function () { let c = 0, m = h.nextElementSibling; while (m && !m.classList.contains("pal-kind")) { c++; m = m.nextElementSibling; } return c; })() + ")";
         if (collapse) collapsed.add(kind); else collapsed.delete(kind);
         try { localStorage.setItem("magpie.palCollapse", JSON.stringify([...collapsed])); } catch (_) {}
       });
