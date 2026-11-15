@@ -1,0 +1,7 @@
+/* blondin view */
+@keyframes bdtravel { 0%,100% { transform: translateX(-8px); } 50% { transform: translateX(8px); } }
+.bd-svg { display: block; width: 100%; height: 100%; }
+.bd-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.bd-crab { animation: bdtravel ease-in-out infinite; }
+.bd-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .bd-crab { animation: none; } }
