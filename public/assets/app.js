@@ -259,6 +259,7 @@
     { id: "glassblow", title: "玻璃吹炉", eyebrow: "PROVIDER GLASSBLOW", group: "用量", icon: "i-magpie", hint: "炉=provider 泡=token 匠=会话 裂=错" },
     { id: "dyevat", title: "染缸", eyebrow: "PROVIDER DYEVAT", group: "用量", icon: "i-magpie", hint: "缸=provider 液=token 工=会话 漏=错" },
     { id: "brickclamp", title: "砖窑", eyebrow: "PROVIDER BRICKCLAMP", group: "用量", icon: "i-magpie", hint: "堆=provider 烧=token 工=会话 塌=错" },
+    { id: "meiler", title: "炭堆", eyebrow: "PROVIDER MEILER", group: "用量", icon: "i-magpie", hint: "堆=provider 烟=token 工=会话 陷=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
