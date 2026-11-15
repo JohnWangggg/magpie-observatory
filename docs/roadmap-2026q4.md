@@ -1272,3 +1272,13 @@ v8 已落地/确认：多网关并行对比(compareGateways 双快照)、PNG 导
 3. **session 时间轴聚合**:所有 tries 汇成一条泳道(不止选中卡),放 decision-strip 下。
 4. **view-menu 粘性组头**:滚动时当前组头吸顶。
 5. **更多触控**:heatmap 长按复制当日 tokens/calls;digest 滑走关闭。
+
+## 下轮候选 v10（2026-11-15 · v9 部分落地后）
+
+v9 已落地：heatmap 长按复制、digest 横滑关闭+Web Notification、view-menu 粘性组头(已有)、hero 菜单 4 死项修复(randViewId/share-link/report-copy)。
+
+1. **完整状态链接** `?st=`:base64 编码 收藏/便签/pin/KPI隐藏/视图书签 进 URL,applyUrlState 还原(跨设备快照)。
+2. **session 时间轴聚合泳道**:所有会话 tries 汇成单条泳道(不止选中卡),decision-strip 下。
+3. **digest 历史**:digest 出现后存 magpie.digestLog(7条),可回看历史摘要。
+4. **KPI 卡双击**:除隐藏外,双击复制单卡值到剪贴板。
+5. **session 卡键盘展开**:选中后按 Enter/Space 切 tries 明细显隐(非仅点击重渲)。
