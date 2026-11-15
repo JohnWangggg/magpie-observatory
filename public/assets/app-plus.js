@@ -285,6 +285,16 @@
     // Day boundaries: a faint vertical rule where the frame's date changes.
     try {
       const dayMarks = s.replayBuf.map((f, k) => k > 0 && new Date(f.t).toDateString() !== new Date(s.replayBuf[k - 1].t).toDateString() ? k : -1).filter(k => k >= 0);
+    // Largest time-gap between consecutive frames: marks where capture paused.
+    try {
+      let maxGap = 0, gapAt = -1;
+      for (let k = 1; k < s.replayBuf.length; k++) {
+        const dt = s.replayBuf[k].t - s.replayBuf[k - 1].t;
+        if (dt > maxGap) { maxGap = dt; gapAt = k; }
+      }
+      if (gapAt >= 0 && maxGap > 5000 && strip)
+        strip.innerHTML += `<i style="position:absolute;left:${(gapAt / Math.max(1, s.replayBuf.length - 1) * 100).toFixed(1)}%;top:0;bottom:0;width:2px;background:var(--faint);opacity:.8;pointer-events:none" title="帧${gapAt} 前间隔 ${(maxGap / 1000).toFixed(1)}s"></i>`;
+    } catch (_) {}
       if (dayMarks.length) strip.innerHTML += `<div style="position:absolute;inset:0;pointer-events:none">${dayMarks.map(k => `<i style="position:absolute;left:${(k / Math.max(1, s.replayBuf.length - 1) * 100).toFixed(1)}%;top:-6px;bottom:-6px;width:1px;background:var(--accent);opacity:.55" title="跨日 · 帧${k} · ${new Date(s.replayBuf[k].t).toLocaleDateString("zh-CN")}"></i>`).join("")}</div>`;
     } catch (_) {}
     // Cumulative cost at the last frame, as a tiny caption on the strip.
