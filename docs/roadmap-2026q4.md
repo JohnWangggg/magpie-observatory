@@ -1373,3 +1373,13 @@ v18 已落地：digestLog mini bar、palette恢复隐藏KPI、session右键复�
 3. **digest 同类日志合并**:digest错误聚类超过3类时显示 top2+其余。
 4. **便签卡拖拽排序**:note-chip 上下拖动重排(已有拖拽进出,补内部排序)。
 5. **view-menu 关闭动画**:打开已有 vmItemIn,补关闭 transition。
+
+## 下轮候选 v20（2026-11-15 · v19 基本落地后）
+
+v19 已落地：回放书签跳帧、vm关闭动画、便签chip拖拽排序(顺带修host未定义)、digest beep。跳过：session看过时间(视图维度)、digest top2合并。
+
+1. **回放标记可视化**:replay-range 下方一条 tick 条,标 marks 位置(可点跳)。
+2. **session 卡标记 icon**:ctxSess.agent 彩色小点在卡右上(已知有 --s-c,补显式 marker)。
+3. **digest 触发快捷键**:palette/键盘 D 强制重显 digest(清 magpie.digest 标记)。
+4. **session 卡多选拖拽**:multiSel 可整组拖到便签卡(批量钉值)。
+5. **view-menu 粘性搜索**:vm-filters chips 吸顶(与组头 sticky 一致)。
