@@ -2110,6 +2110,17 @@ show(F.length-1);
       if (e.key === "End") { e.preventDefault(); if (r) { r.value = state().replayBuf.length - 1; scrubReplay(+r.value); } }
       // C → open the A-B frame comparison while replaying (needs a set loop).
       if (e.key === "c" || e.key === "C") { e.preventDefault(); compareReplayFrames(); }
+      // A / B keys: set the loop ends at the current frame — a keyboard-only
+      // alternative to right-clicking a mark.
+      if (e.key === "a" || e.key === "A" || e.key === "b" || e.key === "B") {
+        const st = state();
+        const idx = +($("#replay-range")?.value || 0);
+        const cur = st.replayAB || [null, null];
+        if (e.key === "a" || e.key === "A") st.replayAB = [idx, cur[1] != null && cur[1] > idx ? cur[1] : null];
+        else st.replayAB = [cur[0] != null && cur[0] < idx ? cur[0] : null, idx];
+        if (st.replayAB[0] == null || st.replayAB[1] == null) st.replayAB = null;
+        toast(st.replayAB ? `A-B 循环 ${st.replayAB[0]}→${st.replayAB[1]}` : "A-B 循环已取消");
+      }
     });
     ["rule-quota", "rule-err", "rule-cost"].forEach(id => {
       const el = $("#" + id);
