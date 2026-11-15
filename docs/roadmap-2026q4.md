@@ -1433,3 +1433,13 @@ v24 已落地：palette lastCmd重跑、回放速度palette项、try-row点击�
 3. **palette视图分组标题**:items按kind分段(视图/跳转/动作)视觉分组。
 4. **digest复制CSV**:digest-md旁加CSV按钮。
 5. **回放循环palette项**:replayLoop切换进palette。
+
+## 下轮候选 v26（2026-11-15 · v25 落地后）
+
+v25 已落地：palette回放循环、digest复制CSV、palette按kind分段。跳过：回放range hover预览(需帧tooltip叠加)、tries计数chip(amber chip已含数字)。
+
+1. **回放range悬停帧预览**:range hover→tooltip该帧tps/tokens。
+2. **session卡tries计数chip**:fallbacks旁"N tries"。
+3. **palette视图缩略图hover放大**:pal-thumb hover→lightbox缩略预览。
+4. **digest错误率格**:errs/calls百分比格。
+5. **回放帧跳转±10**:range旁«»按钮跳10帧。
