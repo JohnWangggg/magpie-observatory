@@ -73,6 +73,16 @@
     toast("回放模式 · 拖动时间轴 · R 或 × 退出");
     const hint = bar && bar.querySelector(".rep-hint");
     if (bar && !hint) bar.insertAdjacentHTML("beforeend", `<span class="rep-hint" title="空格 播放 · ←→ 步进 · Home/End 首末 · A/B 设循环端 · C 帧对比 · R 退出" style="font:8px var(--font);color:var(--faint);margin-left:auto;cursor:help">?键位</span>`);
+    const hintEl = bar && bar.querySelector(".rep-hint");
+    if (hintEl && !hintEl.dataset.bound) { hintEl.dataset.bound = "1"; hintEl.addEventListener("click", () => {
+      $(".keys-card")?.remove();
+      const card = document.createElement("div");
+      card.className = "gwcmp-card keys-card";
+      card.innerHTML = `<div class="digest-head"><b>回放键位</b><span>KEYS</span></div>` + [["空格", "播放/暂停"], ["←→", "步进 1 帧"], ["Shift+←→", "步 10 帧"], ["Home/End", "首/末帧"], ["A / B", "设循环端点"], ["Shift+A/B", "端点微调 ±1"], ["X", "清 A-B 循环"], ["C", "A-B 帧对比"], ["D", "diff vs 首/A 帧"], ["?", "当前帧 KPI"], ["R", "退出回放"]].map(([k, d]) => `<div class="cmp-r"><span>${k}</span><b></b><em></em><b>${d}</b></div>`).join("");
+      card.addEventListener("click", () => card.remove());
+      document.body.appendChild(card);
+      setTimeout(() => card.classList.add("in"), 10);
+    }); }
     // Tick strip under the scrubber: one dot per B-key mark, click to jump.
     let strip = $("#replay-marks");
     if (!strip) {
@@ -2636,7 +2646,8 @@ ${quota || "| — | — | — |"}
       lastKind = it.kind;
       const hotDot = it.vid && ((() => { try { return (JSON.parse(localStorage.getItem("magpie.viewHeat") || "{}"))[it.vid] || 0; } catch (_) { return 0; } })() >= 3) ? `<i class="pal-hot" title="常用"></i>` : "";
       const numBadge = i < 9 ? `<i class="pal-num" title="⌘${i + 1} 直达">${i + 1}</i>` : "";
-      return head + `<button class="pal-item" data-idx="${i}"><svg><use href="#${it.icon}"/></svg><span><b>${esc(it.title)}</b><small>${esc(it.sub)}</small></span><em>${esc(it.kind)}</em>${thumb}${hotDot}${numBadge}</button>`;
+      const kindDot = `<i style="display:inline-block;width:4px;height:4px;border-radius:50%;margin-right:5px;vertical-align:middle;background:var(--kdot, var(--muted))"></i>`;
+      return head + `<button class="pal-item" data-idx="${i}" style="--kdot:${{ "视图": "var(--accent)", "页面": "var(--green)", "会话": "var(--amber)", "动作": "var(--cyan, var(--accent-strong))", "重跑": "var(--red)" }[it.kind] || "var(--muted)"}">${kindDot}<svg><use href="#${it.icon}"/></svg><span><b>${esc(it.title)}</b><small>${esc(it.sub)}</small></span><em>${esc(it.kind)}</em>${thumb}${hotDot}${numBadge}</button>`;
     }).join("");
     if (!list.innerHTML.trim()) {
       list.innerHTML = `<div class="pal-kind">提示</div><div class="pal-empty" style="padding:10px 14px;font-size:9.5px;color:var(--muted)">没有匹配项 · 试试 ⌘1-9 直达 · → 预览 · 视图名/orrery · agent名/claude · 命令/导出/回放</div>`;
