@@ -2184,6 +2184,9 @@ show(F.length-1);
           pop.className = "gwcmp-card frame-pop";
           const k = f.data.kpis || {};
           pop.innerHTML = `<div class="digest-head"><b>帧 ${idx}</b><span>${new Date(f.t).toTimeString().slice(0, 8)}</span></div><div class="cmp-r"><span>TOK</span><b>${fmtTokens(k.tokens)}</b><em></em><b>${k.tps != null ? k.tps.toFixed(1) : "—"}/s</b></div><div class="cmp-r"><span>调用</span><b>${k.calls || 0}</b><em></em><b>${k.errors || 0} 错</b></div><div class="cmp-r"><span>会话</span><b>${(f.data.sessions || []).length}</b><em></em><b>${fmtMoney(k.cost)}</b></div>`;
+          // Pin the pop just above the replay bar instead of the page centre.
+          const barEl = $("#replay-bar");
+          if (barEl) { const bb = barEl.getBoundingClientRect(); pop.style.top = "auto"; pop.style.left = bb.left + bb.width / 2 + "px"; pop.style.bottom = (innerHeight - bb.top + 8) + "px"; }
           pop.addEventListener("click", () => pop.remove());
           document.body.appendChild(pop);
           setTimeout(() => pop.classList.add("in"), 10);
