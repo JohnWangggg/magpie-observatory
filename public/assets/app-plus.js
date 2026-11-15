@@ -1383,6 +1383,10 @@ show(F.length-1);
       log.push({ date: y.date || today, tokens: y.tokens, calls: y.calls || 0, streak: dayStreak(), at: Date.now() });
       localStorage.setItem("magpie.digestLog", JSON.stringify(log.slice(-7)));
     } catch (_) {}
+    const logLen = digestLog().length;
+    const first = logLen <= 1;
+    const milestone = [7, 30, 60, 100].includes(dayStreak());
+    const greet = first ? "欢迎回来 · 首次摘要" : milestone ? `${dayStreak()} 天里程碑` : "昨日报告";
     const top = {};
     (s.data.logs || []).forEach(l => { top[l.provider] = (top[l.provider] || 0) + (l.tokens || 0); });
     const topP = Object.entries(top).sort((a, b) => b[1] - a[1])[0];
@@ -1401,7 +1405,7 @@ show(F.length-1);
     const card = document.createElement("div");
     card.className = "digest-card";
     card.innerHTML = `
-      <div class="digest-head"><b>昨日报告</b><span>DAILY DIGEST</span></div>
+      <div class="digest-head"><b>${esc(greet)}</b><span>DAILY DIGEST</span></div>
       <div class="digest-grid">
         <div><small>tokens</small><b>${fmtTokens(y.tokens)}${dTok != null ? `<em class="dig ${dTok >= 0 ? "up" : "down"}">${dTok >= 0 ? "▲" : "▼"}${Math.abs(dTok)}%</em>` : ""}</b></div>
         <div><small>调用</small><b>${y.calls || 0}${dCall != null ? `<em class="dig ${dCall >= 0 ? "up" : "down"}">${dCall >= 0 ? "▲" : "▼"}${Math.abs(dCall)}%</em>` : ""}</b></div>

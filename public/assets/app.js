@@ -4054,6 +4054,16 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
       if (e.key.toLowerCase() === "v" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); toggleViewMenu(); }
       if (e.key.toLowerCase() === "r" && e.shiftKey && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); randomView(); }
       else if (e.key.toLowerCase() === "r" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); (window.Obs && window.Obs.onKeyR ? window.Obs.onKeyR(e) : randomView()); }
+      // Replay scrub: ←/→ steps frames while a replay is up (range input has
+      // focus or not — the handler lives globally like R).
+      if ((e.key === "ArrowLeft" || e.key === "ArrowRight") && state.replay) {
+        e.preventDefault();
+        const range = $("#replay-range");
+        if (!range) return;
+        const next = Math.max(0, Math.min(+range.max, +range.value + (e.key === "ArrowRight" ? 1 : -1)));
+        range.value = next;
+        range.dispatchEvent(new Event("input", { bubbles: true }));
+      }
       if (e.key.toLowerCase() === "g" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); if (state.tour) stopTour(); else { closeViewMenu(); startTour(); } }
       if (e.key.toLowerCase() === "f" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); toggleFavorite(state.heroMode); }
       if (e.key.toLowerCase() === "n" && !e.metaKey && !e.ctrlKey && !e.altKey) {
