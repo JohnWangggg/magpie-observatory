@@ -77,23 +77,21 @@
       strip.style.cssText = "position:relative;height:14px;margin-top:2px";
       if (bar) bar.appendChild(strip);
     }
+    let marks = [];
+    try { marks = JSON.parse(localStorage.getItem("magpie.replayMarks") || "[]"); } catch (_) {}
+    const max = Math.max(1, s.replayBuf.length - 1);
     if (strip) {
-      let marks = [];
-      try { marks = JSON.parse(localStorage.getItem("magpie.replayMarks") || "[]"); } catch (_) {}
-      const max = Math.max(1, s.replayBuf.length - 1);
       strip.innerHTML = marks.map(m => `<i style="position:absolute;left:${(m.idx / max * 100).toFixed(1)}%;top:0;width:4px;height:8px;background:var(--amber);border-radius:1px;cursor:pointer" data-mi="${m.idx}" title="跳到第 ${m.idx} 帧"></i>`).join("");
       strip.onclick = e => { const i = e.target.dataset.mi; if (i != null) { range.value = i; scrubReplay(+i); } };
-    }
       // Shaded spans between consecutive B-marks: a mark pair = a watched
       // stretch, drawn as a translucent band.
-      try {
-        const spans = marks.slice(0, -1).map((m, i) => {
-          const n = marks[i + 1];
-          const l = m.idx / max * 100, w = (n.idx - m.idx) / max * 100;
-          return `<i style="position:absolute;left:${l.toFixed(1)}%;width:${w.toFixed(1)}%;top:0;height:100%;background:color-mix(in srgb,var(--amber) 10%,transparent);pointer-events:none" title="第${m.idx}→${n.idx}帧区段"></i>`;
-        }).join("");
-        if (spans) strip.innerHTML += `<div style="position:absolute;inset:0;pointer-events:none">${spans}</div>`;
-      } catch (_) {}
+      const spans = marks.slice(0, -1).map((m, i) => {
+        const n = marks[i + 1];
+        const l = m.idx / max * 100, w = (n.idx - m.idx) / max * 100;
+        return `<i style="position:absolute;left:${l.toFixed(1)}%;width:${w.toFixed(1)}%;top:0;height:100%;background:color-mix(in srgb,var(--amber) 10%,transparent);pointer-events:none" title="第${m.idx}→${n.idx}帧区段"></i>`;
+      }).join("");
+      if (spans) strip.innerHTML += `<div style="position:absolute;inset:0;pointer-events:none">${spans}</div>`;
+    }
     // Session-start dots on the same strip: startedAt → position over the
     // buffer span (completion time isn't recorded; start is the marker).
     try {
