@@ -2115,9 +2115,23 @@ show(F.length-1);
       if (e.key === "End") { e.preventDefault(); if (r) { r.value = state().replayBuf.length - 1; scrubReplay(+r.value); } }
       // C → open the A-B frame comparison while replaying (needs a set loop).
       if (e.key === "c" || e.key === "C") { e.preventDefault(); compareReplayFrames(); }
-      // A / B keys: set the loop ends at the current frame — a keyboard-only
-      // alternative to right-clicking a mark.
-      if (e.key === "a" || e.key === "A" || e.key === "b" || e.key === "B") {
+      // Shift+←→ scrubs 10 frames; Shift+A/B nudges a set endpoint ±1.
+      if (e.shiftKey && (e.key === "ArrowLeft" || e.key === "ArrowRight")) {
+        e.preventDefault();
+        const st = state();
+        const nx = Math.min(st.replayBuf.length - 1, Math.max(0, +(r?.value || 0) + (e.key === "ArrowRight" ? 10 : -10)));
+        if (r) { r.value = nx; scrubReplay(nx); }
+      }
+      if (e.shiftKey && (e.key === "A" || e.key === "B")) {
+        const st = state();
+        if (st.replayAB) {
+          const i = e.key === "A" ? 0 : 1;
+          st.replayAB[i] = Math.min(st.replayBuf.length - 1, Math.max(0, st.replayAB[i] + (e.key === "A" ? -1 : 1)));
+          try { localStorage.setItem("magpie.replayAB", JSON.stringify(st.replayAB)); } catch (_) {}
+          toast(`A-B 循环 ${st.replayAB[0]}→${st.replayAB[1]}`);
+        }
+      }
+      if (!e.shiftKey && (e.key === "a" || e.key === "A" || e.key === "b" || e.key === "B")) {
         const st = state();
         const idx = +($("#replay-range")?.value || 0);
         const cur = st.replayAB || [null, null];
@@ -2562,6 +2576,17 @@ ${quota || "| — | — | — |"}
     if (!list.innerHTML.trim()) {
       list.innerHTML = `<div class="pal-kind">提示</div><div class="pal-empty" style="padding:10px 14px;font-size:9.5px;color:var(--muted)">没有匹配项 · 试试 ⌘1-9 直达 · → 键预览详情</div>`;
     }
+    // Click a kind header to collapse/expand its group.
+    $$(".pal-kind", list).forEach(h => {
+      h.style.cursor = "pointer";
+      h.title = "点击折叠/展开该组";
+      h.addEventListener("click", () => {
+        let n = h.nextElementSibling;
+        const collapse = !(n && n.style.display === "none");
+        while (n && !n.classList.contains("pal-kind")) { n.style.display = collapse ? "none" : ""; n = n.nextElementSibling; }
+        h.style.opacity = collapse ? ".45" : "";
+      });
+    });
     $$(".pal-item", list).forEach(b => b.addEventListener("click", (e) => {
       const it = items[+b.dataset.idx];
       if (it && it.run) {
