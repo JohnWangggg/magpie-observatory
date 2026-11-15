@@ -1869,6 +1869,20 @@ show(F.length-1);
     $("#replay-play").addEventListener("click", toggleReplayPlay);
     $("#replay-share").addEventListener("click", shareReplayLink);
     $("#replay-speed")?.addEventListener("click", cycleReplaySpeed);
+    // «/» step the scrubber by 10 frames.
+    $("#replay-back10")?.addEventListener("click", () => { const r = $("#replay-range"); if (r && state()?.replay) { r.value = Math.max(0, +r.value - 10); scrubReplay(+r.value); } });
+    $("#replay-fwd10")?.addEventListener("click", () => { const r = $("#replay-range"); if (r && state()?.replay) { r.value = Math.min(state().replayBuf.length - 1, +r.value + 10); scrubReplay(+r.value); } });
+    // Hover the scrubber → native tooltip previews the frame under the cursor
+    // (tps + tokens of that snapshot, no re-render).
+    const rr = $("#replay-range");
+    if (rr) rr.addEventListener("mousemove", e => {
+      const s2 = state();
+      if (!s2 || !s2.replay || !s2.replayBuf.length) return;
+      const frac = (e.clientX - rr.getBoundingClientRect().left) / rr.getBoundingClientRect().width;
+      const i = Math.min(s2.replayBuf.length - 1, Math.max(0, Math.round(frac * (s2.replayBuf.length - 1))));
+      const f = s2.replayBuf[i] && s2.replayBuf[i].data;
+      if (f && f.kpis) rr.title = `#${i} · ${fmtTokens(f.kpis.tokens || 0)} tok · ${f.kpis.tps != null ? f.kpis.tps.toFixed(1) : "—"} tok/s · ${f.kpis.errors || 0} 错误`;
+    });
     // Right-click the speed chip → toggle auto-loop replay.
     $("#replay-speed")?.addEventListener("contextmenu", e => {
       e.preventDefault();
