@@ -1933,8 +1933,29 @@ ${quota || "| — | — | — |"}
       { kind: "动作", icon: "i-server", title: "网关对比", sub: "默认 vs 锁定 · 并列四指标", search: "gateway 网关 对比 compare multi".toLowerCase(), run: compareGateways },
       { kind: "动作", icon: "i-trophy", title: "个人战绩", sub: "等级 / 连击 / 纪录", search: "records 战绩 等级 成就".toLowerCase(), run: showRecords },
       { kind: "动作", icon: "i-link", title: "复制视图快照", sub: "当前视图 + KPI + 配额摘要", search: "snapshot 快照 复制 copy".toLowerCase(), run: copyViewSnapshot },
-      { kind: "动作", icon: "i-doc", title: "复制今日票据", sub: "markdown 摘要 · 日报/聊天直贴", search: "receipt 票据 摘要 markdown copy".toLowerCase(), run: copyReceipt }
+      { kind: "动作", icon: "i-doc", title: "复制今日票据", sub: "markdown 摘要 · 日报/聊天直贴", search: "receipt 票据 摘要 markdown copy".toLowerCase(), run: copyReceipt },
+      { kind: "动作", icon: "i-stack", title: "对比视图", sub: "当前视图 + 随机视图并排", search: "compare 对比 并排 dual side".toLowerCase(), run: toggleCompare }
     );
+
+  // Floating compare pane: renders a chosen registered view beside the hero.
+  function toggleCompare() {
+    const s = state();
+    if (!s) return;
+    let pane = $("#compare-pane");
+    if (pane) { pane.remove(); toast("对比已关闭"); return; }
+    const reg = window.ObservatoryViews || {};
+    const ids = Object.keys(reg).filter(id => id !== s.heroMode);
+    if (!ids.length) { toast("无可用对比视图"); return; }
+    const other = ids[Math.floor(Math.random() * ids.length)];
+    pane = document.createElement("div");
+    pane.id = "compare-pane";
+    pane.innerHTML = `<div class="cmp-head"><b>${esc(reg[other].title || other)}</b><small>${esc(reg[other].eyebrow || "")}</small><button type="button" id="cmp-x" aria-label="关闭">×</button></div><div class="cmp-body" id="cmp-body"></div>`;
+    document.body.appendChild(pane);
+    try { reg[other].render($("#cmp-body"), { data: s.data, view: s.view, kpis: (s.view && s.view.kpis) || s.data.kpis || {}, fmtTokens, fmtMoney, esc, clamp, providerMeta: Obs.api.providerMeta, providerIcon: Obs.api.providerIcon, agentMeta: Obs.api.agentMeta, agentIcon: Obs.api.agentIcon, motion: document.documentElement.dataset.motion || "full", game: window.Obs && window.Obs.game }); } catch (e) { $("#cmp-body").innerHTML = `<div class="empty-row">渲染失败：${esc(e.message)}</div>`; }
+    pane.querySelector("#cmp-x").addEventListener("click", () => pane.remove());
+    toast(`对比视图：${reg[other].title || other} · Esc/× 关闭`);
+    closePalette();
+  }
     // per-provider burn shortcuts — "看 Claude 烧速" jumps straight to the
     // window row.
     if (s && s.data.quotas) {
