@@ -2543,3 +2543,13 @@ v134 已落地:agent右色边、活跃/总计、均会话格。
 3. **回放条播放剩余时**:剩X帧≈Xs。
 4. **session卡tps阈值标**:>100亮。
 5. **agent卡load条title**:已有tok title。
+
+## 下轮候选 v136（2026-11-15 · v135 落地后）
+
+v135 已落地:digest昨日改道格。级联重复已全部清掉(node --check过)。跳过:回放条剩帧(工具错位,不再尝试)、tps阈值标。
+
+1. **session卡tps高亮**:>100亮。
+2. **pal跳转项按prov排序**。
+3. **digest格最大单请求**:max tokens。
+4. **live-foot首个会话龄**:最早startedAt。
+5. **agent卡load色**:hot变红?
