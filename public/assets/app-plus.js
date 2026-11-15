@@ -71,6 +71,7 @@
     try { const saved = JSON.parse(localStorage.getItem("magpie.replayAB") || "null"); if (saved && saved[0] != null && saved[1] != null) s.replayAB = [Math.min(saved[0], s.replayBuf.length - 1), Math.min(saved[1], s.replayBuf.length - 1)]; } catch (_) {}
     try { const v = +(localStorage.getItem("magpie.replaySpeed") || "0"); if (v) s.replaySpeed = v; } catch (_) {}
     const spd = $("#replay-speed"); if (spd) spd.textContent = (s.replaySpeed || 1) + "×";
+    const db = $("#replay-diff-btn"); if (db && !db.dataset.bound) { db.dataset.bound = "1"; db.addEventListener("click", () => document.dispatchEvent(new KeyboardEvent("keydown", { key: "d" }))); }
     scrubReplay(s.replay.idx);
     toast("回放模式 · 拖动时间轴 · R 或 × 退出");
     const hint = bar && bar.querySelector(".rep-hint");
