@@ -397,6 +397,7 @@
     { id: "narrowboat", title: "窄船", eyebrow: "PROVIDER NARROWBOAT", group: "用量", icon: "i-magpie", hint: "舱=provider 箱=token 舵=会话 倾=错" },
     { id: "harbormaster", title: "港务", eyebrow: "PROVIDER HARBORMASTER", group: "用量", icon: "i-magpie", hint: "楼=provider 船=token 旗=会话 缠=错" },
     { id: "customshouse", title: "关楼", eyebrow: "PROVIDER CUSTOMSHOUSE", group: "用量", icon: "i-magpie", hint: "署=provider 包=token 戳=会话 锁=错" },
+    { id: "pilothouse", title: "引航", eyebrow: "PROVIDER PILOTHOUSE", group: "用量", icon: "i-magpie", hint: "站=provider 舟=token 读=会话 雾=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },

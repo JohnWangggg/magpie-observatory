@@ -1,0 +1,7 @@
+/* pilothouse view */
+@keyframes pltread { 0%,100% { transform: translateX(0); } 50% { transform: translateX(-2px); } }
+.plt-svg { display: block; width: 100%; height: 100%; }
+.plt-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.plt-man { animation: pltread ease-in-out infinite; }
+.plt-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .plt-man { animation: none; } }
