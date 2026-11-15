@@ -1,0 +1,7 @@
+/* scriptorium view */
+@keyframes sqcopy { 0%,100% { transform: translateX(0); } 50% { transform: translateX(2px); } }
+.sq-svg { display: block; width: 100%; height: 100%; }
+.sq-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.sq-man { animation: sqcopy ease-in-out infinite; }
+.sq-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .sq-man { animation: none; } }
