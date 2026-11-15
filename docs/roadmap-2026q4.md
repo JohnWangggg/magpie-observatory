@@ -2493,3 +2493,13 @@ v129 已落地:已选N显。
 3. **pal跳转prov名**(已有)。
 4. **agent卡tok total**(已有)。
 5. **session卡pin数**:置顶数foot。
+
+## 下轮候选 v131（2026-11-15 · v130 落地后）
+
+v130 已落地:最长会话格。撤销:err聚类段(累计值不降,会涂满)。
+
+1. **session卡pin数**:置顶数显foot。
+2. **digest格err Top2**:双provider。
+3. **回放条mark色**:B-mark闪标?
+4. **pal热标组**:常用组。
+5. **agent卡吞吐title**。
