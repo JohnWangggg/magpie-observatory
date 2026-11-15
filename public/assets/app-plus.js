@@ -2763,7 +2763,7 @@ ${quota || "| — | — | — |"}
       const last = JSON.parse(localStorage.getItem("magpie.lastCmd") || "null");
       if (last && last.title) {
         const orig = items.find(x => x.title === last.title);
-        if (orig && orig.kind === "动作") items.unshift({ kind: "重跑", icon: "i-arrow", title: `重跑:${last.title}`, sub: "上次执行", search: ("rerun 重跑 " + last.title).toLowerCase(), run: orig.run });
+        if (orig && orig.kind === "动作") { const ago = last.at ? Math.round((Date.now() - last.at) / 60000) : -1; const rel = ago < 0 ? "上次执行" : ago < 1 ? "上次执行·刚刚" : ago < 60 ? `上次执行·${ago}分钟前` : `上次执行·${Math.round(ago / 60)}小时前`; items.unshift({ kind: "重跑", icon: "i-arrow", title: `重跑:${last.title}`, sub: rel, search: ("rerun 重跑 " + last.title).toLowerCase(), run: orig.run }); }
       }
     } catch (_) {}
     // Recent-command history block: the last 5 executed actions, under their
