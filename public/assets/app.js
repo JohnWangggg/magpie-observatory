@@ -362,6 +362,7 @@
     { id: "oysterbed", title: "牡蛎床", eyebrow: "PROVIDER OYSTERBED", group: "用量", icon: "i-magpie", hint: "床=provider 蚝=token 舟=会话 碎=错" },
     { id: "granary", title: "谷仓", eyebrow: "PROVIDER GRANARY", group: "用量", icon: "i-magpie", hint: "仓=provider 袋=token 农=会话 爆=错" },
     { id: "creamery", title: "乳酪坊", eyebrow: "PROVIDER CREAMERY", group: "用量", icon: "i-magpie", hint: "搅=provider 酪=token 工=会话 裂=错" },
+    { id: "goffering", title: "褶熨坊", eyebrow: "PROVIDER GOFFERING", group: "用量", icon: "i-magpie", hint: "筒=provider 褶=token 工=会话 焦=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
