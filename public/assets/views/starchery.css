@@ -1,0 +1,7 @@
+/* starchery view */
+@keyframes sthwring { 0%,100% { transform: translateY(0); } 50% { transform: translateY(3px); } }
+.sth-svg { display: block; width: 100%; height: 100%; }
+.sth-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.sth-man { animation: sthwring ease-in-out infinite; }
+.sth-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .sth-man { animation: none; } }
