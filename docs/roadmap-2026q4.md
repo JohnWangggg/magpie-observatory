@@ -2089,3 +2089,13 @@ v89 已落地:err红。跳过:seen降噪(unseen类已)、图鉴进(进度已)、
 3. **digest格注释**:dTok旁加关键日标。
 4. **palette改道**:kind"动作"icon分组色。
 5. **回放帧书签集**:bookmarks卡加AB区间导出。
+
+## 下轮候选 v91（2026-11-15 · v90 落地后）
+
+v90 已落地:占日比。跳过:静结(status已)、关键日(达标已)、动作色(kindDot已)、AB导出(cmp-copy已)。
+
+1. **回放?帧卡帧度**:加帧时长(idx*time间隔)。
+2. **session卡div链**:divert>1次chip count。
+3. **digest格月均**:加"本月日均"。
+4. **palette会话页**:view会话页可搜。
+5. **回放条AB秒**:AB带title加时长秒。
