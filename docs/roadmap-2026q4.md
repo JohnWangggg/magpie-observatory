@@ -1212,3 +1212,13 @@ v2 已落地：hero 空态引导（random/tour/views 入口）、vs 卡本周轨
 3. **便签卡进化**：note-chip 支持双击编辑文本/拖到 session 卡关联（sessionNotes 已有基础设施）。
 4. **quota-pop 历史迷你图**：配额悬停卡加最近 N 点 sparkline（quotaHistory 数据已有）。
 5. **成就补齐**：trophies 与 app-plus ACHIEVEMENTS 双轨尚有差异项（如 cinema-1h/magpie-50 未进 trophies 架）。
+
+## 下轮候选 v4（2026-11-15 · v3 全部落地后）
+
+v3 已落地：heroMode 组跟随、quota-pop remaining% 历史 sparkline、digest 复制MD、便签chip双击编辑、trophies+4 徽章对齐 app-plus（21 徽章）。
+
+1. **深度分享**：`?view&range&cinema` 扩展 `&group=` 恢复组筛选 + `&fav=` 分享收藏集。
+2. **视图对比模式**：双 hero 并排（两视图同屏对照，布局模式新档）。
+3. **数据回放增强**：replay-bar 加速度档（1×/2×/4×）与跳时间点。
+4. **移动端手势**：view-menu 下滑关闭、hero 左右滑切视图。
+5. **无障碍**：view-menu 全键盘流程审查 + aria-live 切换公告完善。
