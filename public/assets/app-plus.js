@@ -104,6 +104,30 @@
         ? marks.map(m => `<i style="position:absolute;left:${(m.idx / max * 100).toFixed(1)}%;top:2px;width:3px;height:5px;background:var(--amber);border-radius:1px;opacity:.55;cursor:pointer" data-mi="${m.idx}" title="跳到第 ${m.idx} 帧 · ${s.replayBuf[m.idx] ? new Date(s.replayBuf[m.idx].t).toTimeString().slice(0, 8) : ""}"></i>`).join("")
         : marks.map(m => `<i style="position:absolute;left:${(m.idx / max * 100).toFixed(1)}%;top:0;width:4px;height:8px;background:var(--amber);border-radius:1px;cursor:pointer" data-mi="${m.idx}" title="跳到第 ${m.idx} 帧 · ${s.replayBuf[m.idx] ? new Date(s.replayBuf[m.idx].t).toTimeString().slice(0, 8) : ""}"></i>`).join("");
       strip.onclick = e => { const j = e.target.closest?.(".rep-edge")?.dataset.jump; if (j != null) { range.value = j; scrubReplay(+j); return; } const i = e.target.dataset.mi; if (i != null) { range.value = i; scrubReplay(+i); } };
+      if (!strip.dataset.dragBound) { strip.dataset.dragBound = "1"; strip.addEventListener("mousedown", e => {
+        const end = e.target.closest(".rep-ab-end");
+        if (!end || !s.replayAB) return;
+        e.preventDefault();
+        const which = +end.dataset.end;
+        const move = ev => {
+          const bb = strip.getBoundingClientRect();
+          const idx = Math.round(((ev.clientX - bb.left) / bb.width) * max);
+          const ab = [...s.replayAB];
+          ab[which] = Math.min(which ? s.replayBuf.length - 1 : ab[1] - 1, Math.max(which ? ab[0] + 1 : 0, idx));
+          s.replayAB = ab;
+          strip.querySelectorAll(".rep-ab, .rep-ab-end").forEach(x => x.remove());
+          const l = ab[0] / max * 100, w = (ab[1] - ab[0]) / max * 100;
+          strip.insertAdjacentHTML("beforeend", `<i class="rep-ab" style="position:absolute;left:${l.toFixed(1)}%;width:${w.toFixed(1)}%;top:0;height:100%;background:color-mix(in srgb,var(--amber) 20%,transparent);pointer-events:none"></i><i class="rep-ab-end" data-end="0" style="position:absolute;left:${l.toFixed(1)}%;top:-3px;font:700 7px var(--num);color:var(--amber);cursor:ew-resize">A</i><i class="rep-ab-end" data-end="1" style="position:absolute;left:calc(${l.toFixed(1)}% + ${w.toFixed(1)}% - 6px);top:-3px;font:700 7px var(--num);color:var(--amber);cursor:ew-resize">B</i>`);
+        };
+        const up = () => {
+          try { localStorage.setItem("magpie.replayAB", JSON.stringify(s.replayAB)); } catch (_) {}
+          toast(`A-B 循环 ${s.replayAB[0]}→${s.replayAB[1]}`);
+          document.removeEventListener("mousemove", move);
+          document.removeEventListener("mouseup", up);
+        };
+        document.addEventListener("mousemove", move);
+        document.addEventListener("mouseup", up);
+      }); }
       // Shaded spans between consecutive B-marks: a mark pair = a watched
       // stretch, drawn as a translucent band.
       const spans = marks.slice(0, -1).map((m, i) => {
@@ -135,7 +159,7 @@
       if (s.replayAB) {
         const l = s.replayAB[0] / max * 100, w = (s.replayAB[1] - s.replayAB[0]) / max * 100;
         strip.innerHTML += `<i class="rep-ab" style="position:absolute;left:${l.toFixed(1)}%;width:${w.toFixed(1)}%;top:0;height:100%;background:color-mix(in srgb,var(--amber) 20%,transparent);pointer-events:none" title="A-B循环 ${s.replayAB[0]}→${s.replayAB[1]}"></i>`;
-        strip.innerHTML += `<i style="position:absolute;left:${l.toFixed(1)}%;top:-3px;font:700 7px var(--num);color:var(--amber);pointer-events:none">A</i><i style="position:absolute;left:calc(${l.toFixed(1)}% + ${w.toFixed(1)}% - 6px);top:-3px;font:700 7px var(--num);color:var(--amber);pointer-events:none">B</i>`;
+        strip.innerHTML += `<i class="rep-ab-end" data-end="0" style="position:absolute;left:${l.toFixed(1)}%;top:-3px;font:700 7px var(--num);color:var(--amber);cursor:ew-resize" title="拖动调 A 端">A</i><i class="rep-ab-end" data-end="1" style="position:absolute;left:calc(${l.toFixed(1)}% + ${w.toFixed(1)}% - 6px);top:-3px;font:700 7px var(--num);color:var(--amber);cursor:ew-resize" title="拖动调 B 端">B</i>`;
       }
       // First/last frame quick-jump paddles at the strip edges.
       strip.innerHTML += `<button type="button" class="rep-edge" data-jump="0" style="position:absolute;left:0;top:0;height:100%;width:10px;border:0;background:color-mix(in srgb,var(--accent) 12%,transparent);cursor:pointer" title="跳到首帧"></button>`;
@@ -1711,6 +1735,7 @@ show(F.length-1);
       })()}
       <div class="digest-foot">连续使用 ${dayStreak()} 天 · ${dTok != null ? (dTok >= 0 ? "较前日 +" + dTok + "%" : "较前日 " + dTok + "%") : "保持热度"}
       ${(() => { const mo = new Date().toISOString().slice(0, 7); const mSum = days.filter(d => (d.date || "").startsWith(mo)).reduce((a, d) => a + (d.tokens || 0), 0); const dayN = new Date().getDate(), daysInMo = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate(), moPct = Math.round(dayN / daysInMo * 100); return mSum ? `<div style="font-size:8.5px;color:var(--faint);margin-top:2px">本月累计 ${fmtTokens(mSum)} tokens · 月过 ${moPct}%<i style="display:block;height:2px;background:color-mix(in srgb,var(--fg) 10%,transparent);border-radius:1px;margin-top:2px"><em style="display:block;height:100%;width:${moPct}%;background:var(--accent);border-radius:1px"></em></i></div>` : ""; })()}
+      ${(() => { const q = Math.floor(new Date().getMonth() / 3); const qSum = days.filter(d => { const m = new Date(d.date + "T00:00").getMonth(); return Math.floor(m / 3) === q && new Date(d.date + "T00:00").getFullYear() === new Date().getFullYear(); }).reduce((a, d) => a + (d.tokens || 0), 0); return qSum ? `<div style="font-size:8.5px;color:var(--faint)">本季累计 ${fmtTokens(qSum)}</div>` : ""; })()}
         <button class="mini-btn digest-week" type="button">看周报 →</button>
         <button class="mini-btn digest-md" type="button">复制 MD</button>
         <button class="mini-btn digest-csv" type="button">复制 CSV</button>
