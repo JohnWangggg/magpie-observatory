@@ -211,6 +211,7 @@
     { id: "pigeonry", title: "鸽房", eyebrow: "PROVIDER PIGEONRY", group: "用量", icon: "i-magpie", hint: "孔=provider 鸽=token 旋=会话 裂=错" },
     { id: "tenterfield", title: "拉幅场", eyebrow: "PROVIDER TENTERFIELD", group: "用量", icon: "i-magpie", hint: "架=provider 布=token 风=会话 撕=错" },
     { id: "headgear", title: "井架", eyebrow: "QUOTA HEADGEAR", group: "配额", icon: "i-magpie", hint: "塔=配额窗 罐=余量 笼=会话 脱=错" },
+    { id: "fullery", title: "缩绒坊", eyebrow: "PROVIDER FULLERY", group: "用量", icon: "i-magpie", hint: "槽=provider 布=token 锤=会话 裂=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
