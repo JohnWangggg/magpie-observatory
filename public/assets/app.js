@@ -240,6 +240,7 @@
     { id: "tanpit", title: "鞣皮坑", eyebrow: "PROVIDER TANPIT", group: "用量", icon: "i-magpie", hint: "坑=provider 皮=token 匠=会话 腐=错" },
     { id: "qanat", title: "坎儿井", eyebrow: "QUOTA QANAT", group: "配额", icon: "i-magpie", hint: "井=配额窗 水=余量 夫=会话 塌=错" },
     { id: "lightship", title: "灯船", eyebrow: "PROVIDER LIGHTSHIP", group: "用量", icon: "i-magpie", hint: "船=provider 光=token 守=会话 熄=错" },
+    { id: "watertower", title: "水塔", eyebrow: "QUOTA WATERTOWER", group: "配额", icon: "i-magpie", hint: "罐=配额窗 水=余量 阀=会话 爆=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
