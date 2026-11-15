@@ -3174,3 +3174,4 @@ body.mini .route-stage { min-height: 0 !important; }
   .vm-groups { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 .view-menu.closing { transition: opacity .14s ease, transform .14s ease; opacity: 0; transform: translateY(-6px); }
+.vm-filters { position: sticky; top: -4px; z-index: 6; background: color-mix(in srgb, var(--card) 96%, transparent); padding: 4px 0; }
