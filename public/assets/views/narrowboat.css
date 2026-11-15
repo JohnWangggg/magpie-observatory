@@ -1,0 +1,7 @@
+/* narrowboat view */
+@keyframes nwtiller { 0%,100% { transform: rotate(0); } 50% { transform: rotate(4deg); } }
+.nw-svg { display: block; width: 100%; height: 100%; }
+.nw-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.nw-man { animation: nwtiller ease-in-out infinite; transform-origin: 0 12px; }
+.nw-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .nw-man { animation: none; } }

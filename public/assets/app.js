@@ -394,6 +394,7 @@
     { id: "lighterman", title: "驳船", eyebrow: "PROVIDER LIGHTERMAN", group: "用量", icon: "i-magpie", hint: "船=provider 桶=token 篙=会话 沉=错" },
     { id: "ferryman", title: "渡船", eyebrow: "PROVIDER FERRYMAN", group: "用量", icon: "i-magpie", hint: "渡=provider 客=token 缆=会话 缠=错" },
     { id: "lockkeeper", title: "闸房", eyebrow: "PROVIDER LOCKKEEPER", group: "用量", icon: "i-magpie", hint: "室=provider 水=token 绞=会话 卡=错" },
+    { id: "narrowboat", title: "窄船", eyebrow: "PROVIDER NARROWBOAT", group: "用量", icon: "i-magpie", hint: "舱=provider 箱=token 舵=会话 倾=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
