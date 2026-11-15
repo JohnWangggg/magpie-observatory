@@ -278,7 +278,7 @@
         stripEl.appendChild(cur);
       }
       cur.style.left = (i / Math.max(1, buf.length - 1) * 100).toFixed(1) + "%";
-      cur.title = `帧 ${i}`;
+      cur.title = `帧 ${i} · ${new Date(buf[i].t).toTimeString().slice(0, 8)}`;
     }
     // Live diff strip (D key): keeps Δ vs frame 0 fresh while scrubbing.
     const dEl = $("#rep-diff");
