@@ -1437,7 +1437,7 @@ show(F.length-1);
           const [ep, en] = Object.entries(byP).sort((a, b) => b[1] - a[1])[0];
           const ename = Obs.api.providerMeta ? Obs.api.providerMeta(ep).name : ep;
           const emodel = errs.filter(l => l.provider === ep).map(l => (l.model || "").split("/").pop()).sort((a, b) => (errs.filter(x => (x.model || "").split("/").pop() === b).length - errs.filter(x => (x.model || "").split("/").pop() === a).length))[0];
-          return `<div><small>错误聚类</small><b>${errs.length} <em class="dig down">${esc(ename)}·${en}</em></b><small style="display:block;margin-top:2px">${esc(emodel || "")}</small></div>`;
+          return `<div class="dig-err" data-dig-prov="${esc(ep)}" style="cursor:pointer" title="点击 → 日志过滤到 ${esc(ename)}"><small>错误聚类</small><b>${errs.length} <em class="dig down">${esc(ename)}·${en}</em></b><small style="display:block;margin-top:2px">${esc(emodel || "")} · 点击下钻</small></div>`;
         })()}
         ${(() => {
           try {
@@ -1452,6 +1452,18 @@ show(F.length-1);
         <button class="mini-btn digest-week" type="button">看周报 →</button>
         <button class="mini-btn digest-md" type="button">复制 MD</button></div>`;
     card.addEventListener("click", e => {
+      const errCell = e.target.closest(".dig-err");
+      if (errCell) {
+        const prov = errCell.dataset.digProv;
+        // Drill down: filter the session rail to that provider's failures.
+        state().filter = { type: "provider", value: prov };
+        state().logQuery = prov;
+        const qs = $("#log-search"); if (qs) qs.value = prov;
+        Obs.api.renderAll && Obs.api.renderAll();
+        card.remove();
+        toast(`已过滤到 ${prov} · 错误聚类下钻`);
+        return;
+      }
       if (e.target.closest(".digest-week")) { weeklyReport(); }
       else if (e.target.closest(".digest-md")) {
         const errs = (s.data.logs || []).filter(l => l.status === "err").length;
