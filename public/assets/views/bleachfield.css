@@ -1,0 +1,7 @@
+/* bleachfield view */
+@keyframes bfturn { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
+.bf-svg { display: block; width: 100%; height: 100%; }
+.bf-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.bf-turner { animation: bfturn ease-in-out infinite; }
+.bf-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .bf-turner { animation: none; } }
