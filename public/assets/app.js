@@ -2502,7 +2502,7 @@
         <span title="开始于 ${new Date(s.startedAt).toLocaleString("zh-CN", { hour12: false })}">${fmtAge(age)}</span>
         ${(s.tries || []).length ? `<span class="chip" title="首次尝试 ${esc(s.tries[0].provider)} · ${s.tries[0].state}${s.tries[0].why ? " · " + esc(s.tries[0].why) : ""}"><i style="display:inline-block;width:6px;height:6px;border-radius:50%;background:${s.tries[0].state === "ok" ? "var(--green)" : s.tries[0].state === "fail" ? "var(--red)" : "var(--muted)"}"></i>${esc(D.providerMeta(s.tries[0].provider)?.name || s.tries[0].provider)}</span>` : ""}
         ${s.fallbacks ? `<span class="chip amber">${s.fallbacks} 改道</span>` : ""}
-        ${(s.subagents || []).length ? `<span class="chip accent" title="子代理数">${s.subagents.length} 子代理</span>` : ""}
+        ${(s.subagents || []).length ? `<span class="chip accent" title="子代理:${esc(s.subagents.slice(0, 6).join("、"))}${s.subagents.length > 6 ? " +" + (s.subagents.length - 6) : ""}">${s.subagents.length} 子代理</span>` : ""}
         ${(s.tries || []).length > 1 ? `<span class="chip accent" title="尝试 ${s.tries.length} 次:${s.tries.map(t => (D.providerMeta(t.provider)?.name || t.provider) + "·" + t.state + (t.ms ? "·" + Math.round(t.ms / 1000) + "s" : "")).join(" → ")}">${s.tries.length} 试</span>` : ""}
         <span class="tps ${tpsClass(s.tps)}" data-sort-tps="1" title="点击按 TPS 排序会话">${tps}</span>
       </div>

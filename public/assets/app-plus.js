@@ -181,6 +181,8 @@
     Obs.api.computeView();
     Obs.api.renderAll();
     $("#replay-time").textContent = new Date(buf[i].t).toTimeString().slice(0, 8);
+    const sp = $("#replay-span");
+    if (sp) sp.textContent = `[${new Date(buf[0].t).toTimeString().slice(0, 5)}→${new Date(buf[buf.length - 1].t).toTimeString().slice(0, 5)}]`;
     // Current-frame cursor on the marks strip (persistent, distinct from the
     // hover cursor).
     const stripEl = $("#replay-marks");
@@ -193,6 +195,7 @@
         stripEl.appendChild(cur);
       }
       cur.style.left = (i / Math.max(1, buf.length - 1) * 100).toFixed(1) + "%";
+      cur.title = `帧 ${i}`;
     }
     // Live diff strip (D key): keeps Δ vs frame 0 fresh while scrubbing.
     const dEl = $("#rep-diff");
@@ -2636,11 +2639,13 @@ ${quota || "| — | — | — |"}
       const initCollapsed = collapsed.has(kind);
       while (n && !n.classList.contains("pal-kind")) { n.style.display = initCollapsed ? "none" : ""; n = n.nextElementSibling; }
       h.style.opacity = initCollapsed ? ".45" : "";
+      if (initCollapsed) { let c = 0, m = h.nextElementSibling; while (m && !m.classList.contains("pal-kind")) { c++; m = m.nextElementSibling; } h.textContent = kind + " (" + c + ")"; }
       h.addEventListener("click", () => {
         let n2 = h.nextElementSibling;
         const collapse = !(n2 && n2.style.display === "none");
         while (n2 && !n2.classList.contains("pal-kind")) { n2.style.display = collapse ? "none" : ""; n2 = n2.nextElementSibling; }
         h.style.opacity = collapse ? ".45" : "";
+        h.textContent = collapse ? kind + " (" + (function () { let c = 0, m = h.nextElementSibling; while (m && !m.classList.contains("pal-kind")) { c++; m = m.nextElementSibling; } return c; })() + ")" : kind;
         if (collapse) collapsed.add(kind); else collapsed.delete(kind);
         try { localStorage.setItem("magpie.palCollapse", JSON.stringify([...collapsed])); } catch (_) {}
       });
