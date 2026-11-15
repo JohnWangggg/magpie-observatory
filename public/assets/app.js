@@ -227,6 +227,7 @@
     { id: "stewpond", title: "鱼塘", eyebrow: "PROVIDER STEWPOND", group: "用量", icon: "i-magpie", hint: "塘=provider 鱼=token 僧=会话 漏=错" },
     { id: "wheelwright", title: "轮匠坊", eyebrow: "PROVIDER WHEELWRIGHT", group: "用量", icon: "i-magpie", hint: "轮=provider 辐=token 匠=会话 裂=错" },
     { id: "dovecote", title: "鸽楼", eyebrow: "PROVIDER DOVECOTE", group: "用量", icon: "i-magpie", hint: "楼=provider 孔=token 旋=会话 破=错" },
+    { id: "chandlery", title: "蜡烛坊", eyebrow: "PROVIDER CHANDLERY", group: "用量", icon: "i-magpie", hint: "架=provider 烛=token 匠=会话 泪=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
