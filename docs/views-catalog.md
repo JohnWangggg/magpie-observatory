@@ -443,7 +443,6 @@
 | `blockmaker` | 滑轮匠 | PROVIDER BLOCKMAKER | 轮=provider 槽=token 匠=会话 裂=错 | ![blockmaker](../public/shots/blockmaker.png) |
 | `glassblow` | 玻璃吹炉 | PROVIDER GLASSBLOW | 炉=provider 泡=token 匠=会话 裂=错 | ![glassblow](../public/shots/glassblow.png) |
 | `dyevat` | 染缸 | PROVIDER DYEVAT | 缸=provider 液=token 工=会话 漏=错 | ![dyevat](../public/shots/dyevat.png) |
-| `brickclamp` | 砖窑 | PROVIDER BRICKCLAMP | 堆=provider 烧=token 工=会话 塌=错 | ![brickclamp](../public/shots/brickclamp.png) |
 | `meiler` | 炭堆 | PROVIDER MEILER | 堆=provider 烟=token 工=会话 陷=错 | ![meiler](../public/shots/meiler.png) |
 | `alembic` | 蒸馏釜 | PROVIDER ALEMBIC | 釜=provider 滴=token 工=会话 裂=错 | ![alembic](../public/shots/alembic.png) |
 | `sugarloaf` | 糖锥 | PROVIDER SUGARLOAF | 模=provider 滴=token 工=会话 裂=错 | ![sugarloaf](../public/shots/sugarloaf.png) |
@@ -467,6 +466,7 @@
 | `smokery` | 熏坊 | PROVIDER SMOKERY | 架=provider 条=token 人=会话 坠=错 | ![smokery](../public/shots/smokery.png) |
 | `ciderpress` | 苹果酒坊 | PROVIDER CIDERPRESS | 床=provider 汁=token 人=会话 散=错 | ![ciderpress](../public/shots/ciderpress.png) |
 | `brickclamp` | 砖窑夹 | PROVIDER BRICKCLAMP | 堆=provider 砖=token 人=会话 焦=错 | ![brickclamp](../public/shots/brickclamp.png) |
+| `limeburn` | 石灰窑 | PROVIDER LIMEBURN | 窑=provider 灰=token 工=会话 裂=错 | — |
 | `rings` | Token 年轮 | YEAR IN RINGS | 26 周极坐标日历 | ![rings](../public/shots/rings.png) |
 | `latency` | 延迟热力 | LATENCY HEATMAP | 时间 × 延迟 | ![latency](../public/shots/latency.png) |
 | `stream` | 流量河流 | STREAMGRAPH | Provider 增量 | ![stream](../public/shots/stream.png) |
