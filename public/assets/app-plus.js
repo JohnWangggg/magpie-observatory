@@ -147,6 +147,19 @@
     Obs.api.computeView();
     Obs.api.renderAll();
     $("#replay-time").textContent = new Date(buf[i].t).toTimeString().slice(0, 8);
+    // Current-frame cursor on the marks strip (persistent, distinct from the
+    // hover cursor).
+    const stripEl = $("#replay-marks");
+    if (stripEl) {
+      let cur = stripEl.querySelector(".rep-now");
+      if (!cur) {
+        cur = document.createElement("i");
+        cur.className = "rep-now";
+        cur.style.cssText = "position:absolute;top:0;width:2px;height:100%;background:var(--fg);opacity:.55;pointer-events:none;z-index:2";
+        stripEl.appendChild(cur);
+      }
+      cur.style.left = (i / Math.max(1, buf.length - 1) * 100).toFixed(1) + "%";
+    }
   }
   function exitReplay() {
     const s = state();
@@ -2429,7 +2442,8 @@ ${quota || "| — | — | — |"}
       const thumb = it.vid ? `<span class="pal-thumb" aria-hidden="true"><img src="shots/${it.vid}.png" alt="" loading="lazy" onerror="this.remove()"></span>` : "";
       const head = it.kind !== lastKind ? `<div class="pal-kind">${esc(it.kind)}</div>` : "";
       lastKind = it.kind;
-      return head + `<button class="pal-item" data-idx="${i}"><svg><use href="#${it.icon}"/></svg><span><b>${esc(it.title)}</b><small>${esc(it.sub)}</small></span><em>${esc(it.kind)}</em>${thumb}</button>`;
+      const hotDot = it.vid && ((() => { try { return (JSON.parse(localStorage.getItem("magpie.viewHeat") || "{}"))[it.vid] || 0; } catch (_) { return 0; } })() >= 3) ? `<i class="pal-hot" title="常用"></i>` : "";
+      return head + `<button class="pal-item" data-idx="${i}"><svg><use href="#${it.icon}"/></svg><span><b>${esc(it.title)}</b><small>${esc(it.sub)}</small></span><em>${esc(it.kind)}</em>${thumb}${hotDot}</button>`;
     }).join("");
     if (!list.innerHTML.trim()) {
       list.innerHTML = `<div class="pal-kind">提示</div><div class="pal-empty" style="padding:10px 14px;font-size:9.5px;color:var(--muted)">没有匹配项 · 试试 ⌘1-9 直达 · → 键预览详情</div>`;

@@ -3185,3 +3185,5 @@ body.mini .route-stage { min-height: 0 !important; }
 .session-route:hover { color: var(--accent); }
 .session-state { cursor: pointer; }
 .session-state:hover { filter: brightness(1.3); }
+.pal-hot { position: absolute; right: 6px; top: 6px; width: 5px; height: 5px; background: var(--amber); border-radius: 50%; }
+.pal-item { position: relative; }

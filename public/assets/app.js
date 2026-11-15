@@ -3962,6 +3962,11 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
       if (!card) return;
       const s = (state.data.sessions || []).concat(state.data.recent || []).find(x => x.id === card.dataset.session);
       if (!s) return;
+      // Alt+dblclick → full session JSON; plain dblclick → tries summary.
+      if (e.altKey) {
+        navigator.clipboard?.writeText(JSON.stringify(s, null, 2)).then(() => toast("会话 JSON 已复制"));
+        return;
+      }
       const tries = (s.tries || []).map(t => `${D.providerMeta(t.provider).name}/${t.model.split("/").pop()} ${t.state === "ok" ? "✓" : t.state === "fail" ? "✕" : "…"}`).join(" → ");
       const txt = `${s.title} | ${s.tokens ? fmtTokens(s.tokens) + " tok" : "—"} | ${tries || s.model}`;
       navigator.clipboard?.writeText(txt).then(() => toast("tries 摘要已复制"));
