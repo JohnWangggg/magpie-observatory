@@ -352,6 +352,7 @@
     { id: "hopyard", title: "啤酒花架", eyebrow: "PROVIDER HOPYARD", group: "用量", icon: "i-magpie", hint: "架=provider 藤=token 工=会话 断=错" },
     { id: "gravelpit", title: "采砾坑", eyebrow: "PROVIDER GRAVELPIT", group: "用量", icon: "i-magpie", hint: "坑=provider 砾=token 工=会话 塌=错" },
     { id: "saltpan", title: "晒盐池", eyebrow: "PROVIDER SALTPAN", group: "用量", icon: "i-magpie", hint: "池=provider 晶=token 耙=会话 决=错" },
+    { id: "tileworks", title: "瓦作场", eyebrow: "PROVIDER TILEWORKS", group: "用量", icon: "i-magpie", hint: "窑=provider 瓦=token 工=会话 裂=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
