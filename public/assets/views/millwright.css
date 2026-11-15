@@ -1,7 +1,0 @@
-/* millwright view */
-@keyframes mwrset { 0%,100% { transform: translateY(0); } 50% { transform: translateY(2px); } }
-.mwr-svg { display: block; width: 100%; height: 100%; }
-.mwr-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.mwr-man { animation: mwrset ease-in-out infinite; }
-.mwr-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .mwr-man { animation: none; } }

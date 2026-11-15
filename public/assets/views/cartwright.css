@@ -1,7 +1,0 @@
-/* cartwright view */
-@keyframes cwrfit { 0%,100% { transform: rotate(0); } 40% { transform: rotate(-10deg); } }
-.cwr-svg { display: block; width: 100%; height: 100%; }
-.cwr-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.cwr-man { animation: cwrfit ease-in-out infinite; transform-origin: 0 12px; }
-.cwr-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .cwr-man { animation: none; } }

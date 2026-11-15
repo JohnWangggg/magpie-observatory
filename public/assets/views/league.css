@@ -4,11 +4,11 @@
 .lj-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
 .lj-head span { font-size: 8px; color: var(--muted); }
 .lj-wrap svg { flex: 1; width: 100%; }
-.lj-name { font: 600 8.5px var(--mono); fill: var(--fg); }
-.lj-prov { font: 7px var(--mono); fill: var(--muted); }
-.lj-share { font: 700 9px var(--num); fill: var(--fg); }
-.lj-cover { font: 7px var(--mono); fill: #f0f4ff; opacity: .9; }
-.lj-swapp { font: 700 8px var(--num); fill: var(--amber); }
+.lj-name { font: 600 13px var(--mono); fill: var(--fg); }
+.lj-prov { font: 11px var(--mono); fill: var(--muted); }
+.lj-share { font: 700 12px var(--num); fill: var(--fg); }
+.lj-cover { font: 11px var(--mono); fill: var(--fg-2); opacity: .9; }
+.lj-swapp { font: 700 11px var(--num); fill: var(--amber); }
 .lj-swap { filter: drop-shadow(0 0 3px rgba(240,200,100,.5)); }
 .lj-k { font: 700 10px var(--num); fill: var(--fg); }
 .lj-ksub { font: 7.5px var(--mono); fill: var(--muted); }

@@ -1507,16 +1507,12 @@ show(F.length-1);
     return { lvl, name, next, floor: LEVELS[lvl].at, ceil: next ? next.at : null };
   }
   function renderXp() {
-    const xp = lifetimeXp();
-    const { lvl, name, next, floor, ceil } = levelOf(xp);
+    const streak = dayStreak();
     const lv = $("#xp-level"), nm = $("#xp-name"), fill = $("#xp-ring-fill"), chip = $("#xp-chip");
-    if (lv) lv.textContent = "Lv " + lvl;
-    if (nm) nm.textContent = name;
-    if (fill) {
-      const pct = ceil ? Math.min(1, (xp - floor) / (ceil - floor)) : 1;
-      fill.style.strokeDashoffset = String(97.4 * (1 - pct));
-    }
-    if (chip) chip.title = `${name} · ${xp.toLocaleString()} XP` + (next ? ` · 距 ${next.name} 还差 ${(next.at - xp).toLocaleString()}` : " · 顶级");
+    if (lv) lv.textContent = streak + "天";
+    if (nm) nm.textContent = "连续";
+    if (fill) fill.style.strokeDashoffset = String(97.4 * (1 - Math.min(1, streak / 7)));
+    if (chip) chip.title = `连续使用 ${streak} 天 · 点击看使用记录`;
   }
 
   /* ====================================================== combo milestone === */
@@ -1560,81 +1556,48 @@ show(F.length-1);
     const r = records();
     let bag = {};
     try { bag = JSON.parse(localStorage.getItem("magpie.badges") || "{}"); } catch (_) {}
-    const badges = ACHIEVEMENTS.map(a => {
+    const done = ACHIEVEMENTS.filter(a => bag[a.id]);
+    const left = ACHIEVEMENTS.filter(a => !bag[a.id]);
+    let fav = "—";
+    try {
+      const h = JSON.parse(localStorage.getItem("magpie.viewHeat") || "{}");
+      const meta = Obs.api.VIEW_META || [];
+      const top = Object.entries(h).map(([id, n]) => {
+        const v = meta.find(x => x.id === id);
+        return v ? [v.title, n] : null;
+      }).filter(Boolean).sort((a, b) => b[1] - a[1])[0];
+      if (top) fav = top[0] + " · " + top[1] + " 次";
+    } catch (_) {}
+    const line = a => {
       const date = bag[a.id];
-      return `<div class="badge${date ? " on" : ""}" title="${esc(a.name)} · ${esc(a.sub)}${date ? " · " + esc(date.slice(5)) : ""}">
-        <b>${date ? "🏅" : "🔒"}</b><span>${esc(a.name)}</span><small>${esc(a.sub)}${date ? " · " + esc(date.slice(5)) : ""}</small></div>`;
-    }).join("");
+      return `<div class="rec-ach${date ? " on" : ""}"><b>${esc(a.name)}</b><span>${esc(a.sub)}${date ? " · " + esc(String(date).slice(5, 10)) : ""}</span></div>`;
+    };
     const card = document.createElement("div");
     card.className = "records-card";
     card.innerHTML = `
-      <div class="records-head"><b>个人战绩</b><span>PERSONAL RECORDS</span></div>
+      <div class="records-head"><b>使用记录</b><button type="button" class="records-x">关闭</button></div>
       <div class="records-grid">
-        <div class="rec"><small>等级</small><b>Lv ${r.level.lvl} · ${r.level.name}</b></div>
-        <div class="rec"><small>总经验</small><b>${r.xp.toLocaleString()} XP</b></div>
-        <div class="rec"><small>最佳连击</small><b>${r.bestCombo} 连击</b></div>
         <div class="rec"><small>连续使用</small><b>${r.streak} 天</b></div>
-        <div class="rec"><small>单日最多 tokens</small><b>${fmtTokens(r.bestDay.tokens)} <span>${r.bestDay.date.slice(5)}</span></b></div>
-        <div class="rec"><small>单日最多调用</small><b>${r.bestCalls.calls} <span>${r.bestCalls.date.slice(5)}</span></b></div>
         <div class="rec"><small>活跃天数</small><b>${r.daysActive} 天</b></div>
-        <div class="rec"><small>累计切视图</small><b>${(parseInt(localStorage.getItem("magpie.viewCount") || "0", 10) || 0).toLocaleString()} 次</b></div>
-        <div class="rec"><small>今日切视图</small><b>${(() => {
-          try {
-            const d = JSON.parse(localStorage.getItem("magpie.viewCountDay") || "{}");
-            return (d.date === new Date().toISOString().slice(0, 10) ? d.n : 0) + " 次";
-          } catch (_) { return "0 次"; }
-        })()}</b></div>
-        <div class="rec"><small>最常看</small><b>${(() => {
-          try {
-            const h = JSON.parse(localStorage.getItem("magpie.viewHeat") || "{}");
-            const top = Object.entries(h).sort((a, b) => b[1] - a[1]).slice(0, 3);
-            if (!top.length) return "—";
-            return top.map(([id, n]) => {
-              const meta = (Obs.api.VIEW_META || []).find(v => v.id === id);
-              return (meta ? meta.title : id) + "×" + n;
-            }).join(" · ");
-          } catch (_) { return "—"; }
-        })()}</b></div>
+        <div class="rec"><small>单日最多 tokens</small><b>${fmtTokens(r.bestDay.tokens)} <span>${esc(String(r.bestDay.date).slice(5))}</span></b></div>
+        <div class="rec"><small>单日最多调用</small><b>${r.bestCalls.calls} <span>${esc(String(r.bestCalls.date).slice(5))}</span></b></div>
+        <div class="rec"><small>最常看</small><b>${esc(fav)}</b></div>
       </div>
-      <div class="records-sub">成就墙 · ${Object.keys(bag).length}/${ACHIEVEMENTS.length} 已解锁</div>
-      ${(() => {
-        try {
-          const seen = JSON.parse(localStorage.getItem("magpie.viewSeen") || "[]");
-          const total = (Obs.api.VIEW_META || []).length;
-          const pct = total ? Math.min(100, Math.round(seen.length / total * 100)) : 0;
-          return `<div class="dex"><div class="dex-row"><b>图鉴</b><span>${seen.length}/${total} · ${pct}%</span></div>
-            <div class="dex-bar"><i style="width:${pct}%"></i></div>
-            <div class="dex-legend">${total ? "已看过 " + seen.length + " 个不同视图" : ""}</div>
-            <div class="dex-legend">${(() => {
-              try {
-                const at = JSON.parse(localStorage.getItem("magpie.viewSeenAt") || "{}");
-                const first = Object.values(at).sort()[0];
-                if (!first) return "";
-                const days = Math.max(1, Math.round((Date.now() - new Date(first).getTime()) / 86400000));
-                return `收集了 ${days} 天`;
-              } catch (_) { return ""; }
-            })()}</div>
-          </div>`;
-        } catch (_) { return ""; }
-      })()}
-      ${(() => {
-        try {
-          const seen = JSON.parse(localStorage.getItem("magpie.viewSeen") || "[]");
-          const at = JSON.parse(localStorage.getItem("magpie.viewSeenAt") || "{}");
-          const recent = seen.slice(-5).reverse().map(id => {
-            const meta = (Obs.api.VIEW_META || []).find(v => v.id === id);
-            const d = at[id] || "";
-            const when = d.length > 10 ? `${d.slice(5, 10)} ${d.slice(11, 16)}` : d.slice(5);
-            return `<div class="dex-item"><b>${esc(meta ? meta.title : id)}</b><span>${when}</span></div>`;
-          }).join("");
-          return `<div class="dex-legend"><b>最近收集</b>${recent || "—"}</div>`;
-        } catch (_) { return ""; }
-      })()}
-      <div class="badge-wall">${badges}</div>`;
-    card.addEventListener("click", () => card.remove());
+      <div class="records-sub">已达成 ${done.length}/${ACHIEVEMENTS.length}</div>
+      <div class="rec-achs">${done.map(line).join("")}${left.map(line).join("")}</div>`;
+    const close = () => card.remove();
+    card.querySelector(".records-x").addEventListener("click", close);
     document.body.appendChild(card);
     setTimeout(() => card.classList.add("in"), 10);
-    setTimeout(() => { card.classList.remove("in"); setTimeout(() => card.remove(), 300); }, 14000);
+    setTimeout(() => {
+      const onDoc = e => {
+        if (card.isConnected && !card.contains(e.target) && !e.target.closest("#xp-chip")) {
+          document.removeEventListener("pointerdown", onDoc, true);
+          close();
+        }
+      };
+      document.addEventListener("pointerdown", onDoc, true);
+    }, 0);
   }
 
   /* ========================================================== attention ===== */
@@ -1703,16 +1666,7 @@ show(F.length-1);
     { id: "tokens-1m", name: "百万字海", test: s => s.tokens >= 1e6, sub: "单日 1M tokens" },
     { id: "tokens-10m", name: "千万星河", test: s => s.tokens >= 1e7, sub: "单日 10M tokens" },
     { id: "parallel-3", name: "三路并发", test: s => s.active >= 3, sub: "同时 3 个会话" },
-    { id: "night-owl", name: "夜航人", test: s => new Date().getHours() < 6, sub: "凌晨还在观测" },
-    { id: "magpie-50", name: "鹊缘人", test: s => (parseInt(localStorage.getItem("magpie.clicks") || "0", 10) || 0) >= 50, sub: "点台鹊 50 次" },
-    { id: "view-50", name: "百景图", test: () => { try { return (JSON.parse(localStorage.getItem("magpie.viewSeen") || "[]")).length >= 50; } catch (_) { return false; } }, sub: "看过 50 个不同视图" },
-    { id: "view-100", name: "百景全览", test: () => { try { return (JSON.parse(localStorage.getItem("magpie.viewSeen") || "[]")).length >= 100; } catch (_) { return false; } }, sub: "看过 100 个不同视图 · 大收藏家" },
-    { id: "view-all", name: "全图鉴", test: () => { try { const seen = JSON.parse(localStorage.getItem("magpie.viewSeen") || "[]"); return (Obs.api.VIEW_META || []).every(v => seen.includes(v.id)); } catch (_) { return false; } }, sub: "看完全部视图 · 究极收藏家" },
-    { id: "cinema-1h", name: "影院常客", test: () => (parseFloat(localStorage.getItem("magpie.cinemaMs") || "0") || 0) >= 3600000, sub: "影院累计 1 小时" },
-    { id: "fav-5", name: "收藏家", test: s => s.favCount >= 5, sub: "收藏 5 个视图" },
-    { id: "magpie-200", name: "鹊上眉梢", test: s => (parseInt(localStorage.getItem("magpie.clicks") || "0", 10) || 0) >= 200, sub: "点台鹊 200 次" },
-    { id: "quota-watch", name: "临界守望", test: () => (Obs.api.state?.data.quotas || []).some(q => (q.windows || []).some(w => (w.used || 0) >= 95)), sub: "单配额窗 ≥95% 出现过" },
-    { id: "night-owl-2", name: "长夜同航", test: () => { try { if (new Date().getHours() >= 6) return false; const d = new Date().toISOString().slice(0, 10); const days = JSON.parse(localStorage.getItem("magpie.nightDays") || "[]"); if (!days.includes(d)) { days.push(d); localStorage.setItem("magpie.nightDays", JSON.stringify(days.slice(-40))); } return days.length >= 3; } catch (_) { return false; } }, sub: "凌晨 0-6 点观测 ≥3 天" }
+    { id: "quota-watch", name: "临界守望", test: () => (Obs.api.state?.data.quotas || []).some(q => (q.windows || []).some(w => (w.used || 0) >= 95)), sub: "有配额窗到过 95%" }
   ];
   function checkAchievements() {
     const s = state();
@@ -2871,7 +2825,7 @@ ${quota || "| — | — | — |"}
       { kind: "动作", icon: "i-db", title: "本周报告", sub: "7天柱状 + 峰值 + 最热路由", search: "weekly 周报 报告 本周".toLowerCase(), run: weeklyReport },
       { kind: "动作", icon: "i-overview", title: s && s.layoutEdit ? "退出排布模式" : "进入排布模式", sub: "拖拽重排卡片", search: "layout 排布 拖拽 布局".toLowerCase(), run: () => applyExtra("layout-edit") },
       { kind: "动作", icon: "i-server", title: "网关对比", sub: "默认 vs 锁定 · 并列四指标", search: "gateway 网关 对比 compare multi".toLowerCase(), run: compareGateways },
-      { kind: "动作", icon: "i-trophy", title: "个人战绩", sub: "等级 / 连击 / 纪录", search: "records 战绩 等级 成就".toLowerCase(), run: showRecords },
+      { kind: "动作", icon: "i-trophy", title: "使用记录", sub: "连续天数 · 单日峰值 · 已达成", search: "records 战绩 记录 连续 峰值".toLowerCase(), run: showRecords },
       { kind: "动作", icon: "i-link", title: "复制视图快照", sub: "当前视图 + KPI + 配额摘要", search: "snapshot 快照 复制 copy".toLowerCase(), run: copyViewSnapshot },
       { kind: "动作", icon: "i-doc", title: "复制今日票据", sub: "markdown 摘要 · 日报/聊天直贴", search: "receipt 票据 摘要 markdown copy".toLowerCase(), run: copyReceipt },
       { kind: "动作", icon: "i-check", title: "恢复隐藏 KPI", sub: (() => { try { return JSON.parse(localStorage.getItem("magpie.kpiHidden") || "[]").length + " 已隐藏"; } catch (_) { return "0"; } })(), search: "kpi 隐藏 恢复 hidden restore".toLowerCase(), run: () => { localStorage.removeItem("magpie.kpiHidden"); Obs.api.renderAll && Obs.api.renderAll(); toast("KPI 已恢复"); closePalette(); } },

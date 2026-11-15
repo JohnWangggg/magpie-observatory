@@ -1,7 +1,0 @@
-/* topcart view */
-@keyframes tcpush { 0%,100% { transform: translateX(0); } 50% { transform: translateX(4px); } }
-.tc-svg { display: block; width: 100%; height: 100%; }
-.tc-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.tc-man { animation: tcpush ease-in-out infinite; }
-.tc-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .tc-man { animation: none; } }

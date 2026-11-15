@@ -1,5 +1,0 @@
-/* warehouse view */
-.wh-svg { display: block; width: 100%; height: 100%; }
-.wh-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.wh-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-.wh-fork { filter: drop-shadow(0 0 4px currentColor); }

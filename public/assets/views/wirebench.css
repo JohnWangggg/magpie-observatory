@@ -1,7 +1,0 @@
-/* wirebench view */
-@keyframes wbhaul { 0%,100% { transform: translateX(0); } 50% { transform: translateX(3px); } }
-.wb-svg { display: block; width: 100%; height: 100%; }
-.wb-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.wb-man { animation: wbhaul ease-in-out infinite; }
-.wb-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .wb-man { animation: none; } }

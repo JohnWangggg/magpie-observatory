@@ -1,7 +1,0 @@
-/* belfry view */
-@keyframes bfswing { 0%,100% { transform: rotate(-8deg); } 50% { transform: rotate(8deg); } }
-.bf-svg { display: block; width: 100%; height: 100%; }
-.bf-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.bf-bell { animation: bfswing ease-in-out infinite; transform-origin: top center; }
-.bf-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .bf-bell { animation: none; } }

@@ -1,7 +1,0 @@
-/* cressbed view */
-@keyframes cbgather { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
-.cb-svg { display: block; width: 100%; height: 100%; }
-.cb-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.cb-gatherer { animation: cbgather ease-in-out infinite; }
-.cb-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .cb-gatherer { animation: none; } }

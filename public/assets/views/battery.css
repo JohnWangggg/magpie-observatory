@@ -1,8 +1,0 @@
-/* battery view */
-@keyframes btdrift { 0% { opacity: 0; transform: translate(0, 0); } 40% { opacity: .8; } 100% { opacity: 0; transform: translate(8px, -10px); } }
-.bt-svg { display: block; width: 100%; height: 100%; }
-.bt-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.bt-smoke { animation: btdrift ease-in-out infinite; }
-.bt-captain { transition: transform .2s; }
-.bt-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .bt-smoke { animation: none; opacity: .5; } }

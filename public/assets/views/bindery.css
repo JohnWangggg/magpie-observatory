@@ -1,7 +1,0 @@
-/* bindery view */
-@keyframes qbstitch { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
-.qb-svg { display: block; width: 100%; height: 100%; }
-.qb-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.qb-sewer { animation: qbstitch ease-in-out infinite; }
-.qb-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .qb-sewer { animation: none; } }

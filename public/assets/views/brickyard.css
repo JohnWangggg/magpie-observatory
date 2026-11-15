@@ -1,8 +1,0 @@
-/* brickyard view */
-@keyframes bydrift { 0% { opacity: 0; transform: translate(0, 0); } 40% { opacity: .8; } 100% { opacity: 0; transform: translate(10px, -14px); } }
-.by-svg { display: block; width: 100%; height: 100%; }
-.by-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.by-smoke { animation: bydrift ease-in-out infinite; }
-.by-cart { transition: transform .2s; }
-.by-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .by-smoke { animation: none; opacity: .5; } }

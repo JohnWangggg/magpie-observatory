@@ -1,7 +1,0 @@
-/* quern view */
-@keyframes quturn { 0%,100% { transform: translateX(0); } 50% { transform: translateX(3px); } }
-.qu-svg { display: block; width: 100%; height: 100%; }
-.qu-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.qu-man { animation: quturn ease-in-out infinite; }
-.qu-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .qu-man { animation: none; } }

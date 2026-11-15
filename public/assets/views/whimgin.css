@@ -1,7 +1,0 @@
-/* whimgin view */
-@keyframes wgamble { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
-.wg-svg { display: block; width: 100%; height: 100%; }
-.wg-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.wg-horse { animation: wgamble ease-in-out infinite; }
-.wg-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .wg-horse { animation: none; } }

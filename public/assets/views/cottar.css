@@ -1,7 +1,0 @@
-/* cottar view */
-@keyframes cothoe { 0%,100% { transform: rotate(18deg); } 50% { transform: rotate(18deg) translateY(2px); } }
-.cot-svg { display: block; width: 100%; height: 100%; }
-.cot-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.cot-man { animation: cothoe ease-in-out infinite; }
-.cot-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .cot-man { animation: none; } }

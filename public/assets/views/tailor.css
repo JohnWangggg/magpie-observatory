@@ -1,7 +1,0 @@
-/* tailor view */
-@keyframes tlrsew { 0%,100% { transform: translateX(0); } 50% { transform: translateX(3px); } }
-.tlr-svg { display: block; width: 100%; height: 100%; }
-.tlr-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.tlr-man { animation: tlrsew ease-in-out infinite; }
-.tlr-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .tlr-man { animation: none; } }

@@ -1,5 +1,0 @@
-/* pergola view */
-.pg-svg { display: block; width: 100%; height: 100%; }
-.pg-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.pg-bench { transition: transform .2s; }
-.pg-lab { fill: var(--fg-2); font: 600 8px var(--mono); }

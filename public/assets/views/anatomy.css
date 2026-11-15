@@ -1,7 +1,0 @@
-/* anatomy view */
-@keyframes anflicker { 0%,100% { opacity: .7; transform: scaleY(1); } 50% { opacity: 1; transform: scaleY(1.15); } }
-.an-svg { display: block; width: 100%; height: 100%; }
-.an-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.an-flame { animation: anflicker ease-in-out infinite; transform-origin: bottom center; }
-.an-lab { fill: var(--fg-2); font: 600 7px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .an-flame { animation: none; } }

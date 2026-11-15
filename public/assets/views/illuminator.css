@@ -1,7 +1,0 @@
-/* illuminator view */
-@keyframes ilmpaint { 0%,100% { transform: translateX(0); } 50% { transform: translateX(2px); } }
-.ilm-svg { display: block; width: 100%; height: 100%; }
-.ilm-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.ilm-man { animation: ilmpaint ease-in-out infinite; }
-.ilm-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .ilm-man { animation: none; } }

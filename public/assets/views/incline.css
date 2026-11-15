@@ -1,8 +1,0 @@
-/* incline view */
-@keyframes inroll { 0%,100% { transform: translateY(0); } 50% { transform: translateY(3px); } }
-.in-svg { display: block; width: 100%; height: 100%; }
-.in-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.in-tub { animation: inroll ease-in-out infinite; }
-.in-wagon { transition: transform .2s; }
-.in-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .in-tub { animation: none; } }

@@ -1,7 +1,0 @@
-/* falconer view */
-@keyframes fcncast { 0%,100% { transform: rotate(0); } 50% { transform: rotate(-10deg); } }
-.fcn-svg { display: block; width: 100%; height: 100%; }
-.fcn-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.fcn-man { animation: fcncast ease-in-out infinite; transform-origin: 0 12px; }
-.fcn-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .fcn-man { animation: none; } }

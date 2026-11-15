@@ -1,7 +1,0 @@
-/* weaver view */
-@keyframes wvrthrow { 0%,100% { transform: translateX(0); } 50% { transform: translateX(3px); } }
-.wvr-svg { display: block; width: 100%; height: 100%; }
-.wvr-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.wvr-man { animation: wvrthrow ease-in-out infinite; }
-.wvr-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .wvr-man { animation: none; } }

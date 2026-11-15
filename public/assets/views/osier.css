@@ -1,7 +1,0 @@
-/* osier view */
-@keyframes oswale { 0%,100% { transform: translateY(0); } 50% { transform: translateY(2px); } }
-.os-svg { display: block; width: 100%; height: 100%; }
-.os-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.os-man { animation: oswale ease-in-out infinite; }
-.os-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .os-man { animation: none; } }

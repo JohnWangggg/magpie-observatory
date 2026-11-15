@@ -1,7 +1,0 @@
-/* tenterfield view */
-@keyframes tfspin { to { transform: rotate(360deg); } }
-.tf-svg { display: block; width: 100%; height: 100%; }
-.tf-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.tf-fan { animation: tfspin 2s linear infinite; transform-origin: center; }
-.tf-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .tf-fan { animation: none; } }

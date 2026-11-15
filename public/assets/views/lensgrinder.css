@@ -1,7 +1,0 @@
-/* lensgrinder view */
-@keyframes lgpolish { 0%,100% { transform: translateX(0); } 50% { transform: translateX(3px); } }
-.lg-svg { display: block; width: 100%; height: 100%; }
-.lg-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.lg-man { animation: lgpolish ease-in-out infinite; }
-.lg-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .lg-man { animation: none; } }

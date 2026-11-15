@@ -1,6 +1,0 @@
-/* compass view */
-.cm-svg { display: block; width: 100%; height: 100%; }
-.cm-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.cm-dir { fill: var(--faint); font: 600 7px var(--mono); letter-spacing: .1em; }
-.cm-lab { fill: var(--fg-2); font-size: 9px; font-weight: 600; }
-.cm-pct { font: 700 8px var(--mono); }

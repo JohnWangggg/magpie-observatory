@@ -1,7 +1,0 @@
-/* customshouse view */
-@keyframes cshstamp { 0%,100% { transform: translateY(0); } 50% { transform: translateY(3px); } }
-.csh-svg { display: block; width: 100%; height: 100%; }
-.csh-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.csh-man { animation: cshstamp ease-in-out infinite; }
-.csh-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .csh-man { animation: none; } }

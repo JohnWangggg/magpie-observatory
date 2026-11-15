@@ -1,6 +1,0 @@
-/* flotsam view */
-@keyframes flbob { 0%,100% { transform: translateY(0) rotate(-1.5deg); } 50% { transform: translateY(-3px) rotate(1.2deg); } }
-.fl-svg { display: block; width: 100%; height: 100%; }
-.fl-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.fl-bottle { animation: flbob ease-in-out infinite; }
-@media (prefers-reduced-motion: reduce) { .fl-bottle { animation: none; } }

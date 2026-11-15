@@ -1,7 +1,0 @@
-/* brazier view */
-@keyframes brazsolder { 0%,100% { transform: rotate(0); } 50% { transform: rotate(5deg); } }
-.braz-svg { display: block; width: 100%; height: 100%; }
-.braz-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.braz-man { animation: brazsolder ease-in-out infinite; transform-origin: 0 12px; }
-.braz-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .braz-man { animation: none; } }

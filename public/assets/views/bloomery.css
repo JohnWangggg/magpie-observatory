@@ -1,7 +1,0 @@
-/* bloomery view */
-@keyframes blpump { 0%,100% { transform: scale(1); } 50% { transform: scale(1.1); } }
-.bl-svg { display: block; width: 100%; height: 100%; }
-.bl-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.bl-bellows { animation: blpump ease-in-out infinite; transform-origin: center; }
-.bl-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .bl-bellows { animation: none; } }

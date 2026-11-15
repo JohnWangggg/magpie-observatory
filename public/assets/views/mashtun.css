@@ -1,7 +1,0 @@
-/* mashtun view */
-@keyframes mtstir { 0%,100% { transform: translateY(0); } 50% { transform: translateY(2px); } }
-.mt-svg { display: block; width: 100%; height: 100%; }
-.mt-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.mt-brewer { animation: mtstir ease-in-out infinite; }
-.mt-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .mt-brewer { animation: none; } }

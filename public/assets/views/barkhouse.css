@@ -1,7 +1,0 @@
-/* barkhouse view */
-@keyframes bhfeed { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(-4deg); } }
-.bh-svg { display: block; width: 100%; height: 100%; }
-.bh-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.bh-man { animation: bhfeed ease-in-out infinite; transform-origin: 0 10px; }
-.bh-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .bh-man { animation: none; } }

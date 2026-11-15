@@ -31,9 +31,9 @@
       logs.forEach(r => { if (r.model) asked[r.model] = (asked[r.model] || 0) + 1; });
     }
 
-    const W = 400, H = 300, TOP = 38, BOT = 44;
+    const W = Math.max(640, host.clientWidth || 760), H = Math.max(280, (host.clientHeight || 360) - 32), TOP = 24, BOT = 36;
     const rowH = (H - TOP - BOT) / Math.max(1, models.length);
-    const barX = 130, barW = W - barX - 66;
+    const barX = Math.max(150, Math.min(240, W * 0.26)), barW = W - barX - 88;
     const maxShare = Math.max(...models.map(m => m.share || 0), 1);
 
     const rows = models.map((m, i) => {
@@ -69,11 +69,11 @@
     host.innerHTML = `
       <div class="lj-wrap">
         <div class="lj-head"><b>LEAGUE</b><span>模型份额榜${totalSwap ? " · " + totalSwap + " 次掉包" : " · 0 掉包"}</span></div>
-        <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet">
+        <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
           <defs><linearGradient id="lj-shine" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stop-color="#fff" stop-opacity=".8"/><stop offset="100%" stop-color="#fff" stop-opacity="0"/>
           </linearGradient></defs>
-          <rect x="0" y="0" width="400" height="300" fill="var(--card)" rx="10"/>
+          <rect x="0" y="0" width="${W}" height="${H}" fill="var(--card)" rx="10"/>
           ${rows}
           <text x="16" y="${H - 20}" class="lj-k">${fmt(k.tokens)}</text>
           <text x="${W - 16}" y="${H - 20}" class="lj-ksub" text-anchor="end">% = token 份额 · ↺% = 被替代率</text>

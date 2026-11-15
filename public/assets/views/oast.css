@@ -1,7 +1,0 @@
-/* oast view */
-@keyframes oaspin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-.oa-svg { display: block; width: 100%; height: 100%; }
-.oa-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.oa-cowl { animation: oaspin linear infinite; }
-.oa-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .oa-cowl { animation: none; } }

@@ -1,7 +1,0 @@
-/* cannonfoundry view */
-@keyframes cfbore { 0%,100% { transform: translateY(0); } 50% { transform: translateY(3px); } }
-.cf-svg { display: block; width: 100%; height: 100%; }
-.cf-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.cf-man { animation: cfbore ease-in-out infinite; }
-.cf-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .cf-man { animation: none; } }

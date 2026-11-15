@@ -1,7 +1,0 @@
-/* armorer view */
-@keyframes armormh { 0%,100% { transform: rotate(0); } 40% { transform: rotate(-14deg); } }
-.armor-svg { display: block; width: 100%; height: 100%; }
-.armor-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.armor-man { animation: armormh ease-in-out infinite; transform-origin: 0 12px; }
-.armor-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .armor-man { animation: none; } }

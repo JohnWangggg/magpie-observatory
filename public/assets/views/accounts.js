@@ -29,9 +29,9 @@
       return { ...q, wins, hot, col: m.color || "#8ab4f8", name: m.name || q.provider, sess: sessByProv[q.provider] || 0 };
     }).sort((a, b) => b.hot - a.hot).slice(0, 6);
 
-    const W = 400, H = 300, TOP = 36, BOT = 40;
+    const W = Math.max(640, host.clientWidth || 760), H = Math.max(280, (host.clientHeight || 360) - 32), TOP = 16, BOT = 36;
     const rows = Math.ceil(cards.length / 2);
-    const cardH = Math.min(74, (H - TOP - BOT) / rows);
+    const cardH = Math.max(78, (H - TOP - BOT) / rows - 8);
     const cardW = (W - 32) / 2;
 
     const grid = cards.map((c, i) => {
@@ -70,8 +70,8 @@
     host.innerHTML = `
       <div class="an-wrap">
         <div class="an-head"><b>ACCOUNTS</b><span>${cards.length} 账户${hotN ? " · ⚠ " + hotN + " 热窗" : " · 全绿"}</span></div>
-        <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet">
-          <rect x="0" y="0" width="400" height="300" fill="var(--card)" rx="10"/>
+        <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+          <rect x="0" y="0" width="${W}" height="${H}" fill="var(--card)" rx="10"/>
           ${grid}
           <text x="16" y="${H - 18}" class="an-k">${fmt(k.tokens)}</text>
           <text x="${W - 16}" y="${H - 18}" class="an-ksub" text-anchor="end">圆印=会话数 · 琥珀框=热窗</text>

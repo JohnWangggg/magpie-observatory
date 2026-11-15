@@ -1,7 +1,0 @@
-/* mews view */
-@keyframes mwbate { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(-5deg); } }
-.mw-svg { display: block; width: 100%; height: 100%; }
-.mw-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.mw-bate { animation: mwbate ease-in-out infinite; transform-origin: center; }
-.mw-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .mw-bate { animation: none; } }

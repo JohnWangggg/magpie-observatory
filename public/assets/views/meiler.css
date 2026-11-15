@@ -1,9 +1,0 @@
-/* meiler view */
-@keyframes mlrake { 0%,100% { transform: translateX(0); } 50% { transform: translateX(-3px); } }
-@keyframes mlrise { 0%,100% { opacity: .7; } 50% { opacity: .4; } }
-.ml-svg { display: block; width: 100%; height: 100%; }
-.ml-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.ml-collier { animation: mlrake ease-in-out infinite; }
-.ml-wisp { animation: mlrise ease-in-out infinite; }
-.ml-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .ml-collier, .ml-wisp { animation: none; } }

@@ -1,7 +1,0 @@
-/* topiary view */
-@keyframes tybird { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
-.ty-svg { display: block; width: 100%; height: 100%; }
-.ty-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.ty-bird { animation: tybird ease-in-out infinite; }
-.ty-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .ty-bird { animation: none; } }

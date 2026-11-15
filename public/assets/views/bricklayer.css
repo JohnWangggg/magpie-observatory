@@ -1,7 +1,0 @@
-/* bricklayer view */
-@keyframes brlbutter { 0%,100% { transform: rotate(0); } 40% { transform: rotate(-12deg); } }
-.brl-svg { display: block; width: 100%; height: 100%; }
-.brl-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.brl-man { animation: brlbutter ease-in-out infinite; transform-origin: 0 12px; }
-.brl-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .brl-man { animation: none; } }

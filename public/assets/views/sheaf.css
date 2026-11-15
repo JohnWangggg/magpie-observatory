@@ -1,7 +1,0 @@
-/* sheaf view */
-@keyframes shglint { 0%,100% { opacity: .7; } 50% { opacity: 1; } }
-.sh-svg { display: block; width: 100%; height: 100%; }
-.sh-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.sh-sickle { animation: shglint ease-in-out infinite; }
-.sh-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .sh-sickle { animation: none; } }

@@ -1,7 +1,0 @@
-/* sugarhouse view */
-@keyframes shskim { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(4deg); } }
-.sh-svg { display: block; width: 100%; height: 100%; }
-.sh-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.sh-man { animation: shskim ease-in-out infinite; transform-origin: 0 10px; }
-.sh-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .sh-man { animation: none; } }

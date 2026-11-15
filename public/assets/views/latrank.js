@@ -32,11 +32,11 @@
       return { prov: p, name: m.name || p, col: m.color || "#8ab4f8", ttft: mean(v.ttft), tps: mean(v.tps), n: v.n };
     }).filter(r => r.ttft > 0 || r.tps > 0).sort((a, b) => a.ttft - b.ttft).slice(0, 7);
 
-    const W = 400, H = 300, TOP = 38, BOT = 46;
+    const W = Math.max(640, host.clientWidth || 760), H = Math.max(280, (host.clientHeight || 360) - 32), TOP = 28, BOT = 36;
     const rowH = (H - TOP - BOT) / Math.max(1, rows.length);
     const maxT = Math.max(...rows.map(r => r.ttft), 1);
     const maxP = Math.max(...rows.map(r => r.tps), 1);
-    const barX = 92, barW = W - barX - 74;
+    const barX = Math.max(128, Math.min(210, W * 0.22)), barW = W - barX - 92;
 
     const medals = ["🥇", "🥈", "🥉"];
     const lanes = rows.map((r, i) => {
@@ -68,8 +68,8 @@
     host.innerHTML = `
       <div class="lr-wrap">
         <div class="lr-head"><b>LATRANK</b><span>粗=TTFT 细=TPS${fastest ? " · 最快 " + esc(fastest.name) : ""}</span></div>
-        <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet">
-          <rect x="0" y="0" width="400" height="300" fill="var(--card)" rx="10"/>
+        <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+          <rect x="0" y="0" width="${W}" height="${H}" fill="var(--card)" rx="10"/>
           <line x1="${barX}" y1="${TOP - 10}" x2="${barX}" y2="${H - BOT + 8}" stroke="var(--line-2)" stroke-width=".6"/>
           ${lanes}
           <text x="${barX}" y="${H - 24}" class="lr-legend">— TTFT</text>

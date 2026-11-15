@@ -1,7 +1,0 @@
-/* boxbellows view */
-@keyframes bbpump { 0%,100% { transform: translateX(0); } 50% { transform: translateX(-3px); } }
-.bb-svg { display: block; width: 100%; height: 100%; }
-.bb-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.bb-pumper { animation: bbpump ease-in-out infinite; }
-.bb-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .bb-pumper { animation: none; } }

@@ -1,4 +1,0 @@
-/* driftline view */
-.dl-svg { display: block; width: 100%; height: 100%; }
-.dl-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.dl-lab { fill: var(--fg-2); font: 600 8px var(--mono); }

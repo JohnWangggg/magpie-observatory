@@ -1,7 +1,0 @@
-/* gnomon view */
-@keyframes gnbird { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
-.gn-svg { display: block; width: 100%; height: 100%; }
-.gn-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.gn-bird { animation: gnbird ease-in-out infinite; }
-.gn-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .gn-bird { animation: none; } }

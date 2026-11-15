@@ -1,7 +1,0 @@
-/* tallow view */
-@keyframes tlstir { 0%,100% { transform: translateX(0); } 50% { transform: translateX(3px); } }
-.tl-svg { display: block; width: 100%; height: 100%; }
-.tl-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.tl-man { animation: tlstir ease-in-out infinite; }
-.tl-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .tl-man { animation: none; } }

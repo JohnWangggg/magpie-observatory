@@ -1,7 +1,0 @@
-/* beacon view */
-@keyframes bnflicker { 0%,100% { transform: scaleY(1) rotate(-1.5deg); } 40% { transform: scaleY(1.08) rotate(1.2deg); } 70% { transform: scaleY(.96) rotate(-.8deg); } }
-.bn-svg { display: block; width: 100%; height: 100%; }
-.bn-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.bn-fire { animation: bnflicker 1.6s ease-in-out infinite; }
-.bn-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .bn-fire { animation: none; } }

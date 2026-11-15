@@ -23,7 +23,7 @@
     const pmeta = ctx.providerMeta || {};
     const metaOf = (m, k) => (typeof m === "function" ? m(k) : (m[k] || {}));
 
-    const W = 400, H = 300, PAD = 14, TOP = 36, BOT = 58;
+    const W = Math.max(640, host.clientWidth || 760), H = Math.max(280, (host.clientHeight || 360) - 32), PAD = 18, TOP = 28, BOT = 48;
 
     // Assemble windows: use live `used` + `resetsIn`, and the history line
     // when present for slope estimation.
@@ -151,8 +151,8 @@
     host.innerHTML = `
       <div class="fc-wrap">
         <div class="fc-head"><b>FORECAST</b><span>历史烧线 → 虚线投影${warnN ? " · ⚠ " + warnN + " 窗前耗尽" : " · 全部撑到重置"}</span></div>
-        <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet">
-          <rect x="0" y="0" width="400" height="300" fill="var(--card)" rx="10"/>
+        <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+          <rect x="0" y="0" width="${W}" height="${H}" fill="var(--card)" rx="10"/>
           ${grid.join("")}
           <text x="${PAD + 118}" y="${TOP - 6}" class="fc-axis">剩余% 历史 →</text>
           <text x="${W - PAD}" y="${TOP - 6}" class="fc-axis" text-anchor="end">→ 投影</text>

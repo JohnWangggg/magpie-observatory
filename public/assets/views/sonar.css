@@ -1,6 +1,0 @@
-/* sonar view */
-@keyframes snspin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-.sn-svg { display: block; width: 100%; height: 100%; }
-.sn-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-.sn-contact.sn-err circle { filter: drop-shadow(0 0 5px rgba(224,96,72,.7)); }
-@media (prefers-reduced-motion: reduce) { .sn-sweep { animation: none; } }

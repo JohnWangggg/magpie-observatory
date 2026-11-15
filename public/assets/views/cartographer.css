@@ -1,6 +1,0 @@
-/* cartographer view */
-.ct-svg { display: block; width: 100%; height: 100%; }
-.ct-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.ct-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-.ct-rose-n { fill: var(--faint); font: 700 8px var(--mono); }
-.ct-flag path { transition: transform .2s; }

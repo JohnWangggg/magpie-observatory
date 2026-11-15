@@ -1,7 +1,0 @@
-/* watertower view */
-@keyframes wtspurt { 0%,100% { opacity: .8; } 50% { opacity: .5; } }
-.wt-svg { display: block; width: 100%; height: 100%; }
-.wt-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.wt-hydrant path { animation: wtspurt ease-in-out infinite; }
-.wt-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .wt-hydrant path { animation: none; } }

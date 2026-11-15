@@ -1,6 +1,0 @@
-/* clinker view */
-.ck-svg { display: block; width: 100%; height: 100%; }
-.ck-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.ck-t { fill: var(--fg-2); font: 600 7px var(--mono); }
-.ck-brick { transition: transform .15s; }
-.ck-brick:hover { transform: scale(1.05); }

@@ -1,7 +1,0 @@
-/* wheelwright view */
-@keyframes wwfit { 0%,100% { transform: translateX(0); } 50% { transform: translateX(-3px); } }
-.ww-svg { display: block; width: 100%; height: 100%; }
-.ww-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.ww-smith { animation: wwfit ease-in-out infinite; }
-.ww-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .ww-smith { animation: none; } }

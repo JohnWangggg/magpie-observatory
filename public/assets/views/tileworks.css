@@ -1,7 +1,0 @@
-/* tileworks view */
-@keyframes twpress { 0%,100% { transform: translateY(0); } 50% { transform: translateY(2px); } }
-.tw-svg { display: block; width: 100%; height: 100%; }
-.tw-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.tw-man { animation: twpress ease-in-out infinite; }
-.tw-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .tw-man { animation: none; } }

@@ -1,7 +1,0 @@
-/* spinning view */
-@keyframes spspin { to { transform: rotate(360deg); } }
-.sp-svg { display: block; width: 100%; height: 100%; }
-.sp-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.sp-wheel { animation: spspin linear infinite; transform-origin: center; }
-.sp-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .sp-wheel { animation: none; } }

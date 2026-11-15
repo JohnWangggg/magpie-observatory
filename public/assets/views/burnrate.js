@@ -30,7 +30,7 @@
     const softBudget = Math.max(5, spent * 1.35); // soft cap at 135% of pace-0
     const over = projected > softBudget;
 
-    const W = 400, H = 300, PAD = 16, TOP = 40, BOT = 46;
+    const W = Math.max(640, host.clientWidth || 760), H = Math.max(280, (host.clientHeight || 360) - 32), PAD = 20, TOP = 36, BOT = 42;
     const chartW = W - PAD * 2 - 30;
     const chartH = H - TOP - BOT;
     const barW = chartW / daysInMonth;
@@ -73,8 +73,8 @@
     host.innerHTML = `
       <div class="b2-wrap">
         <div class="b2-head"><b>BURNRATE</b><span>本月已花 $${spent.toFixed(2)} · 预测 $${projected.toFixed(2)}${over ? " · ⚠ 超软预算" : ""}</span></div>
-        <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet">
-          <rect x="0" y="0" width="400" height="300" fill="var(--card)" rx="10"/>
+        <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+          <rect x="0" y="0" width="${W}" height="${H}" fill="var(--card)" rx="10"/>
           ${grid}${budget}${bars}${proj}
           <text x="${PAD}" y="${TOP - 12}" class="b2-axis">${y}-${String(mo + 1).padStart(2, "0")} 每日成本</text>
           <text x="${W - PAD}" y="${TOP - 12}" class="b2-axis" text-anchor="end">→ 月末</text>

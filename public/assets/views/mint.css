@@ -1,7 +1,0 @@
-/* mint view */
-@keyframes mtswing { 0%,100% { transform: translateY(0); } 50% { transform: translateY(3px); } }
-.mt-svg { display: block; width: 100%; height: 100%; }
-.mt-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.mt-man { animation: mtswing ease-in-out infinite; }
-.mt-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .mt-man { animation: none; } }

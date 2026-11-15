@@ -1,7 +1,0 @@
-/* apothecary view */
-@keyframes apweigh { 0%,100% { transform: translateY(0); } 50% { transform: translateY(2px); } }
-.ap-svg { display: block; width: 100%; height: 100%; }
-.ap-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.ap-man { animation: apweigh ease-in-out infinite; }
-.ap-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .ap-man { animation: none; } }

@@ -1,7 +1,0 @@
-/* ledger view */
-.lg-svg { display: block; width: 100%; height: 100%; }
-.lg-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.lg-hd { font: 700 10px var(--mono); letter-spacing: .05em; }
-.lg-en { font: 500 8px var(--mono); }
-.lg-en2 { font: 400 7px var(--mono); }
-.lg-tot { font: 700 8.5px var(--mono); }

@@ -1,7 +1,0 @@
-/* embroiderer view */
-@keyframes embstitch { 0%,100% { transform: translateY(0); } 50% { transform: translateY(2px); } }
-.emb-svg { display: block; width: 100%; height: 100%; }
-.emb-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.emb-man { animation: embstitch ease-in-out infinite; }
-.emb-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .emb-man { animation: none; } }

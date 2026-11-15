@@ -1,7 +1,0 @@
-/* gleaner view */
-@keyframes glnbend { 0%,100% { transform: rotate(0); } 50% { transform: rotate(6deg); } }
-.gln-svg { display: block; width: 100%; height: 100%; }
-.gln-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.gln-man { animation: glnbend ease-in-out infinite; transform-origin: 0 12px; }
-.gln-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .gln-man { animation: none; } }

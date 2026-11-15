@@ -4,12 +4,12 @@
 .fc-head b { font: 700 11px var(--num); color: var(--fg); letter-spacing: .04em; }
 .fc-head span { font-size: 8px; color: var(--muted); }
 .fc-wrap svg { flex: 1; width: 100%; }
-.fc-name { font: 600 9px var(--mono); fill: var(--fg); }
-.fc-win { font: 8px var(--mono); fill: var(--muted); }
-.fc-axis { font: 8px var(--mono); fill: var(--muted); }
-.fc-eta { font: 700 9px var(--num); fill: var(--fg); }
+.fc-name { font: 600 13px var(--mono); fill: var(--fg); }
+.fc-win { font: 11px var(--mono); fill: var(--muted); }
+.fc-axis { font: 11px var(--mono); fill: var(--muted); }
+.fc-eta { font: 700 12px var(--num); fill: var(--fg); }
 .fc-eta.fc-warn { fill: var(--amber); }
-.fc-reset { font: 8px var(--mono); fill: var(--muted); }
-.fc-glabel { font: 7px var(--mono); fill: var(--muted); }
+.fc-reset { font: 11px var(--mono); fill: var(--muted); }
+.fc-glabel { font: 11px var(--mono); fill: var(--muted); }
 .fc-k { font: 700 10px var(--num); fill: var(--fg); }
 .fc-skull { filter: drop-shadow(0 0 4px rgba(240,200,100,.6)); }

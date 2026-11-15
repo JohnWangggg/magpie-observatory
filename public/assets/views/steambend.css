@@ -1,7 +1,0 @@
-/* steambend view */
-@keyframes sbbend { 0%,100% { transform: translateY(0); } 50% { transform: translateY(2px); } }
-.sb-svg { display: block; width: 100%; height: 100%; }
-.sb-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.sb-man { animation: sbbend ease-in-out infinite; }
-.sb-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .sb-man { animation: none; } }

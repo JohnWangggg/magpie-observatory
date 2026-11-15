@@ -1,7 +1,0 @@
-/* canvas view */
-@keyframes cnvbeat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(3px); } }
-.cnv-svg { display: block; width: 100%; height: 100%; }
-.cnv-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.cnv-man { animation: cnvbeat ease-in-out infinite; }
-.cnv-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .cnv-man { animation: none; } }

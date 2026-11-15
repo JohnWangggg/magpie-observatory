@@ -1,7 +1,0 @@
-/* dyehouse view */
-@keyframes dhstir { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(4deg); } }
-.dh-svg { display: block; width: 100%; height: 100%; }
-.dh-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.dh-dyer { animation: dhstir ease-in-out infinite; transform-origin: 0 10px; }
-.dh-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .dh-dyer { animation: none; } }

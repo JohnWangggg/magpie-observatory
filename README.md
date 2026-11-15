@@ -16,8 +16,7 @@ Observatory turns that stream into something you can *watch*:
 - **Live routing** — Agent → Magpie → Provider/Account, with a filled magpie
   carrying the request out and a mirrored outlined magpie bringing the answer
   back. Failed attempts stay visible as “rerouted”.
-- **Three hundred and thirty-six views** — one for routing, three hundred and thirty ways to look at the
-  same data: charts, games, ambient fields.
+- **Eight views** — route, sessions, latency, funnel, quota, usage, mix, and the year-in-rings. Related charts are tabs inside one view.
 - **Seven style packs** — `Control`, `Pixel`, `Paper`, `Neon`, `Terminal`,
   `Blueprint`, `Zine`; each with a light and dark variant. Light/dark and
   style are independent.
@@ -42,7 +41,7 @@ Observatory turns that stream into something you can *watch*:
   burn ≥80%, error bursts, your streak and a one-line "today".
 - **Favorites rail** — starred views (`F`) become permanent icons on the left
   rail, one click to switch.
-- **Mini mode** — `?mode=mini&view=stellar` shrinks the page into a
+- **Mini mode** — `?mode=mini&view=burn` shrinks the page into a
   picture-in-picture-ready widget (see `docs/mode-mini.png`).
 - **PWA** — installable to the home screen via `manifest.webmanifest` +
   a minimal service worker (network-first, API uncached).
@@ -54,9 +53,6 @@ Observatory turns that stream into something you can *watch*:
   that restores view/range/cinema on open.
 - **Weekly report** — `⌘K` → 本周报告 drops a 7-day card with bars,
   peak day and hottest route.
-- **Play view** — a Westworld dial where every request is a beat:
-  PERFECT/GREAT/GOOD/MISS judgements, combo ×multiplier, `←`/`→` steps
-  through the call stream.
 - **Gateway compare** — `⌘K` → 网关对比 pulls two `/api/snapshot`s
   (auto-detected vs locked `magpie.gw`) side by side.
 - **XP & achievements** — requests earn XP into a topbar level chip;
@@ -128,7 +124,9 @@ MAGPIE_URL=http://127.0.0.1:3425 MAGPIE_KEY=... node preview.mjs
 
 The preview is for development only; the plugin uses the same service internally.
 
-## The three hundred and thirty-six views
+## Views
+
+Eight views. Related charts are tabs on the same view, not separate menu entries.
 
 | Route · two-way magpies | Radar · provider ring and quotas |
 | --- | --- |
@@ -146,7 +144,7 @@ The preview is for development only; the plugin uses the same service internally
 | --- | --- |
 | ![waterfall](docs/mode-waterfall.png) | ![swarm](docs/mode-swarm.png) |
 
-| Treemap · cost by provider and model | Sankey · agent → provider → model flow |
+| Treemap · cost by provider and model | Sankey · agent → provider → model |
 | --- | --- |
 | ![treemap](docs/mode-treemap.png) | ![sankey](docs/mode-sankey.png) |
 
@@ -154,9 +152,7 @@ The preview is for development only; the plugin uses the same service internally
 | --- | --- |
 | ![funnel](docs/mode-funnel.png) | ![latency](docs/mode-latency.png) |
 
-![Orrery · providers, quotas and sessions in orbit](docs/mode-orrery.png)
-
-| Budget · thresholds and pace | Marimekko · provider × model mosaic |
+| Budget · thresholds and pace | Marimekko · provider × model |
 | --- | --- |
 | ![budget](docs/mode-budget.png) | ![marimekko](docs/mode-marimekko.png) |
 
@@ -166,236 +162,17 @@ The preview is for development only; the plugin uses the same service internally
 | --- | --- |
 | ![network](docs/mode-network.png) | ![stream](docs/mode-stream.png) |
 
-![Chips · combo cards](docs/mode-chips.png)
-
-| Factory · queued → streaming → done | Bees · sessions around provider hives |
+| Burn · quota windows at pace | Candle · hourly throughput |
 | --- | --- |
-| ![factory](docs/mode-factory.png) | ![bees](docs/mode-bees.png) |
+| ![burn](docs/mode-burn.png) | ![candle](docs/mode-candle.png) |
 
-| Stellar · providers as stars, requests as meteors | Burn · quota windows at pace |
-| --- | --- |
-| ![stellar](docs/mode-stellar.png) | ![burn](docs/mode-burn.png) |
-
-| Candle · hourly throughput as OHLC | Gauge · KPI and quota dials |
-| --- | --- |
-| ![candle](docs/mode-candle.png) | ![gauge](docs/mode-gauge.png) |
-
-| Bloom · requests grow as flowers | Petri · requests as living cells |
-| --- | --- |
-| ![bloom](docs/mode-bloom.png) | ![petri](docs/mode-petri.png) |
-
-| Aurora · requests as light-curtains | Constellation · sessions as star-maps |
-| --- | --- |
-| ![aurora](docs/mode-aurora.png) | ![constellation](docs/mode-constellation.png) |
-
-| Tide · provider waves on a shore | Prism · the stream split by provider |
-| --- | --- |
-| ![tide](docs/mode-tide.png) | ![prism](docs/mode-prism.png) |
-
-| Terrarium · sessions as a glass ecosystem | Echo · ripples on a pond |
-| --- | --- |
-| ![terrarium](docs/mode-terrarium.png) | ![echo](docs/mode-echo.png) |
-
-| Mosaic · requests as wall tiles | Origami · sessions as paper birds |
-| --- | --- |
-| ![mosaic](docs/mode-mosaic.png) | ![origami](docs/mode-origami.png) |
-
-| Firefly · sessions as glowing dots at night | Mandala · sessions as petals |
-| --- | --- |
-| ![firefly](docs/mode-firefly.png) | ![mandala](docs/mode-mandala.png) |
-
-| Quilt · sessions as fabric patches | Vortex · sessions on a spiral |
-| --- | --- |
-| ![quilt](docs/mode-quilt.png) | ![vortex](docs/mode-vortex.png) |
-
-| Kaleido · sessions as 12-fold wedges | Orbit · sessions as comets |
-| --- | --- |
-| ![kaleido](docs/mode-kaleido.png) | ![orbit](docs/mode-orbit.png) |
-
-| Rain · requests as raindrops on a puddle | Bubbles · sessions rising |
-| --- | --- |
-| ![rain](docs/mode-rain.png) | ![bubbles](docs/mode-bubbles.png) |
-
-| Spectrum · tokens as a frequency band | Wave · dual-track waveform |
-| --- | --- |
-| ![spectrum](docs/mode-spectrum.png) | ![wave](docs/mode-wave.png) |
-
-| Galaxy · requests as a two-arm spiral | DNA · sessions as base pairs |
-| --- | --- |
-| ![galaxy](docs/mode-galaxy.png) | ![dna](docs/mode-dna.png) |
-
-| Nebula · sessions as a colour cloud | Tide · quota as a rising sea |
-| --- | --- |
-| ![nebula](docs/mode-nebula.png) | ![tide](docs/mode-tide.png) |
-
-| Maze · requests as a snaking corridor | Quartz · sessions as crystals |
-| --- | --- |
-| ![maze](docs/mode-maze.png) | ![quartz](docs/mode-quartz.png) |
-
-| Ripple · raindrops on still water | Lantern · sessions as sky lanterns |
-| --- | --- |
-| ![ripple](docs/mode-ripple.png) | ![lantern](docs/mode-lantern.png) |
-
-| Pinwheel · sessions as spinning wheels | Chime · sessions as wind chimes |
-| --- | --- |
-| ![pinwheel](docs/mode-pinwheel.png) | ![chime](docs/mode-chime.png) |
-
-| Firework · sessions as bursts | Fountain · sessions as water jets |
-| --- | --- |
-| ![firework](docs/mode-firework.png) | ![fountain](docs/mode-fountain.png) |
-
-| Pendulum · sessions as swinging bobs | Aurora2 · sessions as curtains |
-| --- | --- |
-| ![pendulum](docs/mode-pendulum.png) | ![aurora2](docs/mode-aurora2.png) |
-
-| Beehive · sessions as honeycomb | Vine · sessions as leaves |
-| --- | --- |
-| ![beehive](docs/mode-beehive.png) | ![vine](docs/mode-vine.png) |
-
-- **Route**: the default. Magpies fly the whole `Agent → Magpie → Provider`
-  path; failures remain visible.
-- **Radar**: providers on a dial, quota rings, in-flight sessions on the left,
-  quota and cache on the right.
-- **Loom**: the last requests become coloured bands — colour is provider,
-  brightness is token density, the shuttle moves down the weave.
-- **Rhythm**: each provider gets a lane; requests land on a 16-step grid, a
-  playhead sweeps through, and the footer keeps the combo / cache.
-- **Rings**: the last 26 weeks as a polar calendar — seven weekday rings, one
-  column per week; bead size and colour carry token volume, and today keeps a
-  green ring.
-- **Quota**: each account's window as a burn-down line with a projected left at
-  reset; green/amber/red risk, reset markers and a `QUOTA PACE` side list.
-- **Waterfall**: sessions as Gantt rows; pale first-token segment plus a
-  streaming segment, failure hatching, click a session to focus it.
-- **Swarm**: one lane per provider, TTFT points with P50/P90 lines, dot size =
-  tokens; missing first-token samples are marked as estimated.
-- **Treemap**: provider → model area by tokens; click a provider to drill into
-  its models.
-- **Sankey**: agent → provider → model flow; link width = tokens, provider
-  colours, hover highlights the whole route.
-- **Funnel**: calls → uncanceled → first token → success, with drop-off counts,
-  success/error rate and an amber reroute chip.
-- **Latency**: a time × latency-bucket heatmap that accumulates while the page
-  is open, with P50/P90 and the hottest bucket.
-- **Orrery**: providers as planets on elliptical orbits; planet size = active
-  sessions, the arc = quota used, moons = active sessions.
-- **Budget**: a bullet chart per account window; 70/88 thresholds, a pace marker
-  from quota history, and a projected end.
-- **Marimekko**: column width = provider share, band height = model share; click
-  a provider to expand its column.
-- **Chord**: agents on one arc, providers on the other; ribbon area = tokens;
-  hover highlights the flow and side panel lists the top routes.
-- **Network**: a force-directed agent → provider → model graph; node size =
-  tokens, hover/focus highlights neighbours.
-- **Stream**: provider token deltas over buffered snapshots as a streamgraph,
-  with a Horizon toggle for a compact per-provider reading.
-- **Chips**: an optional game-like view; each request is a card, consecutive
-  successes build a combo, and score/multipliers come from the real ledger.
-- **Factory**: sessions as parcels moving through queued → streaming → done,
-  with a reject lane for errors; the belt and parcels animate, the counts are real.
-- **Bees**: providers as hives and sessions as bees; subagents become smaller
-  bees, size follows tokens, and hovering a hive highlights its bees.
-- **Play**: a Westworld dial where every request is a beat — rounds arc the
-  token mix, the rim flashes on errors, streaks grow toward an "obsessed" ring.
-- **Candle**: every period as a candlestick — `open` is the previous period's
-  tokens, `close` is this one; green when throughput rose, red when it fell,
-  a dashed MA line, and up/down/streak/peak stats in the legend.
-- **Gauge**: every KPI and quota window as a 270° dial — requests, tokens,
-  cost, success rate, active sessions, in-flight, then one gauge per account
-  window (≤2 per account), needle + arc, green/amber/red risk.
-- **Bloom**: the last requests as a garden — provider = petal colour,
-  tokens = petal count, position = time; failures are buds that never open,
-  a vine trails along the ground.
-- **Petri**: the last requests as cells in a dish — provider = cytoplasm
-  colour, tokens = cell size, live cells pulse and breathe, failures fade to
-  ghosts; newest cluster near the dish centre.
-- **Aurora**: the last requests as light-curtains in a night sky — height =
-  tokens, width = tps, colour = provider; failures are thin grey streaks
-  above the horizon line, stars twinkle behind.
-- **Constellation**: each session as a small star-pattern — one star per try
-  (bright on success, dim on failure), ≥3 stars padded with aux points;
-  sessions link into a larger constellation map, colour = agent.
-- **Tide**: provider token share as rolling waves — amplitude = share,
-  phase drifts, foam on the biggest crest, a moon pulls it.
-- **Prism**: the request stream enters as one white beam; the glass triangle
-  splits it into each provider's ray — width = tokens, colour = provider,
-  angle = its order.
-- **Terrarium**: sessions as plants in a sealed jar — height = tokens,
-  colour = agent, moss on the soil, a mushroom per failed request,
-  droplets on the glass.
-- **Echo**: sessions drop onto a pond — rings = tokens, colour = agent,
-  dashed rings = failed, faded = older.
-- **Mosaic**: every request is a tile in a wall — size = tokens,
-  colour = agent, cracked = failed, grout lines between rows.
-- **Origami**: each session is a folded paper bird on a branch —
-  size = tokens, colour = agent, dashed crease = the fold;
-  failed requests droop lower.
-- **Firefly**: sessions drift as fireflies — glow = tokens, colour = agent,
-  blink = breathing; a faint moon + stars hang above.
-- **Mandala**: sessions bloom as petals around a bindu — length = tokens,
-  colour = agent, try-rings = attempts; a dashed mandala behind.
-- **Quilt**: sessions are fabric patches on a quilt — size = tokens,
-  colour = agent, dashed stitch = failed; a stitched border frames it.
-- **Vortex**: sessions ride a logarithmic spiral — size = tokens,
-  colour = agent, spin speed = recency; failed requests fall inward.
-- **Kaleido**: each session is a coloured wedge mirrored 12× around a
-  hexagonal frame — length = tokens, colour = agent, faded = failed.
-- **Orbit**: sessions are comets on tilted elliptical lanes around a
-  provider sun-cluster — head = tokens, tail = arc, debris = failed.
-- **Rain**: every request is a raindrop — length = tokens, colour = agent,
-  splash rings the puddle when it lands; red = failed.
-- **Bubbles**: sessions rise as air bubbles — size = tokens, colour = agent,
-  wobble = phase; failed ones sink.
-- **Spectrum**: the token stream as a frequency spectrum — height = tokens,
-  colour = agent, width = tries; a mirrored bass-echo below.
-- **Wave**: the request stream as two layered waveforms — peak = tokens,
-  colour = agent, spike = failed; a scan cursor sweeps.
-- **Galaxy**: sessions as stars on a two-arm spiral — size = tokens,
-  colour = agent, drift = failed; a bright core at the hub.
-- **DNA**: the request stream as a double helix — rung = session,
-  width = tokens, colour = agent, broken = failed.
-- **Nebula**: sessions as a soft colour cloud — size = tokens,
-  hue = agent, dim = failed; filaments and dust fill the field.
-- **Tide**: today's tokens as a rising tide — level = share of a soft
-  cap, buoys = sessions, dim = failed; a moon pulls the sea.
-- **Maze**: the request stream as a snaking corridor — segment = session,
-  length = tokens, colour = agent, dead end = failed.
-- **Quartz**: the session set as a crystal cluster — prism = session,
-  height = tokens, colour = agent, cracked = failed.
-- **Ripple**: requests as raindrops on still water — rings shed outward,
-  radius = tokens, colour = agent, broken ring = failed.
-- **Lantern**: sessions as sky lanterns — size = tokens, colour = agent,
-  tilt = failed; flames flicker against the night.
-- **Pinwheel**: sessions as paper pinwheels — blade span = tokens,
-  colour = agent, reverse spin = failed; sticks on a garden edge.
-- **Chime**: sessions as hanging wind chimes — length = tokens,
-  colour = agent, cracked = failed; tubes sway in the breeze.
-- **Firework**: sessions as fireworks — burst radius and spokes = tokens,
-  colour = agent, sputter = failed; trails streak upward.
-- **Fountain**: sessions as water jets — arc height = tokens, colour =
-  agent, sputter = failed; droplets fall back into the basin.
-- **Pendulum**: sessions as swinging pendulums — rod length and arc =
-  tokens, colour = agent, still = failed.
-- **Aurora2**: sessions as aurora curtains — height = tokens, colour =
-  agent, flicker = failed; soft focus under stars.
-- **Beehive**: sessions as a honeycomb — fill = tokens, colour = agent,
-  cracked = failed; bees orbit the comb.
-- **Vine**: the request stream as a climbing vine — leaf = session,
-  size = tokens, colour = agent, wilted = failed; tendrils curl.
-- **Galton**: sessions drop as balls through a staggered pin field into
-  per-provider bins — colour = agent, size = tokens, landing bin = routing
-  share; bottom bins rank by burn.
-
-- **Burn**: every account window as a pace bar — fill shows used %, tick
-  marks flat pace, a dashed notch projects end-of-window; click a row for the
-  window's sparkline, `↑↓/Enter` keyboard nav, and a CSV export per window.
+![Gauge · KPI and quota dials](docs/mode-gauge.png)
 
 ## Switching views
 
 The hero header has a view picker instead of a wall of tabs. Press **V** (or
 click it), type to filter by name / eyebrow / group, press Enter to switch, or
-hit **随机一个** for a random view. The 336 views are grouped into eleven sections —
-`实时` / `用量` / `结构` / `趣味` / `天象` / `生态` / `几何` / `场景`, and the hero accent follows the group.
+hit **随机一个** for a random view. The 8 views are grouped by what they answer, and the hero accent follows the group.
 **G** starts or stops an auto tour (5 / 10 / 30-second interval in settings),
 **R** picks a random view, **F** stars the current view (favourites pin to the
 top of the picker and survive reloads), **?** opens the shortcut sheet, and
@@ -409,7 +186,7 @@ above the hero: quota burn warnings, error bursts, your daily streak and a
 one-line "today" summary, so the first glance tells you where to look.
 
 Hovering a row in the picker floats a **live thumbnail** of that view's hero card
-(generated by `npm run thumbs` into `public/shots/`), so 336 entries stay
+(generated by `npm run thumbs` into `public/shots/`), so the remaining entries stay
 navigable without leaving the menu. Hold the hover ~0.4 s and the thumbnail
 grows for a closer look; click it to pop the full shot in a lightbox while the
 view loads underneath. The same thumbnails ride the rail favourites, the ⌘K

@@ -1,8 +1,0 @@
-/* fermentery view */
-@keyframes fmrise { 0% { opacity: 0; transform: translateY(4px); } 40% { opacity: .8; } 100% { opacity: 0; transform: translateY(-8px); } }
-.fm-svg { display: block; width: 100%; height: 100%; }
-.fm-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.fm-bubb { animation: fmrise ease-in-out infinite; }
-.fm-blow { transition: transform .2s; }
-.fm-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .fm-bubb { animation: none; opacity: .5; } }
