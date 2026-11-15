@@ -1,0 +1,7 @@
+/* dressmaker view */
+@keyframes drsmbaste { 0%,100% { transform: translateX(0); } 50% { transform: translateX(3px); } }
+.drsm-svg { display: block; width: 100%; height: 100%; }
+.drsm-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.drsm-man { animation: drsmbaste ease-in-out infinite; }
+.drsm-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .drsm-man { animation: none; } }
