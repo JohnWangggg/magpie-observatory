@@ -1,4 +1,4 @@
-# Magpie Observatory · 视图图鉴 (536)
+# Magpie Observatory · 视图图鉴 (537)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
@@ -10,7 +10,7 @@
 | [延迟](#延迟) | 2 |
 | [氛围](#氛围) | 3 |
 | [场景](#场景) | 233 |
-| [用量](#用量) | 145 |
+| [用量](#用量) | 146 |
 | [天象](#天象) | 17 |
 | [洞察](#洞察) | 10 |
 | [结构](#结构) | 6 |
@@ -355,7 +355,7 @@
 | `reserve2` | 保护区二号 | RESERVE II | 观测=配额窗 隙=用量 栖枝=过热 守护=会话 | ![reserve2](../public/shots/reserve2.png) |
 | `desert` | 沙丘 | DESERT | 丘=配额窗 高=用量 驼=会话 | ![desert](../public/shots/desert.png) |
 
-## 用量 (145)
+## 用量 (146)
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
@@ -491,7 +491,8 @@
 | `bodger` | 绿木工 | PROVIDER BODGER | 马=provider 腿=token 工=会话 裂=错 | ![bodger](../public/shots/bodger.png) |
 | `joinery` | 细木坊 | PROVIDER JOINERY | 台=provider 榫=token 工=会话 崩=错 | ![joinery](../public/shots/joinery.png) |
 | `ripsaw` | 拉锯坊 | PROVIDER RIPSAW | 锯=provider 板=token 工=会话 卡=错 | ![ripsaw](../public/shots/ripsaw.png) |
-| `steambend` | 蒸弯坊 | PROVIDER STEAMBEND | 箱=provider 条=token 工=会话 弹=错 | — |
+| `steambend` | 蒸弯坊 | PROVIDER STEAMBEND | 箱=provider 条=token 工=会话 弹=错 | ![steambend](../public/shots/steambend.png) |
+| `marquetry` | 镶嵌坊 | PROVIDER MARQUETRY | 板=provider 片=token 匠=会话 翘=错 | — |
 | `rings` | Token 年轮 | YEAR IN RINGS | 26 周极坐标日历 | ![rings](../public/shots/rings.png) |
 | `latency` | 延迟热力 | LATENCY HEATMAP | 时间 × 延迟 | ![latency](../public/shots/latency.png) |
 | `stream` | 流量河流 | STREAMGRAPH | Provider 增量 | ![stream](../public/shots/stream.png) |
