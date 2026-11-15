@@ -1,4 +1,4 @@
-# Magpie Observatory · 视图图鉴 (386)
+# Magpie Observatory · 视图图鉴 (387)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
@@ -10,7 +10,7 @@
 | [延迟](#延迟) | 2 |
 | [氛围](#氛围) | 3 |
 | [场景](#场景) | 233 |
-| [用量](#用量) | 22 |
+| [用量](#用量) | 23 |
 | [天象](#天象) | 17 |
 | [洞察](#洞察) | 10 |
 | [结构](#结构) | 6 |
@@ -328,7 +328,7 @@
 | `reserve2` | 保护区二号 | RESERVE II | 观测=配额窗 隙=用量 栖枝=过热 守护=会话 | ![reserve2](../public/shots/reserve2.png) |
 | `desert` | 沙丘 | DESERT | 丘=配额窗 高=用量 驼=会话 | ![desert](../public/shots/desert.png) |
 
-## 用量 (22)
+## 用量 (23)
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
@@ -341,7 +341,8 @@
 | `flotsam` | 漂流瓶 | LOG FLOTSAM | 瓶=日志 塞=token 裂=错 | ![flotsam](../public/shots/flotsam.png) |
 | `clinker` | 烧结砖 | LOG CLINKER | 砖=日志 温=token 裂=错 | ![clinker](../public/shots/clinker.png) |
 | `pitstop` | 维修站 | PROVIDER PITSTOP | 道=provider 车=token 胎=用量 旗=错 | ![pitstop](../public/shots/pitstop.png) |
-| `belljar` | 钟形罩 | PROVIDER BELLJAR | 罩=provider 植=token 露=会话 裂=错 | — |
+| `belljar` | 钟形罩 | PROVIDER BELLJAR | 罩=provider 植=token 露=会话 裂=错 | ![belljar](../public/shots/belljar.png) |
+| `driftline` | 雪脊 | PROVIDER DRIFTLINE | 堆=provider 高=token 粒=会话 裂=错 | — |
 | `rings` | Token 年轮 | YEAR IN RINGS | 26 周极坐标日历 | ![rings](../public/shots/rings.png) |
 | `latency` | 延迟热力 | LATENCY HEATMAP | 时间 × 延迟 | ![latency](../public/shots/latency.png) |
 | `stream` | 流量河流 | STREAMGRAPH | Provider 增量 | ![stream](../public/shots/stream.png) |
