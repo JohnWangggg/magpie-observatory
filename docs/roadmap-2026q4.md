@@ -1191,3 +1191,14 @@ decision/palette）+ 复制/跳转/过滤/记忆/导出 全覆盖。审计完毕
 5. **palette 加"按组过滤"** — `group:场景` 列出场景组所有视图。
 6. **KPI 卡片拖到手记栏** → 一键把当前 token/cost 钉进自定义便签卡。
 7. **成就**：`view-all` 看过全部 115 / `quota-watch` 单窗 ≥95% 触发过 / `night-owl-2` 凌晨 ≥3 天。
+
+## 下轮候选 v2（2026-11-15 · 700 视图后）
+
+上批候选已全部落地：组筛选芯片行（持久 magpie.vmGroup、random/tour 尊重组）、trophies +5 徽章、session 右键"钉到配额"、动效第 4 档 bokeh 静景、KPI 拖钉便签卡、成就 quota-watch/night-owl-2、`.vm-item[hidden]` 搜索过滤修复、`.vm-row` content-visibility。
+
+1. **hero 空态/首启引导**：数据为空或新装时 hero 区的引导态（随机视图推荐 + 收藏种子）。
+2. **vs 卡升级**：加本周/上周第三条轨迹 + 峰值时刻标注。
+3. **palette 命令补全**：`group:` 前缀已有芯片行替代，可加 `fav:`/`unseen:`/`hot:` 前缀语法到搜索框。
+4. **tour 收藏池**：巡游只走收藏视图（tourPool 已支持，缺 UI 入口）。
+5. **digest 报告扩展**：昨日报告加"最耗时 provider"/"错误聚类"两行。
+6. **性能**：700 视图菜单首开的 DOM 构建时间测量与分批渲染（buildViewMenu 目前一次性 innerHTML）。
