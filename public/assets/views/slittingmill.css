@@ -1,0 +1,7 @@
+/* slittingmill view */
+@keyframes slfeed { 0%,100% { transform: translateX(0); } 50% { transform: translateX(3px); } }
+.sl-svg { display: block; width: 100%; height: 100%; }
+.sl-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.sl-man { animation: slfeed ease-in-out infinite; }
+.sl-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .sl-man { animation: none; } }

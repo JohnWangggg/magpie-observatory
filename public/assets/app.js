@@ -300,6 +300,7 @@
     { id: "wirebench", title: "拉丝台", eyebrow: "PROVIDER WIREBENCH", group: "用量", icon: "i-magpie", hint: "台=provider 线=token 人=会话 断=错" },
     { id: "nailery", title: "钉坊", eyebrow: "PROVIDER NAILERY", group: "用量", icon: "i-magpie", hint: "砧=provider 钉=token 匠=会话 弯=错" },
     { id: "finery", title: "精炼炉", eyebrow: "PROVIDER FINERY", group: "用量", icon: "i-magpie", hint: "炉=provider 团=token 工=会话 冷=错" },
+    { id: "slittingmill", title: "纵剪机", eyebrow: "PROVIDER SLITTINGMILL", group: "用量", icon: "i-magpie", hint: "辊=provider 条=token 人=会话 卡=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
