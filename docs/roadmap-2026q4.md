@@ -2018,3 +2018,13 @@ v82 已落地:达标绿边。跳过:队列数(帧KPI已)、路由带(route chip�
 3. **digest格图鉴粒度**:图鉴加本月总览。
 4. **palette会话项**:recent session项可直达rail。
 5. **回放条速度标**:速度钮hover显示当前+下一。
+
+## 下轮候选 v84（2026-11-15 · v83 落地后）
+
+v83 已落地:agent icon、速度title。跳过:供应商推(title已)、图鉴总览(月累已)、recent直达(已有)。
+
+1. **回放帧?卡帧号链**:帧卡加prev/next链。
+2. **session卡群通知**:session event条toast。
+3. **digest格图鉴提**:图鉴加"本月重点"tag。
+4. **palette改道项**:kind"重跑"放最前。
+5. **回放帧AB差加行**:AB卡加session差行。
