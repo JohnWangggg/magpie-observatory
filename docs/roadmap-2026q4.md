@@ -1715,3 +1715,13 @@ v52 已落地：帧卡定位回放条上、首try why。跳过：图鉴3新增(1
 3. **digest格图鉴全名**:图鉴格title列全新增名。
 4. **palette预览框**:→键预览帧号+KPtitle。
 5. **回放strip帧号hover**:刻度点title显帧号。
+
+## 下轮候选 v54（2026-11-15 · v53 落地后）
+
+v53 已落地：model provider回退、刻度帧号title。跳过：键位卡(?hint已)、图鉴全名(单个已)、预览帧号(→已展开视图)。
+
+1. **回放条时间range**:回放条加 "HH:MM-HH:MM" 帧时间窗。
+2. **session卡子代理tooltip**:子代理chip title列名。
+3. **digest格目标环比**:dig-goal加今日vs昨日目标达成。
+4. **palette折叠计数**:pal-kind头折叠后显"(N)"。
+5. **回放strip光标帧号**:rep-now cursor title=当前帧号。
