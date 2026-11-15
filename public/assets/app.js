@@ -970,7 +970,7 @@
     const favs = state.favorites.map(id => VIEW_META.find(v => v.id === id)).filter(Boolean);
     host.hidden = !favs.length;
     host.innerHTML = favs.map(v => `
-      <button draggable="true" class="fav-btn${v.id === state.heroMode ? " active" : ""}${v.id === (localStorage.getItem("magpie.defaultView") || "") ? " default" : ""}" data-fav-view="${v.id}" title="${v.title} · 拖动排序${v.id === (localStorage.getItem("magpie.defaultView") || "") ? " · 默认视图" : ""}">
+      <button draggable="true" class="fav-btn${v.id === state.heroMode ? " active" : ""}${v.id === (localStorage.getItem("magpie.defaultView") || "") ? " default" : ""}" data-fav-view="${v.id}" data-fav-group="${v.group}" title="${v.title} · ${v.group} · 拖动排序${v.id === (localStorage.getItem("magpie.defaultView") || "") ? " · 默认视图" : ""}" style="--fav-g:${GROUP_COLORS[v.group] || "var(--accent)"}">
         <svg><use href="#${v.icon || "i-sparkle"}"/></svg>
         <span class="fav-thumb" aria-hidden="true"><img src="shots/${v.id}.png" alt="" loading="lazy" onerror="this.remove()"></span>
       </button>`).join("");
