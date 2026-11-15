@@ -1,0 +1,7 @@
+/* ropemaker view */
+@keyframes rpmturn { 0%,100% { transform: rotate(0); } 50% { transform: rotate(8deg); } }
+.rpm-svg { display: block; width: 100%; height: 100%; }
+.rpm-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.rpm-man { animation: rpmturn ease-in-out infinite; transform-origin: 0 12px; }
+.rpm-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .rpm-man { animation: none; } }
