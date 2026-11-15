@@ -1312,3 +1312,13 @@ v12 已落地：回放帧导出JSON、palette历史摘要浮卡、view-menu组�
 3. **session 卡虚拟化**:recent>50 条时 IntersectionObserver 分块渲染。
 4. **digestLog 导出**:历史摘要卡加"复制全部"按钮。
 5. **多时区**:digest/heat date 显示同时区切换(local/UTC)。
+
+## 下轮候选 v14（2026-11-15 · v13 落地后）
+
+v13 已落地：digestLog复制全部、视图>50ms"重"门、时钟点击切local/UTC。跳过：session虚拟化(数据<50条)、tries纵向甘特(ms近似失真)。
+
+1. **错误聚类下钻**:digest "错误聚类" 点击→跳转到该provider的日志过滤视图。
+2. **digest 首次问候语**:首次/连击里程碑(7/30天)digest 文案变体。
+3. **session 卡右滑收藏**:触控右滑→置顶(等同pin按钮)。
+4. **view-menu 键盘搜索**:打开时自动聚焦搜索框(验证/补)。
+5. **回放步进**:replay-range 加 ←→ 帧步进键盘。
