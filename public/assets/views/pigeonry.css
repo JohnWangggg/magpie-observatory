@@ -1,0 +1,7 @@
+/* pigeonry view */
+@keyframes pgcircle { 0% { transform: translate(0,0); } 25% { transform: translate(6px,-4px); } 50% { transform: translate(0,-8px); } 75% { transform: translate(-6px,-4px); } 100% { transform: translate(0,0); } }
+.pg-svg { display: block; width: 100%; height: 100%; }
+.pg-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.pg-circler { animation: pgcircle ease-in-out infinite; }
+.pg-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .pg-circler { animation: none; } }

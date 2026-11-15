@@ -208,6 +208,7 @@
     { id: "clothesline", title: "晾衣绳", eyebrow: "PROVIDER CLOTHESLINE", group: "用量", icon: "i-magpie", hint: "绳=provider 衣=token 风=会话 断=错" },
     { id: "incline", title: "斜道", eyebrow: "PROVIDER INCLINE", group: "用量", icon: "i-magpie", hint: "坡=provider 车=token 站=会话 翻=错" },
     { id: "clough", title: "闸阀", eyebrow: "QUOTA CLOUGH", group: "配额", icon: "i-magpie", hint: "闸=配额窗 水=余量 板=用量 桨=会话 翘=错" },
+    { id: "pigeonry", title: "鸽房", eyebrow: "PROVIDER PIGEONRY", group: "用量", icon: "i-magpie", hint: "孔=provider 鸽=token 旋=会话 裂=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
