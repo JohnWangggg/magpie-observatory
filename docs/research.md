@@ -952,3 +952,26 @@ CI `.github/workflows/check.yml` 跑 `npm run check`（lint-data + lint-views + 
 
 气压计表达的是"当前负载"——针偏右=烧得凶，误差风暴=该 provider 正在漏气。
 文件：`views/barometer.js` + `.css` + `VIEW_META`（配额组）+ `shots/barometer.png`。
+
+
+---
+
+## 24. v1.10.129 批次总结：8 个新视图
+
+本批次 8 个视图都遵循同一模式——**单一数据源 → 单一物理隐喻**:
+
+| 视图 | 数据源 | 隐喻 | 组 |
+|---|---|---|---|
+| compass | quota.windows | 表盘 | 配额 |
+| barometer | quota.windows + errRate | 气压计+风暴 | 配额 |
+| sextant | logs.ttft_ms | 高度角扇形 | 延迟 |
+| darkroom | logs + sessions | 聚光灯+ghost grid | 氛围 |
+| sonar | sessions+logs.provider | 旋转扫线接触点 | 实时 |
+| metronome | logs(60s) | 摆动节拍器 | 实时 |
+| neighborhood | sessions+logs | 街坊房屋 | 场景 |
+| warehouse | logs.tok | 货架堆箱 | 用量 |
+| plankton | logs+sessions | 浮游漂移 | 氛围 |
+
+共同约束：SVG-only（无 canvas）、`viewBox` 自适应、`esc()` HTML 安全、
+provider 配色走 `providerMeta`、prefers-reduced-motion 停动画、
+hover 提示 (`data-model`/`data-prov`) 或 pointer 交互。
