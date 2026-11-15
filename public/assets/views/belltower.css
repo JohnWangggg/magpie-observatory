@@ -1,0 +1,8 @@
+/* belltower view */
+@keyframes btswing { 0%,100% { transform: rotate(-9deg); } 50% { transform: rotate(9deg); } }
+.bt-svg { display: block; width: 100%; height: 100%; }
+.bt-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.bt-bell { animation: btswing ease-in-out infinite; }
+.bt-lab { fill: var(--fg-2); font: 700 9px var(--mono); }
+.bt-sub { fill: var(--faint); font: 500 7px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .bt-bell { animation: none; } }

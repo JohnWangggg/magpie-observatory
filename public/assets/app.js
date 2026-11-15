@@ -127,6 +127,7 @@
     { id: "weathervane", title: "风向标", eyebrow: "PROVIDER VANE", group: "实时", icon: "i-bolt", hint: "箭=最热provider 摆" },
     { id: "beacon", title: "烽火台", eyebrow: "SIGNAL BEACONS", group: "场景", icon: "i-magpie", hint: "火=provider 焰=会话 烟=用量" },
     { id: "clocktower", title: "钟楼", eyebrow: "QUOTA CLOCKTOWER", group: "配额", icon: "i-clock", hint: "盘=配额窗 针=燃速 铃=临近重置" },
+    { id: "belltower", title: "钟楼铃", eyebrow: "QUOTA BELLS", group: "配额", icon: "i-clock", hint: "铃=配额窗 摆速=燃速" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
