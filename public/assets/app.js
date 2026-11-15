@@ -219,6 +219,7 @@
     { id: "cressbed", title: "水芹床", eyebrow: "PROVIDER CRESSBED", group: "用量", icon: "i-magpie", hint: "槽=provider 芹=token 采=会话 污=错" },
     { id: "glasshouse", title: "玻璃坊", eyebrow: "PROVIDER GLASSHOUSE", group: "用量", icon: "i-magpie", hint: "炉=provider 泡=token 匠=会话 裂=错" },
     { id: "saltern", title: "盐田", eyebrow: "QUOTA SALTERN", group: "配额", icon: "i-magpie", hint: "池=配额窗 盐=余量 耙=会话 决=错" },
+    { id: "mews", title: "鹰房", eyebrow: "PROVIDER MEWS", group: "用量", icon: "i-magpie", hint: "位=provider 鹰=token 扑=会话 失=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
