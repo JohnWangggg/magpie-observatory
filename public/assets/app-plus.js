@@ -273,6 +273,12 @@
       const peak = pts.reduce((a, p) => p.y > a.y ? p : a, pts[0]);
       if (peak && peak.y > 0 && strip) strip.innerHTML += `<svg style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none" viewBox="0 0 100 10" preserveAspectRatio="none"><circle cx="${peak.x.toFixed(1)}" cy="${(10 - peak.y / maxY * 9).toFixed(1)}" r="1.1" fill="var(--amber)"><title>tps 峰值 ${peak.y.toFixed(1)}/s</title></circle></svg>`;
     } catch (_) {}
+    // Error markers: a red tick on every frame where the error count rose.
+    try {
+      const errs2 = s.replayBuf.map(f => (f.data.kpis || {}).errors || 0);
+      const marks2 = errs2.map((e2, k) => k > 0 && e2 > errs2[k - 1] ? k : -1).filter(k => k >= 0);
+      if (marks2.length) strip.innerHTML += `<div style="position:absolute;inset:0;pointer-events:none">${marks2.map(k => `<i style="position:absolute;left:${(k / Math.max(1, s.replayBuf.length - 1) * 100).toFixed(1)}%;top:-4px;width:4px;height:4px;border-radius:50%;background:var(--red)" title="帧${k} 出现错误(err=${errs2[k]})"></i>`).join("")}</div>`;
+    } catch (_) {}
     // Cumulative cost at the last frame, as a tiny caption on the strip.
     try {
       const lastF = s.replayBuf[s.replayBuf.length - 1];
