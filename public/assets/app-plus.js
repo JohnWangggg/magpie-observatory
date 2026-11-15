@@ -1353,6 +1353,13 @@ show(F.length-1);
     }
     return streak;
   }
+  function bestStreak() {
+    const s = state();
+    const days = s && s.data.heatmap || [];
+    let best = 0, run = 0;
+    for (const d of days) { if (Number(d.tokens) > 0) { run++; best = Math.max(best, run); } else run = 0; }
+    return best;
+  }
 
   /* ============================================================ XP ========= */
   const LEVELS = [
@@ -1742,7 +1749,7 @@ show(F.length-1);
         const avg = tail.reduce((a, d) => a + (d.tokens || 0), 0) / tail.length;
         return `<svg class="dig-bars" viewBox="0 0 72 28" aria-hidden="true">${tail.map((d, i) => `<rect x="${Math.max(0, i * (70 / (tail.length - 1)) - 3).toFixed(1)}" y="${(26 - (d.tokens || 0) / max * 22).toFixed(1)}" width="6" height="${Math.max(2, ((d.tokens || 0) / max * 22)).toFixed(1)}" rx="1" fill="color-mix(in srgb, var(--accent) 22%, transparent)"><title>${d.date} · ${d.tokens}</title></rect>`).join("")}<polyline points="${pts}" fill="none" stroke="var(--accent)" stroke-width="1.2" stroke-linejoin="round" opacity=".9"/>${tail.map((d, i) => { const spike = (d.tokens || 0) > avg * 2; return `<circle cx="${(i * (70 / (tail.length - 1))).toFixed(1)}" cy="${(26 - (d.tokens || 0) / max * 22).toFixed(1)}" r="${i === tail.length - 2 ? 2.4 : 1.4}" fill="${spike ? "var(--red)" : i === tail.length - 2 ? "var(--accent)" : "color-mix(in srgb, var(--accent) 60%, transparent)"}" stroke="${i === tail.length - 2 ? "#fff" : "none"}" stroke-width=".8"><title>${d.date} · ${d.tokens}${spike ? " · 尖峰·超均值" + Math.round((d.tokens || 0) / Math.max(1, avg)) + "x" : ""}</title></circle>`; }).join("")}</svg>`;
       })()}
-      <div class="digest-foot">连续使用 ${dayStreak()} 天 · ${dTok != null ? (dTok >= 0 ? "较前日 +" + dTok + "%" : "较前日 " + dTok + "%") : "保持热度"}
+      <div class="digest-foot">连续使用 ${dayStreak()} 天${bestStreak() > dayStreak() ? ` <em style="font-size:8px;color:var(--faint)">(最佳 ${bestStreak()})</em>` : " · 最佳"} · ${dTok != null ? (dTok >= 0 ? "较前日 +" + dTok + "%" : "较前日 " + dTok + "%") : "保持热度"}
       ${(() => { const mo = new Date().toISOString().slice(0, 7); const mSum = days.filter(d => (d.date || "").startsWith(mo)).reduce((a, d) => a + (d.tokens || 0), 0); const dayN = new Date().getDate(), daysInMo = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate(), moPct = Math.round(dayN / daysInMo * 100); return mSum ? `<div style="font-size:8.5px;color:var(--faint);margin-top:2px">本月累计 ${fmtTokens(mSum)} tokens · 月过 ${moPct}%<i style="display:block;height:2px;background:color-mix(in srgb,var(--fg) 10%,transparent);border-radius:1px;margin-top:2px"><em style="display:block;height:100%;width:${moPct}%;background:var(--accent);border-radius:1px"></em></i></div>` : ""; })()}
       ${(() => { const q = Math.floor(new Date().getMonth() / 3); const qSum = days.filter(d => { const m = new Date(d.date + "T00:00").getMonth(); return Math.floor(m / 3) === q && new Date(d.date + "T00:00").getFullYear() === new Date().getFullYear(); }).reduce((a, d) => a + (d.tokens || 0), 0); return qSum ? `<div style="font-size:8.5px;color:var(--faint)">本季累计 ${fmtTokens(qSum)}</div>` : ""; })()}
         <button class="mini-btn digest-week" type="button">看周报 →</button>

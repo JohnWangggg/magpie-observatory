@@ -1330,7 +1330,7 @@
   function tpsClass(v) {
     if (!v) return "";
     if (v >= 100) return "good";
-    if (v >= 60) return "mid";
+    if (v >= 50) return "mid";
     return "low";
   }
 
