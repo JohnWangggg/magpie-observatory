@@ -1463,3 +1463,13 @@ v27 已落地：pal-kind吸顶、session模型点击过滤日志、回放Home/En
 3. **digest周环比格点击**:wk格→heatmap切7天视图。
 4. **palette历史区**:items加"最近5个执行"块。
 5. **回放帧导出PNG**:当前帧hero截图为PNG。
+
+## 下轮候选 v29（2026-11-15 · v28 落地后）
+
+v28 已落地：回放错误红点、session路由chip过滤group(matchFilter补group型)、digest周环比点击滚热度、palette最近5执行。跳过：回放帧PNG截图(需canvas序列化,工作量大)。
+
+1. **回放帧导出PNG**:html2canvas不可用,改为复制当前帧JSON摘要。
+2. **session卡状态点击**:state chip点击→按status过滤(active/done)。
+3. **digest格点击通用化**:tokens格→heat;调用格→log列表。
+4. **palette视图热键提示**:常用视图项显示"按数字N直达"。
+5. **回放帧差分**:相邻帧tokens差值标记在strip。
