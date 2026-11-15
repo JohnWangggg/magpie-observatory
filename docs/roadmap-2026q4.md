@@ -2149,3 +2149,15 @@ v95 已落地:✕关钮、v:/view:前缀。跳过:sub点(accent已)、streak<3�
 3. **digest格月历条**:heatmap下加月历。
 4. **palette键帮**:input下加?快捷帮助。
 5. **回放条时间格式化**:h:mm:ss AM/PM。
+
+## 下轮候选 v97（2026-11-15 · v96 落地后）
+
+v96 已落地:foot键帮助(合并至现有foot)。跳过:帧notes(快照卡已)、multiSel亮(已有class)、月历(heatmap已)、12h(HH:MM已)。
+
+修复:hub-rings spin→breathe(用户报"转圈"实为hub装饰环)。
+
+1. **回放?帧卡模式标**:header加"回放中"角标。
+2. **session卡age色**:age>24h灰化。
+3. **digest格周平均**:加"近7日均"。
+4. **palette页面组**:页面项kind分色(已有kindDot)。
+5. **回放条标跳转**:edge钮加帧号title。
