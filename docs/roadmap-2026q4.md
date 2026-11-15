@@ -2109,3 +2109,13 @@ v91 已落地:AB时长、拖时端title。跳过:帧时长(span已)、div链(fal
 3. **digest格图鉴链**:图鉴加"同系已解锁"。
 4. **palette模式**:Ctrl+P打开时记忆上次输入。
 5. **回放条mark名**:mark行加idx序。
+
+## 下轮候选 v93（2026-11-15 · v92 落地后）
+
+v92 已落地:palQ记忆+select。跳过:同帧钮(prev/next已)、脉动(streaming已有)、图鉴链(无层级)、mark序(#i+1已)。
+
+1. **回放?帧卡动名**:卡显模式or回放标。
+2. **session卡token闪**:tokens>50k加bronze。
+3. **digest格环比**:较上周=0%时显平。
+4. **palette组重排**:视图组放最前。
+5. **回放条视图标**:回放条显当前视图icon。
