@@ -1664,3 +1664,13 @@ v47 已落地：try链耗时。撤回:rep-exit(replay-x已有)。跳过:AB拖两
 3. **digest格目标**:dig-goal格加达成进度条。
 4. **palette分组折叠**:pal-kind头点击折叠该组。
 5. **回放帧步幅**:Shift+←→步10帧。
+
+## 下轮候选 v49（2026-11-15 · v48 落地后）
+
+v48 已落地：Shift10帧、Shift微调、分组折叠。跳过：model首行(标题旁已有agent)、目标条(attn-goal-bar已有)。
+
+1. **回放键位提示**:?键位条 hover 直接展开 tooltip 卡。
+2. **session卡tokens条**:卡底tokens加相对条(占max比)。
+3. **digest格目标态**:dig-goal点击格→切目标档位(attn已做同键)。
+4. **palette折叠记忆**:折叠组存localStorage跨开。
+5. **回放AB循环播**:循环开时播放只在AB内回绕(现有?)。
