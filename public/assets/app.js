@@ -114,6 +114,7 @@
     { id: "barometer", title: "气压计", eyebrow: "BURN BAROMETER", group: "配额", icon: "i-chart", hint: "燃速=气压 错=风暴" },
     { id: "sextant", title: "六分仪", eyebrow: "LATITUDE OF LATENCY", group: "延迟", icon: "i-chart", hint: "慢=高角 快=贴地平线" },
     { id: "darkroom", title: "暗房", eyebrow: "DARKROOM", group: "氛围", icon: "i-magpie", hint: "聚光灯跟手 照亮日志" },
+    { id: "sonar", title: "声呐", eyebrow: "PROVIDER SONAR", group: "实时", icon: "i-pulse", hint: "provider=接触点 扫线转" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
