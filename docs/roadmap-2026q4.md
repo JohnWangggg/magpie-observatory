@@ -1836,3 +1836,13 @@ v64 已落地：状态边色、双击清AB。跳过：年累计(季已够)、hea
 3. **digest格波动**:sparkline加环比箭头。
 4. **palette视图入口**:视图kind改"视图"+小缩略图标。
 5. **回放strip缩放**:滚轮缩strip宽度(帧密度)。
+
+## 下轮候选 v66（2026-11-15 · v65 落地后）
+
+v65 已落地：multi底纹。撤回:I交换(播放只前进,交换无义)。跳过:环比箭头(dTok已)、视图缩略(pal-thumb已)、strip缩放(斑马已密)。
+
+1. **回放AB持续**:diff条显AB区间长度(已有?)。
+2. **session卡tps色**:tps chip值>50高亮。
+3. **digest格连续**:streak加"最佳连续"对照。
+4. **palette视图热区**:视图缩略thumb旁显heat数。
+5. **回放AB存储**:AB+marks一起存(现分开)。
