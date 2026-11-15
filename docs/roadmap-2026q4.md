@@ -2058,3 +2058,13 @@ v86 已落地:游标时刻。跳过:卡位继承(条上固定位)、Cmd选(Shift
 3. **digest格周日**:heat month行加周次标题。
 4. **palette清空**:input右侧加✕。
 5. **回放条端点解**:AB端点title显帧时刻。
+
+## 下轮候选 v88（2026-11-15 · v87 落地后）
+
+v87 已落地:帧复制、端点时刻。跳过:改道背景(chip已)、周标题(month已)、清空✕(Esc已)。
+
+1. **回放帧?卡加prevΔ**:帧卡加对prev帧delta。
+2. **session卡优先色**:provider色pill透明底。
+3. **digest格夜猫**:nightOwl sub加时段。
+4. **palette视图hot区**:hot title加热度数。
+5. **回放条mark链**:mark卡行间加间隔时长。
