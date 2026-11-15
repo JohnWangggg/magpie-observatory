@@ -3173,3 +3173,4 @@ body.mini .route-stage { min-height: 0 !important; }
 @media (min-width: 2200px) {
   .vm-groups { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
+.view-menu.closing { transition: opacity .14s ease, transform .14s ease; opacity: 0; transform: translateY(-6px); }

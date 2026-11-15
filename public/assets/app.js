@@ -1078,7 +1078,9 @@
   function closeViewMenu(focus) {
     const menu = $("#view-menu"), picker = $("#view-picker");
     if (!menu) return;
-    menu.hidden = true;
+    // Close transition: fade/slide out, then hide (matches .opening entrance).
+    menu.classList.add("closing");
+    setTimeout(() => { menu.hidden = true; menu.classList.remove("closing", "opening"); }, 140);
     if (picker) {
       picker.setAttribute("aria-expanded", "false");
       if (focus) picker.focus();
