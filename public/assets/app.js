@@ -181,6 +181,7 @@
     { id: "orangery", title: "橘温室", eyebrow: "PROVIDER ORANGERY", group: "用量", icon: "i-magpie", hint: "树=provider 果=token 壶=会话 裂=错" },
     { id: "papermill", title: "抄纸坊", eyebrow: "QUOTA PAPERMILL", group: "配额", icon: "i-magpie", hint: "槽=配额窗 浆=余量 纸=会话 裂=错" },
     { id: "hammam", title: "浴场", eyebrow: "PROVIDER HAMMAM", group: "用量", icon: "i-magpie", hint: "池=provider 汽=token 巾=会话 裂=错" },
+    { id: "menagerie", title: "兽苑", eyebrow: "QUOTA MENAGERIE", group: "配额", icon: "i-magpie", hint: "笼=配额窗 兽=用量 守=会话 崩=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
