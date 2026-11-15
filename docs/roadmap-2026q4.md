@@ -1423,3 +1423,13 @@ v23 已落地：palette →预览、digest top子代理格、回放range会话�
 3. **view-menu近用分组**:vm组顺序按magpie.viewRecent重排。
 4. **palette最近执行区**:items顶部加"上次执行"快捷重跑(localStorage.lastCmd)。
 5. **回放速度档**:palette加 0.5×/1×/2× 回放速度切换。
+
+## 下轮候选 v25（2026-11-15 · v24 落地后）
+
+v24 已落地：palette lastCmd重跑、回放速度palette项、try-row点击过滤。跳过：vm组近用排序(静态顺序够用)、digest打卡迷你图(已单格)。
+
+1. **回放range hover预览帧**:鼠标悬停range→tooltip显示该帧tps/err。
+2. **session卡tries可点已有**→chip加"N次尝试"微标。
+3. **palette视图分组标题**:items按kind分段(视图/跳转/动作)视觉分组。
+4. **digest复制CSV**:digest-md旁加CSV按钮。
+5. **回放循环palette项**:replayLoop切换进palette。
