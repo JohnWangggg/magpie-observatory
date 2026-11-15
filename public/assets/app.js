@@ -160,6 +160,7 @@
     { id: "tramway", title: "缆车", eyebrow: "PROVIDER TRAMWAY", group: "实时", icon: "i-server", hint: "索=provider 车=会话 断=错" },
     { id: "belljar", title: "钟形罩", eyebrow: "PROVIDER BELLJAR", group: "用量", icon: "i-magpie", hint: "罩=provider 植=token 露=会话 裂=错" },
     { id: "driftline", title: "雪脊", eyebrow: "PROVIDER DRIFTLINE", group: "用量", icon: "i-chart", hint: "堆=provider 高=token 粒=会话 裂=错" },
+    { id: "windfarm", title: "风电场", eyebrow: "PROVIDER WINDFARM", group: "用量", icon: "i-pulse", hint: "塔=provider 叶=用量 条=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },

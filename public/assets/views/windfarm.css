@@ -1,0 +1,7 @@
+/* windfarm view */
+@keyframes wfspin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.wf-svg { display: block; width: 100%; height: 100%; }
+.wf-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.wf-rotor { animation: wfspin linear infinite; }
+.wf-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .wf-rotor { animation: none; } }
