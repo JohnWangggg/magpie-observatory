@@ -1584,3 +1584,13 @@ v39 已落地：multiBar provider过滤、AB带amber、图鉴周趋势。跳过�
 3. **digest周图曲线**:digest-bars改成sparkline而非柱状。
 4. **palette视图按组**:视图分段加组头分组(非kind混合)。
 5. **session卡时间轴**:卡底细线=该会话在24h位置。
+
+## 下轮候选 v41（2026-11-15 · v40 里程碑落地后）
+
+v40 已落地：回放帧对比(AB两帧KPI差表)、digest sparkline。跳过：quick-peek(悬停卡冲突)、视图组头分段(kind分段已足)、session时间轴线(坐标语义弱)。
+
+1. **回放帧对比键盘**:replay中按 C 直接开对比(有AB时)。
+2. **session卡首try状态点**:卡上加首个try的ok/fail点。
+3. **digest格点击度**:可点格加微底纹。
+4. **palette视图进度**:视图项sub加"已看N次"。
+5. **回放帧导航**:strip加首/末帧快捷点。
