@@ -140,6 +140,7 @@
     { id: "flagstone", title: "石板路", eyebrow: "LOG FLAGSTONES", group: "用量", icon: "i-stack", hint: "石=日志 宽=token 裂=错" },
     { id: "topography", title: "地形", eyebrow: "PROVIDER TOPOGRAPHY", group: "用量", icon: "i-chart", hint: "峰=provider 高=token 旗=会话 崩=错" },
     { id: "stargate", title: "星门", eyebrow: "QUOTA STARGATE", group: "配额", icon: "i-magpie", hint: "环=配额窗 收缩=余量 光=会话 红=错" },
+    { id: "geodesic", title: "穹顶", eyebrow: "LOG GEODESIC", group: "用量", icon: "i-stack", hint: "面=日志 色=provider 裂=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
