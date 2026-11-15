@@ -1484,6 +1484,7 @@ show(F.length-1);
       }
       card.remove();
     });
+    beep("ok"); // subtle chime when the daily digest surfaces
     // Swipe the digest away horizontally (touch UIs: dismiss affordance).
     let dgX = null;
     card.addEventListener("touchstart", e => { if (e.touches.length === 1) dgX = e.touches[0].clientX; }, { passive: true });
