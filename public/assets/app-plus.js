@@ -307,6 +307,30 @@
     closePalette();
   }
 
+  // Palette "回放帧对比" → side-by-side KPI delta table of the A-B loop's two
+  // boundary frames (right-click a mark to set the loop first).
+  function compareReplayFrames() {
+    $(".gwcmp-card")?.remove();
+    const s = state();
+    if (!s || !s.replayAB || !s.replayBuf) { toast("先右键一个书签设 A-B 区间"); closePalette(); return; }
+    const [a, b] = s.replayAB;
+    const fa = s.replayBuf[a], fb = s.replayBuf[b];
+    if (!fa || !fb) { toast("帧越界"); closePalette(); return; }
+    const K = [["tokens", "TOK", fmtTokens], ["tps", "TPS", v => v != null ? v.toFixed(1) : "—"], ["calls", "调用", v => v], ["errors", "错误", v => v], ["cost", "成本$", v => v != null ? (+v).toFixed(3) : "—"], ["cache", "缓存%", v => v != null ? (+v).toFixed(1) : "—"]];
+    const card = document.createElement("div");
+    card.className = "gwcmp-card";
+    const rows = K.map(([k, label, fmt]) => {
+      const va = fa.data.kpis ? fa.data.kpis[k] : null, vb = fb.data.kpis ? fb.data.kpis[k] : null;
+      const d = (va != null && vb != null) ? vb - va : null;
+      return `<div class="cmp-r"><span>${label}</span><b>${fmt ? fmt(va) : va}</b><em class="${d > 0 ? "up" : d < 0 ? "down" : ""}">${d != null ? (d > 0 ? "+" : "") + (k === "cost" ? d.toFixed(3) : k === "tps" || k === "cache" ? d.toFixed(1) : d) : "—"}</em><b>${fmt ? fmt(vb) : vb}</b></div>`;
+    }).join("");
+    card.innerHTML = `<div class="digest-head"><b>帧对比</b><span>A=${a} → B=${b}</span></div>${rows}<small style="opacity:.55">A→B 区间 ${b - a} 帧</small>`;
+    card.addEventListener("click", () => card.remove());
+    document.body.appendChild(card);
+    setTimeout(() => card.classList.add("in"), 10);
+    closePalette();
+  }
+
   // Download the replay buffer as a compact JSON file (delta frames, same
   // shape as shareReplayLink but on disk instead of a URL hash).
   function exportReplayJson() {
@@ -2388,6 +2412,7 @@ ${quota || "| — | — | — |"}
       { kind: "动作", icon: "i-clock", title: "回放最近3分钟", sub: "快捷键 R", search: "replay 回放 时间轴".toLowerCase(), run: () => { state() && state().replay ? exitReplay() : startReplay(); } },
       { kind: "动作", icon: "i-clock", title: "回放速度", sub: `${s && s.replaySpeed ? s.replaySpeed : 1}× · 点击循环 1→2→4`, search: "replay speed 速度 倍速".toLowerCase(), run: () => { cycleReplaySpeed(); closePalette(); } },
       { kind: "动作", icon: "i-clock", title: "回放循环", sub: `${s && s.replayLoop ? "已开" : "已关"} · 播完自动回头`, search: "replay loop 循环 重复".toLowerCase(), run: () => { if (s) { s.replayLoop = !s.replayLoop; const b = $("#replay-speed"); if (b) b.title = `回放速度 · 循环${s.replayLoop ? "开" : "关"}`; toast(`回放循环 ${s.replayLoop ? "开" : "关"}`); } closePalette(); } },
+      { kind: "动作", icon: "i-stack", title: "回放帧对比", sub: "AB 区间两帧 KPI 差表", search: "replay compare 对比 ab 帧".toLowerCase(), run: compareReplayFrames },
       { kind: "动作", icon: "i-pin", title: "回放书签", sub: "列出 B 键标记帧 · 点击跳转", search: "replay bookmark 书签 标记 帧".toLowerCase(), run: showReplayMarks },
       { kind: "动作", icon: "i-link", title: "复制回放书签 JSON", sub: "B 键标记帧导出", search: "replay marks export 复制 书签 json".toLowerCase(), run: () => { let m = []; try { m = JSON.parse(localStorage.getItem("magpie.replayMarks") || "[]"); } catch (_) {} navigator.clipboard?.writeText(JSON.stringify(m, null, 2)).then(() => toast(m.length + " 个书签已复制")); closePalette(); } },
       { kind: "动作", icon: "i-link", title: "复制状态链接", sub: "?view&range&cinema 快照 URL · ⌘S", search: "share 分享 链接 状态 url".toLowerCase(), run: shareStateLink },

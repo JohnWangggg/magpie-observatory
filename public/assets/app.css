@@ -3194,3 +3194,8 @@ body.mini .route-stage { min-height: 0 !important; }
 .session-card.unseen::after { content: ""; position: absolute; top: 6px; right: 6px; width: 4px; height: 4px; background: var(--accent); border-radius: 50%; opacity: .5; }
 .pal-thumb:hover img { transform: scale(2.4); z-index: 5; }
 .pal-thumb img { transition: transform .18s ease; }
+.cmp-r { display: grid; grid-template-columns: 44px 1fr 56px 1fr; gap: 6px; align-items: baseline; padding: 3px 0; font-size: 9.5px; }
+.cmp-r span { color: var(--muted); }
+.cmp-r b { text-align: right; font: 700 10px var(--num); }
+.cmp-r em { font-style: normal; text-align: center; font-size: 8.5px; }
+.cmp-r em.up { color: var(--green); } .cmp-r em.down { color: var(--red); }
