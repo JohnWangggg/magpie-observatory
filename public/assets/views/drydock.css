@@ -1,0 +1,5 @@
+/* drydock view */
+.dd-svg { display: block; width: 100%; height: 100%; }
+.dd-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.dd-stage { transition: transform .2s; }
+.dd-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
