@@ -1374,6 +1374,12 @@ show(F.length-1);
       const dx = e.changedTouches[0].clientX - dgX; dgX = null;
       if (Math.abs(dx) > 60) card.remove();
     }, { passive: true });
+    // Also surface via Web Notification when permission was granted.
+    try {
+      if (typeof Notification !== "undefined" && Notification.permission === "granted") {
+        new Notification(`Magpie · ${y.date || "昨日摘要"}`, { body: `${fmtTokens(y.tokens)} tok · ${y.calls || 0} 调用 · ${dayStreak()} 天连续`, icon: "assets/icon.png", silent: true, tag: "obs-digest" });
+      }
+    } catch (_) {}
     document.body.appendChild(card);
     setTimeout(() => card.classList.add("in"), 10);
     setTimeout(() => { card.classList.remove("in"); setTimeout(() => card.remove(), 300); }, 12000);
