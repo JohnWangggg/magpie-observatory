@@ -1230,7 +1230,9 @@ show(F.length-1);
     { id: "view-all", name: "全图鉴", test: () => { try { const seen = JSON.parse(localStorage.getItem("magpie.viewSeen") || "[]"); return (Obs.api.VIEW_META || []).every(v => seen.includes(v.id)); } catch (_) { return false; } }, sub: "看完全部视图 · 究极收藏家" },
     { id: "cinema-1h", name: "影院常客", test: () => (parseFloat(localStorage.getItem("magpie.cinemaMs") || "0") || 0) >= 3600000, sub: "影院累计 1 小时" },
     { id: "fav-5", name: "收藏家", test: s => s.favCount >= 5, sub: "收藏 5 个视图" },
-    { id: "magpie-200", name: "鹊上眉梢", test: s => (parseInt(localStorage.getItem("magpie.clicks") || "0", 10) || 0) >= 200, sub: "点台鹊 200 次" }
+    { id: "magpie-200", name: "鹊上眉梢", test: s => (parseInt(localStorage.getItem("magpie.clicks") || "0", 10) || 0) >= 200, sub: "点台鹊 200 次" },
+    { id: "quota-watch", name: "临界守望", test: () => (Obs.api.state?.data.quotas || []).some(q => (q.windows || []).some(w => (w.used || 0) >= 95)), sub: "单配额窗 ≥95% 出现过" },
+    { id: "night-owl-2", name: "长夜同航", test: () => { try { if (new Date().getHours() >= 6) return false; const d = new Date().toISOString().slice(0, 10); const days = JSON.parse(localStorage.getItem("magpie.nightDays") || "[]"); if (!days.includes(d)) { days.push(d); localStorage.setItem("magpie.nightDays", JSON.stringify(days.slice(-40))); } return days.length >= 3; } catch (_) { return false; } }, sub: "凌晨 0-6 点观测 ≥3 天" }
   ];
   function checkAchievements() {
     const s = state();

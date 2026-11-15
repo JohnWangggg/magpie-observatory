@@ -1490,7 +1490,7 @@
     const prev = parseInt(el.textContent, 10) || 0;
     if (prev === target) { el.textContent = target; return; }
     const motion = document.documentElement.dataset.motion || "full";
-    if (motion === "off") { el.textContent = target; return; }
+    if (motion === "off" || motion === "bokeh") { el.textContent = target; return; }
     clearTimeout(_statT.get(sel));
     el.classList.remove("stat-bump", "stat-up", "stat-down");
     void el.offsetWidth;
@@ -1568,7 +1568,7 @@
     if (document.documentElement.dataset.motion === "soft") {
       state.flights.forEach(f => { f.dur *= 1.5; f.offset *= 1.5; });
     }
-    if (reduced || motionOff) {
+    if (reduced || motionOff || document.documentElement.dataset.motion === "bokeh") {
       state.flights.forEach(f => setFlightAt(f, 0.5));
       state.flights = [];
     } else {
@@ -4053,7 +4053,7 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
     renderAll();
     requestAnimationFrame(drawWires);
     ensureFlightLoop();
-    const names = { layout: { auto: "自动", fit: "一屏", comfort: "舒展" }, density: { compact: "紧凑", cozy: "标准", spacious: "宽松" }, motion: { full: "全部", soft: "轻柔", off: "关闭" }, tour: { 5: "5 秒", 10: "10 秒", 30: "30 秒" }, accent: { aurora: "极光", ember: "熔金", mint: "薄荷", rose: "蔷薇", mono: "石墨" } };
+    const names = { layout: { auto: "自动", fit: "一屏", comfort: "舒展" }, density: { compact: "紧凑", cozy: "标准", spacious: "宽松" }, motion: { full: "全部", soft: "轻柔", bokeh: "静景", off: "关闭" }, tour: { 5: "5 秒", 10: "10 秒", 30: "30 秒" }, accent: { aurora: "极光", ember: "熔金", mint: "薄荷", rose: "蔷薇", mono: "石墨" } };
     const prefix = { layout: "布局：", density: "密度：", motion: "动效：", tour: "巡游：", accent: "主色：" };
     if (kind === "tour" && state.tour) { stopTour(true); startTour(); }
     const fallback = kind === "layout" && value === "fit" && (window.innerWidth < 1200 || window.innerHeight < 900);

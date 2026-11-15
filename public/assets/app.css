@@ -2256,6 +2256,14 @@ html[data-motion="soft"] .flier { filter: none; }
 html[data-motion="soft"] .session-card.streaming::after,
 html[data-motion="soft"] .flier { animation-duration: 7s; filter: none; }
 html[data-motion="soft"] .ghost-magpie { animation-duration: 4.5s; }
+/* bokeh — "静景": ambient loops stretch to ~30s cycles (nearly static),
+   quick transitions stay responsive so the UI still feels alive. */
+html[data-motion="bokeh"] *,
+html[data-motion="bokeh"] *::before,
+html[data-motion="bokeh"] *::after {
+  animation-duration: 30s !important;
+}
+html[data-motion="bokeh"] .flier { display: none; }
 html[data-motion="off"] *,
 html[data-motion="off"] *::before,
 html[data-motion="off"] *::after {
