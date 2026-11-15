@@ -1672,7 +1672,22 @@ show(F.length-1);
       card.classList.remove("note-over", "note-arm");
       let payload = null;
       try { payload = JSON.parse(e.dataTransfer.getData("text/plain")); } catch (_) {}
-      if (!payload || !payload.label) return;
+      if (!payload) return;
+      // Multi-select session drop: one note per session id (title + tokens).
+      if (payload.kind === "sessions" && Array.isArray(payload.batch)) {
+        const list = scratch();
+        const now = new Date().toLocaleTimeString("zh-CN", { hour12: false, hour: "2-digit", minute: "2-digit" });
+        payload.batch.forEach(id => {
+          const sess = (state().data.sessions || []).concat(state().data.recent || []).find(x => x.id === id);
+          if (!sess) return;
+          list.push({ label: `${sess.title.slice(0, 18)}`, value: fmtTokens(sess.tokens || 0) + " tok", at: now });
+        });
+        try { localStorage.setItem("magpie.scratchNotes", JSON.stringify(list.slice(-24))); } catch (_) {}
+        renderScratch();
+        toast(`已钉 ${payload.batch.length} 个会话`);
+        return;
+      }
+      if (!payload.label) return;
       const list = scratch();
       list.push({ label: payload.label, value: payload.value, at: new Date().toLocaleTimeString("zh-CN", { hour12: false, hour: "2-digit", minute: "2-digit" }) });
       try { localStorage.setItem("magpie.scratchNotes", JSON.stringify(list.slice(-24))); } catch (_) {}

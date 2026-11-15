@@ -2465,7 +2465,8 @@
           return `<div class="tries-trace">${segs}<span class="tries-total">${(total/1000).toFixed(2)}s</span></div>`;
         })()}${s.tries.map(t => `<div class="try-row"><em class="${t.state === "ok" ? "ok" : "fail"}">${t.state === "ok" ? "✓" : "✗"}</em><span>${esc(D.providerMeta(t.provider)?.name || t.provider)}</span><span class="try-model">${esc((t.model || "").split("/").pop())}</span><span>${t.ms ? (t.ms >= 1000 ? (t.ms/1000).toFixed(1) + "s" : Math.round(t.ms) + "ms") : "—"}</span></div>`).join("")}</div>`
       : "";
-    return `<article class="session-card${sel ? " selected" : ""}${pinned ? " pinned" : ""}${s.status === "streaming" ? " streaming" : ""}" role="button" aria-selected="${sel}" aria-label="${esc(s.title)} · ${esc(s.model)} · ${esc(STATUS_TEXT[s.status] || s.status)}" data-session="${esc(s.id)}" style="--s-c:${meta.color}" tabindex="0">
+    const isMulti = state.multiSel && state.multiSel.has(s.id);
+    return `<article class="session-card${sel ? " selected" : ""}${pinned ? " pinned" : ""}${s.status === "streaming" ? " streaming" : ""}${isMulti ? " multi" : ""}" draggable="${isMulti ? "true" : "false"}" role="button" aria-selected="${sel}" aria-label="${esc(s.title)} · ${esc(s.model)} · ${esc(STATUS_TEXT[s.status] || s.status)}" data-session="${esc(s.id)}" style="--s-c:${meta.color}" tabindex="0">
       <div class="session-top">
         <span class="session-agent"><img src="${agentIcon(s.agent)}" alt=""></span>
         <span class="session-title" title="${esc(s.title)}">${esc(s.title)}</span>
@@ -3770,6 +3771,15 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
       const pin = card.querySelector("[data-pin]");
       if (pin) pin.click();
     }, { passive: true });
+
+    // Drag a multi-selected card onto the note card → pin every selected
+    // session's token count as scratch notes (batch KPI-pin for sessions).
+    $("#session-list").addEventListener("dragstart", e => {
+      const card = e.target.closest(".session-card.multi");
+      if (!card || !state.multiSel || !state.multiSel.size) return;
+      e.dataTransfer.setData("text/plain", JSON.stringify({ batch: [...state.multiSel], kind: "sessions" }));
+      e.dataTransfer.effectAllowed = "copy";
+    });
 
     // Right-click a session card → little context menu with the four things
     // you actually do with a session id. Replaces the old copy-id-only flow.
