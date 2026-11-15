@@ -1,0 +1,7 @@
+/* whipcord view */
+@keyframes wcwalk { 0%,100% { transform: translateX(0); } 50% { transform: translateX(4px); } }
+.wc-svg { display: block; width: 100%; height: 100%; }
+.wc-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.wc-man { animation: wcwalk ease-in-out infinite; }
+.wc-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .wc-man { animation: none; } }
