@@ -149,6 +149,7 @@
     { id: "cistern", title: "蓄水池", eyebrow: "QUOTA CISTERN", group: "配额", icon: "i-magpie", hint: "拱=配额窗 水=余量 滴=会话 痕=错" },
     { id: "flotsam", title: "漂流瓶", eyebrow: "LOG FLOTSAM", group: "用量", icon: "i-stack", hint: "瓶=日志 塞=token 裂=错" },
     { id: "clinker", title: "烧结砖", eyebrow: "LOG CLINKER", group: "用量", icon: "i-stack", hint: "砖=日志 温=token 裂=错" },
+    { id: "amphora", title: "双耳瓶", eyebrow: "PROVIDER AMPHORA", group: "配额", icon: "i-magpie", hint: "瓮=配额窗 酒=余量 绘=会话 倾=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },

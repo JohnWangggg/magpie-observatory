@@ -1,4 +1,4 @@
-# Magpie Observatory · 视图图鉴 (376)
+# Magpie Observatory · 视图图鉴 (377)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
@@ -6,7 +6,7 @@
 | 分组 | 数量 |
 |---|---|
 | [实时](#实时) | 15 |
-| [配额](#配额) | 21 |
+| [配额](#配额) | 22 |
 | [延迟](#延迟) | 2 |
 | [氛围](#氛围) | 3 |
 | [场景](#场景) | 233 |
@@ -41,7 +41,7 @@
 | `lighthouse` | 灯塔 | LIGHTHOUSE | 塔=配额 光束=会话 | ![lighthouse](../public/shots/lighthouse.png) |
 | `harbor` | 港口 | HARBOR | 船=agent 箱=tries 浮标=配额 | ![harbor](../public/shots/harbor.png) |
 
-## 配额 (21)
+## 配额 (22)
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
@@ -62,6 +62,7 @@
 | `warren` | 兔穴 | QUOTA WARREN | 丘=配额窗 兔=会话 迹=错 | ![warren](../public/shots/warren.png) |
 | `gnomon` | 晷针 | QUOTA GNOMON | 盘=配额窗 影=用量 鸟=会话 线=错 | ![gnomon](../public/shots/gnomon.png) |
 | `cistern` | 蓄水池 | QUOTA CISTERN | 拱=配额窗 水=余量 滴=会话 痕=错 | ![cistern](../public/shots/cistern.png) |
+| `amphora` | 双耳瓶 | PROVIDER AMPHORA | 瓮=配额窗 酒=余量 绘=会话 倾=错 | — |
 | `rosetta` | 罗塞塔 | ROSETTA | 环带=配额 刻痕=会话 | ![rosetta](../public/shots/rosetta.png) |
 | `eclipse` | 日蚀 | ECLIPSE | 暗盘=量 冕=会话 沿=窗 | ![eclipse](../public/shots/eclipse.png) |
 | `tapestry` | 织锦 | TAPESTRY | 经=配额 纬=会话 | ![tapestry](../public/shots/tapestry.png) |
@@ -331,7 +332,7 @@
 | `geodesic` | 穹顶 | LOG GEODESIC | 面=日志 色=provider 裂=错 | ![geodesic](../public/shots/geodesic.png) |
 | `topiary` | 修剪园 | PROVIDER TOPIARY | 冠=provider 高=token 鸟=会话 枯=错 | ![topiary](../public/shots/topiary.png) |
 | `flotsam` | 漂流瓶 | LOG FLOTSAM | 瓶=日志 塞=token 裂=错 | ![flotsam](../public/shots/flotsam.png) |
-| `clinker` | 烧结砖 | LOG CLINKER | 砖=日志 温=token 裂=错 | — |
+| `clinker` | 烧结砖 | LOG CLINKER | 砖=日志 温=token 裂=错 | ![clinker](../public/shots/clinker.png) |
 | `rings` | Token 年轮 | YEAR IN RINGS | 26 周极坐标日历 | ![rings](../public/shots/rings.png) |
 | `latency` | 延迟热力 | LATENCY HEATMAP | 时间 × 延迟 | ![latency](../public/shots/latency.png) |
 | `stream` | 流量河流 | STREAMGRAPH | Provider 增量 | ![stream](../public/shots/stream.png) |
