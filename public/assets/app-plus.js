@@ -1635,7 +1635,7 @@ show(F.length-1);
     if (!host || !card) return;
     const list = scratch();
     card.hidden = list.length === 0 && !card.classList.contains("note-arm");
-    host.innerHTML = list.map((n, i) => `<div class="note-chip"><b>${esc(n.label)}</b><span>${esc(n.value)}</span><small>${esc(n.at)}</small><button type="button" data-note-rm="${i}" aria-label="移除">×</button></div>`).join("");
+    host.innerHTML = list.map((n, i) => `<div class="note-chip" draggable="true" data-note-i="${i}"><b>${esc(n.label)}</b><span>${esc(n.value)}</span><small>${esc(n.at)}</small><button type="button" data-note-rm="${i}" aria-label="移除">×</button></div>`).join("");
   }
   function bindScratch() {
     const card = $("#note-card"), row = $("#kpi-row");
@@ -1697,6 +1697,26 @@ show(F.length-1);
       };
       b.addEventListener("blur", done, { once: true });
       b.addEventListener("keydown", ev => { if (ev.key === "Enter") { ev.preventDefault(); b.blur(); } }, { once: true });
+    });
+    // Drag a chip onto another → reorder (persisted via scratch()).
+    let dragFrom = -1;
+    host.addEventListener("dragstart", e => {
+      const chip = e.target.closest(".note-chip");
+      if (chip) { dragFrom = +chip.dataset.noteI; e.dataTransfer.effectAllowed = "move"; }
+    });
+    host.addEventListener("dragover", e => { if (dragFrom >= 0) { e.preventDefault(); e.dataTransfer.dropEffect = "move"; } });
+    host.addEventListener("drop", e => {
+      const chip = e.target.closest(".note-chip");
+      if (!chip || dragFrom < 0) return;
+      e.preventDefault();
+      const to = +chip.dataset.noteI;
+      if (to === dragFrom) { dragFrom = -1; return; }
+      const list = scratch();
+      const [moved] = list.splice(dragFrom, 1);
+      list.splice(to, 0, moved);
+      dragFrom = -1;
+      try { localStorage.setItem("magpie.scratchNotes", JSON.stringify(list)); } catch (_) {}
+      renderScratch();
     });
     renderScratch();
   }
