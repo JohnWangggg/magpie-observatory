@@ -415,6 +415,7 @@
     { id: "pulleysmith", title: "滑轮坊", eyebrow: "PROVIDER PULLEYSMITH", group: "用量", icon: "i-magpie", hint: "台=provider 轮=token 修=会话 裂=错" },
     { id: "tanner", title: "皮坊", eyebrow: "PROVIDER TANNER", group: "用量", icon: "i-magpie", hint: "坑=provider 皮=token 耙=会话 烫=错" },
     { id: "glover", title: "手套坊", eyebrow: "PROVIDER GLOVER", group: "用量", icon: "i-magpie", hint: "板=provider 手=token 缝=会话 破=错" },
+    { id: "furrier", title: "皮货", eyebrow: "PROVIDER FURRIER", group: "用量", icon: "i-magpie", hint: "架=provider 皮=token 梳=会话 蛀=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
