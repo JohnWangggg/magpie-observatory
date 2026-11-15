@@ -174,6 +174,7 @@
     { id: "ferry", title: "渡口", eyebrow: "QUOTA FERRY", group: "配额", icon: "i-magpie", hint: "渡=配额窗 程=用量 客=会话 绳=错" },
     { id: "shottower", title: "弹塔", eyebrow: "QUOTA SHOTTOWER", group: "配额", icon: "i-magpie", hint: "塔=配额窗 高=用量 丸=会话 裂=错" },
     { id: "odeon", title: "乐厅", eyebrow: "PROVIDER ODEON", group: "用量", icon: "i-magpie", hint: "环=provider 座=token 炬=会话" },
+    { id: "lockgate", title: "船闸", eyebrow: "QUOTA LOCKGATE", group: "配额", icon: "i-magpie", hint: "闸=配额窗 水=余量 船=会话 闸=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
