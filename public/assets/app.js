@@ -225,6 +225,7 @@
     { id: "bloomery", title: "块炼炉", eyebrow: "PROVIDER BLOOMERY", group: "用量", icon: "i-magpie", hint: "炉=provider 团=token 鞴=会话 渣=错" },
     { id: "dewpond", title: "露池", eyebrow: "QUOTA DEWPOND", group: "配额", icon: "i-magpie", hint: "池=配额窗 水=余量 羊=会话 裂=错" },
     { id: "stewpond", title: "鱼塘", eyebrow: "PROVIDER STEWPOND", group: "用量", icon: "i-magpie", hint: "塘=provider 鱼=token 僧=会话 漏=错" },
+    { id: "dovecote", title: "鸽楼", eyebrow: "PROVIDER DOVECOTE", group: "用量", icon: "i-magpie", hint: "楼=provider 孔=token 旋=会话 破=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
