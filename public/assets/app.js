@@ -296,6 +296,7 @@
     { id: "glasscone", title: "玻璃窑", eyebrow: "PROVIDER GLASSCONE", group: "用量", icon: "i-magpie", hint: "窑=provider 泡=token 匠=会话 霜=错" },
     { id: "yarnloft", title: "绞线楼", eyebrow: "PROVIDER YARNLOFT", group: "用量", icon: "i-magpie", hint: "轮=provider 绞=token 工=会话 缠=错" },
     { id: "gigmill", title: "起绒机", eyebrow: "PROVIDER GIGMILL", group: "用量", icon: "i-magpie", hint: "辊=provider 绒=token 工=会话 撕=错" },
+    { id: "pinmill", title: "制针坊", eyebrow: "PROVIDER PINMILL", group: "用量", icon: "i-magpie", hint: "轮=provider 针=token 工=会话 折=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
