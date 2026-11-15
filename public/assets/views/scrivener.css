@@ -1,0 +1,7 @@
+/* scrivener view */
+@keyframes scrwrite { 0%,100% { transform: translateX(0); } 50% { transform: translateX(-3px); } }
+.scr-svg { display: block; width: 100%; height: 100%; }
+.scr-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.scr-man { animation: scrwrite ease-in-out infinite; }
+.scr-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .scr-man { animation: none; } }
