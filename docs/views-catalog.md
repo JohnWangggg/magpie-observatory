@@ -1,4 +1,4 @@
-# Magpie Observatory · 视图图鉴 (373)
+# Magpie Observatory · 视图图鉴 (374)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
@@ -6,7 +6,7 @@
 | 分组 | 数量 |
 |---|---|
 | [实时](#实时) | 15 |
-| [配额](#配额) | 20 |
+| [配额](#配额) | 21 |
 | [延迟](#延迟) | 2 |
 | [氛围](#氛围) | 3 |
 | [场景](#场景) | 233 |
@@ -41,7 +41,7 @@
 | `lighthouse` | 灯塔 | LIGHTHOUSE | 塔=配额 光束=会话 | ![lighthouse](../public/shots/lighthouse.png) |
 | `harbor` | 港口 | HARBOR | 船=agent 箱=tries 浮标=配额 | ![harbor](../public/shots/harbor.png) |
 
-## 配额 (20)
+## 配额 (21)
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
@@ -60,7 +60,8 @@
 | `fresco` | 湿壁画 | QUOTA FRESCO | 板=配额窗 涂=用量 湿=会话 裂=过热 | ![fresco](../public/shots/fresco.png) |
 | `pharos` | 灯塔 | QUOTA PHAROS | 塔=配额窗 高=用量 光=会话 旗=错 | ![pharos](../public/shots/pharos.png) |
 | `warren` | 兔穴 | QUOTA WARREN | 丘=配额窗 兔=会话 迹=错 | ![warren](../public/shots/warren.png) |
-| `gnomon` | 晷针 | QUOTA GNOMON | 盘=配额窗 影=用量 鸟=会话 线=错 | — |
+| `gnomon` | 晷针 | QUOTA GNOMON | 盘=配额窗 影=用量 鸟=会话 线=错 | ![gnomon](../public/shots/gnomon.png) |
+| `cistern` | 蓄水池 | QUOTA CISTERN | 拱=配额窗 水=余量 滴=会话 痕=错 | — |
 | `rosetta` | 罗塞塔 | ROSETTA | 环带=配额 刻痕=会话 | ![rosetta](../public/shots/rosetta.png) |
 | `eclipse` | 日蚀 | ECLIPSE | 暗盘=量 冕=会话 沿=窗 | ![eclipse](../public/shots/eclipse.png) |
 | `tapestry` | 织锦 | TAPESTRY | 经=配额 纬=会话 | ![tapestry](../public/shots/tapestry.png) |
