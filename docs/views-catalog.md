@@ -1,4 +1,4 @@
-# Magpie Observatory · 视图图鉴 (397)
+# Magpie Observatory · 视图图鉴 (398)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
@@ -6,7 +6,7 @@
 | 分组 | 数量 |
 |---|---|
 | [实时](#实时) | 16 |
-| [配额](#配额) | 32 |
+| [配额](#配额) | 33 |
 | [延迟](#延迟) | 2 |
 | [氛围](#氛围) | 3 |
 | [场景](#场景) | 233 |
@@ -42,7 +42,7 @@
 | `lighthouse` | 灯塔 | LIGHTHOUSE | 塔=配额 光束=会话 | ![lighthouse](../public/shots/lighthouse.png) |
 | `harbor` | 港口 | HARBOR | 船=agent 箱=tries 浮标=配额 | ![harbor](../public/shots/harbor.png) |
 
-## 配额 (32)
+## 配额 (33)
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
@@ -73,7 +73,8 @@
 | `cadence` | 节奏 | QUOTA CADENCE | 钟=配额窗 摆=用量 亮=会话 裂=错 | ![cadence](../public/shots/cadence.png) |
 | `crucible` | 熔杯 | QUOTA CRUCIBLE | 杯=配额窗 液=余量 勺=会话 裂=错 | ![crucible](../public/shots/crucible.png) |
 | `sheaf` | 麦捆 | QUOTA SHEAF | 捆=配额窗 高=用量 镰=会话 折=错 | ![sheaf](../public/shots/sheaf.png) |
-| `doocot` | 鸽舍 | QUOTA DOOCOT | 舍=配额窗 巢=余量 鸽=会话 瓦=错 | — |
+| `doocot` | 鸽舍 | QUOTA DOOCOT | 舍=配额窗 巢=余量 鸽=会话 瓦=错 | ![doocot](../public/shots/doocot.png) |
+| `vault` | 金库 | QUOTA VAULT | 门=配额窗 开=余量 锭=用量 锁=会话 钻=错 | — |
 | `rosetta` | 罗塞塔 | ROSETTA | 环带=配额 刻痕=会话 | ![rosetta](../public/shots/rosetta.png) |
 | `eclipse` | 日蚀 | ECLIPSE | 暗盘=量 冕=会话 沿=窗 | ![eclipse](../public/shots/eclipse.png) |
 | `tapestry` | 织锦 | TAPESTRY | 经=配额 纬=会话 | ![tapestry](../public/shots/tapestry.png) |
