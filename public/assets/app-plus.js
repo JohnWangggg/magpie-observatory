@@ -1923,6 +1923,10 @@ show(F.length-1);
           return all.length ? `<div><small>均会话</small><b>${fmtTokens(Math.round(tot / all.length))} <em class="dig">tok</em></b></div>` : "";
         })()}
         ${(() => {
+          const fb = (s.data.sessions || []).concat(s.data.recent || []).reduce((a, x) => a + (x.fallbacks || 0), 0);
+          return fb ? `<div><small>昨日改道</small><b>${fb} <em class="dig down">次</em></b></div>` : "";
+        })()}
+        ${(() => {
           try {
             const bag = JSON.parse(localStorage.getItem("magpie.badges") || "{}");
             const yd = y.date || "";
