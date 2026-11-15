@@ -2476,7 +2476,7 @@
           let acc = 0;
           const segs = s.tries.map(t => { const w = (t.ms || 0) / total * 100; const l = acc; acc += w; const c = t.state === "ok" ? "var(--green)" : "var(--red)"; return `<i style="left:${l.toFixed(1)}%;width:${Math.max(w, 2).toFixed(1)}%;background:${c}" title="${esc(D.providerMeta(t.provider)?.name || t.provider)} · ${t.ms || 0}ms"></i>`; }).join("");
           return `<div class="tries-trace">${segs}<span class="tries-total">${(total/1000).toFixed(2)}s</span></div>`;
-        })()}${s.tries.map(t => `<div class="try-row"><em class="${t.state === "ok" ? "ok" : "fail"}">${t.state === "ok" ? "✓" : "✗"}</em><span>${esc(D.providerMeta(t.provider)?.name || t.provider)}</span><span class="try-model">${esc((t.model || "").split("/").pop())}</span><span>${t.ms ? (t.ms >= 1000 ? (t.ms/1000).toFixed(1) + "s" : Math.round(t.ms) + "ms") : "—"}</span></div>`).join("")}</div>`
+        })()}${s.tries.map(t => `<div class="try-row" data-prov="${esc(t.provider)}"><em class="${t.state === "ok" ? "ok" : "fail"}">${t.state === "ok" ? "✓" : "✗"}</em><span>${esc(D.providerMeta(t.provider)?.name || t.provider)}</span><span class="try-model">${esc((t.model || "").split("/").pop())}</span><span>${t.ms ? (t.ms >= 1000 ? (t.ms/1000).toFixed(1) + "s" : Math.round(t.ms) + "ms") : "—"}</span></div>`).join("")}</div>`
       : "";
     const isMulti = state.multiSel && state.multiSel.has(s.id);
     return `<article class="session-card${sel ? " selected" : ""}${pinned ? " pinned" : ""}${s.status === "streaming" ? " streaming" : ""}${isMulti ? " multi" : ""}" draggable="${isMulti ? "true" : "false"}" role="button" aria-selected="${sel}" aria-label="${esc(s.title)} · ${esc(s.model)} · ${esc(STATUS_TEXT[s.status] || s.status)}" data-session="${esc(s.id)}" style="--s-c:${meta.color}" tabindex="0">
@@ -3623,7 +3623,7 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
         if (sess && (sess.tries || []).length) {
           const div = document.createElement("div");
           div.className = "tries-detail";
-          div.innerHTML = sess.tries.map(t => `<div class="try-row"><em class="${t.state === "ok" ? "ok" : "fail"}">${t.state === "ok" ? "✓" : "✗"}</em><span>${esc(D.providerMeta(t.provider)?.name || t.provider)}</span><span class="try-model">${esc((t.model || "").split("/").pop())}</span><span>${t.ms ? (t.ms >= 1000 ? (t.ms/1000).toFixed(1) + "s" : Math.round(t.ms) + "ms") : "—"}</span></div>`).join("");
+          div.innerHTML = sess.tries.map(t => `<div class="try-row" data-prov="${esc(t.provider)}"><em class="${t.state === "ok" ? "ok" : "fail"}">${t.state === "ok" ? "✓" : "✗"}</em><span>${esc(D.providerMeta(t.provider)?.name || t.provider)}</span><span class="try-model">${esc((t.model || "").split("/").pop())}</span><span>${t.ms ? (t.ms >= 1000 ? (t.ms/1000).toFixed(1) + "s" : Math.round(t.ms) + "ms") : "—"}</span></div>`).join("");
           c.appendChild(div);
         }
         return;
@@ -3646,6 +3646,16 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
         state.multiSel.clear();
         $$(".session-card.multi").forEach(c => c.classList.remove("multi"));
         renderMultiBar();
+      }
+      // Click a try-row inside the expanded tries detail → filter the rail to
+      // that provider (drill-down from the attempt list).
+      const tryRow = e.target.closest(".try-row");
+      if (tryRow && tryRow.dataset.prov) {
+        e.stopPropagation();
+        state.filter = { type: "provider", value: tryRow.dataset.prov };
+        renderSessions(); renderDonut();
+        toast(`已过滤到 ${tryRow.dataset.prov}`);
+        return;
       }
       const id = card.dataset.session;
       state.selectedSession = state.selectedSession === id ? null : id;

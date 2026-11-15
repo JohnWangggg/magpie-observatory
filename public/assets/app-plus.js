@@ -2206,6 +2206,7 @@ ${quota || "| — | — | — |"}
       { kind: "动作", icon: "i-expand", title: "影院模式", sub: "O · 全屏只看这一个视图", search: "cinema 影院 全屏".toLowerCase(), run: toggleCinema },
       { kind: "动作", icon: "i-pause", title: s && s.paused ? "继续演示" : "暂停演示", sub: "快捷键 Space", search: "pause 暂停 播放".toLowerCase(), run: () => $("#demo-toggle").click() },
       { kind: "动作", icon: "i-clock", title: "回放最近3分钟", sub: "快捷键 R", search: "replay 回放 时间轴".toLowerCase(), run: () => { state() && state().replay ? exitReplay() : startReplay(); } },
+      { kind: "动作", icon: "i-clock", title: "回放速度", sub: `${s && s.replaySpeed ? s.replaySpeed : 1}× · 点击循环 1→2→4`, search: "replay speed 速度 倍速".toLowerCase(), run: () => { cycleReplaySpeed(); closePalette(); } },
       { kind: "动作", icon: "i-pin", title: "回放书签", sub: "列出 B 键标记帧 · 点击跳转", search: "replay bookmark 书签 标记 帧".toLowerCase(), run: showReplayMarks },
       { kind: "动作", icon: "i-link", title: "复制回放书签 JSON", sub: "B 键标记帧导出", search: "replay marks export 复制 书签 json".toLowerCase(), run: () => { let m = []; try { m = JSON.parse(localStorage.getItem("magpie.replayMarks") || "[]"); } catch (_) {} navigator.clipboard?.writeText(JSON.stringify(m, null, 2)).then(() => toast(m.length + " 个书签已复制")); closePalette(); } },
       { kind: "动作", icon: "i-link", title: "复制状态链接", sub: "?view&range&cinema 快照 URL · ⌘S", search: "share 分享 链接 状态 url".toLowerCase(), run: shareStateLink },

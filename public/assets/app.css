@@ -3175,3 +3175,5 @@ body.mini .route-stage { min-height: 0 !important; }
 }
 .view-menu.closing { transition: opacity .14s ease, transform .14s ease; opacity: 0; transform: translateY(-6px); }
 .vm-filters { position: sticky; top: -4px; z-index: 6; background: color-mix(in srgb, var(--card) 96%, transparent); padding: 4px 0; }
+.try-row { cursor: pointer; border-radius: 4px; padding: 2px 4px; margin: 0 -4px; }
+.try-row:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); color: var(--fg-2); }
