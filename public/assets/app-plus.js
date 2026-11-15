@@ -67,8 +67,12 @@
     const range = $("#replay-range");
     range.max = s.replayBuf.length - 1;
     range.value = s.replay.idx;
+    // Restore a persisted A-B loop (clamped to the current buffer).
+    try { const saved = JSON.parse(localStorage.getItem("magpie.replayAB") || "null"); if (saved && saved[0] != null && saved[1] != null) s.replayAB = [Math.min(saved[0], s.replayBuf.length - 1), Math.min(saved[1], s.replayBuf.length - 1)]; } catch (_) {}
     scrubReplay(s.replay.idx);
     toast("回放模式 · 拖动时间轴 · R 或 × 退出");
+    const hint = bar && bar.querySelector(".rep-hint");
+    if (bar && !hint) bar.insertAdjacentHTML("beforeend", `<span class="rep-hint" title="空格 播放 · ←→ 步进 · Home/End 首末 · A/B 设循环端 · C 帧对比 · R 退出" style="font:8px var(--font);color:var(--faint);margin-left:auto;cursor:help">?键位</span>`);
     // Tick strip under the scrubber: one dot per B-key mark, click to jump.
     let strip = $("#replay-marks");
     if (!strip) {
@@ -107,6 +111,7 @@
           const l = s.replayAB[0] / max * 100, w = (s.replayAB[1] - s.replayAB[0]) / max * 100;
           strip.insertAdjacentHTML("beforeend", `<i class="rep-ab" style="position:absolute;left:${l.toFixed(1)}%;width:${w.toFixed(1)}%;top:0;height:100%;background:color-mix(in srgb,var(--amber) 20%,transparent);pointer-events:none" title="A-B循环 ${s.replayAB[0]}→${s.replayAB[1]}"></i>`);
         }
+        try { localStorage.setItem("magpie.replayAB", JSON.stringify(s.replayAB)); } catch (_) {}
       };
       // (start-time A-B band uses .rep-ab too so contextmenu can clear it)
       // A-B loop highlight: a red band over the looped stretch.
@@ -2122,6 +2127,7 @@ show(F.length-1);
         const stripEl = $("#replay-marks");
         if (stripEl) { stripEl.querySelectorAll(".rep-ab").forEach(x => x.remove()); if (st.replayAB) { const mx = Math.max(1, st.replayBuf.length - 1), l = st.replayAB[0] / mx * 100, w = (st.replayAB[1] - st.replayAB[0]) / mx * 100; stripEl.insertAdjacentHTML("beforeend", `<i class="rep-ab" style="position:absolute;left:${l.toFixed(1)}%;width:${w.toFixed(1)}%;top:0;height:100%;background:color-mix(in srgb,var(--amber) 20%,transparent);pointer-events:none" title="A-B循环 ${st.replayAB[0]}→${st.replayAB[1]}"></i>`); } }
         toast(st.replayAB ? `A-B 循环 ${st.replayAB[0]}→${st.replayAB[1]}` : "A-B 循环已取消");
+        try { localStorage.setItem("magpie.replayAB", JSON.stringify(st.replayAB)); } catch (_) {}
       }
     });
     ["rule-quota", "rule-err", "rule-cost"].forEach(id => {
