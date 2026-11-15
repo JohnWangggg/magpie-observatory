@@ -1,7 +1,7 @@
 /* brickclamp view */
-@keyframes bcfeed { 0%,100% { transform: translateX(0); } 50% { transform: translateX(-3px); } }
+@keyframes bctend { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
 .bc-svg { display: block; width: 100%; height: 100%; }
 .bc-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
-.bc-stoker { animation: bcfeed ease-in-out infinite; }
+.bc-man { animation: bctend ease-in-out infinite; }
 .bc-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
-@media (prefers-reduced-motion: reduce) { .bc-stoker { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .bc-man { animation: none; } }

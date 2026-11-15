@@ -283,6 +283,7 @@
     { id: "turnery", title: "车旋坊", eyebrow: "PROVIDER TURNERY", group: "用量", icon: "i-magpie", hint: "床=provider 坯=token 匠=会话 裂=错" },
     { id: "smokery", title: "熏坊", eyebrow: "PROVIDER SMOKERY", group: "用量", icon: "i-magpie", hint: "架=provider 条=token 人=会话 坠=错" },
     { id: "ciderpress", title: "苹果酒坊", eyebrow: "PROVIDER CIDERPRESS", group: "用量", icon: "i-magpie", hint: "床=provider 汁=token 人=会话 散=错" },
+    { id: "brickclamp", title: "砖窑夹", eyebrow: "PROVIDER BRICKCLAMP", group: "用量", icon: "i-magpie", hint: "堆=provider 砖=token 人=会话 焦=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
