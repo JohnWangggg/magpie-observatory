@@ -129,6 +129,7 @@
     { id: "clocktower", title: "钟楼", eyebrow: "QUOTA CLOCKTOWER", group: "配额", icon: "i-clock", hint: "盘=配额窗 针=燃速 铃=临近重置" },
     { id: "belltower", title: "钟楼铃", eyebrow: "QUOTA BELLS", group: "配额", icon: "i-clock", hint: "铃=配额窗 摆速=燃速" },
     { id: "cottage", title: "小屋", eyebrow: "QUOTA COTTAGE", group: "配额", icon: "i-magpie", hint: "窗=配额窗 灯=会话 烟=错 园=余量" },
+    { id: "dockyard", title: "船坞", eyebrow: "AGENT DOCKYARD", group: "实时", icon: "i-server", hint: "船=agent 舱=token 旗=provider" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },

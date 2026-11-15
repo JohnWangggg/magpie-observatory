@@ -1,11 +1,11 @@
-# Magpie Observatory · 视图图鉴 (356)
+# Magpie Observatory · 视图图鉴 (357)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
 
 | 分组 | 数量 |
 |---|---|
-| [实时](#实时) | 13 |
+| [实时](#实时) | 14 |
 | [配额](#配额) | 9 |
 | [延迟](#延迟) | 2 |
 | [氛围](#氛围) | 3 |
@@ -21,7 +21,7 @@
 
 ---
 
-## 实时 (13)
+## 实时 (14)
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
@@ -33,6 +33,7 @@
 | `sonar` | 声呐 | PROVIDER SONAR | provider=接触点 扫线转 | ![sonar](../public/shots/sonar.png) |
 | `metronome` | 节拍器 | REQUEST METRONOME | 摆频=请求率 | ![metronome](../public/shots/metronome.png) |
 | `weathervane` | 风向标 | PROVIDER VANE | 箭=最热provider 摆 | ![weathervane](../public/shots/weathervane.png) |
+| `dockyard` | 船坞 | AGENT DOCKYARD | 船=agent 舱=token 旗=provider | — |
 | `burn` | 燃烧速率 | BURN RATE | 配额窗口烧速 / 预测重置 | ![burn](../public/shots/burn.png) |
 | `gauge` | 仪表盘 | GAUGE MATRIX | KPI/配额仪表 | ![gauge](../public/shots/gauge.png) |
 | `pinboard` | 钉板 | PINBOARD | KPI/配额/会话钉上墙 | ![pinboard](../public/shots/pinboard.png) |
@@ -47,7 +48,7 @@
 | `barometer` | 气压计 | BURN BAROMETER | 燃速=气压 错=风暴 | ![barometer](../public/shots/barometer.png) |
 | `clocktower` | 钟楼 | QUOTA CLOCKTOWER | 盘=配额窗 针=燃速 铃=临近重置 | ![clocktower](../public/shots/clocktower.png) |
 | `belltower` | 钟楼铃 | QUOTA BELLS | 铃=配额窗 摆速=燃速 | ![belltower](../public/shots/belltower.png) |
-| `cottage` | 小屋 | QUOTA COTTAGE | 窗=配额窗 灯=会话 烟=错 园=余量 | — |
+| `cottage` | 小屋 | QUOTA COTTAGE | 窗=配额窗 灯=会话 烟=错 园=余量 | ![cottage](../public/shots/cottage.png) |
 | `rosetta` | 罗塞塔 | ROSETTA | 环带=配额 刻痕=会话 | ![rosetta](../public/shots/rosetta.png) |
 | `eclipse` | 日蚀 | ECLIPSE | 暗盘=量 冕=会话 沿=窗 | ![eclipse](../public/shots/eclipse.png) |
 | `tapestry` | 织锦 | TAPESTRY | 经=配额 纬=会话 | ![tapestry](../public/shots/tapestry.png) |
