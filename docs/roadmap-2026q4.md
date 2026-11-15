@@ -1262,3 +1262,13 @@ v7 已落地：选中 session 内联 tries 明细(顺带修 fmtMs 渲染崩溃 b
 3. **session 卡展开持久**:selectedSession 内联明细已有,可扩展为 pin 态也展开。
 4. **trace 增时间轴**:hero-mode=route 时右下角 session 区也画 ttft/ttl 横向条。
 5. **便签卡导出**:便签内容一键复制为 markdown。
+
+## 下轮候选 v9（2026-11-15 · v8 全部落地后）
+
+v8 已落地/确认：多网关并行对比(compareGateways 双快照)、PNG 导出(按钮+E 键,实测下载)、便签复制 MD 表格、tries 时间轴横条、KPI 右键隐藏+恢复。pin 态不常开展示(保持可扫性,设计决定)。
+
+1. **视图快照跨设备**:share link 已含 view/range/cinema/group/gw;补 localStorage 清单(收藏/便签/pin/KPI 隐藏)编码进 URL(?state=base64)。
+2. **digest 推送**:digest 出现时同时发 Web Notification(通知权限已有)。
+3. **session 时间轴聚合**:所有 tries 汇成一条泳道(不止选中卡),放 decision-strip 下。
+4. **view-menu 粘性组头**:滚动时当前组头吸顶。
+5. **更多触控**:heatmap 长按复制当日 tokens/calls;digest 滑走关闭。
