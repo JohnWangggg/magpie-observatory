@@ -1,0 +1,9 @@
+/* potbank view */
+@keyframes pbsmoke { 0% { opacity: .6; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-8px); } }
+@keyframes pbcarry { 0%,100% { transform: translateX(0); } 50% { transform: translateX(-4px); } }
+.pb-svg { display: block; width: 100%; height: 100%; }
+.pb-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.pb-smoke { animation: pbsmoke ease-out infinite; }
+.pb-placer { animation: pbcarry ease-in-out infinite; }
+.pb-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .pb-smoke, .pb-placer { animation: none; } }
