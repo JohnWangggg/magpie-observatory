@@ -280,6 +280,11 @@
       const marks2 = errs2.map((e2, k) => k > 0 && e2 > errs2[k - 1] ? k : -1).filter(k => k >= 0);
       if (marks2.length) strip.innerHTML += `<div style="position:absolute;inset:0;pointer-events:none">${marks2.map(k => `<i style="position:absolute;left:${(k / Math.max(1, s.replayBuf.length - 1) * 100).toFixed(1)}%;top:-4px;width:4px;height:4px;border-radius:50%;background:var(--red)" title="帧${k} 出现错误(err=${errs2[k]})"></i>`).join("")}</div>`;
     } catch (_) {}
+    // Day boundaries: a faint vertical rule where the frame's date changes.
+    try {
+      const dayMarks = s.replayBuf.map((f, k) => k > 0 && new Date(f.t).toDateString() !== new Date(s.replayBuf[k - 1].t).toDateString() ? k : -1).filter(k => k >= 0);
+      if (dayMarks.length) strip.innerHTML += `<div style="position:absolute;inset:0;pointer-events:none">${dayMarks.map(k => `<i style="position:absolute;left:${(k / Math.max(1, s.replayBuf.length - 1) * 100).toFixed(1)}%;top:-6px;bottom:-6px;width:1px;background:var(--accent);opacity:.55" title="跨日 · 帧${k} · ${new Date(s.replayBuf[k].t).toLocaleDateString("zh-CN")}"></i>`).join("")}</div>`;
+    } catch (_) {}
     // Cumulative cost at the last frame, as a tiny caption on the strip.
     try {
       const lastF = s.replayBuf[s.replayBuf.length - 1];
