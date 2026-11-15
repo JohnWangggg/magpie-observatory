@@ -129,6 +129,29 @@
         document.addEventListener("mouseup", up);
       }); }
       // Shaded spans between consecutive B-marks: a mark pair = a watched
+      strip.addEventListener("mousedown", e => {
+        const panEl = e.target.closest(".rep-ab[data-pan]");
+        if (!panEl || !s.replayAB || e.target.closest(".rep-ab-end")) return;
+        e.preventDefault();
+        const startX = e.clientX, span = s.replayAB[1] - s.replayAB[0], orig = s.replayAB[0];
+        const move = ev => {
+          const bb = strip.getBoundingClientRect();
+          const dIdx = Math.round((ev.clientX - startX) / bb.width * max);
+          const newA = Math.min(s.replayBuf.length - 1 - span, Math.max(0, orig + dIdx));
+          s.replayAB = [newA, newA + span];
+          strip.querySelectorAll(".rep-ab, .rep-ab-end").forEach(x => x.remove());
+          const l = s.replayAB[0] / max * 100, w = span / max * 100;
+          strip.insertAdjacentHTML("beforeend", `<i class="rep-ab" data-pan="1" style="position:absolute;left:${l.toFixed(1)}%;width:${w.toFixed(1)}%;top:0;height:100%;background:color-mix(in srgb,var(--amber) 20%,transparent);cursor:grab"></i><i class="rep-ab-end" data-end="0" style="position:absolute;left:${l.toFixed(1)}%;top:-3px;font:700 7px var(--num);color:var(--amber);cursor:ew-resize">A</i><i class="rep-ab-end" data-end="1" style="position:absolute;left:calc(${l.toFixed(1)}% + ${w.toFixed(1)}% - 6px);top:-3px;font:700 7px var(--num);color:var(--amber);cursor:ew-resize">B</i>`);
+        };
+        const up = () => {
+          try { localStorage.setItem("magpie.replayAB", JSON.stringify(s.replayAB)); } catch (_) {}
+          toast(`A-B 循环 ${s.replayAB[0]}→${s.replayAB[1]}`);
+          document.removeEventListener("mousemove", move);
+          document.removeEventListener("mouseup", up);
+        };
+        document.addEventListener("mousemove", move);
+        document.addEventListener("mouseup", up);
+      });
       if (!strip.dataset.dblBound) { strip.dataset.dblBound = "1"; strip.addEventListener("dblclick", e => {
         const st = state();
         if (st && st.replayAB) {
@@ -167,7 +190,7 @@
       // A-B loop highlight: a red band over the looped stretch.
       if (s.replayAB) {
         const l = s.replayAB[0] / max * 100, w = (s.replayAB[1] - s.replayAB[0]) / max * 100;
-        strip.innerHTML += `<i class="rep-ab" style="position:absolute;left:${l.toFixed(1)}%;width:${w.toFixed(1)}%;top:0;height:100%;background:color-mix(in srgb,var(--amber) 20%,transparent);pointer-events:none" title="A-B循环 ${s.replayAB[0]}→${s.replayAB[1]}"></i>`;
+        strip.innerHTML += `<i class="rep-ab" data-pan="1" style="position:absolute;left:${l.toFixed(1)}%;width:${w.toFixed(1)}%;top:0;height:100%;background:color-mix(in srgb,var(--amber) 20%,transparent);cursor:grab" title="A-B循环 ${s.replayAB[0]}→${s.replayAB[1]} · 拖动平移"></i>`;
         strip.innerHTML += `<i class="rep-ab-end" data-end="0" style="position:absolute;left:${l.toFixed(1)}%;top:-3px;font:700 7px var(--num);color:var(--amber);cursor:ew-resize" title="拖动调 A 端">A</i><i class="rep-ab-end" data-end="1" style="position:absolute;left:calc(${l.toFixed(1)}% + ${w.toFixed(1)}% - 6px);top:-3px;font:700 7px var(--num);color:var(--amber);cursor:ew-resize" title="拖动调 B 端">B</i>`;
       }
       // First/last frame quick-jump paddles at the strip edges.
