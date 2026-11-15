@@ -1222,3 +1222,13 @@ v3 已落地：heroMode 组跟随、quota-pop remaining% 历史 sparkline、dige
 3. **数据回放增强**：replay-bar 加速度档（1×/2×/4×）与跳时间点。
 4. **移动端手势**：view-menu 下滑关闭、hero 左右滑切视图。
 5. **无障碍**：view-menu 全键盘流程审查 + aria-live 切换公告完善。
+
+## 下轮候选 v5（2026-11-15 · v4 全部落地后）
+
+v4 已落地：share `&group=`、hero 左右滑切视图（组作用域）、replay 1×/2×/4× 速度档、view-menu 下滑关闭、视图切换 aria-live 公告、对比视图浮动面板（palette 命令）。
+
+1. **对比面板进化**：固定选择视图（非随机）+ 并排 KPI 差异列 + 同步刷新。
+2. **手势补全**：live-panel 左右滑切 sessionTab、quota-list 长按复制窗口详情。
+3. **性能再压**：700 视图菜单首开 innerHTML 换成 DocumentFragment + 分批 chunk（目前 ~140ms 可接受但仍有提升空间）。
+4. **离线壳**：PWA manifest + sw 缓存静态资源（serve 静态文件可注册）。
+5. **视图收藏分组**：收藏按组聚合显示在 rail-favs。
