@@ -1,0 +1,7 @@
+/* wigmaker view */
+@keyframes wgmknot { 0%,100% { transform: translateX(0); } 50% { transform: translateX(-3px); } }
+.wgm-svg { display: block; width: 100%; height: 100%; }
+.wgm-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.wgm-man { animation: wgmknot ease-in-out infinite; }
+.wgm-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .wgm-man { animation: none; } }
