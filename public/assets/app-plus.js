@@ -2307,13 +2307,14 @@ show(F.length-1);
           const pop = document.createElement("div");
           pop.className = "gwcmp-card frame-pop";
           const k = f.data.kpis || {};
+
           pop.innerHTML = `<div class="digest-head"><b>帧 ${idx}</b><span>${new Date(f.t).toTimeString().slice(0, 8)}</span></div><div class="cmp-r"><span>TOK</span><b>${fmtTokens(k.tokens)}</b><em></em><b>${k.tps != null ? k.tps.toFixed(1) : "—"}/s</b></div><div class="cmp-r"><span>调用</span><b>${k.calls || 0}</b><em></em><b style="${(k.errors || 0) > 0 ? "color:var(--red)" : ""}">${k.errors || 0} 错</b></div><div class="cmp-r"><span>会话</span><b>${(f.data.sessions || []).length}</b><em></em><b>${fmtMoney(k.cost)}</b></div>`;
           const pk = idx > 0 && st.replayBuf[idx - 1] ? st.replayBuf[idx - 1].data.kpis : null;
           if (pk) { const dt = (k.tokens || 0) - (pk.tokens || 0), de = (k.errors || 0) - (pk.errors || 0); pop.innerHTML += `<div class="cmp-r"><span>对prevΔ</span><b>${dt >= 0 ? "+" : ""}${fmtTokens(dt)}</b><em class="${de > 0 ? "down" : "up"}">${de !== 0 ? "err " + (de > 0 ? "+" : "") + de : ""}</em><b></b></div>`; }
           const dayK = (st.data.heatmap || []).find(d => d.date === new Date(f.t).toISOString().slice(0, 10));
           if (dayK && dayK.tokens && k.tokens) { const pct = Math.round(k.tokens / Math.max(1, dayK.tokens) * 100); pop.innerHTML += `<div class="cmp-r"><span>占日</span><b>${pct}%</b><em></em><b>当日 ${fmtTokens(dayK.tokens)}</b></div>`; }
           pop.innerHTML += ((f.data.sessions || []).slice(0, 3).map(sx => `<div class="cmp-r" data-sid="${esc(sx.id || "")}" style="cursor:pointer" title="点击选此会话"><span><img src="${Obs.api.agentIcon(sx.agent)}" style="width:9px;height:9px;border-radius:50%;vertical-align:middle;margin-right:3px">${esc((sx.title || "?").slice(0, 14))}</span><b>${fmtTokens(sx.tokens || 0)}</b><em></em><b>${esc(sx.agent || "")}</b></div>`).join("") + ((f.data.sessions || []).length > 3 ? `<small style="opacity:.55">+${(f.data.sessions || []).length - 3} 会话</small>` : ""));
-          const agC = {}; (f.data.sessions || []).forEach(sx => agC[sx.agent] = (agC[sx.agent] || 0) + 1);
+          pop.innerHTML += `<div style="margin-top:6px"><button type="button" class="mini-btn snap-save" style="font-size:8.5px">存为记录</button><button type="button" class="mini-btn snap-dl" style="font-size:8.5px;margin-left:4px">导出</button><button type="button" class="mini-btn snap-copy" style="font-size:8.5px;margin-left:4px">复制</button><button type="button" class="mini-btn snap-pin" style="font-size:8.5px;margin-left:4px">钉住</button></div>`;
           const topAg = Object.entries(agC).sort((a, b) => b[1] - a[1])[0];
           if (topAg) pop.innerHTML += `<div class="cmp-r"><span>主导</span><b>${esc(topAg[0])}</b><em></em><b>${topAg[1]} 会话</b></div>`;
           pop.innerHTML += `<div style="display:flex;gap:6px;margin-top:4px;font-size:8px">${idx > 0 ? `<button type="button" class="mini-btn fr-prev" style="font-size:8px">← 帧${idx - 1}</button>` : ""}${idx < st.replayBuf.length - 1 ? `<button type="button" class="mini-btn fr-next" style="font-size:8px">帧${idx + 1} →</button>` : ""}</div>`;
@@ -2335,7 +2336,8 @@ show(F.length-1);
             const sRow = e.target.closest("[data-sid]");
             if (sRow && sRow.dataset.sid) { const sel = document.querySelector(`.qp-item[data-ri="${sRow.dataset.sid}"]`); if (sel) sel.click(); pop.remove(); return; }
             if (e.target.closest(".fr-prev, .fr-next")) { const nx = e.target.closest(".fr-prev") ? idx - 1 : idx + 1; pop.remove(); const r = $("#replay-range"); if (r) { r.value = nx; scrubReplay(nx); } setTimeout(() => { const ev = new KeyboardEvent("keydown", { key: "?" }); document.dispatchEvent(ev); }, 30); return; }
-            pop.remove();
+            if (e.target.closest(".snap-pin")) { pop.classList.add("pinned"); e.target.textContent = "已钉"; toast("帧卡已钉住 · 再按?不关"); return; }
+            if (!pop.classList.contains("pinned")) pop.remove();
           });
           document.body.appendChild(pop);
           setTimeout(() => pop.classList.add("in"), 10);
