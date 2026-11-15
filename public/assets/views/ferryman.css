@@ -1,0 +1,7 @@
+/* ferryman view */
+@keyframes fryhaul { 0%,100% { transform: translateX(0); } 50% { transform: translateX(-4px); } }
+.fry-svg { display: block; width: 100%; height: 100%; }
+.fry-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.fry-man { animation: fryhaul ease-in-out infinite; }
+.fry-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .fry-man { animation: none; } }

@@ -1,4 +1,4 @@
-# Magpie Observatory · 视图图鉴 (619)
+# Magpie Observatory · 视图图鉴 (620)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
@@ -10,7 +10,7 @@
 | [延迟](#延迟) | 2 |
 | [氛围](#氛围) | 3 |
 | [场景](#场景) | 233 |
-| [用量](#用量) | 228 |
+| [用量](#用量) | 229 |
 | [天象](#天象) | 17 |
 | [洞察](#洞察) | 10 |
 | [结构](#结构) | 6 |
@@ -355,7 +355,7 @@
 | `reserve2` | 保护区二号 | RESERVE II | 观测=配额窗 隙=用量 栖枝=过热 守护=会话 | ![reserve2](../public/shots/reserve2.png) |
 | `desert` | 沙丘 | DESERT | 丘=配额窗 高=用量 驼=会话 | ![desert](../public/shots/desert.png) |
 
-## 用量 (228)
+## 用量 (229)
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
@@ -574,7 +574,8 @@
 | `flutemaker` | 笛坊 | PROVIDER FLUTEMAKER | 床=provider 笛=token 铰=会话 裂=错 | ![flutemaker](../public/shots/flutemaker.png) |
 | `harpmaker` | 竖琴坊 | PROVIDER HARPMAKER | 架=provider 弦=token 雕=会话 绷=错 | ![harpmaker](../public/shots/harpmaker.png) |
 | `stevedore` | 码头坊 | PROVIDER STEVEDORE | 泊=provider 包=token 钩=会话 爆=错 | ![stevedore](../public/shots/stevedore.png) |
-| `lighterman` | 驳船 | PROVIDER LIGHTERMAN | 船=provider 桶=token 篙=会话 沉=错 | — |
+| `lighterman` | 驳船 | PROVIDER LIGHTERMAN | 船=provider 桶=token 篙=会话 沉=错 | ![lighterman](../public/shots/lighterman.png) |
+| `ferryman` | 渡船 | PROVIDER FERRYMAN | 渡=provider 客=token 缆=会话 缠=错 | — |
 | `rings` | Token 年轮 | YEAR IN RINGS | 26 周极坐标日历 | ![rings](../public/shots/rings.png) |
 | `latency` | 延迟热力 | LATENCY HEATMAP | 时间 × 延迟 | ![latency](../public/shots/latency.png) |
 | `stream` | 流量河流 | STREAMGRAPH | Provider 增量 | ![stream](../public/shots/stream.png) |
