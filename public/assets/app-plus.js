@@ -2576,15 +2576,24 @@ ${quota || "| — | — | — |"}
     if (!list.innerHTML.trim()) {
       list.innerHTML = `<div class="pal-kind">提示</div><div class="pal-empty" style="padding:10px 14px;font-size:9.5px;color:var(--muted)">没有匹配项 · 试试 ⌘1-9 直达 · → 键预览详情</div>`;
     }
-    // Click a kind header to collapse/expand its group.
+    // Click a kind header to collapse/expand its group (persisted per kind).
+    let collapsed = new Set();
+    try { collapsed = new Set(JSON.parse(localStorage.getItem("magpie.palCollapse") || "[]")); } catch (_) {}
     $$(".pal-kind", list).forEach(h => {
+      const kind = h.textContent.trim();
       h.style.cursor = "pointer";
       h.title = "点击折叠/展开该组";
+      let n = h.nextElementSibling;
+      const initCollapsed = collapsed.has(kind);
+      while (n && !n.classList.contains("pal-kind")) { n.style.display = initCollapsed ? "none" : ""; n = n.nextElementSibling; }
+      h.style.opacity = initCollapsed ? ".45" : "";
       h.addEventListener("click", () => {
-        let n = h.nextElementSibling;
-        const collapse = !(n && n.style.display === "none");
-        while (n && !n.classList.contains("pal-kind")) { n.style.display = collapse ? "none" : ""; n = n.nextElementSibling; }
+        let n2 = h.nextElementSibling;
+        const collapse = !(n2 && n2.style.display === "none");
+        while (n2 && !n2.classList.contains("pal-kind")) { n2.style.display = collapse ? "none" : ""; n2 = n2.nextElementSibling; }
         h.style.opacity = collapse ? ".45" : "";
+        if (collapse) collapsed.add(kind); else collapsed.delete(kind);
+        try { localStorage.setItem("magpie.palCollapse", JSON.stringify([...collapsed])); } catch (_) {}
       });
     });
     $$(".pal-item", list).forEach(b => b.addEventListener("click", (e) => {

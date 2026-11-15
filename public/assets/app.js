@@ -2557,6 +2557,13 @@
       ? list.map((s, i) => (i && s.provider === list[i-1].provider ? "" : `<div class="list-divider"><span>${esc(D.providerMeta(s.provider)?.name || s.provider)}</span></div>`) + sessionCard(s))
       : list.map(sessionCard);
     let html = seq.join("");
+    // tokens bar: fill relative to the strongest card in this list.
+    const maxTok = Math.max(1, ...list.map(x => x.tokens || 0));
+    html = html.replace(/(<article[^>]*data-session="([^"]+)"[^>]*>)/g, (m, tag, id) => {
+      const ses = list.find(x => x.id === id);
+      const w = ses && ses.tokens ? Math.round(ses.tokens / maxTok * 100) : 0;
+      return tag + `<i class="ses-tokbar" style="position:absolute;left:0;bottom:0;height:2px;width:${w}%;background:color-mix(in srgb,var(--s-c,var(--accent)) 55%,transparent);border-radius:0 2px 2px 0;pointer-events:none"></i>`;
+    });
     if (state.sessionTab === "active") {
       // A quiet live gateway can have two active sessions; showing the last
       // completed ones keeps the rail informative instead of half empty.
