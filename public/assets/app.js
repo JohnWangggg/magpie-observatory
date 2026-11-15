@@ -2538,6 +2538,14 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
     }
     host.innerHTML = html;
     host.scrollTop = scroll;
+    // Re-flag .multi after a re-render so Shift+click selections survive the
+    // signature-diff rebuild.
+    if (state.multiSel && state.multiSel.size) {
+      state.multiSel.forEach(id => {
+        const c = host.querySelector(`.session-card[data-session="${CSS.escape(id)}"]`);
+        if (c) c.classList.add("multi");
+      });
+    }
     buildSessionMap(list.concat(extra));
   }
 
