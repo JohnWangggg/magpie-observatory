@@ -201,6 +201,7 @@
     { id: "cheesery", title: "奶酪坊", eyebrow: "QUOTA CHEESERY", group: "配额", icon: "i-magpie", hint: "压=配额窗 凝=余量 乳=会话 裂=错" },
     { id: "malthouse", title: "芽床", eyebrow: "PROVIDER MALTHOUSE", group: "用量", icon: "i-magpie", hint: "床=provider 芽=token 铲=会话 焦=错" },
     { id: "kelpfarm", title: "藻筏", eyebrow: "PROVIDER KELPFARM", group: "用量", icon: "i-magpie", hint: "筏=provider 藻=token 船=会话 断=错" },
+    { id: "sugarmill", title: "糖坊", eyebrow: "PROVIDER SUGARMILL", group: "用量", icon: "i-magpie", hint: "辊=provider 汁=token 蔗=会话 裂=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
