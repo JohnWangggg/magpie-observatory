@@ -1395,6 +1395,12 @@
     });
     const restore = $("#kpi-row .kpi-restore");
     if (restore) restore.addEventListener("click", () => { localStorage.removeItem("magpie.kpiHidden"); renderAll(); });
+    // Double-click a KPI → copy that single card's value.
+    $$("#kpi-row .kpi[data-kpi-jump]").forEach(el => {
+      el.addEventListener("dblclick", () => {
+        navigator.clipboard?.writeText(`${el.dataset.kpiLabel}: ${el.dataset.kpiValue}`).then(() => toast(`${el.dataset.kpiLabel} 已复制`));
+      });
+    });
   }
 
   function renderVs() {

@@ -180,6 +180,18 @@
     if (s.range && s.range !== "today") p.set("range", s.range);
     if (s.cinema) p.set("cinema", "1");
     if (s.vmGroup) p.set("group", s.vmGroup);
+    // Cross-device snapshot: favorites + pins + notes + hidden KPIs, base64url.
+    try {
+      const st = {
+        f: JSON.parse(localStorage.getItem("magpie.favorites") || "[]"),
+        p: JSON.parse(localStorage.getItem("magpie.pinnedSessions") || "[]"),
+        n: JSON.parse(localStorage.getItem("magpie.scratchNotes") || "[]").slice(-8),
+        h: JSON.parse(localStorage.getItem("magpie.kpiHidden") || "[]"),
+      };
+      if (st.f.length || st.p.length || st.n.length || st.h.length) {
+        p.set("st", btoa(unescape(encodeURIComponent(JSON.stringify(st)))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, ""));
+      }
+    } catch (_) {}
     const url = location.origin + location.pathname + (p.size ? "?" + p : "");
     try {
       await navigator.clipboard.writeText(url);
@@ -781,6 +793,23 @@ show(F.length-1);
     if (g) {
       s.vmGroup = g;
       try { localStorage.setItem("magpie.vmGroup", g); } catch (_) {}
+    }
+    // Restore the cross-device snapshot blob (?st=).
+    const stP = p.get("st");
+    if (stP) {
+      try {
+        const st = JSON.parse(decodeURIComponent(escape(atob(stP.replace(/-/g, "+").replace(/_/g, "/")))));
+        if (Array.isArray(st.f)) localStorage.setItem("magpie.favorites", JSON.stringify(st.f));
+        if (Array.isArray(st.p)) localStorage.setItem("magpie.pinnedSessions", JSON.stringify(st.p));
+        if (Array.isArray(st.n)) localStorage.setItem("magpie.scratchNotes", JSON.stringify(st.n));
+        if (Array.isArray(st.h)) localStorage.setItem("magpie.kpiHidden", JSON.stringify(st.h));
+        const s2 = state();
+        if (s2) {
+          s2.favorites = st.f || s2.favorites;
+          s2.pinnedSessions = st.p || s2.pinnedSessions;
+          Obs.api.renderAll && Obs.api.renderAll();
+        }
+      } catch (_) {}
     }
     const gw = p.get("gw");
     if (gw !== null) {
