@@ -1,0 +1,7 @@
+/* saltcote view */
+@keyframes scstir { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(4deg); } }
+.sc-svg { display: block; width: 100%; height: 100%; }
+.sc-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.sc-man { animation: scstir ease-in-out infinite; transform-origin: 0 8px; }
+.sc-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .sc-man { animation: none; } }
