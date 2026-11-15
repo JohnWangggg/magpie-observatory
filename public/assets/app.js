@@ -3754,11 +3754,11 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
       const act = e.target.closest("[data-act]")?.dataset.act;
       hMenu.hidden = true;
       if (act === "fav") toggleFavorite(state.heroMode);
-      else if (act === "random") { const id = randViewId(); if (id) setHeroMode(id); }
+      else if (act === "random") randomView();
       else if (act === "tour") { startTour(); }
       else if (act === "compare") { toast("palette → 对比视图"); const p = $("#cmd-open"); if (p) p.click(); }
-      else if (act === "shot") { const btn = $("#share-link"); if (btn) btn.click(); }
-      else if (act === "export") { const btn = $("#report-copy"); if (btn) btn.click(); else toast("票据入口在周报内"); }
+      else if (act === "shot") { if (Obs.shareStateLink) Obs.shareStateLink(); else toast("分享需 app-plus"); }
+      else if (act === "export") { if (Obs.copyReceipt) Obs.copyReceipt(); else toast("票据需 app-plus"); }
     });
     document.addEventListener("click", e => { if (!e.target.closest(".session-ctx")) hMenu.hidden = true; });
     $(".hero").addEventListener("contextmenu", e => {

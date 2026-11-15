@@ -362,6 +362,9 @@ show(F.length-1);
   Obs.toggleAmbient = toggleAmbient;
   Obs.setCinema = setCinema;
   Obs.exportPNG = exportPNG;
+  Obs.shareStateLink = shareStateLink;
+  Obs.copyReceipt = copyReceipt;
+  Obs.weeklyReport = weeklyReport;
   function updateCinemaStats() {
     const el = $("#ch-stats");
     const s = state();
