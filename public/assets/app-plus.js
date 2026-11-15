@@ -69,6 +69,8 @@
     range.value = s.replay.idx;
     // Restore a persisted A-B loop (clamped to the current buffer).
     try { const saved = JSON.parse(localStorage.getItem("magpie.replayAB") || "null"); if (saved && saved[0] != null && saved[1] != null) s.replayAB = [Math.min(saved[0], s.replayBuf.length - 1), Math.min(saved[1], s.replayBuf.length - 1)]; } catch (_) {}
+    try { const v = +(localStorage.getItem("magpie.replaySpeed") || "0"); if (v) s.replaySpeed = v; } catch (_) {}
+    const spd = $("#replay-speed"); if (spd) spd.textContent = (s.replaySpeed || 1) + "×";
     scrubReplay(s.replay.idx);
     toast("回放模式 · 拖动时间轴 · R 或 × 退出");
     const hint = bar && bar.querySelector(".rep-hint");
@@ -82,6 +84,8 @@
       card.addEventListener("click", () => card.remove());
       document.body.appendChild(card);
       const rb = $("#replay-bar");
+      if (rb) rb.insertAdjacentHTML("beforeend", `<button type="button" id="keys-card-btn" style="position:absolute;top:-4px;right:8px;font:7px var(--num);color:var(--faint);background:none;border:0;cursor:pointer" title="键位说明">?</button>`);
+
       if (rb) { const bb = rb.getBoundingClientRect(); card.style.top = "auto"; card.style.left = bb.left + bb.width / 2 + "px"; card.style.bottom = (innerHeight - bb.top + 8) + "px"; }
       setTimeout(() => card.classList.add("in"), 10);
     }); }
@@ -257,6 +261,8 @@
     Obs.api.computeView();
     Obs.api.renderAll();
     $("#replay-time").textContent = new Date(buf[i].t).toTimeString().slice(0, 8);
+    const kpiEl = $("#replay-kpi");
+    if (kpiEl) { const kk = buf[i].data.kpis || {}; kpiEl.textContent = `TOK ${fmtTokens(kk.tokens || 0)} · ${kk.tps != null ? kk.tps.toFixed(1) : "—"}/s`; }
     const sp = $("#replay-span");
     if (sp) sp.textContent = `[${new Date(buf[0].t).toTimeString().slice(0, 5)}→${new Date(buf[buf.length - 1].t).toTimeString().slice(0, 5)}]`;
     // Current-frame cursor on the marks strip (persistent, distinct from the
@@ -325,6 +331,7 @@
     // live-respeed a running timer
     if (s._replayTimer) { clearInterval(s._replayTimer); s._replayTimer = null; $("#replay-play").textContent = "▶"; toggleReplayPlay(); }
     toast(`回放速度 ${s.replaySpeed}×`);
+    try { localStorage.setItem("magpie.replaySpeed", String(s.replaySpeed)); } catch (_) {}
   }
 
 
