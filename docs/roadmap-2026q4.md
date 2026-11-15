@@ -1755,3 +1755,13 @@ v56 已落地:X键清AB、空态扩提示。跳过:try色排(chip已)、dig-goal
 3. **digest格图鉴名**:图鉴格title加最近视图id。
 4. **palette首字母**:pal-item显示kind色点。
 5. **回放strip mark hover**:tick hover放大1.4x。
+
+## 下轮候选 v58（2026-11-15 · v57 落地后）
+
+v57 已落地：kind色点、键位卡。跳过：tokbar帧号(无帧域)、图鉴id(title已)、tick放大(密集已收)。
+
+1. **回放键位卡定位**:keys-card定位回放条上方(同帧卡)。
+2. **session卡tries悬停**:try链chip hover高亮。
+3. **digest格spike标**:sparkline超均值2倍点加红标。
+4. **palette视图热度**:视图项sub加"看过N次"。
+5. **回放AB区间加签**:AB带内显"A-B"居中字。
