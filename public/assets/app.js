@@ -2589,8 +2589,9 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
     }
     // Selection count in the live foot so multi-select state is visible.
     const selN = state.multiSel ? state.multiSel.size : 0;
+    const pinN = (state.pinnedSessions || []).length;
     const selEl = $("#session-sel-n");
-    if (selEl) { selEl.textContent = selN ? `已选 ${selN}` : ""; selEl.hidden = !selN; }
+    if (selEl) { const parts = []; if (selN) parts.push(`已选 ${selN}`); if (pinN) parts.push(`置顶 ${pinN}`); selEl.textContent = parts.join(" · "); selEl.hidden = !parts.length; }
     buildSessionMap(list.concat(extra));
   }
 

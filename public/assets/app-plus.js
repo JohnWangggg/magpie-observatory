@@ -1898,6 +1898,16 @@ show(F.length-1);
           return `<div class="dig-err" data-dig-prov="${esc(ep)}" style="cursor:pointer" title="点击 → 日志过滤到 ${esc(ename)}"><small>错误聚类</small><b>${errs.length} <em class="dig down">${esc(ename)}·${en}</em></b><small style="display:block;margin-top:2px">${esc(emodel || "")} · 点击下钻</small></div>`;
         })()}
         ${(() => {
+          const errs2 = (s.data.logs || []).filter(l => l.status === "err");
+          if (errs2.length < 2) return "";
+          const byP2 = {};
+          errs2.forEach(l => { byP2[l.provider] = (byP2[l.provider] || 0) + 1; });
+          const [e2, n2] = Object.entries(byP2).sort((a, b) => b[1] - a[1])[1] || [];
+          if (!e2) return "";
+          const nm2 = Obs.api.providerMeta ? Obs.api.providerMeta(e2).name : e2;
+          return `<div class="dig-err" data-dig-prov="${esc(e2)}" style="cursor:pointer" title="点击 → 日志过滤到 ${esc(nm2)}"><small>次错源</small><b>${esc(nm2)} <em class="dig down">×${n2}</em></b></div>`;
+        })()}
+        ${(() => {
           try {
             const bag = JSON.parse(localStorage.getItem("magpie.badges") || "{}");
             const yd = y.date || "";
