@@ -1573,3 +1573,14 @@ v38 已落地：unseen计数、dig-dex新增名、thumb放大+pointer-events fix
 3. **digest格图鉴趋**:图鉴格加本周增势箭头。
 4. **palette视图首字跳**:输入视图id前缀直达。
 5. **session卡多选bar操作**:multi bar加"过滤所选provider"。
+
+## 下轮候选 v40（2026-11-15 · v39 落地后·里程碑轮）
+
+v39 已落地：multiBar provider过滤、AB带amber、图鉴周趋势。跳过：unseen即消(已随selected记)、id前缀直达(搜索已模糊)。
+
+里程碑批——做一条有体量的:
+1. **回放帧对比模式**:标记A帧,再标B帧→并排两帧的KPI差表。
+2. **session卡quick-peek**:hover卡片边缘浮出tries+quota迷你摘要(不选中)。
+3. **digest周图曲线**:digest-bars改成sparkline而非柱状。
+4. **palette视图按组**:视图分段加组头分组(非kind混合)。
+5. **session卡时间轴**:卡底细线=该会话在24h位置。
