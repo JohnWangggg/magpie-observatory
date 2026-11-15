@@ -1858,6 +1858,13 @@ show(F.length-1);
           } catch (_) { return ""; }
         })()}
         ${(() => {
+          const byHour = new Array(24).fill(0);
+          (s.data.logs || []).forEach(l => { if (l.at) byHour[new Date(l.at).getHours()] += l.tokens || 0; });
+          let hi = -1, hv = 0;
+          for (let h = 0; h < 24; h++) if (byHour[h] > hv) { hv = byHour[h]; hi = h; }
+          return hi >= 0 ? `<div><small>高峰时段</small><b>${String(hi).padStart(2, "0")}:00 <em class="dig">${fmtTokens(hv)}</em></b></div>` : "";
+        })()}
+        ${(() => {
           const errs = (s.data.logs || []).filter(l => l.status === "err");
           if (!errs.length) return `<div><small>错误</small><b>0 <em class="dig up">干净</em></b></div>`;
           const byP = {};
