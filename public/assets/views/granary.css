@@ -1,0 +1,7 @@
+/* granary view */
+@keyframes grcarry { 0%,100% { transform: translateX(0); } 50% { transform: translateX(4px); } }
+.gr-svg { display: block; width: 100%; height: 100%; }
+.gr-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.gr-man { animation: grcarry ease-in-out infinite; }
+.gr-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .gr-man { animation: none; } }
