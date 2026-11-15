@@ -1695,3 +1695,13 @@ v50 已落地：D键diff模式+scrub更新+exit清理。跳过:hover浮层(选�
 3. **digest格昨日同时**:卡底加"昨日此时 N tok"。
 4. **palette预览回车**:→键预览后回车直接开该视图。
 5. **回放AB导出diff**:AB对比卡加"导出diff"。
+
+## 下轮候选 v52（2026-11-15 · v51 落地后）
+
+v51 已落地：diff vs A帧、?键帧KPI。跳过:tokbar品牌色(agent边已有)、昨日同时(数据无)、预览回车(→已展开)。
+
+1. **回放帧KPI浮卡**:?弹出卡定位到strip上方而非中央。
+2. **session卡首try tooltip**:首try chip title含why。
+3. **digest格图鉴排序**:图鉴格title加最近3新增。
+4. **palette项热键**:Ctrl+数字→组内跳(现仅全局)。
+5. **回放帧号tooltip**:strip刻度点hover显帧号+KPI。
