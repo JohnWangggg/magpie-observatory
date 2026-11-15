@@ -154,6 +154,7 @@
     { id: "pitstop", title: "维修站", eyebrow: "PROVIDER PITSTOP", group: "用量", icon: "i-route", hint: "道=provider 车=token 胎=用量 旗=错" },
     { id: "fireescape", title: "消防梯", eyebrow: "QUOTA FIREESCAPE", group: "配额", icon: "i-magpie", hint: "梯=配额窗 段=用量 人=会话 红=错" },
     { id: "catacomb", title: "墓窟", eyebrow: "QUOTA CATACOMB", group: "配额", icon: "i-magpie", hint: "龛=配额窗 深=用量 烛=会话 髅=错" },
+    { id: "oast", title: "烘麦窑", eyebrow: "QUOTA OAST", group: "配额", icon: "i-magpie", hint: "窑=配额窗 锥=用量 风=会话 环=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
