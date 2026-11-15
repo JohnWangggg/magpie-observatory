@@ -231,6 +231,7 @@
     { id: "letterpress", title: "活版印坊", eyebrow: "PROVIDER LETTERPRESS", group: "用量", icon: "i-magpie", hint: "机=provider 页=token 工=会话 卡=错" },
     { id: "potbank", title: "陶窑厂", eyebrow: "PROVIDER POTBANK", group: "用量", icon: "i-magpie", hint: "窑=provider 匣=token 工=会话 鼓=错" },
     { id: "blondin", title: "缆索采场", eyebrow: "PROVIDER BLONDIN", group: "用量", icon: "i-magpie", hint: "索=provider 板=token 车=会话 断=错" },
+    { id: "transporter", title: "运输桥", eyebrow: "PROVIDER TRANSPORTER", group: "用量", icon: "i-magpie", hint: "塔=provider 车=token 渡=会话 索=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
