@@ -1967,3 +1967,13 @@ v77 已落地:较上周▲▼。跳过:帧调用/成本(已有)、status点(已)
 3. **digest格静**:动效关时sparkline换静条。
 4. **palette改道项**:AB设后端点项进palette。
 5. **回放帧书签名**:mark加自定义名(右键edit)。
+
+## 下轮候选 v79（2026-11-15 · v78 落地后）
+
+v78 已落地:帧卡会话名单。跳过:tokens微跳(帧KPI已)、静sparkline(motion已)、AB palette(?/C已)、mark名(bookmark列表已)。
+
+1. **回放帧?卡按帧跳**:帧卡点击会话选该会话。
+2. **session卡model色**:model chip hover过滤。
+3. **digest格周日历**:加本周格子阵。
+4. **palette视图组合并**:视图组kind用组名。
+5. **回放速度步进**:±微调键。
