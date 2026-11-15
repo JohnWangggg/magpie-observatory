@@ -1,0 +1,7 @@
+/* maltkiln view */
+@keyframes mkturn { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(-4deg); } }
+.mk-svg { display: block; width: 100%; height: 100%; }
+.mk-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.mk-ster { animation: mkturn ease-in-out infinite; transform-origin: 0 12px; }
+.mk-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .mk-ster { animation: none; } }
