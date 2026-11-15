@@ -1483,3 +1483,13 @@ v29 已落地：session状态chip过滤、palette⌘数字、回放tokens差分�
 3. **回放帧tps曲线**:strip上加mini tps sparkline。
 4. **palette空态**:无结果时显示"试试⌘1-9/→预览"提示。
 5. **session卡双击标题**:→复制title+model。
+
+## 下轮候选 v31（2026-11-15 · v30 全落地后）
+
+v30 已落地：shift区间多选、digest图鉴格点击开菜单、回放tps sparkline、palette空态。全部消化。
+
+1. **回放帧连续使用标记**:strip上加当前帧streak刻度。
+2. **session卡tps点击**:tps格→按tps排序会话。
+3. **digest子代理格点击**:→过滤该subagent会话(需subagent过滤型)。
+4. **palette视图项右键**:→设为默认视图。
+5. **回放帧成本**:strip显示累计cost小字。
