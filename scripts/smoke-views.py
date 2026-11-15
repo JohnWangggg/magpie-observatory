@@ -52,6 +52,8 @@ try:
                     empty.append((vid, "no host")); print(f"  × {vid}: no host")
                 elif stat["els"] < 3 and stat["svgs"] < 3 and not stat["canvas"] and stat["text"] < 4:
                     empty.append((vid, "empty stage")); print(f"  × {vid}: empty stage")
+                elif stat["els"] < 10:
+                    empty.append((vid, f"too few els:{stat['els']}")); print(f"  × {vid}: only {stat['els']} els (likely dead fields)")
                 else:
                     ok.append(vid)
                     if VERBOSE and not ERRORS_ONLY: print(f"[{i}/{len(ids)}] {vid} els={stat['els']} svgs={stat['svgs']}")
