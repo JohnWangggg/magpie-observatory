@@ -280,6 +280,7 @@
     { id: "coopery", title: "箍桶铺", eyebrow: "PROVIDER COOPERY", group: "用量", icon: "i-magpie", hint: "桶=provider 板=token 匠=会话 脱=错" },
     { id: "waxhouse", title: "蜡烛屋", eyebrow: "PROVIDER WAXHOUSE", group: "用量", icon: "i-magpie", hint: "架=provider 烛=token 匠=会话 泪=错" },
     { id: "fishgarth", title: "渔堰", eyebrow: "PROVIDER FISHGARTH", group: "用量", icon: "i-magpie", hint: "堰=provider 鱼=token 人=会话 破=错" },
+    { id: "turnery", title: "车旋坊", eyebrow: "PROVIDER TURNERY", group: "用量", icon: "i-magpie", hint: "床=provider 坯=token 匠=会话 裂=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
