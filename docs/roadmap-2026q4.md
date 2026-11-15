@@ -2533,3 +2533,13 @@ v133 已落地:TPS峰值格、agent节点title值。跳过:常用组/闪标/色�
 3. **回放条帧卡next/prev持久**:已有。
 4. **pal跳转项按prov排序**。
 5. **live-foot会话数**:活跃N/总计M。
+
+## 下轮候选 v135（2026-11-15 · v134 落地后）
+
+v134 已落地:agent右色边、活跃/总计、均会话格。
+
+1. **pal跳转项按prov排序**。
+2. **digest格昨日改道数**:fallbacks sum。
+3. **回放条播放剩余时**:剩X帧≈Xs。
+4. **session卡tps阈值标**:>100亮。
+5. **agent卡load条title**:已有tok title。
