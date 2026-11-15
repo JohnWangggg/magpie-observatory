@@ -1,0 +1,7 @@
+/* poulterer view */
+@keyframes poufeed { 0%,100% { transform: rotate(0); } 50% { transform: rotate(-8deg); } }
+.pou-svg { display: block; width: 100%; height: 100%; }
+.pou-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.pou-man { animation: poufeed ease-in-out infinite; transform-origin: 0 12px; }
+.pou-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .pou-man { animation: none; } }

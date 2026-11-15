@@ -1,4 +1,4 @@
-# Magpie Observatory · 视图图鉴 (686)
+# Magpie Observatory · 视图图鉴 (690)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
@@ -10,7 +10,7 @@
 | [延迟](#延迟) | 2 |
 | [氛围](#氛围) | 3 |
 | [场景](#场景) | 233 |
-| [用量](#用量) | 295 |
+| [用量](#用量) | 299 |
 | [天象](#天象) | 17 |
 | [洞察](#洞察) | 10 |
 | [结构](#结构) | 6 |
@@ -355,7 +355,7 @@
 | `reserve2` | 保护区二号 | RESERVE II | 观测=配额窗 隙=用量 栖枝=过热 守护=会话 | ![reserve2](../public/shots/reserve2.png) |
 | `desert` | 沙丘 | DESERT | 丘=配额窗 高=用量 驼=会话 | ![desert](../public/shots/desert.png) |
 
-## 用量 (295)
+## 用量 (299)
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
@@ -638,10 +638,14 @@
 | `pavior` | 铺路 | PROVIDER PAVIOR | 段=provider 石=token 夯=会话 斜=错 | ![pavior](../public/shots/pavior.png) |
 | `lamplighter` | 街灯 | PROVIDER LAMPLIGHTER | 柱=provider 光=token 点=会话 碎=错 | ![lamplighter](../public/shots/lamplighter.png) |
 | `surveyor` | 测绘 | PROVIDER SURVEYOR | 站=provider 桩=token 瞄=会话 斜=错 | ![surveyor](../public/shots/surveyor.png) |
-| `plowman` | 犁田 | PROVIDER PLOWMAN | 田=provider 垄=token 犁=会话 弯=错 | — |
-| `sower` | 播田 | PROVIDER SOWER | 田=provider 沟=token 撒=会话 洒=错 | — |
-| `reaper` | 收割 | PROVIDER REAPER | 田=provider 束=token 割=会话 倒=错 | — |
-| `thresher` | 打场 | PROVIDER THRESHER | 场=provider 堆=token 打=会话 撒=错 | — |
+| `plowman` | 犁田 | PROVIDER PLOWMAN | 田=provider 垄=token 犁=会话 弯=错 | ![plowman](../public/shots/plowman.png) |
+| `sower` | 播田 | PROVIDER SOWER | 田=provider 沟=token 撒=会话 洒=错 | ![sower](../public/shots/sower.png) |
+| `reaper` | 收割 | PROVIDER REAPER | 田=provider 束=token 割=会话 倒=错 | ![reaper](../public/shots/reaper.png) |
+| `thresher` | 打场 | PROVIDER THRESHER | 场=provider 堆=token 打=会话 撒=错 | ![thresher](../public/shots/thresher.png) |
+| `gleaner` | 拾穗 | PROVIDER GLEANER | 田=provider 穗=token 拾=会话 落=错 | — |
+| `shearer` | 剪棚 | PROVIDER SHEARER | 棚=provider 绒=token 剪=会话 伤=错 | — |
+| `dairyman` | 奶棚 | PROVIDER DAIRYMAN | 棚=provider 桶=token 挤=会话 踢=错 | — |
+| `poulterer` | 禽场 | PROVIDER POULTERER | 场=provider 蛋=token 喂=会话 碎=错 | — |
 | `rings` | Token 年轮 | YEAR IN RINGS | 26 周极坐标日历 | ![rings](../public/shots/rings.png) |
 | `latency` | 延迟热力 | LATENCY HEATMAP | 时间 × 延迟 | ![latency](../public/shots/latency.png) |
 | `stream` | 流量河流 | STREAMGRAPH | Provider 增量 | ![stream](../public/shots/stream.png) |
