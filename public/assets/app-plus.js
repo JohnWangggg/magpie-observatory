@@ -2119,6 +2119,8 @@ show(F.length-1);
         if (e.key === "a" || e.key === "A") st.replayAB = [idx, cur[1] != null && cur[1] > idx ? cur[1] : null];
         else st.replayAB = [cur[0] != null && cur[0] < idx ? cur[0] : null, idx];
         if (st.replayAB[0] == null || st.replayAB[1] == null) st.replayAB = null;
+        const stripEl = $("#replay-marks");
+        if (stripEl) { stripEl.querySelectorAll(".rep-ab").forEach(x => x.remove()); if (st.replayAB) { const mx = Math.max(1, st.replayBuf.length - 1), l = st.replayAB[0] / mx * 100, w = (st.replayAB[1] - st.replayAB[0]) / mx * 100; stripEl.insertAdjacentHTML("beforeend", `<i class="rep-ab" style="position:absolute;left:${l.toFixed(1)}%;width:${w.toFixed(1)}%;top:0;height:100%;background:color-mix(in srgb,var(--amber) 20%,transparent);pointer-events:none" title="A-B循环 ${st.replayAB[0]}→${st.replayAB[1]}"></i>`); } }
         toast(st.replayAB ? `A-B 循环 ${st.replayAB[0]}→${st.replayAB[1]}` : "A-B 循环已取消");
       }
     });
