@@ -74,6 +74,7 @@
     const db = $("#replay-diff-btn"); if (db && !db.dataset.bound) { db.dataset.bound = "1"; db.addEventListener("click", () => document.dispatchEvent(new KeyboardEvent("keydown", { key: "d" }))); }
     const t60 = $("#replay-tail60"); if (t60 && !t60.dataset.bound) { t60.dataset.bound = "1"; t60.addEventListener("click", () => { const tgt = Math.max(0, s.replayBuf.length - 60); range.value = tgt; scrubReplay(tgt); }); }
     const t30 = $("#replay-tail30"); if (t30 && !t30.dataset.bound) { t30.dataset.bound = "1"; t30.addEventListener("click", () => { const tgt = Math.max(0, s.replayBuf.length - 30); range.value = tgt; scrubReplay(tgt); }); }
+    const h30 = $("#replay-head30"); if (h30 && !h30.dataset.bound) { h30.dataset.bound = "1"; h30.addEventListener("click", () => { const tgt = Math.min(30, s.replayBuf.length - 1); range.value = tgt; scrubReplay(tgt); }); }
     scrubReplay(s.replay.idx);
     toast("回放模式 · 拖动时间轴 · R 或 × 退出");
     const hint = bar && bar.querySelector(".rep-hint");
@@ -2867,7 +2868,7 @@ ${quota || "| — | — | — |"}
     let lastKind = "";
     list.innerHTML = items.map((it, i) => {
       const thumb = it.vid ? `<span class="pal-thumb" aria-hidden="true"><img src="shots/${it.vid}.png" alt="" loading="lazy" onerror="this.remove()"></span>` : "";
-      const head = it.kind !== lastKind ? `<div class="pal-kind">${esc(it.kind)}</div>` : "";
+      const head = it.kind !== lastKind ? `<div class="pal-kind">${esc(it.kind)} <small style="opacity:.55;font-weight:400">${items.filter(x => x.kind === it.kind).length}</small></div>` : "";
       lastKind = it.kind;
       const hotDot = it.vid && ((() => { try { return (JSON.parse(localStorage.getItem("magpie.viewHeat") || "{}"))[it.vid] || 0; } catch (_) { return 0; } })() >= 3) ? `<i class="pal-hot" title="常用"></i>` : "";
       const numBadge = i < 9 ? `<i class="pal-num" title="⌘${i + 1} 直达">${i + 1}</i>` : "";
@@ -2885,7 +2886,7 @@ ${quota || "| — | — | — |"}
     let collapsed = new Set();
     try { collapsed = new Set(JSON.parse(localStorage.getItem("magpie.palCollapse") || "[]")); } catch (_) {}
     $$(".pal-kind", list).forEach(h => {
-      const kind = h.dataset.kind || h.textContent.trim().replace(/\s*\(\d+\)$/, "");
+      const kind = h.dataset.kind || h.textContent.trim().replace(/\s*\(?\d+\)?\s*$/, "");
       h.dataset.kind = kind;
       h.style.cursor = "pointer";
       h.title = "点击折叠/展开该组";
