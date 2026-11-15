@@ -2038,3 +2038,13 @@ v84 已落地:prev/next链、sessions差。跳过:事件toast(chip已)、重点t
 3. **digest格月历**:heatmap旁加月历切换。
 4. **palette键数**:pal-item加键位号(⌘N已)。
 5. **回放条D开关**:回放条加diff切换钮。
+
+## 下轮候选 v86（2026-11-15 · v85 落地后）
+
+v85 已落地:Δ钮。跳过:帧跳input(range已)、拖选(多选已)、月历切(heatmap已)、⌘N(numBadge已)。
+
+1. **回放?帧卡复用**:卡关后重开继承位置。
+2. **session卡多选**:Cmd点扩选。
+3. **digest格年图**:加"全年"toggle。
+4. **palette动作组**:动作项加icon色。
+5. **回放条标位置**:末帧游标title显时刻。
