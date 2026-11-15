@@ -2203,3 +2203,13 @@ v100 已落地:上月对比。跳过:帧号(已)、route(已)、AB中点(已)。
 3. **digest格季对比**:本季加上季。
 4. **palette行选滚动**:scrollIntoView(已有)。
 5. **回放条AB**:AB标中点。
+
+## 下轮候选 v102（2026-11-15 · v101 落地后）
+
+v101 已落地:上季对比。跳过:帧号/route/AB中点/scroll(已)。
+
+1. **回放条?标title**:时间→帧号。
+2. **session卡subchain**:子代理chip title已,加点色。
+3. **digest格年累计**:加"本年X"。
+4. **palette重跑首**:重跑项置顶已有。
+5. **回放条AB名**:A/B标title带帧。
