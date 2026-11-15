@@ -2783,8 +2783,15 @@ ${quota || "| — | — | — |"}
     if (!list) return;
     const query = (q || "").toLowerCase();
     const vOnly = query.startsWith("v:") || query.startsWith("view:");
-    const q2 = vOnly ? query.replace(/^v(iew)?:/, "") : query;
+    const mOnly = query.startsWith("m:") || query.startsWith("memo:");
+    const q2 = vOnly ? query.replace(/^v(iew)?:/, "") : mOnly ? query.replace(/^m(emo)?:/, "") : query;
     const items = paletteItems().filter(it => (!q2 || it.search.includes(q2) || it.title.toLowerCase().includes(q2)) && (!vOnly || it.kind === "视图"));
+    if (mOnly) {
+      items.length = 0;
+      (scratch() || []).forEach(n => items.push({ kind: "便签", icon: "i-overview", title: n.label, sub: `${n.value} · ${n.at}`, search: (n.label + " " + n.value).toLowerCase(), run: () => { navigator.clipboard?.writeText(`${n.label}: ${n.value}`).then(() => toast("已复制便签")); closePalette(); } }));
+      items.push({ kind: "便签", icon: "i-overview", title: "全部便签", sub: `${(scratch() || []).length} 条`, search: "all memo", run: () => { const el = $("#note-card"); if (el) { el.hidden = false; el.scrollIntoView({ behavior: "smooth", block: "center" }); } closePalette(); } });
+    }
+    if (mOnly && q2) { const keep = items.filter(it => it.search.includes(q2) || it.title.toLowerCase().includes(q2)); items.length = 0; items.push(...keep); }
     // Group items by kind: a slim section label before each run of the same
     // kind (视图 / 跳转 / 动作 / 重跑). Keeps the long list scannable.
     let lastKind = "";
