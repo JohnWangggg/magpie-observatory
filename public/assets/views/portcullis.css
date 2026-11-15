@@ -1,0 +1,5 @@
+/* portcullis view */
+.pc-svg { display: block; width: 100%; height: 100%; }
+.pc-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.pc-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+.pc-fig { filter: drop-shadow(0 0 3px currentColor); }

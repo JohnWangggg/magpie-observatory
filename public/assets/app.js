@@ -133,6 +133,7 @@
     { id: "bellfoundry", title: "铸钟坊", eyebrow: "BELL FOUNDRY", group: "配额", icon: "i-flame", hint: "炉=配额窗 水=燃速 铃=会话 火=错" },
     { id: "atlas", title: "图集", eyebrow: "QUOTA ATLAS", group: "配额", icon: "i-route", hint: "页=配额窗 岛=用量 旗=会话" },
     { id: "manor", title: "庄园", eyebrow: "PROVIDER MANOR", group: "配额", icon: "i-magpie", hint: "翼=配额窗 灯=会话 园=余量 烟=错" },
+    { id: "portcullis", title: "闸门", eyebrow: "PORTCULLIS", group: "配额", icon: "i-magpie", hint: "闸=燃速 人=会话 炬=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
