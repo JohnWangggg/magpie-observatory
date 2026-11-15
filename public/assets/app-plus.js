@@ -327,8 +327,14 @@
       const d = (va != null && vb != null) ? vb - va : null;
       return `<div class="cmp-r"><span>${label}</span><b>${fmt ? fmt(va) : va}</b><em class="${d > 0 ? "up" : d < 0 ? "down" : ""}">${d != null ? (d > 0 ? "+" : "") + (k === "cost" ? d.toFixed(3) : k === "tps" || k === "cache" ? d.toFixed(1) : d) : "—"}</em><b>${fmt ? fmt(vb) : vb}</b></div>`;
     }).join("");
-    card.innerHTML = `<div class="digest-head"><b>帧对比</b><span>A=${a} → B=${b}</span></div>${rows}<small style="opacity:.55">A→B 区间 ${b - a} 帧</small>`;
-    card.addEventListener("click", () => card.remove());
+    card.innerHTML = `<div class="digest-head"><b>帧对比</b><span>A=${a} → B=${b}</span></div>${rows}<small style="opacity:.55">A→B 区间 ${b - a} 帧 · <button type="button" class="mini-btn cmp-copy">复制对比</button></small>`;
+    card.addEventListener("click", e => {
+      if (e.target.closest(".cmp-copy")) {
+        navigator.clipboard?.writeText(`回放帧对比 A=${a} → B=${b}(区间 ${b - a} 帧)\n` + K.map(([k, label, fmt]) => `${label}: ${fmt ? fmt(fa.data.kpis?.[k]) : fa.data.kpis?.[k]} → ${fmt ? fmt(fb.data.kpis?.[k]) : fb.data.kpis?.[k]}`).join("\n")).then(() => toast("对比已复制"));
+        return;
+      }
+      card.remove();
+    });
     document.body.appendChild(card);
     setTimeout(() => card.classList.add("in"), 10);
     closePalette();
@@ -1637,7 +1643,7 @@ show(F.length-1);
         const tail = days.slice(-7);
         if (tail.length < 2) return "";
         const pts = tail.map((d, i) => `${i * (70 / (tail.length - 1))},${(26 - (d.tokens || 0) / max * 22).toFixed(1)}`).join(" ");
-        return `<svg class="dig-bars" viewBox="0 0 72 28" aria-hidden="true"><polyline points="${pts}" fill="none" stroke="var(--accent)" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>${tail.map((d, i) => `<circle cx="${(i * (70 / (tail.length - 1))).toFixed(1)}" cy="${(26 - (d.tokens || 0) / max * 22).toFixed(1)}" r="1.6" fill="${i === tail.length - 2 ? "var(--accent)" : "color-mix(in srgb, var(--accent) 45%, transparent)"}"><title>${d.date} · ${d.tokens}</title></circle>`).join("")}</svg>`;
+        return `<svg class="dig-bars" viewBox="0 0 72 28" aria-hidden="true"><polyline points="${pts}" fill="none" stroke="var(--accent)" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>${tail.map((d, i) => `<circle cx="${(i * (70 / (tail.length - 1))).toFixed(1)}" cy="${(26 - (d.tokens || 0) / max * 22).toFixed(1)}" r="${i === tail.length - 2 ? 2.6 : 1.6}" fill="${i === tail.length - 2 ? "var(--accent)" : "color-mix(in srgb, var(--accent) 45%, transparent)"}" stroke="${i === tail.length - 2 ? "#fff" : "none"}" stroke-width=".8"><title>${d.date} · ${d.tokens}</title></circle>`).join("")}</svg>`;
       })()}
       <div class="digest-foot">连续使用 ${dayStreak()} 天 · ${dTok != null ? (dTok >= 0 ? "较前日 +" + dTok + "%" : "较前日 " + dTok + "%") : "保持热度"}
         <button class="mini-btn digest-week" type="button">看周报 →</button>
