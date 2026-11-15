@@ -91,6 +91,17 @@
         return `<i style="position:absolute;left:${l.toFixed(1)}%;width:${w.toFixed(1)}%;top:0;height:100%;background:color-mix(in srgb,var(--amber) 10%,transparent);pointer-events:none" title="第${m.idx}→${n.idx}帧区段"></i>`;
       }).join("");
       if (spans) strip.innerHTML += `<div style="position:absolute;inset:0;pointer-events:none">${spans}</div>`;
+      // Long-press a mark → set an A-B loop between that mark and the current
+      // frame (replay loops inside [A,B] until the next long-press).
+      strip.oncontextmenu = e => {
+        const i = e.target.dataset.mi;
+        if (i == null) return;
+        e.preventDefault();
+        const now = s.replay ? s.replay.idx : 0;
+        const a = Math.min(+i, now), b = Math.max(+i, now);
+        s.replayAB = s.replayAB && s.replayAB[0] === a && s.replayAB[1] === b ? null : [a, b];
+        toast(s.replayAB ? `A-B 循环 · ${a}→${b}` : "A-B 循环已取消");
+      };
     }
     // Session-start dots on the same strip: startedAt → position over the
     // buffer span (completion time isn't recorded; start is the marker).
@@ -183,6 +194,8 @@
     s._replayTimer = setInterval(() => {
       if (!s.replay) { clearInterval(s._replayTimer); s._replayTimer = null; return; }
       const next = s.replay.idx + 1;
+      // A-B loop: right-click a mark sets [A,B]; playback wraps inside it.
+      if (s.replayAB && next > s.replayAB[1]) { s.replay.idx = s.replayAB[0] - 1; scrubReplay(s.replayAB[0]); return; }
       if (next >= s.replayBuf.length) {
         if (s.replayLoop) { s.replay.idx = -1; scrubReplay(0); return; }
         clearInterval(s._replayTimer); s._replayTimer = null; $("#replay-play").textContent = "▶"; return;
@@ -1535,9 +1548,11 @@ show(F.length-1);
         ${(() => {
           try {
             const seen = JSON.parse(localStorage.getItem("magpie.viewSeen") || "[]");
+            const at = JSON.parse(localStorage.getItem("magpie.viewSeenAt") || "{}");
             const total = (Obs.api.VIEW_META || []).length;
             const pct = total ? Math.round(seen.length / total * 100) : 0;
-            return `<div class="dig-dex" style="cursor:pointer" title="点击 → 打开视图菜单"><small>图鉴</small><b>${seen.length}/${total} <em class="dig">${pct}%</em></b></div>`;
+            const todayNew = seen.filter(id => at[id] === today).length;
+            return `<div class="dig-dex" style="cursor:pointer" title="点击 → 打开视图菜单"><small>图鉴</small><b>${seen.length}/${total} <em class="dig">${pct}%${todayNew ? ` · 今日+${todayNew}` : ""}</em></b></div>`;
           } catch (_) { return ""; }
         })()}
         ${(() => {
