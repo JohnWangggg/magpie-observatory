@@ -1897,3 +1897,13 @@ v70 已落地：快照时间差。跳过:PNG缩略(canvas开销)、浮层tries(c
 3. **digest格图鉴渐**:图鉴格加今日数角标。
 4. **palette组计数**:pal-kind非折叠也显(N)。
 5. **回放帧标记色**:mark tick按帧时染色(早冷晚热)。
+
+## 下轮候选 v72（2026-11-15 · v71 落地后）
+
+v71 已落地：snaps清空、(N)总显、dataset防污染。跳过:tokbar粗(条窄已)、图鉴角标(今日+已有)、mark染色(amber已)。
+
+1. **回放键位卡分类**:keys-card分"播放/循环/分析/退出"组。
+2. **session卡provider点**:卡首try chip provider色点。
+3. **digest格趋势箭**:本月累计加同比箭头。
+4. **palette视图缩略**:pal-thumb失败时显view id占位。
+5. **回放AB拖全带**:拖带中部平移区间。
