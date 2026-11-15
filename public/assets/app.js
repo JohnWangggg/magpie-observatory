@@ -1040,7 +1040,14 @@
         const seen = (() => { try { return JSON.parse(localStorage.getItem("magpie.viewSeen") || "[]").length; } catch (_) { return 0; } })();
         none.innerHTML = `没有匹配的视图<br><small>图鉴 ${seen}/${VIEW_META.length}</small><br><button type="button" id="vm-lucky" class="vm-chip" style="margin-top:8px">🎲 随便来一个</button>`;
         none.querySelector("#vm-lucky")?.addEventListener("click", () => {
-          const v = VIEW_META[Math.floor(Math.random() * VIEW_META.length)];
+          // Bias the dice toward unseen views — the menu's discovery loop.
+          let pool = VIEW_META;
+          try {
+            const seen2 = JSON.parse(localStorage.getItem("magpie.viewSeen") || "[]");
+            const unseen = VIEW_META.filter(v => !seen2.includes(v.id));
+            if (unseen.length) pool = unseen;
+          } catch (_) {}
+          const v = pool[Math.floor(Math.random() * pool.length)];
           if (v) { setHeroMode(v.id); closeViewMenu(); toast("试试 " + v.title); }
         });
       }
@@ -2486,7 +2493,7 @@
         <button class="session-pin${pinned ? " on" : ""}" data-pin="${esc(s.id)}" title="${pinned ? "取消置顶" : "置顶会话"}" aria-label="pin">${pinned ? "★" : "☆"}</button>
         <span class="session-state ${st}">${STATUS_TEXT[s.status] || s.status}</span>
       </div>
-      <div class="session-meta"><span class="session-model">${esc(s.model)}</span><span class="session-route">→ ${s.group === "最近完成" ? "最近完成" : "group/" + esc(s.group || "direct")}</span></div>
+      <div class="session-meta"><span class="session-model" data-model="${esc(s.model)}" title="点击过滤此模型日志">${esc(s.model)}</span><span class="session-route">→ ${s.group === "最近完成" ? "最近完成" : "group/" + esc(s.group || "direct")}</span></div>
       <div class="session-bottom">
         <span><b>${s.tokens ? fmtTokens(s.tokens) : "—"}</b> TOK</span>
         <span>${fmtAge(age)}</span>
@@ -3656,6 +3663,17 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
         state.filter = { type: "provider", value: tryRow.dataset.prov };
         renderSessions(); renderDonut();
         toast(`已过滤到 ${tryRow.dataset.prov}`);
+        return;
+      }
+      // Click the model name → scope the request log to that model.
+      const modelEl = e.target.closest(".session-model[data-model]");
+      if (modelEl) {
+        e.stopPropagation();
+        state.logFilterModel = modelEl.dataset.model;
+        state.logQuery = modelEl.dataset.model;
+        const qs2 = $("#log-search"); if (qs2) qs2.value = state.logQuery;
+        renderLogs();
+        toast(`日志过滤 → ${modelEl.dataset.model.split("/").pop()}`);
         return;
       }
       const id = card.dataset.session;

@@ -1530,7 +1530,8 @@ show(F.length-1);
       <div class="digest-foot">连续使用 ${dayStreak()} 天 · ${dTok != null ? (dTok >= 0 ? "较前日 +" + dTok + "%" : "较前日 " + dTok + "%") : "保持热度"}
         <button class="mini-btn digest-week" type="button">看周报 →</button>
         <button class="mini-btn digest-md" type="button">复制 MD</button>
-        <button class="mini-btn digest-csv" type="button">复制 CSV</button></div>`;
+        <button class="mini-btn digest-csv" type="button">复制 CSV</button>
+        <button class="mini-btn digest-json" type="button">复制 JSON</button></div>`;
     card.addEventListener("click", e => {
       const errCell = e.target.closest(".dig-err");
       if (errCell) {
@@ -1565,6 +1566,11 @@ show(F.length-1);
         const errs = (s.data.logs || []).filter(l => l.status === "err").length;
         const csv = `date,tokens,calls,streak,top_provider,errors\n${y.date || today},${y.tokens || 0},${y.calls || 0},${dayStreak()},${topP ? topP[0] : ""},${errs}`;
         navigator.clipboard?.writeText(csv).then(() => toast("昨日摘要 CSV 已复制"));
+      }
+      else if (e.target.closest(".digest-json")) {
+        const errs = (s.data.logs || []).filter(l => l.status === "err").length;
+        const payload = { date: y.date || today, tokens: y.tokens || 0, calls: y.calls || 0, streak: dayStreak(), topProvider: topP ? topP[0] : null, errors: errs };
+        navigator.clipboard?.writeText(JSON.stringify(payload, null, 2)).then(() => toast("昨日摘要 JSON 已复制"));
       }
       card.remove();
     });
@@ -1895,6 +1901,14 @@ show(F.length-1);
       state().replayLoop = !state().replayLoop;
       e.target.title = `回放速度 · 循环${state().replayLoop ? "开" : "关"}`;
       toast("回放循环：" + (state().replayLoop ? "开" : "关"));
+    });
+    // Home/End jump to first/last frame while replaying.
+    document.addEventListener("keydown", e => {
+      if (!state()?.replay || e.metaKey || e.ctrlKey) return;
+      if (document.activeElement && /INPUT|TEXTAREA/.test(document.activeElement.tagName)) return;
+      const r = $("#replay-range");
+      if (e.key === "Home") { e.preventDefault(); if (r) { r.value = 0; scrubReplay(0); } }
+      if (e.key === "End") { e.preventDefault(); if (r) { r.value = state().replayBuf.length - 1; scrubReplay(+r.value); } }
     });
     ["rule-quota", "rule-err", "rule-cost"].forEach(id => {
       const el = $("#" + id);
