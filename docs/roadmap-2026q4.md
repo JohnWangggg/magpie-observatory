@@ -1998,3 +1998,13 @@ v80 已落地:?钮(键位卡已存/回放条有)。跳过:收藏(滚动20足)、
 3. **digest格属**:grid cell加hover型。
 4. **palette改道**:kind"重跑"改组"近作"。
 5. **回放条mark色**:mark tick hover放大1.5x。
+
+## 下轮候选 v82（2026-11-15 · v81 落地后）
+
+v81 已落地:top agent、mark放大。跳过:改道chip列(tries已有)、digest格hover(已)、重跑组改(语义清)。
+
+1. **回放?帧卡kpis**:加队列数。
+2. **session卡路由带**:group/divert色带。
+3. **digest格达标徽**:达标日加边框。
+4. **palette视图热区**:视图项hover展预览。
+5. **回放帧比AB差**:AB卡加tps列。
