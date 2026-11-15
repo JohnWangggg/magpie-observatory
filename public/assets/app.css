@@ -2626,6 +2626,9 @@ body.layout-edit .grid > [data-slot] .attn-strip { pointer-events: none; }
 }
 .seg-btn:hover { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, var(--card-2)); }
 
+#replay-marks i[data-mi] { transition: transform .12s; transform-origin: bottom center; }
+#replay-marks i[data-mi]:hover { transform: scale(1.5); }
+
 /* hidden attribute must win over component display rules */
 .replay-bar[hidden], .slot-x[hidden], .attn-strip[hidden] { display: none !important; }
 
