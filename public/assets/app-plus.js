@@ -2304,7 +2304,7 @@ show(F.length-1);
           pop.className = "gwcmp-card frame-pop";
           const k = f.data.kpis || {};
           pop.innerHTML = `<div class="digest-head"><b>帧 ${idx}</b><span>${new Date(f.t).toTimeString().slice(0, 8)}</span></div><div class="cmp-r"><span>TOK</span><b>${fmtTokens(k.tokens)}</b><em></em><b>${k.tps != null ? k.tps.toFixed(1) : "—"}/s</b></div><div class="cmp-r"><span>调用</span><b>${k.calls || 0}</b><em></em><b>${k.errors || 0} 错</b></div><div class="cmp-r"><span>会话</span><b>${(f.data.sessions || []).length}</b><em></em><b>${fmtMoney(k.cost)}</b></div>`;
-          pop.innerHTML += ((f.data.sessions || []).slice(0, 3).map(sx => `<div class="cmp-r"><span>${esc((sx.title || "?").slice(0, 14))}</span><b>${fmtTokens(sx.tokens || 0)}</b><em></em><b>${esc(sx.agent || "")}</b></div>`).join("") + ((f.data.sessions || []).length > 3 ? `<small style="opacity:.55">+${(f.data.sessions || []).length - 3} 会话</small>` : ""));
+          pop.innerHTML += ((f.data.sessions || []).slice(0, 3).map(sx => `<div class="cmp-r" data-sid="${esc(sx.id || "")}" style="cursor:pointer" title="点击选此会话"><span>${esc((sx.title || "?").slice(0, 14))}</span><b>${fmtTokens(sx.tokens || 0)}</b><em></em><b>${esc(sx.agent || "")}</b></div>`).join("") + ((f.data.sessions || []).length > 3 ? `<small style="opacity:.55">+${(f.data.sessions || []).length - 3} 会话</small>` : ""));
           pop.innerHTML += `<div style="margin-top:6px"><button type="button" class="mini-btn snap-save" style="font-size:8.5px">存为记录</button><button type="button" class="mini-btn snap-dl" style="font-size:8.5px;margin-left:4px">导出此帧</button></div>`;
           // Pin the pop just above the replay bar instead of the page centre.
           const barEl = $("#replay-bar");
@@ -2319,6 +2319,8 @@ show(F.length-1);
               const a2 = document.createElement("a"); a2.href = URL.createObjectURL(blob); a2.download = `magpie-frame-${idx}.json`; a2.click(); setTimeout(() => URL.revokeObjectURL(a2.href), 2000);
               return;
             }
+            const sRow = e.target.closest("[data-sid]");
+            if (sRow && sRow.dataset.sid) { const sel = document.querySelector(`.qp-item[data-ri="${sRow.dataset.sid}"]`); if (sel) sel.click(); pop.remove(); return; }
             pop.remove();
           });
           document.body.appendChild(pop);
