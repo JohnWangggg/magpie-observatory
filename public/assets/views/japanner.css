@@ -1,0 +1,7 @@
+/* japanner view */
+@keyframes jpnpolish { 0%,100% { transform: translateX(0); } 50% { transform: translateX(4px); } }
+.jpn-svg { display: block; width: 100%; height: 100%; }
+.jpn-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.jpn-man { animation: jpnpolish ease-in-out infinite; }
+.jpn-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .jpn-man { animation: none; } }
