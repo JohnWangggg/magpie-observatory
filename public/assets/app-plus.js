@@ -1459,7 +1459,7 @@ show(F.length-1);
         <div><small>tokens</small><b>${fmtTokens(y.tokens)}${dTok != null ? `<em class="dig ${dTok >= 0 ? "up" : "down"}">${dTok >= 0 ? "▲" : "▼"}${Math.abs(dTok)}%</em>` : ""}</b></div>
         <div><small>调用</small><b>${y.calls || 0}${dCall != null ? `<em class="dig ${dCall >= 0 ? "up" : "down"}">${dCall >= 0 ? "▲" : "▼"}${Math.abs(dCall)}%</em>` : ""}</b></div>
         <div><small>连续使用</small><b>${dayStreak()} 天</b></div>
-        <div><small>最常用</small><b>${meta ? esc(meta.name) : "—"}</b></div>
+        <div class="dig-top" data-dig-prov="${topP ? esc(topP[0]) : ""}" style="${topP ? "cursor:pointer" : ""}" title="${topP ? "点击 → 过滤 " + esc(meta ? meta.name : topP[0]) + " 会话" : ""}"><small>最常用</small><b>${meta ? esc(meta.name) : "—"}</b></div>
         ${wk || ""}
         ${(() => {
           try {
@@ -1519,6 +1519,17 @@ show(F.length-1);
         Obs.api.renderAll && Obs.api.renderAll();
         card.remove();
         toast(`已过滤到 ${prov} · 错误聚类下钻`);
+        return;
+      }
+      const topCell = e.target.closest(".dig-top");
+      if (topCell) {
+        const prov = topCell.dataset.digProv;
+        if (prov) {
+          state().filter = { type: "provider", value: prov };
+          Obs.api.renderAll && Obs.api.renderAll();
+          toast(`已过滤到 ${prov}`);
+        }
+        card.remove();
         return;
       }
       if (e.target.closest(".digest-week")) { weeklyReport(); }
@@ -2172,6 +2183,7 @@ ${quota || "| — | — | — |"}
       { kind: "动作", icon: "i-pause", title: s && s.paused ? "继续演示" : "暂停演示", sub: "快捷键 Space", search: "pause 暂停 播放".toLowerCase(), run: () => $("#demo-toggle").click() },
       { kind: "动作", icon: "i-clock", title: "回放最近3分钟", sub: "快捷键 R", search: "replay 回放 时间轴".toLowerCase(), run: () => { state() && state().replay ? exitReplay() : startReplay(); } },
       { kind: "动作", icon: "i-pin", title: "回放书签", sub: "列出 B 键标记帧 · 点击跳转", search: "replay bookmark 书签 标记 帧".toLowerCase(), run: showReplayMarks },
+      { kind: "动作", icon: "i-link", title: "复制回放书签 JSON", sub: "B 键标记帧导出", search: "replay marks export 复制 书签 json".toLowerCase(), run: () => { let m = []; try { m = JSON.parse(localStorage.getItem("magpie.replayMarks") || "[]"); } catch (_) {} navigator.clipboard?.writeText(JSON.stringify(m, null, 2)).then(() => toast(m.length + " 个书签已复制")); closePalette(); } },
       { kind: "动作", icon: "i-link", title: "复制状态链接", sub: "?view&range&cinema 快照 URL · ⌘S", search: "share 分享 链接 状态 url".toLowerCase(), run: shareStateLink },
       { kind: "动作", icon: "i-pin", title: "设为默认视图", sub: "下次打开直达当前视图", search: "default 默认 视图 pin".toLowerCase(), run: () => { if (s && s.heroMode) { localStorage.setItem("magpie.defaultView", s.heroMode); toast("默认视图：" + (Obs.api.viewMeta(s.heroMode) || {}).title); closePalette(); } } },
       { kind: "动作", icon: "i-arrow", title: "导出今日分享图", sub: "1200×630 PNG", search: "share 分享 导出 截图".toLowerCase(), run: () => shareToday() },

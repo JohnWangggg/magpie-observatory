@@ -1031,7 +1031,20 @@
       g.hidden = !scoped || !Array.from(g.querySelectorAll(".vm-item")).some(b => !b.hidden);
     });
     const none = $("#vm-none");
-    if (none) none.hidden = shown > 0;
+    if (none) {
+      none.hidden = shown > 0;
+      if (!none.hidden && !none.dataset.rich) {
+        none.dataset.rich = "1";
+        // Empty state: catalog progress + a lucky-dip button (the menu's
+        // whole point is discovery — never leave a dead end).
+        const seen = (() => { try { return JSON.parse(localStorage.getItem("magpie.viewSeen") || "[]").length; } catch (_) { return 0; } })();
+        none.innerHTML = `没有匹配的视图<br><small>图鉴 ${seen}/${VIEW_META.length}</small><br><button type="button" id="vm-lucky" class="vm-chip" style="margin-top:8px">🎲 随便来一个</button>`;
+        none.querySelector("#vm-lucky")?.addEventListener("click", () => {
+          const v = VIEW_META[Math.floor(Math.random() * VIEW_META.length)];
+          if (v) { setHeroMode(v.id); closeViewMenu(); toast("试试 " + v.title); }
+        });
+      }
+    }
   }
 
   function positionViewMenu() {
@@ -2478,6 +2491,7 @@
         <span><b>${s.tokens ? fmtTokens(s.tokens) : "—"}</b> TOK</span>
         <span>${fmtAge(age)}</span>
         ${s.fallbacks ? `<span class="chip amber">${s.fallbacks} 改道</span>` : ""}
+        ${(s.subagents || []).length ? `<span class="chip accent" title="子代理数">${s.subagents.length} 子代理</span>` : ""}
         <span class="tps ${tpsClass(s.tps)}">${tps}</span>
       </div>
       ${subs}
