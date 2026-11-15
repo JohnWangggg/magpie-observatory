@@ -2657,8 +2657,11 @@ ${quota || "| — | — | — |"}
     const pal = $("#cmd-palette");
     if (!pal) return;
     pal.hidden = false;
-    $("#palette-input").value = "";
-    renderPalette("");
+    const inp0 = $("#palette-input");
+    const lastQ = localStorage.getItem("magpie.palQ") || "";
+    inp0.value = lastQ;
+    renderPalette(lastQ);
+    if (lastQ) inp0.select();
     setTimeout(() => $("#palette-input").focus(), 30);
   }
   function closePalette() {
@@ -2842,7 +2845,7 @@ ${quota || "| — | — | — |"}
   document.addEventListener("DOMContentLoaded", () => {
     const inp = $("#palette-input");
     if (inp) {
-      inp.addEventListener("input", e => renderPalette(e.target.value));
+      inp.addEventListener("input", e => { try { localStorage.setItem("magpie.palQ", e.target.value); } catch (_) {} renderPalette(e.target.value); });
       let palIdx = -1;
       inp.addEventListener("keydown", e => {
         const items = [...document.querySelectorAll(".pal-item")];
