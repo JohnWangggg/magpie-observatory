@@ -1,0 +1,7 @@
+/* signalman view */
+@keyframes sgnheave { 0%,100% { transform: translateY(0); } 50% { transform: translateY(2px); } }
+.sgn-svg { display: block; width: 100%; height: 100%; }
+.sgn-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.sgn-man { animation: sgnheave ease-in-out infinite; }
+.sgn-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .sgn-man { animation: none; } }

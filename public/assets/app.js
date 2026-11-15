@@ -399,6 +399,7 @@
     { id: "customshouse", title: "关楼", eyebrow: "PROVIDER CUSTOMSHOUSE", group: "用量", icon: "i-magpie", hint: "署=provider 包=token 戳=会话 锁=错" },
     { id: "pilothouse", title: "引航", eyebrow: "PROVIDER PILOTHOUSE", group: "用量", icon: "i-magpie", hint: "站=provider 舟=token 读=会话 雾=错" },
     { id: "lookout", title: "瞭望塔", eyebrow: "PROVIDER LOOKOUT", group: "用量", icon: "i-magpie", hint: "台=provider 帆=token 望=会话 破=错" },
+    { id: "signalman", title: "信号台", eyebrow: "PROVIDER SIGNALMAN", group: "用量", icon: "i-magpie", hint: "塔=provider 旗=token 绞=会话 缠=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
