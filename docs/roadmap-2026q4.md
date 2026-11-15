@@ -1242,3 +1242,13 @@ v5 已落地：对比面板用 viewRecent 次近项、quota 长按复制详情�
 3. **视图快捷设置**：hero 区右键菜单（非仅收星）——随机/巡游/对比/导出入口。
 4. **session 分组**：live-panel 按 group 或 provider 分节显示（长列表可读性）。
 5. **KPI 自定义**：KPI 行可选卡（隐藏/重排持久化，与 layoutEdit 不同粒度）。
+
+## 下轮候选 v7（2026-11-15 · v6 部分落地后）
+
+v6 已落地：digest 昨日解锁播报、digest-md 错误行、hero 右键快捷菜单(6项)、recent 会话按 provider 分节。跳过：PWA(已有)、菜单分批(收益低)。
+
+1. **多网关并行对比**：server 支持多 endpoint 注册，palette 命令已有 compareGateways，扩展为真实双网关。
+2. **KPI 自定义卡**：KPI 行可隐藏/重排（粒度比 layoutEdit 细），存 magpie.kpiOrder。
+3. **session 卡片二级**：点开卡片→内联 tries/subagents 明细(现需右键+popover)。
+4. **hero 空态智能**：route 空时按热力推荐"可能喜欢的视图"(viewHeat top)。
+5. **数据导出扩展**：digest/weekly 可复制 PNG 截图(dom-to-image 或 screenshot API)。
