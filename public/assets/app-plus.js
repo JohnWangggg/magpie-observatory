@@ -2260,6 +2260,7 @@ show(F.length-1);
           toast("A-B 循环已清");
         }
       }
+
     });
     ["rule-quota", "rule-err", "rule-cost"].forEach(id => {
       const el = $("#" + id);

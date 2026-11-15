@@ -3203,3 +3203,4 @@ body.mini .route-stage { min-height: 0 !important; }
 .session-card.st-fail::before { background: var(--red); opacity: .9; }
 .session-card.st-queued::before { background: var(--amber); }
 .session-card.st-streaming::before { background: var(--accent); }
+.session-card.multi { background: color-mix(in srgb, var(--accent) 7%, var(--card)); }
