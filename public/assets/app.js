@@ -423,6 +423,7 @@
     { id: "fellmonger", title: "羊毛商", eyebrow: "PROVIDER FELLMONGER", group: "用量", icon: "i-magpie", hint: "架=provider 毛=token 分=会话 蛀=错" },
     { id: "leatherseller", title: "皮商", eyebrow: "PROVIDER LEATHERSELLER", group: "用量", icon: "i-magpie", hint: "铺=provider 卷=token 量=会话 裂=错" },
     { id: "tailor", title: "裁缝", eyebrow: "PROVIDER TAILOR", group: "用量", icon: "i-magpie", hint: "台=provider 料=token 缝=会话 剪=错" },
+    { id: "shoemaker", title: "鞋匠", eyebrow: "PROVIDER SHOEMAKER", group: "用量", icon: "i-magpie", hint: "楦=provider 鞋=token 缝=会话 崩=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
