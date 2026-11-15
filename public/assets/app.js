@@ -1449,7 +1449,13 @@
         <span class="agent-live"><i></i>${a.active || "—"}</span>
         <span class="agent-load"><i style="width:${Math.round(a.tokens / maxAgentTokens * 100)}%"></i></span>
       </div>`;
-    }).join("") || `<div class="hero-empty" role="note"><b>暂无会话</b><span>等一次请求落进来 — 或者：</span><div class="hero-empty-acts"><button type="button" data-he="random">随机视图</button><button type="button" data-he="tour">巡游</button><button type="button" data-he="views">浏览 ${VIEW_META.length} 个视图</button></div></div>`;
+    }).join("") || (() => {
+      // viewHeat-driven suggestion: the view you open most, minus the current.
+      let hotId = null;
+      try { const h = JSON.parse(localStorage.getItem("magpie.viewHeat") || "{}"); hotId = Object.entries(h).sort((a, b) => b[1] - a[1]).find(([id]) => id !== state.heroMode && VIEW_META.some(v => v.id === id))?.[0] || null; } catch (_) {}
+      const hotMeta = hotId ? viewMeta(hotId) : null;
+      return `<div class="hero-empty" role="note"><b>暂无会话</b><span>等一次请求落进来 — 或者：</span><div class="hero-empty-acts"><button type="button" data-he="random">随机视图</button><button type="button" data-he="tour">巡游</button>${hotMeta ? `<button type="button" data-he="hot" data-vid="${hotId}">${esc(hotMeta.title)}</button>` : ""}<button type="button" data-he="views">浏览 ${VIEW_META.length} 个视图</button></div></div>`;
+    })();
 
     const provMap = new Map();
     all.forEach(s => {
@@ -3790,6 +3796,7 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
         if (a === "random") randomView();
         else if (a === "tour") { if (!state.tour) startTour(); }
         else if (a === "views") { const p = $("#view-picker"); if (p) p.click(); }
+        else if (a === "hot" && he.dataset.vid) setHeroMode(he.dataset.vid);
         return;
       }
       // Legend chips in custom views — click an agent swatch to filter the
