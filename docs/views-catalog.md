@@ -1,4 +1,4 @@
-# Magpie Observatory · 视图图鉴 (400)
+# Magpie Observatory · 视图图鉴 (401)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
@@ -10,7 +10,7 @@
 | [延迟](#延迟) | 2 |
 | [氛围](#氛围) | 3 |
 | [场景](#场景) | 233 |
-| [用量](#用量) | 29 |
+| [用量](#用量) | 30 |
 | [天象](#天象) | 17 |
 | [洞察](#洞察) | 10 |
 | [结构](#结构) | 6 |
@@ -76,7 +76,7 @@
 | `doocot` | 鸽舍 | QUOTA DOOCOT | 舍=配额窗 巢=余量 鸽=会话 瓦=错 | ![doocot](../public/shots/doocot.png) |
 | `vault` | 金库 | QUOTA VAULT | 门=配额窗 开=余量 锭=用量 锁=会话 钻=错 | ![vault](../public/shots/vault.png) |
 | `ferry` | 渡口 | QUOTA FERRY | 渡=配额窗 程=用量 客=会话 绳=错 | ![ferry](../public/shots/ferry.png) |
-| `shottower` | 弹塔 | QUOTA SHOTTOWER | 塔=配额窗 高=用量 丸=会话 裂=错 | — |
+| `shottower` | 弹塔 | QUOTA SHOTTOWER | 塔=配额窗 高=用量 丸=会话 裂=错 | ![shottower](../public/shots/shottower.png) |
 | `rosetta` | 罗塞塔 | ROSETTA | 环带=配额 刻痕=会话 | ![rosetta](../public/shots/rosetta.png) |
 | `eclipse` | 日蚀 | ECLIPSE | 暗盘=量 冕=会话 沿=窗 | ![eclipse](../public/shots/eclipse.png) |
 | `tapestry` | 织锦 | TAPESTRY | 经=配额 纬=会话 | ![tapestry](../public/shots/tapestry.png) |
@@ -335,7 +335,7 @@
 | `reserve2` | 保护区二号 | RESERVE II | 观测=配额窗 隙=用量 栖枝=过热 守护=会话 | ![reserve2](../public/shots/reserve2.png) |
 | `desert` | 沙丘 | DESERT | 丘=配额窗 高=用量 驼=会话 | ![desert](../public/shots/desert.png) |
 
-## 用量 (29)
+## 用量 (30)
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
@@ -356,6 +356,7 @@
 | `faultline` | 断层 | PROVIDER FAULTLINE | 迹=provider 错=token 震=会话 带=错 | ![faultline](../public/shots/faultline.png) |
 | `cloister` | 回廊 | PROVIDER CLOISTER | 拱=provider 深=token 烛=会话 坠=错 | ![cloister](../public/shots/cloister.png) |
 | `sounder` | 测深锤 | PROVIDER SOUNDER | 坠=provider 深=token 溅=会话 断=错 | ![sounder](../public/shots/sounder.png) |
+| `odeon` | 乐厅 | PROVIDER ODEON | 环=provider 座=token 炬=会话 | — |
 | `rings` | Token 年轮 | YEAR IN RINGS | 26 周极坐标日历 | ![rings](../public/shots/rings.png) |
 | `latency` | 延迟热力 | LATENCY HEATMAP | 时间 × 延迟 | ![latency](../public/shots/latency.png) |
 | `stream` | 流量河流 | STREAMGRAPH | Provider 增量 | ![stream](../public/shots/stream.png) |
