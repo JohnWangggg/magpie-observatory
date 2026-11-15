@@ -3611,6 +3611,23 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
         toast(i >= 0 ? "已取消置顶" : "会话已置顶");
         return;
       }
+      // Click the amber fallbacks chip → toggle this card's tries detail
+      // inline (without selecting the card).
+      const fbChip = e.target.closest(".chip.amber");
+      if (fbChip && e.target.closest(".session-card")) {
+        const c = e.target.closest(".session-card");
+        const sid = c.dataset.session;
+        const sess = (state.data.sessions || []).concat(state.data.recent || []).find(x => x.id === sid);
+        const existing = c.querySelector(".tries-detail");
+        if (existing) { existing.remove(); return; }
+        if (sess && (sess.tries || []).length) {
+          const div = document.createElement("div");
+          div.className = "tries-detail";
+          div.innerHTML = sess.tries.map(t => `<div class="try-row"><em class="${t.state === "ok" ? "ok" : "fail"}">${t.state === "ok" ? "✓" : "✗"}</em><span>${esc(D.providerMeta(t.provider)?.name || t.provider)}</span><span class="try-model">${esc((t.model || "").split("/").pop())}</span><span>${t.ms ? (t.ms >= 1000 ? (t.ms/1000).toFixed(1) + "s" : Math.round(t.ms) + "ms") : "—"}</span></div>`).join("");
+          c.appendChild(div);
+        }
+        return;
+      }
       const card = e.target.closest(".session-card");
       if (!card) return;
       // Multi-select: Shift+click toggles a checked set; a floating batch bar
@@ -4180,7 +4197,16 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
         try { localStorage.setItem("magpie.replayMarks", JSON.stringify(marks.slice(-20))); } catch (_) {}
         toast(`回放书签 · 第 ${state.replay.idx} 帧（共 ${marks.length} 个）`);
       }
-      if (e.key.toLowerCase() === "g" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); if (state.tour) stopTour(); else { closeViewMenu(); startTour(); } }
+      // g: view-menu open → dice to a random view; otherwise tour toggle.
+      if (e.key.toLowerCase() === "g" && !e.metaKey && !e.ctrlKey && !e.altKey) {
+        e.preventDefault();
+        const menu = $("#view-menu");
+        if (menu && !menu.hidden) {
+          const v = VIEW_META[Math.floor(Math.random() * VIEW_META.length)];
+          if (v) { setHeroMode(v.id); closeViewMenu(); toast("试试 " + v.title); }
+        } else if (state.tour) stopTour();
+        else { closeViewMenu(); startTour(); }
+      }
       if (e.key.toLowerCase() === "f" && !e.metaKey && !e.ctrlKey && !e.altKey) { e.preventDefault(); toggleFavorite(state.heroMode); }
       if (e.key.toLowerCase() === "n" && !e.metaKey && !e.ctrlKey && !e.altKey) {
         e.preventDefault();

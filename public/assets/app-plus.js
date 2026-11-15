@@ -1716,6 +1716,14 @@ show(F.length-1);
       const md = `## 便签 ${new Date().toLocaleString("zh-CN", { hour12: false })}\n\n| 指标 | 值 | 时间 |\n| --- | --- | --- |\n` + list.map(n => `| ${n.label} | ${n.value} | ${n.at} |`).join("\n");
       navigator.clipboard?.writeText(md).then(() => toast(`便签已复制(${list.length} 条)`));
     });
+    // Long-press / alt-click 复制 → JSON instead of Markdown (power users
+    // get both; the regular click stays MD).
+    $("#note-copy")?.addEventListener("contextmenu", e => {
+      e.preventDefault();
+      const list = scratch();
+      if (!list.length) { toast("便签为空"); return; }
+      navigator.clipboard?.writeText(JSON.stringify(list, null, 2)).then(() => toast(`便签 JSON 已复制(${list.length} 条)`));
+    });
     card.addEventListener("click", e => {
       const rm = e.target.closest("[data-note-rm]");
       if (!rm) return;
