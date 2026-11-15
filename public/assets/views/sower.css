@@ -1,0 +1,7 @@
+/* sower view */
+@keyframes swrcast { 0%,100% { transform: rotate(0); } 50% { transform: rotate(-8deg); } }
+.swr-svg { display: block; width: 100%; height: 100%; }
+.swr-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.swr-man { animation: swrcast ease-in-out infinite; transform-origin: 0 12px; }
+.swr-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .swr-man { animation: none; } }

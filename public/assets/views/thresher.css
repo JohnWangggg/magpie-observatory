@@ -1,0 +1,7 @@
+/* thresher view */
+@keyframes thrflail { 0%,100% { transform: rotate(0); } 50% { transform: rotate(14deg); } }
+.thr-svg { display: block; width: 100%; height: 100%; }
+.thr-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.thr-man { animation: thrflail ease-in-out infinite; transform-origin: 0 12px; }
+.thr-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .thr-man { animation: none; } }
