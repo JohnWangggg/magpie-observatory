@@ -1,4 +1,4 @@
-# Magpie Observatory · 视图图鉴 (390)
+# Magpie Observatory · 视图图鉴 (391)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
@@ -6,7 +6,7 @@
 | 分组 | 数量 |
 |---|---|
 | [实时](#实时) | 16 |
-| [配额](#配额) | 28 |
+| [配额](#配额) | 29 |
 | [延迟](#延迟) | 2 |
 | [氛围](#氛围) | 3 |
 | [场景](#场景) | 233 |
@@ -42,7 +42,7 @@
 | `lighthouse` | 灯塔 | LIGHTHOUSE | 塔=配额 光束=会话 | ![lighthouse](../public/shots/lighthouse.png) |
 | `harbor` | 港口 | HARBOR | 船=agent 箱=tries 浮标=配额 | ![harbor](../public/shots/harbor.png) |
 
-## 配额 (28)
+## 配额 (29)
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
@@ -70,6 +70,7 @@
 | `oast` | 烘麦窑 | QUOTA OAST | 窑=配额窗 锥=用量 风=会话 环=错 | ![oast](../public/shots/oast.png) |
 | `croft` | 小农场 | QUOTA CROFT | 垄=配额窗 沟=用量 羊=会话 云=错 | ![croft](../public/shots/croft.png) |
 | `tidemill` | 潮汐磨坊 | QUOTA TIDEMILL | 轮=配额窗 速=用量 鱼=会话 | ![tidemill](../public/shots/tidemill.png) |
+| `cadence` | 节奏 | QUOTA CADENCE | 钟=配额窗 摆=用量 亮=会话 裂=错 | — |
 | `rosetta` | 罗塞塔 | ROSETTA | 环带=配额 刻痕=会话 | ![rosetta](../public/shots/rosetta.png) |
 | `eclipse` | 日蚀 | ECLIPSE | 暗盘=量 冕=会话 沿=窗 | ![eclipse](../public/shots/eclipse.png) |
 | `tapestry` | 织锦 | TAPESTRY | 经=配额 纬=会话 | ![tapestry](../public/shots/tapestry.png) |
@@ -345,7 +346,7 @@
 | `driftline` | 雪脊 | PROVIDER DRIFTLINE | 堆=provider 高=token 粒=会话 裂=错 | ![driftline](../public/shots/driftline.png) |
 | `windfarm` | 风电场 | PROVIDER WINDFARM | 塔=provider 叶=用量 条=错 | ![windfarm](../public/shots/windfarm.png) |
 | `quarry` | 采石场 | PROVIDER QUARRY | 层=provider 深=token 车=会话 脉=错 | ![quarry](../public/shots/quarry.png) |
-| `pier` | 防波堤 | PROVIDER PIER | 桩=provider 深=token 鸟=会话 斜=错 | — |
+| `pier` | 防波堤 | PROVIDER PIER | 桩=provider 深=token 鸟=会话 斜=错 | ![pier](../public/shots/pier.png) |
 | `rings` | Token 年轮 | YEAR IN RINGS | 26 周极坐标日历 | ![rings](../public/shots/rings.png) |
 | `latency` | 延迟热力 | LATENCY HEATMAP | 时间 × 延迟 | ![latency](../public/shots/latency.png) |
 | `stream` | 流量河流 | STREAMGRAPH | Provider 增量 | ![stream](../public/shots/stream.png) |

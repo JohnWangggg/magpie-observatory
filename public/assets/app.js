@@ -163,6 +163,7 @@
     { id: "windfarm", title: "风电场", eyebrow: "PROVIDER WINDFARM", group: "用量", icon: "i-pulse", hint: "塔=provider 叶=用量 条=错" },
     { id: "quarry", title: "采石场", eyebrow: "PROVIDER QUARRY", group: "用量", icon: "i-magpie", hint: "层=provider 深=token 车=会话 脉=错" },
     { id: "pier", title: "防波堤", eyebrow: "PROVIDER PIER", group: "用量", icon: "i-magpie", hint: "桩=provider 深=token 鸟=会话 斜=错" },
+    { id: "cadence", title: "节奏", eyebrow: "QUOTA CADENCE", group: "配额", icon: "i-clock", hint: "钟=配额窗 摆=用量 亮=会话 裂=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
