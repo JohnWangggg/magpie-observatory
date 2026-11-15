@@ -2513,3 +2513,13 @@ v131 已落地:置顶数、次错源格(点击下钻同主聚类)。
 3. **pal热组**:常用组。
 4. **digest格ttft均值**。
 5. **session卡provider数**。
+
+## 下轮候选 v133（2026-11-15 · v132 落地后）
+
+v132 已落地:TTFT均值格(r.ttft已验证)。跳过:其余。
+
+1. **agent卡吞吐title**。
+2. **回放条B-mark闪烁?**。
+3. **pal常用组**:heat>=3的项聚"常用"组。
+4. **digest格tps峰值**:max tps。
+5. **session卡agent色边**。
