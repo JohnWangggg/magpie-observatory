@@ -680,6 +680,20 @@ show(F.length-1);
       pop.style.top = Math.max(8, r.top - pop.offsetHeight - 10) + "px";
     });
     grid.addEventListener("mouseleave", () => { pop.hidden = true; cur = null; });
+    // Long-press a heat cell → copy that day's figures.
+    let heatLp = null;
+    grid.addEventListener("touchstart", e => {
+      const cell = e.target.closest(".heat-cell");
+      if (!cell) return;
+      const idx = [...grid.children].indexOf(cell);
+      heatLp = setTimeout(() => {
+        const days = ((state() && state().data.heatmap) || []).slice(-grid.children.length);
+        const d = days[idx];
+        if (!d) return;
+        navigator.clipboard?.writeText(`${d.date}: ${d.tokens} tokens, ${d.calls || 0} calls`).then(() => toast(`${d.date.slice(5)} 已复制`));
+      }, 600);
+    }, { passive: true });
+    ["touchend", "touchmove", "touchcancel"].forEach(ev => grid.addEventListener(ev, () => clearTimeout(heatLp), { passive: true }));
   }
   /* ====================================================== export PNG ====== */
   // Serialize the active stage view's largest SVG (or canvas) into a PNG.
@@ -1349,6 +1363,14 @@ show(F.length-1);
       }
       card.remove();
     });
+    // Swipe the digest away horizontally (touch UIs: dismiss affordance).
+    let dgX = null;
+    card.addEventListener("touchstart", e => { if (e.touches.length === 1) dgX = e.touches[0].clientX; }, { passive: true });
+    card.addEventListener("touchend", e => {
+      if (dgX == null || e.changedTouches.length !== 1) return;
+      const dx = e.changedTouches[0].clientX - dgX; dgX = null;
+      if (Math.abs(dx) > 60) card.remove();
+    }, { passive: true });
     document.body.appendChild(card);
     setTimeout(() => card.classList.add("in"), 10);
     setTimeout(() => { card.classList.remove("in"); setTimeout(() => card.remove(), 300); }, 12000);
