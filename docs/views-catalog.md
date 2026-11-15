@@ -1,4 +1,4 @@
-# Magpie Observatory · 视图图鉴 (349)
+# Magpie Observatory · 视图图鉴 (350)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
@@ -12,11 +12,11 @@
 | [场景](#场景) | 232 |
 | [用量](#用量) | 14 |
 | [天象](#天象) | 17 |
+| [洞察](#洞察) | 10 |
 | [结构](#结构) | 6 |
 | [几何](#几何) | 11 |
 | [趣味](#趣味) | 6 |
 | [生态](#生态) | 31 |
-| [洞察](#洞察) | 9 |
 | [抽象](#抽象) | 1 |
 
 ---
@@ -323,7 +323,7 @@
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
-| `sundial` | 日晷 | HOUR SUNDIAL | 影=时刻 石=会话 刻=小时 | — |
+| `sundial` | 日晷 | HOUR SUNDIAL | 影=时刻 石=会话 刻=小时 | ![sundial](../public/shots/sundial.png) |
 | `stellar` | 夜航 | STELLAR DRIFT | 星空与流星 · 陪伴首选 | ![stellar](../public/shots/stellar.png) |
 | `aurora` | 极光 | AURORA | 请求=天空光带 | ![aurora](../public/shots/aurora.png) |
 | `constellation` | 星座 | CONSTELLATION | 会话=星图 | ![constellation](../public/shots/constellation.png) |
@@ -340,6 +340,21 @@
 | `glacier` | 冰川 | GLACIER | 冰=配额窗 高=用量 鹅=会话 | ![glacier](../public/shots/glacier.png) |
 | `monsoon` | 雨季 | MONSOON | 云=配额窗 雨=用量 伞=会话 | ![monsoon](../public/shots/monsoon.png) |
 | `solarwind` | 太阳风 | SOLAR WIND | 冕=配额窗 珥=用量 粒=会话 | ![solarwind](../public/shots/solarwind.png) |
+
+## 洞察 (10)
+
+| id | 标题 | eyebrow | 说明 | 预览 |
+|---|---|---|---|---|
+| `ledger` | 账本 | PROVIDER LEDGER | 栏=provider 行=日志 Σ=token | — |
+| `forecast` | 预测 | FORECAST | 烧线+虚线投影 · ⚠=重置前耗尽 | ![forecast](../public/shots/forecast.png) |
+| `trophies` | 成就 | TROPHIES | 徽章架 · 环=解锁进度 | ![trophies](../public/shots/trophies.png) |
+| `burnrate` | 燃尽 | BURNRATE | 本月每日成本 · 虚线=月末预测 | ![burnrate](../public/shots/burnrate.png) |
+| `scorecard` | 计分卡 | SCORECARD | 弧=成功率 针=延迟 V=回退 | ![scorecard](../public/shots/scorecard.png) |
+| `latrank` | 延迟榜 | LATRANK | 粗=TTFT 细=TPS · 奖牌/蜗牛 | ![latrank](../public/shots/latrank.png) |
+| `league` | 联赛 | LEAGUE | 模型份额榜 · ↺=掉包率 | ![league](../public/shots/league.png) |
+| `versus` | 对决 | VERSUS | Agent 对阵 · 粗=tokens 细=时长 | ![versus](../public/shots/versus.png) |
+| `accounts` | 账户 | ACCOUNTS | 账户卡 · 配额条+余额 · 琥珀=热窗 | ![accounts](../public/shots/accounts.png) |
+| `vaults` | 金库 | VAULTS | 保管箱=配额窗 满度=用量 推车=会话 | ![vaults](../public/shots/vaults.png) |
 
 ## 结构 (6)
 
@@ -414,20 +429,6 @@
 | `glade` | 林间空地 | GLADE | 蕨=配额窗 高=用量 鹿=会话 | ![glade](../public/shots/glade.png) |
 | `grove` | 果园 | GROVE | 树=配额窗 果=用量 人=会话 | ![grove](../public/shots/grove.png) |
 | `pond` | 荷塘 | POND | 莲=配额窗 漪=用量 蛙=会话 | ![pond](../public/shots/pond.png) |
-
-## 洞察 (9)
-
-| id | 标题 | eyebrow | 说明 | 预览 |
-|---|---|---|---|---|
-| `forecast` | 预测 | FORECAST | 烧线+虚线投影 · ⚠=重置前耗尽 | ![forecast](../public/shots/forecast.png) |
-| `trophies` | 成就 | TROPHIES | 徽章架 · 环=解锁进度 | ![trophies](../public/shots/trophies.png) |
-| `burnrate` | 燃尽 | BURNRATE | 本月每日成本 · 虚线=月末预测 | ![burnrate](../public/shots/burnrate.png) |
-| `scorecard` | 计分卡 | SCORECARD | 弧=成功率 针=延迟 V=回退 | ![scorecard](../public/shots/scorecard.png) |
-| `latrank` | 延迟榜 | LATRANK | 粗=TTFT 细=TPS · 奖牌/蜗牛 | ![latrank](../public/shots/latrank.png) |
-| `league` | 联赛 | LEAGUE | 模型份额榜 · ↺=掉包率 | ![league](../public/shots/league.png) |
-| `versus` | 对决 | VERSUS | Agent 对阵 · 粗=tokens 细=时长 | ![versus](../public/shots/versus.png) |
-| `accounts` | 账户 | ACCOUNTS | 账户卡 · 配额条+余额 · 琥珀=热窗 | ![accounts](../public/shots/accounts.png) |
-| `vaults` | 金库 | VAULTS | 保管箱=配额窗 满度=用量 推车=会话 | ![vaults](../public/shots/vaults.png) |
 
 ## 抽象 (1)
 

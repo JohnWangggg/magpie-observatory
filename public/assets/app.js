@@ -122,6 +122,7 @@
     { id: "cartographer", title: "地图师", eyebrow: "USAGE CARTOGRAPHY", group: "用量", icon: "i-stack", hint: "峰=provider 等高线=token" },
     { id: "newsreel", title: "新闻片", eyebrow: "LOG NEWSREEL", group: "氛围", icon: "i-magpie", hint: "日志=老电影帧 底片" },
     { id: "sundial", title: "日晷", eyebrow: "HOUR SUNDIAL", group: "天象", icon: "i-clock", hint: "影=时刻 石=会话 刻=小时" },
+    { id: "ledger", title: "账本", eyebrow: "PROVIDER LEDGER", group: "洞察", icon: "i-doc", hint: "栏=provider 行=日志 Σ=token" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
