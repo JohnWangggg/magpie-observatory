@@ -1,4 +1,4 @@
-# Magpie Observatory · 视图图鉴 (348)
+# Magpie Observatory · 视图图鉴 (349)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
@@ -11,11 +11,11 @@
 | [氛围](#氛围) | 3 |
 | [场景](#场景) | 232 |
 | [用量](#用量) | 14 |
+| [天象](#天象) | 17 |
 | [结构](#结构) | 6 |
 | [几何](#几何) | 11 |
 | [趣味](#趣味) | 6 |
 | [生态](#生态) | 31 |
-| [天象](#天象) | 16 |
 | [洞察](#洞察) | 9 |
 | [抽象](#抽象) | 1 |
 
@@ -61,7 +61,7 @@
 |---|---|---|---|---|
 | `darkroom` | 暗房 | DARKROOM | 聚光灯跟手 照亮日志 | ![darkroom](../public/shots/darkroom.png) |
 | `plankton` | 浮游群 | LOG PLANKTON | 点=日志 色=provider 漂 | ![plankton](../public/shots/plankton.png) |
-| `newsreel` | 新闻片 | LOG NEWSREEL | 日志=老电影帧 底片 | — |
+| `newsreel` | 新闻片 | LOG NEWSREEL | 日志=老电影帧 底片 | ![newsreel](../public/shots/newsreel.png) |
 
 ## 场景 (232)
 
@@ -319,6 +319,28 @@
 | `tidepool` | 潮汐池 | TIDEPOOL | 水位=配额 浪=TPS | ![tidepool](../public/shots/tidepool.png) |
 | `cascade` | 阶瀑 | CASCADE | 级=模型 宽=份额 滴=会话 | ![cascade](../public/shots/cascade.png) |
 
+## 天象 (17)
+
+| id | 标题 | eyebrow | 说明 | 预览 |
+|---|---|---|---|---|
+| `sundial` | 日晷 | HOUR SUNDIAL | 影=时刻 石=会话 刻=小时 | — |
+| `stellar` | 夜航 | STELLAR DRIFT | 星空与流星 · 陪伴首选 | ![stellar](../public/shots/stellar.png) |
+| `aurora` | 极光 | AURORA | 请求=天空光带 | ![aurora](../public/shots/aurora.png) |
+| `constellation` | 星座 | CONSTELLATION | 会话=星图 | ![constellation](../public/shots/constellation.png) |
+| `echo` | 回声 | ECHO | 涟漪=Token | ![echo](../public/shots/echo.png) |
+| `rain` | 雨幕 | RAIN | 滴=会话 红=失败 | ![rain](../public/shots/rain.png) |
+| `galaxy` | 星系 | GALAXY | 星=会话 双臂 | ![galaxy](../public/shots/galaxy.png) |
+| `nebula` | 星云 | NEBULA | 云=会话 大=Token | ![nebula](../public/shots/nebula.png) |
+| `tide` | 潮汐 | TIDE | 潮=今日量 | ![tide](../public/shots/tide.png) |
+| `lantern` | 天灯 | LANTERN | 灯=会话 大=Token | ![lantern](../public/shots/lantern.png) |
+| `chime` | 风铃 | CHIME | 管=会话 长=Token | ![chime](../public/shots/chime.png) |
+| `firework` | 烟花 | FIREWORK | 爆=会话 径=Token | ![firework](../public/shots/firework.png) |
+| `fountain` | 喷泉 | FOUNTAIN | 喷=会话 高=Token | ![fountain](../public/shots/fountain.png) |
+| `aurora2` | 极光幕 | AURORA2 | 幕=会话 高=Token | ![aurora2](../public/shots/aurora2.png) |
+| `glacier` | 冰川 | GLACIER | 冰=配额窗 高=用量 鹅=会话 | ![glacier](../public/shots/glacier.png) |
+| `monsoon` | 雨季 | MONSOON | 云=配额窗 雨=用量 伞=会话 | ![monsoon](../public/shots/monsoon.png) |
+| `solarwind` | 太阳风 | SOLAR WIND | 冕=配额窗 珥=用量 粒=会话 | ![solarwind](../public/shots/solarwind.png) |
+
 ## 结构 (6)
 
 | id | 标题 | eyebrow | 说明 | 预览 |
@@ -392,27 +414,6 @@
 | `glade` | 林间空地 | GLADE | 蕨=配额窗 高=用量 鹿=会话 | ![glade](../public/shots/glade.png) |
 | `grove` | 果园 | GROVE | 树=配额窗 果=用量 人=会话 | ![grove](../public/shots/grove.png) |
 | `pond` | 荷塘 | POND | 莲=配额窗 漪=用量 蛙=会话 | ![pond](../public/shots/pond.png) |
-
-## 天象 (16)
-
-| id | 标题 | eyebrow | 说明 | 预览 |
-|---|---|---|---|---|
-| `stellar` | 夜航 | STELLAR DRIFT | 星空与流星 · 陪伴首选 | ![stellar](../public/shots/stellar.png) |
-| `aurora` | 极光 | AURORA | 请求=天空光带 | ![aurora](../public/shots/aurora.png) |
-| `constellation` | 星座 | CONSTELLATION | 会话=星图 | ![constellation](../public/shots/constellation.png) |
-| `echo` | 回声 | ECHO | 涟漪=Token | ![echo](../public/shots/echo.png) |
-| `rain` | 雨幕 | RAIN | 滴=会话 红=失败 | ![rain](../public/shots/rain.png) |
-| `galaxy` | 星系 | GALAXY | 星=会话 双臂 | ![galaxy](../public/shots/galaxy.png) |
-| `nebula` | 星云 | NEBULA | 云=会话 大=Token | ![nebula](../public/shots/nebula.png) |
-| `tide` | 潮汐 | TIDE | 潮=今日量 | ![tide](../public/shots/tide.png) |
-| `lantern` | 天灯 | LANTERN | 灯=会话 大=Token | ![lantern](../public/shots/lantern.png) |
-| `chime` | 风铃 | CHIME | 管=会话 长=Token | ![chime](../public/shots/chime.png) |
-| `firework` | 烟花 | FIREWORK | 爆=会话 径=Token | ![firework](../public/shots/firework.png) |
-| `fountain` | 喷泉 | FOUNTAIN | 喷=会话 高=Token | ![fountain](../public/shots/fountain.png) |
-| `aurora2` | 极光幕 | AURORA2 | 幕=会话 高=Token | ![aurora2](../public/shots/aurora2.png) |
-| `glacier` | 冰川 | GLACIER | 冰=配额窗 高=用量 鹅=会话 | ![glacier](../public/shots/glacier.png) |
-| `monsoon` | 雨季 | MONSOON | 云=配额窗 雨=用量 伞=会话 | ![monsoon](../public/shots/monsoon.png) |
-| `solarwind` | 太阳风 | SOLAR WIND | 冕=配额窗 珥=用量 粒=会话 | ![solarwind](../public/shots/solarwind.png) |
 
 ## 洞察 (9)
 
