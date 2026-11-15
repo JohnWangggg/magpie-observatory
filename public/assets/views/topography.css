@@ -1,0 +1,5 @@
+/* topography view */
+.tp-svg { display: block; width: 100%; height: 100%; }
+.tp-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.tp-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+.tp-flag { filter: drop-shadow(0 0 3px currentColor); }
