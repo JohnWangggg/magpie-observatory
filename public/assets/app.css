@@ -2442,6 +2442,7 @@ body.cinema .ch-thumb, body.mini .ch-thumb { display: block; cursor: zoom-in; }
   color: var(--fg-2); transition: background .1s, color .1s;
 }
 .pal-item:hover { background: var(--card-2); }
+.pal-item.kb-focus { background: color-mix(in srgb, var(--accent) 11%, var(--card-2)); outline: 1px solid color-mix(in srgb, var(--accent) 45%, transparent); outline-offset: -1px; }
 .pal-item.sel { background: color-mix(in srgb, var(--accent) 13%, var(--card-2)); color: var(--fg); }
 .pal-ic { width: 26px; height: 26px; flex: none; display: grid; place-items: center; border-radius: 7px; background: var(--card-3); border: 1px solid var(--line); }
 .pal-ic svg { width: 14px; height: 14px; fill: none; stroke: var(--muted); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
