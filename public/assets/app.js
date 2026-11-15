@@ -378,6 +378,7 @@
     { id: "osier", title: "柳编坊", eyebrow: "PROVIDER OSIER", group: "用量", icon: "i-magpie", hint: "凳=provider 篮=token 条=会话 弹=错" },
     { id: "perfumery", title: "调香坊", eyebrow: "PROVIDER PERFUMERY", group: "用量", icon: "i-magpie", hint: "案=provider 瓶=token 工=会话 洒=错" },
     { id: "tinker", title: "白铁匠", eyebrow: "PROVIDER TINKER", group: "用量", icon: "i-magpie", hint: "炉=provider 壶=token 焊=会话 漏=错" },
+    { id: "quern", title: "手磨坊", eyebrow: "PROVIDER QUERN", group: "用量", icon: "i-magpie", hint: "盘=provider 谷=token 转=会话 裂=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
