@@ -1489,6 +1489,12 @@ show(F.length-1);
       renderScratch();
       toast("便签已清空");
     });
+    $("#note-copy")?.addEventListener("click", () => {
+      const list = scratch();
+      if (!list.length) { toast("便签为空"); return; }
+      const md = `## 便签 ${new Date().toLocaleString("zh-CN", { hour12: false })}\n\n| 指标 | 值 | 时间 |\n| --- | --- | --- |\n` + list.map(n => `| ${n.label} | ${n.value} | ${n.at} |`).join("\n");
+      navigator.clipboard?.writeText(md).then(() => toast(`便签已复制(${list.length} 条)`));
+    });
     card.addEventListener("click", e => {
       const rm = e.target.closest("[data-note-rm]");
       if (!rm) return;

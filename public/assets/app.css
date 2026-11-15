@@ -3155,3 +3155,4 @@ body.mini .route-stage { min-height: 0 !important; }
 .vlight::before { content: ""; position: absolute; width: 34px; height: 34px; border-radius: 50%; border: 3px solid color-mix(in srgb, var(--accent) 20%, transparent); border-top-color: var(--accent); animation: vlightSpin .7s linear infinite; }
 .vlight.ready::before { display: none; }
 @keyframes vlightSpin { to { transform: rotate(360deg); } }
+.note-acts { display: flex; gap: 6px; }
