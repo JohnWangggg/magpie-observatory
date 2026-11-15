@@ -431,6 +431,7 @@
     { id: "seamstress", title: "缝衣", eyebrow: "PROVIDER SEAMSTRESS", group: "用量", icon: "i-magpie", hint: "台=provider 件=token 缲=会话 脱=错" },
     { id: "weaver", title: "织坊", eyebrow: "PROVIDER WEAVER", group: "用量", icon: "i-magpie", hint: "机=provider 梭=token 投=会话 断=错" },
     { id: "spinner", title: "纺纱", eyebrow: "PROVIDER SPINNER", group: "用量", icon: "i-magpie", hint: "车=provider 锭=token 踏=会话 断=错" },
+    { id: "dyer", title: "染坊", eyebrow: "PROVIDER DYER", group: "用量", icon: "i-magpie", hint: "缸=provider 布=token 搅=会话 焦=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
