@@ -2198,6 +2198,16 @@ show(F.length-1);
           setTimeout(() => pop.classList.add("in"), 10);
         }
       }
+      // X → clear the A-B loop without leaving replay.
+      if (e.key === "x" || e.key === "X") {
+        const st = state();
+        if (st.replayAB) {
+          st.replayAB = null;
+          try { localStorage.setItem("magpie.replayAB", "null"); } catch (_) {}
+          $("#replay-marks")?.querySelectorAll(".rep-ab").forEach(x => x.remove());
+          toast("A-B 循环已清");
+        }
+      }
     });
     ["rule-quota", "rule-err", "rule-cost"].forEach(id => {
       const el = $("#" + id);
@@ -2629,7 +2639,7 @@ ${quota || "| — | — | — |"}
       return head + `<button class="pal-item" data-idx="${i}"><svg><use href="#${it.icon}"/></svg><span><b>${esc(it.title)}</b><small>${esc(it.sub)}</small></span><em>${esc(it.kind)}</em>${thumb}${hotDot}${numBadge}</button>`;
     }).join("");
     if (!list.innerHTML.trim()) {
-      list.innerHTML = `<div class="pal-kind">提示</div><div class="pal-empty" style="padding:10px 14px;font-size:9.5px;color:var(--muted)">没有匹配项 · 试试 ⌘1-9 直达 · → 键预览详情</div>`;
+      list.innerHTML = `<div class="pal-kind">提示</div><div class="pal-empty" style="padding:10px 14px;font-size:9.5px;color:var(--muted)">没有匹配项 · 试试 ⌘1-9 直达 · → 预览 · 视图名/orrery · agent名/claude · 命令/导出/回放</div>`;
     }
     // Click a kind header to collapse/expand its group (persisted per kind).
     let collapsed = new Set();
