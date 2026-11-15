@@ -1350,7 +1350,9 @@
     const yd = heat.length >= 2 ? heat[heat.length - 2] : null;
     const goal = yd && yd.tokens ? yd.tokens : 0;
     const goalPct = goal ? Math.min(100, Math.round((k.tokens / goal) * 100)) : null;
-    $("#kpi-row").innerHTML = items.map(it => {
+    const hidden = (() => { try { return new Set(JSON.parse(localStorage.getItem("magpie.kpiHidden") || "[]")); } catch (_) { return new Set(); } })();
+    const shown = items.filter(it => !hidden.has(it.key));
+    $("#kpi-row").innerHTML = shown.map(it => {
       const down = it.key === "cost" ? it.delta <= 0 : it.delta < 0;
       const flat = !it.delta;
       const deltaText = flat ? "持平" : (it.delta > 0 ? "+" : "") + it.delta + "%";
@@ -1364,7 +1366,7 @@
         <div class="kpi-value"><b>${esc(it.value)}</b><span>${esc(it.unit)}</span>${ring}</div>
         <div class="kpi-foot"><span class="kpi-delta ${deltaCls}">${deltaText}</span>${it.key === "requests" && streakN >= 2 ? `<span class="kpi-streak" title="连续活跃 ${streakN} 天"><svg viewBox="0 0 12 12"><path d="M6 1c1 2 3 3 3 5.5a3 3 0 0 1-6 0C3 4.5 4 3 6 1Z" fill="#fbbf24"/><path d="M6 4c.5 1 1.5 1.5 1.5 3a1.5 1.5 0 0 1-3 0C4.5 6 5 5 6 4Z" fill="#f59e0b"/></svg>${streakN}</span>` : ""}${spark}</div>
       </article>`;
-    }).join("");
+    }).join("") + (hidden.size ? `<button type="button" class="kpi-restore" title="恢复隐藏的 KPI">+${hidden.size} 已隐藏 · 恢复</button>` : "");
     $$("#kpi-row .kpi[data-kpi-jump]").forEach(el => {
       el.style.cursor = "pointer";
       el.addEventListener("click", () => {
@@ -1378,6 +1380,21 @@
         if (viewRegistry()[target]) { setHeroMode(target); document.querySelector(".hero").scrollIntoView({ behavior: "smooth", block: "start" }); toast(`已切到 ${D.providerMeta ? "" : ""}${target}`); }
       });
     });
+    // Right-click a KPI → hide it; "+N 已隐藏" chip restores all.
+    $$("#kpi-row .kpi[data-kpi-jump]").forEach(el => {
+      el.addEventListener("contextmenu", e => {
+        e.preventDefault();
+        const key = el.dataset.kpiJump;
+        const hid = new Set(JSON.parse(localStorage.getItem("magpie.kpiHidden") || "[]"));
+        hid.add(key);
+        if (hid.size >= items.length) { toast("至少保留一个 KPI"); return; }
+        localStorage.setItem("magpie.kpiHidden", JSON.stringify([...hid]));
+        renderAll();
+        toast(`已隐藏 ${el.dataset.kpiLabel} · 右键其他卡可继续`);
+      });
+    });
+    const restore = $("#kpi-row .kpi-restore");
+    if (restore) restore.addEventListener("click", () => { localStorage.removeItem("magpie.kpiHidden"); renderAll(); });
   }
 
   function renderVs() {
