@@ -2834,7 +2834,9 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
       const pct = d.tokens / max;
       const level = pct === 0 ? 0 : pct < .18 ? 1 : pct < .36 ? 2 : pct < .62 ? 3 : 4;
       const isToday = d.date === new Date().toISOString().slice(0, 10);
-      return `<div class="heat-cell${isToday ? " today" : ""}" data-level="${level}" title="${d.date} · ${fmtTokens(d.tokens)} tokens · ${d.calls || 0} 次调用"></div>`;
+      const goal = +(localStorage.getItem("magpie.dailyGoal") || "0");
+      const hit = goal > 0 && (d.tokens || 0) >= goal;
+      return `<div class="heat-cell${isToday ? " today" : ""}${hit ? " hit" : ""}" data-level="${level}" title="${d.date} · ${fmtTokens(d.tokens)} tokens · ${d.calls || 0} 次调用${hit ? " · 达标" : ""}"></div>`;
     }).join("");
     const total = days.reduce((a, b) => a + b.tokens, 0);
     $("#heat-summary").textContent = `${shownWeeks} 周 · ${fmtTokens(total)} tokens`;
