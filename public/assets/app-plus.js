@@ -1318,6 +1318,10 @@ show(F.length-1);
   }
 
   /* =========================================================== digest ======= */
+  // Rolling 7-entry history of digests → reviewable later.
+  function digestLog() {
+    try { return JSON.parse(localStorage.getItem("magpie.digestLog") || "[]"); } catch (_) { return []; }
+  }
   function maybeShowDigest() {
     const s = state();
     if (!s || s._digestShown) return;
@@ -1331,6 +1335,11 @@ show(F.length-1);
     const days = s.data.heatmap || [];
     const y = days[days.length - 2];
     if (!y || !y.tokens) return;
+    try {
+      const log = digestLog();
+      log.push({ date: y.date || today, tokens: y.tokens, calls: y.calls || 0, streak: dayStreak(), at: Date.now() });
+      localStorage.setItem("magpie.digestLog", JSON.stringify(log.slice(-7)));
+    } catch (_) {}
     const top = {};
     (s.data.logs || []).forEach(l => { top[l.provider] = (top[l.provider] || 0) + (l.tokens || 0); });
     const topP = Object.entries(top).sort((a, b) => b[1] - a[1])[0];
