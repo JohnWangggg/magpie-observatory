@@ -84,7 +84,7 @@
       card.addEventListener("click", () => card.remove());
       document.body.appendChild(card);
       const rb = $("#replay-bar");
-      if (rb) rb.insertAdjacentHTML("beforeend", `<button type="button" id="keys-card-btn" style="position:absolute;top:-4px;right:8px;font:7px var(--num);color:var(--faint);background:none;border:0;cursor:pointer" title="键位说明">?</button>`);
+
 
       if (rb) { const bb = rb.getBoundingClientRect(); card.style.top = "auto"; card.style.left = bb.left + bb.width / 2 + "px"; card.style.bottom = (innerHeight - bb.top + 8) + "px"; }
       setTimeout(() => card.classList.add("in"), 10);
