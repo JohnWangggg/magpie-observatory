@@ -1786,3 +1786,13 @@ v59 已落地：strip斑马、spike倍率title。跳过：AB拖边(键设+右键
 3. **digest格周柱**:sparkline改回柱+线混合(柱高+趋势线)。
 4. **palette多选模式**:Space键标记项,回车批量执行动作。
 5. **回放AB对比导PNG**:对比卡加"导PNG"用canvas渲染表。
+
+## 下轮候选 v61（2026-11-15 · v60 里程碑落地后）
+
+v60 已落地：digest柱线混合。跳过:G帧集导出(播放器已)、多选批量(Space占输入)、对比PNG(复制文本已)。
+
+1. **回放帧缩略提示**:strip tick hover显帧号+时间。
+2. **session卡tries排序**:try链chip按ms降序排列显示。
+3. **digest格月链**:digest卡底加"本月累计"。
+4. **palette视图次数**:视图sub加"看过N次"。
+5. **回放AB循环导出**:AB区间存share-link(非JSON下载)。
