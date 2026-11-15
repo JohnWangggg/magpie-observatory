@@ -2432,7 +2432,12 @@
     const subs = (s.subagents || []).map(sub => `<div class="subagent-row"><b>${esc(sub.name)}</b><span>${esc(STATUS_TEXT[sub.status] || sub.status)}</span><span class="sub-model">${esc(sub.model)} · ${sub.tps ? sub.tps.toFixed(0) : "—"} TPS</span></div>`).join("");
     // Selected card → inline tries detail (was: right-click popover only).
     const triesDetail = (sel && (s.tries || []).length > 1)
-      ? `<div class="tries-detail">${s.tries.map(t => `<div class="try-row"><em class="${t.state === "ok" ? "ok" : "fail"}">${t.state === "ok" ? "✓" : "✗"}</em><span>${esc(D.providerMeta(t.provider)?.name || t.provider)}</span><span class="try-model">${esc((t.model || "").split("/").pop())}</span><span>${t.ms ? (t.ms >= 1000 ? (t.ms/1000).toFixed(1) + "s" : Math.round(t.ms) + "ms") : "—"}</span></div>`).join("")}</div>`
+      ? `<div class="tries-detail">${(() => {
+          const total = s.tries.reduce((a, t) => a + (t.ms || 0), 0) || 1;
+          let acc = 0;
+          const segs = s.tries.map(t => { const w = (t.ms || 0) / total * 100; const l = acc; acc += w; const c = t.state === "ok" ? "var(--green)" : "var(--red)"; return `<i style="left:${l.toFixed(1)}%;width:${Math.max(w, 2).toFixed(1)}%;background:${c}" title="${esc(D.providerMeta(t.provider)?.name || t.provider)} · ${t.ms || 0}ms"></i>`; }).join("");
+          return `<div class="tries-trace">${segs}<span class="tries-total">${(total/1000).toFixed(2)}s</span></div>`;
+        })()}${s.tries.map(t => `<div class="try-row"><em class="${t.state === "ok" ? "ok" : "fail"}">${t.state === "ok" ? "✓" : "✗"}</em><span>${esc(D.providerMeta(t.provider)?.name || t.provider)}</span><span class="try-model">${esc((t.model || "").split("/").pop())}</span><span>${t.ms ? (t.ms >= 1000 ? (t.ms/1000).toFixed(1) + "s" : Math.round(t.ms) + "ms") : "—"}</span></div>`).join("")}</div>`
       : "";
     return `<article class="session-card${sel ? " selected" : ""}${pinned ? " pinned" : ""}${s.status === "streaming" ? " streaming" : ""}" role="button" aria-selected="${sel}" aria-label="${esc(s.title)} · ${esc(s.model)} · ${esc(STATUS_TEXT[s.status] || s.status)}" data-session="${esc(s.id)}" style="--s-c:${meta.color}" tabindex="0">
       <div class="session-top">

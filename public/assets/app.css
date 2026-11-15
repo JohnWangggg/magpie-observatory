@@ -3156,3 +3156,6 @@ body.mini .route-stage { min-height: 0 !important; }
 .vlight.ready::before { display: none; }
 @keyframes vlightSpin { to { transform: rotate(360deg); } }
 .note-acts { display: flex; gap: 6px; }
+.tries-trace { position: relative; height: 12px; margin-bottom: 5px; background: var(--card); border-radius: 3px; overflow: hidden; }
+.tries-trace i { position: absolute; top: 0; bottom: 0; opacity: .75; }
+.tries-trace .tries-total { position: absolute; right: 3px; top: 50%; transform: translateY(-50%); font: 600 7px var(--mono); color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,.6); }
