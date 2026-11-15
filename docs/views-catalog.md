@@ -1,4 +1,4 @@
-# Magpie Observatory · 视图图鉴 (364)
+# Magpie Observatory · 视图图鉴 (365)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
@@ -10,7 +10,7 @@
 | [延迟](#延迟) | 2 |
 | [氛围](#氛围) | 3 |
 | [场景](#场景) | 233 |
-| [用量](#用量) | 14 |
+| [用量](#用量) | 15 |
 | [天象](#天象) | 17 |
 | [洞察](#洞察) | 10 |
 | [结构](#结构) | 6 |
@@ -55,7 +55,7 @@
 | `manor` | 庄园 | PROVIDER MANOR | 翼=配额窗 灯=会话 园=余量 烟=错 | ![manor](../public/shots/manor.png) |
 | `portcullis` | 闸门 | PORTCULLIS | 闸=燃速 人=会话 炬=错 | ![portcullis](../public/shots/portcullis.png) |
 | `strand` | 海岸 | QUOTA STRAND | 湾=配额窗 水=余量 鸥=会话 旗=错 | ![strand](../public/shots/strand.png) |
-| `ember` | 余烬 | QUOTA EMBERS | 炭=配额窗 光=燃速 灰=余量 火=会话 | — |
+| `ember` | 余烬 | QUOTA EMBERS | 炭=配额窗 光=燃速 灰=余量 火=会话 | ![ember](../public/shots/ember.png) |
 | `rosetta` | 罗塞塔 | ROSETTA | 环带=配额 刻痕=会话 | ![rosetta](../public/shots/rosetta.png) |
 | `eclipse` | 日蚀 | ECLIPSE | 暗盘=量 冕=会话 沿=窗 | ![eclipse](../public/shots/eclipse.png) |
 | `tapestry` | 织锦 | TAPESTRY | 经=配额 纬=会话 | ![tapestry](../public/shots/tapestry.png) |
@@ -314,12 +314,13 @@
 | `reserve2` | 保护区二号 | RESERVE II | 观测=配额窗 隙=用量 栖枝=过热 守护=会话 | ![reserve2](../public/shots/reserve2.png) |
 | `desert` | 沙丘 | DESERT | 丘=配额窗 高=用量 驼=会话 | ![desert](../public/shots/desert.png) |
 
-## 用量 (14)
+## 用量 (15)
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
 | `warehouse` | 仓库 | TOKEN WAREHOUSE | 架=provider 箱=token 灯=会话 | ![warehouse](../public/shots/warehouse.png) |
 | `cartographer` | 地图师 | USAGE CARTOGRAPHY | 峰=provider 等高线=token | ![cartographer](../public/shots/cartographer.png) |
+| `flagstone` | 石板路 | LOG FLAGSTONES | 石=日志 宽=token 裂=错 | — |
 | `rings` | Token 年轮 | YEAR IN RINGS | 26 周极坐标日历 | ![rings](../public/shots/rings.png) |
 | `latency` | 延迟热力 | LATENCY HEATMAP | 时间 × 延迟 | ![latency](../public/shots/latency.png) |
 | `stream` | 流量河流 | STREAMGRAPH | Provider 增量 | ![stream](../public/shots/stream.png) |
