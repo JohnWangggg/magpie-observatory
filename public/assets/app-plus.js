@@ -2307,8 +2307,7 @@ show(F.length-1);
           const pop = document.createElement("div");
           pop.className = "gwcmp-card frame-pop";
           const k = f.data.kpis || {};
-
-          pop.innerHTML = `<div class="digest-head"><b>帧 ${idx}</b><span>${new Date(f.t).toTimeString().slice(0, 8)}</span></div><div class="cmp-r"><span>TOK</span><b>${fmtTokens(k.tokens)}</b><em></em><b>${k.tps != null ? k.tps.toFixed(1) : "—"}/s</b></div><div class="cmp-r"><span>调用</span><b>${k.calls || 0}</b><em></em><b style="${(k.errors || 0) > 0 ? "color:var(--red)" : ""}">${k.errors || 0} 错</b></div><div class="cmp-r"><span>会话</span><b>${(f.data.sessions || []).length}</b><em></em><b>${fmtMoney(k.cost)}</b></div>`;
+          pop.innerHTML = `<div class="digest-head"><b>帧 ${idx}</b><span>${new Date(f.t).toTimeString().slice(0, 8)}<button type="button" class="mini-btn pop-x" style="font-size:8px;margin-left:6px;padding:0 4px" title="关闭">✕</button></span></div><div class="cmp-r"><span>TOK</span><b>${fmtTokens(k.tokens)}</b><em></em><b>${k.tps != null ? k.tps.toFixed(1) : "—"}/s</b></div><div class="cmp-r"><span>调用</span><b>${k.calls || 0}</b><em></em><b style="${(k.errors || 0) > 0 ? "color:var(--red)" : ""}">${k.errors || 0} 错</b></div><div class="cmp-r"><span>会话</span><b>${(f.data.sessions || []).length}</b><em></em><b>${fmtMoney(k.cost)}</b></div>`;
           const pk = idx > 0 && st.replayBuf[idx - 1] ? st.replayBuf[idx - 1].data.kpis : null;
           if (pk) { const dt = (k.tokens || 0) - (pk.tokens || 0), de = (k.errors || 0) - (pk.errors || 0); pop.innerHTML += `<div class="cmp-r"><span>对prevΔ</span><b>${dt >= 0 ? "+" : ""}${fmtTokens(dt)}</b><em class="${de > 0 ? "down" : "up"}">${de !== 0 ? "err " + (de > 0 ? "+" : "") + de : ""}</em><b></b></div>`; }
           const dayK = (st.data.heatmap || []).find(d => d.date === new Date(f.t).toISOString().slice(0, 10));
@@ -2327,6 +2326,8 @@ show(F.length-1);
               try { const snaps = JSON.parse(localStorage.getItem("magpie.frameSnaps") || "[]"); snaps.push({ idx, t: f.t, k }); localStorage.setItem("magpie.frameSnaps", JSON.stringify(snaps.slice(-20))); toast(`帧 ${idx} 已存 (${snaps.length})`); } catch (_) {}
               return;
             }
+            if (e.target.closest(".pop-x")) { pop.remove(); return; }
+
             if (e.target.closest(".snap-dl")) {
               const blob = new Blob([JSON.stringify({ idx, t: f.t, k, sessions: (f.data.sessions || []).length }, null, 2)], { type: "application/json" });
               const a2 = document.createElement("a"); a2.href = URL.createObjectURL(blob); a2.download = `magpie-frame-${idx}.json`; a2.click(); setTimeout(() => URL.revokeObjectURL(a2.href), 2000);
@@ -2776,7 +2777,9 @@ ${quota || "| — | — | — |"}
     const list = $("#palette-list");
     if (!list) return;
     const query = (q || "").toLowerCase();
-    const items = paletteItems().filter(it => !query || it.search.includes(query) || it.title.toLowerCase().includes(query));
+    const vOnly = query.startsWith("v:") || query.startsWith("view:");
+    const q2 = vOnly ? query.replace(/^v(iew)?:/, "") : query;
+    const items = paletteItems().filter(it => (!q2 || it.search.includes(q2) || it.title.toLowerCase().includes(q2)) && (!vOnly || it.kind === "视图"));
     // Group items by kind: a slim section label before each run of the same
     // kind (视图 / 跳转 / 动作 / 重跑). Keeps the long list scannable.
     let lastKind = "";
@@ -2851,7 +2854,7 @@ ${quota || "| — | — | — |"}
       let palIdx = -1;
       inp.addEventListener("keydown", e => {
         const items = [...document.querySelectorAll(".pal-item")];
-        if (e.key === "Escape") closePalette();
+        if (e.key === "Escape") { closePalette(); return; }
         if (e.key === "ArrowDown" || e.key === "ArrowUp") {
           e.preventDefault();
           palIdx = e.key === "ArrowDown" ? Math.min(items.length - 1, palIdx + 1) : Math.max(0, palIdx - 1);
