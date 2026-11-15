@@ -1363,3 +1363,13 @@ v17 已落地：session多选+批量条、.multi跨tick持久、回放B帧书签
 3. **session 卡片右键扩展**:现有5项,补"复制标题+模型"格式串。
 4. **回放书签跳转**:palette 列 replayMarks 点击跳帧。
 5. **digest 声音**:digest 出现时低声提示音(与 beep 复用,可关)。
+
+## 下轮候选 v19（2026-11-15 · v18 全部落地后）
+
+v18 已落地：digestLog mini bar、palette恢复隐藏KPI、session右键复制标题+模型、回放书签跳转(marks已有)、digest beep音。
+
+1. **回放书签跳转**:palette 命令列出 replayMarks,点击 scrubReplay 跳帧。
+2. **session 卡 hover 记忆**:recent 卡里"上次看过时间" 小字(viewSeenAt 复用模式)。
+3. **digest 同类日志合并**:digest错误聚类超过3类时显示 top2+其余。
+4. **便签卡拖拽排序**:note-chip 上下拖动重排(已有拖拽进出,补内部排序)。
+5. **view-menu 关闭动画**:打开已有 vmItemIn,补关闭 transition。
