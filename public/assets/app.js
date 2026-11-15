@@ -197,6 +197,7 @@
     { id: "curriery", title: "鞣坑", eyebrow: "QUOTA CURRIERY", group: "配额", icon: "i-magpie", hint: "坑=配额窗 浆=余量 革=会话 裂=错" },
     { id: "serac", title: "冰塔", eyebrow: "PROVIDER SERAC", group: "用量", icon: "i-magpie", hint: "塔=provider 高=token 绳=会话 崩=错" },
     { id: "filature", title: "缫丝", eyebrow: "PROVIDER FILATURE", group: "用量", icon: "i-magpie", hint: "盆=provider 茧=token 丝=会话 裂=错" },
+    { id: "herringweir", title: "鱼堰", eyebrow: "QUOTA HERRINGWEIR", group: "配额", icon: "i-magpie", hint: "桩=配额窗 网=用量 鱼=会话 断=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
