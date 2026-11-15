@@ -3165,3 +3165,6 @@ body.mini .route-stage { min-height: 0 !important; }
 .vm-group.collapsed .vm-caret { transform: rotate(-90deg); }
 .vm-group.collapsed .vm-row { display: none; }
 .vm-heavy { font: 700 7px var(--sans); color: var(--red); padding: 1px 3px; border: 1px solid color-mix(in srgb, var(--red) 50%, transparent); border-radius: 3px; margin-right: 3px; }
+@media (min-width: 1700px) {
+  .vm-groups { grid-template-columns: 1fr 1fr 1fr; }
+}
