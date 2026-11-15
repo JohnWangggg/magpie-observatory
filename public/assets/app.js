@@ -1055,7 +1055,7 @@
   }
 
   function randomView() {
-    const pool = VIEW_META.filter(v => v.id !== state.heroMode);
+    const pool = VIEW_META.filter(v => v.id !== state.heroMode && (!state.vmGroup || v.group === state.vmGroup));
     if (!pool.length) return;
     const pick = pool[Math.floor(Math.random() * pool.length)];
     if (state.tour) stopTour(true);
@@ -1096,7 +1096,7 @@
     if (!state.tour) { chip.textContent = ""; return; }
     const pool = state.tourPool && state.tourPool.length
       ? state.tourPool.filter(id => VIEW_META.some(v => v.id === id))
-      : VIEW_META.map(v => v.id);
+      : VIEW_META.filter(v => !state.vmGroup || v.group === state.vmGroup).map(v => v.id);
     const idx = Math.max(0, pool.indexOf(state.heroMode));
     chip.textContent = `${idx + 1}/${pool.length}`;
   }
@@ -1120,12 +1120,12 @@
       if (document.hidden || state.paused) return;
       const pool = state.tourPool && state.tourPool.length
         ? state.tourPool.map(id => VIEW_META.find(v => v.id === id)).filter(Boolean)
-        : VIEW_META;
+        : VIEW_META.filter(v => !state.vmGroup || v.group === state.vmGroup);
       const idx = pool.findIndex(v => v.id === state.heroMode);
       const next = pool[(idx + 1) % pool.length].id;
       setHeroMode(next);
     }, secs * 1000);
-    toast(`巡游开始 · 每 ${secs} 秒切换视图`);
+    toast(`巡游开始 · 每 ${secs} 秒切换视图${state.vmGroup ? ` · 仅 ${state.vmGroup} 组` : ""}`);
   }
 
   function openHelp() {
@@ -3242,6 +3242,9 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
       $$(".vm-chip", vmFilters).forEach(c => c.classList.toggle("on", (c.dataset.vg || null) === state.vmGroup));
       filterViewMenu($("#view-search") ? $("#view-search").value : "");
     });
+    if (vmFilters) vmFilters.addEventListener("wheel", e => {
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) { e.preventDefault(); vmFilters.scrollLeft += e.deltaY; }
+    }, { passive: false });
     $("#view-search").addEventListener("keydown", e => {
       if (e.key === "Enter") {
         const first = $(".view-menu .vm-item:not([hidden])");

@@ -496,6 +496,7 @@ img { display: block; }
 .vm-chip.on span { color: var(--vc, var(--accent)); }
 .vm-search { display: flex; align-items: center; gap: 7px; margin: 0; padding: 0 10px; height: 31px; border: 1px solid var(--line); border-radius: 8px; background: var(--card-2); }
 .vm-item[hidden], .vm-row[hidden] { display: none; }
+.vm-row { content-visibility: auto; contain-intrinsic-size: auto 34px; }
 .vm-search svg { width: 12px; height: 12px; flex: none; fill: none; stroke: var(--faint); stroke-width: 1.8; }
 .vm-search input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; color: var(--fg); font: inherit; font-size: 10px; }
 .vm-search input::placeholder { color: var(--faint); }
