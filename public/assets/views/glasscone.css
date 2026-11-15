@@ -1,0 +1,7 @@
+/* glasscone view */
+@keyframes gcwork { 0%,100% { transform: translateX(0); } 50% { transform: translateX(3px); } }
+.gc-svg { display: block; width: 100%; height: 100%; }
+.gc-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.gc-gaffer { animation: gcwork ease-in-out infinite; }
+.gc-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .gc-gaffer { animation: none; } }
