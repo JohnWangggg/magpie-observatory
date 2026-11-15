@@ -1775,3 +1775,14 @@ v58 已落地：keys-card定位、spike红标。跳过:try悬停高亮(chip小)�
 3. **digest格spike文**:尖峰日title加"尖峰·超均值2x"。
 4. **palette预览锁**:→预览后Esc回列表。
 5. **回放strip斑马**:偶数10帧段加微底纹。
+
+## 下轮候选 v60（2026-11-15 · v59 落地后·六十轮）
+
+v59 已落地：strip斑马、spike倍率title。跳过：AB拖边(键设+右键已多径)、卡行号(卡密)、预览Esc(Esc已关palette)。
+
+里程碑批:
+1. **回放帧导出GIF化**:回放中按 G → 当前帧序列导出HTML帧集(可录屏)。
+2. **session卡hover浮详情**:卡片右上缘浮tries链SVG。
+3. **digest格周柱**:sparkline改回柱+线混合(柱高+趋势线)。
+4. **palette多选模式**:Space键标记项,回车批量执行动作。
+5. **回放AB对比导PNG**:对比卡加"导PNG"用canvas渲染表。
