@@ -1453,3 +1453,13 @@ v26 已落地：回放±10帧+悬停预览、digest错误率格、tries计数chi
 3. **session卡模型点击**:model名点击→logQuery=该模型。
 4. **回放首/末帧键**:replay中按 Home/End跳帧。
 5. **vm-lucky未看优先**:🎲偏向magpie.viewSeen外视图。
+
+## 下轮候选 v28（2026-11-15 · v27 全落地后）
+
+v27 已落地：pal-kind吸顶、session模型点击过滤日志、回放Home/End、lucky未看偏、digest复制JSON。全部 5 项消化。
+
+1. **session卡路由点击**:route chip点击→过滤该group。
+2. **回放帧错误标记**:range下红点=该帧errors>0。
+3. **digest周环比格点击**:wk格→heatmap切7天视图。
+4. **palette历史区**:items加"最近5个执行"块。
+5. **回放帧导出PNG**:当前帧hero截图为PNG。
