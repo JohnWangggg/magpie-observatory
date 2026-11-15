@@ -144,6 +144,7 @@
     { id: "fresco", title: "湿壁画", eyebrow: "QUOTA FRESCO", group: "配额", icon: "i-magpie", hint: "板=配额窗 涂=用量 湿=会话 裂=过热" },
     { id: "pharos", title: "灯塔", eyebrow: "QUOTA PHAROS", group: "配额", icon: "i-magpie", hint: "塔=配额窗 高=用量 光=会话 旗=错" },
     { id: "warren", title: "兔穴", eyebrow: "QUOTA WARREN", group: "配额", icon: "i-magpie", hint: "丘=配额窗 兔=会话 迹=错" },
+    { id: "topiary", title: "修剪园", eyebrow: "PROVIDER TOPIARY", group: "用量", icon: "i-magpie", hint: "冠=provider 高=token 鸟=会话 枯=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
