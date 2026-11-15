@@ -1493,3 +1493,13 @@ v30 已落地：shift区间多选、digest图鉴格点击开菜单、回放tps s
 3. **digest子代理格点击**:→过滤该subagent会话(需subagent过滤型)。
 4. **palette视图项右键**:→设为默认视图。
 5. **回放帧成本**:strip显示累计cost小字。
+
+## 下轮候选 v32（2026-11-15 · v31 落地后）
+
+v31 已落地：tps排序、palette右键默认视图、回放cost小字、子代理格过滤。跳过：回放streak刻度(streak是日维非帧维)。
+
+1. **session卡agent icon点击**:→过滤该agent(已有ctxMenu,补单击路径)。
+2. **回放帧区间标记**:B键marks两两之间画区间段。
+3. **digest错误率格点击**:→过滤err日志。
+4. **palette视图项中键**:→新视图不关闭菜单(连续浏览)。
+5. **session卡右键菜单加"过滤此agent"**:ctxMenu补项。
