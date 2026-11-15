@@ -394,7 +394,7 @@
     const card = document.createElement("div");
     card.className = "gwcmp-card snaps-card";
     card.innerHTML = `<div class="digest-head"><b>帧快照</b><span>${snaps.length} 条</span></div>` +
-      snaps.slice(-12).reverse().map(s2 => `<div class="cmp-r"><span>#${s2.idx}</span><b>${fmtTokens(s2.k.tokens || 0)}</b><em></em><b>${new Date(s2.t).toTimeString().slice(0, 8)}</b></div>`).join("") +
+      snaps.slice(-12).reverse().map((s2, i, arr) => { const dt = i > 0 ? Math.round((arr[i - 1].t - s2.t) / 1000) : null; return `<div class="cmp-r"><span>#${s2.idx}</span><b>${fmtTokens(s2.k.tokens || 0)}</b><em>${dt != null ? "-" + dt + "s" : ""}</em><b>${new Date(s2.t).toTimeString().slice(0, 8)}</b></div>`; }).join("") +
       `<small style="opacity:.55">点击行复制该帧KPI · 点空白关</small>`;
     card.addEventListener("click", e => {
       const row = e.target.closest(".cmp-r");
