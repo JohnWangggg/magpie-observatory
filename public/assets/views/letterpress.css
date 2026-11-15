@@ -1,0 +1,7 @@
+/* letterpress view */
+@keyframes ltfeed { 0%,100% { transform: translateX(0); } 50% { transform: translateX(3px); } }
+.lt-svg { display: block; width: 100%; height: 100%; }
+.lt-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.lt-feed { animation: ltfeed ease-in-out infinite; }
+.lt-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .lt-feed { animation: none; } }
