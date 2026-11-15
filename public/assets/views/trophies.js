@@ -27,7 +27,11 @@
     { id: "dexall", icon: "❂", name: "全图鉴",    desc: "看完全部视图",             metal: "jade",   check: c => ({ v: c.seenN / Math.max(1, c.viewTotal), max: 1 }) },
     { id: "night",  icon: "☽", name: "夜航人",    desc: "凌晨 0-6 点有事件",        metal: "amber",  check: c => ({ v: c.nightHits ? 1 : 0, max: 1 }) },
     { id: "clean",  icon: "✓", name: "零错日",    desc: "今日日志无错误",           metal: "silver", check: c => ({ v: c.errToday === 0 && c.logsToday > 0 ? 1 : 0, max: 1 }) },
-    { id: "favs8",  icon: "★", name: "收藏家",    desc: "收藏 ≥8 视图",             metal: "amber",  check: c => ({ v: c.favN / 8, max: 1 }) }
+    { id: "favs8",  icon: "★", name: "收藏家",    desc: "收藏 ≥8 视图",             metal: "amber",  check: c => ({ v: c.favN / 8, max: 1 }) },
+    { id: "cinema", icon: "◈", name: "影院常客",  desc: "影院累计 ≥1 小时",         metal: "silver", check: c => ({ v: c.cinemaMs / 3600000, max: 1 }) },
+    { id: "magpie", icon: "❦", name: "鹊缘人",    desc: "点台鹊 ≥50 次",            metal: "bronze", check: c => ({ v: c.clicks / 50, max: 1 }) },
+    { id: "qwatch", icon: "⚠", name: "临界守望",  desc: "单配额窗 ≥95% 出现过",     metal: "amber",  check: c => ({ v: c.hot95 ? 1 : 0, max: 1 }) },
+    { id: "owl3",   icon: "☽", name: "长夜同航",  desc: "凌晨 0-6 点观测 ≥3 天",    metal: "jade",   check: c => ({ v: c.nightDays / 3, max: 1 }) }
   ];
 
   const METAL = {
@@ -56,15 +60,19 @@
     const logsToday = logs.filter(r => String(r.at || "").slice(0, 10) === today).length;
     const errToday = logs.filter(r => String(r.at || "").slice(0, 10) === today && r.status === "err").length;
     const nightHits = logs.filter(r => { const h = new Date(r.at).getHours(); return h >= 0 && h < 6; }).length;
-    let seenN = 0, favN = 0;
+    let seenN = 0, favN = 0, cinemaMs = 0, clicks = 0, nightDays = 0;
     try { seenN = (JSON.parse(localStorage.getItem("magpie.viewSeen") || "[]")).length; } catch (_) {}
     try { favN = (JSON.parse(localStorage.getItem("magpie.favorites") || "[]")).length; } catch (_) {}
+    try { cinemaMs = parseFloat(localStorage.getItem("magpie.cinemaMs") || "0") || 0; } catch (_) {}
+    try { clicks = parseInt(localStorage.getItem("magpie.clicks") || "0", 10) || 0; } catch (_) {}
+    try { nightDays = (JSON.parse(localStorage.getItem("magpie.nightDays") || "[]")).length; } catch (_) {}
+    const hot95 = quotas.some(q => (q.windows || []).some(w => (w.used || 0) >= 95));
 
     const c = {
       totalEver, peakCalls: peakDay.calls || 0, peakTokens: peakDay.tokens || 0,
       streak, provToday, cache: k.cache, hotWindows, activeNow, days: days.length,
       seenN, viewTotal: (window.Obs && Obs.api && Obs.api.VIEW_META || []).length || 700,
-      nightHits, errToday, logsToday, favN
+      nightHits, errToday, logsToday, favN, cinemaMs, clicks, nightDays, hot95
     };
 
     const badges = BADGES.map(b => {
