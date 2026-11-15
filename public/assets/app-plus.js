@@ -204,6 +204,8 @@
   function exitReplay() {
     const s = state();
     if (s._replayTimer) { clearInterval(s._replayTimer); s._replayTimer = null; const p = $("#replay-play"); if (p) p.textContent = "▶"; }
+    s._replayDiff = false;
+    const dd = $("#rep-diff"); if (dd) dd.remove();
     s.data = s.replay.saved;
     s.replay = null;
     s.paused = false;
