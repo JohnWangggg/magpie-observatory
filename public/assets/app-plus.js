@@ -2780,6 +2780,11 @@ ${quota || "| — | — | — |"}
     if (s && s.VIEW_META) s.VIEW_META.forEach(v => {
       items.push({ kind: "视图", icon: v.icon, title: v.title, sub: v.eyebrow, vid: v.id, search: (v.title + " " + v.eyebrow + " " + v.id + " " + (v.group || "") + " " + (v.hint || "")).toLowerCase(), run: () => { Obs.api.setHeroMode(v.id); closePalette(); } });
     });
+    // The currently active hero view floats to the top of the 视图 group.
+    if (s && s.heroMode) {
+      const cur = items.findIndex(x => x.vid === s.heroMode);
+      if (cur > 0) items.unshift(items.splice(cur, 1)[0]);
+    }
     // actions
     items.push(
       { kind: "动作", icon: "i-expand", title: "影院模式", sub: "O · 全屏只看这一个视图", search: "cinema 影院 全屏".toLowerCase(), run: toggleCinema },
@@ -2880,6 +2885,13 @@ ${quota || "| — | — | — |"}
       items.push({ kind: "便签", icon: "i-overview", title: "全部便签", sub: `${(scratch() || []).length} 条`, search: "all memo", run: () => { const el = $("#note-card"); if (el) { el.hidden = false; el.scrollIntoView({ behavior: "smooth", block: "center" }); } closePalette(); } });
     }
     if (mOnly && q2) { const keep = items.filter(it => it.search.includes(q2) || it.title.toLowerCase().includes(q2)); items.length = 0; items.push(...keep); }
+    if (sOnly && s) {
+      items.length = 0;
+      (s.data.sessions || []).concat(s.data.recent || []).forEach(x => {
+        items.push({ kind: "会话", icon: "i-overview", title: x.title || x.id, sub: `${x.agent || "?"} · ${fmtTokens(x.tokens || 0)} tok`, search: (x.title + " " + (x.agent || "") + " " + (x.model || "")).toLowerCase(), run: () => { state().selectedSession = x.id; Obs.api.renderAll && Obs.api.renderAll(); closePalette(); } });
+      });
+      if (q2) { const keep = items.filter(it => it.search.includes(q2) || it.title.toLowerCase().includes(q2)); items.length = 0; items.push(...keep); }
+    }
     // Group items by kind: a slim section label before each run of the same
     // kind (视图 / 跳转 / 动作 / 重跑). Keeps the long list scannable.
     let lastKind = "";
