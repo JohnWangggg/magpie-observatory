@@ -975,3 +975,26 @@ CI `.github/workflows/check.yml` 跑 `npm run check`（lint-data + lint-views + 
 共同约束：SVG-only（无 canvas）、`viewBox` 自适应、`esc()` HTML 安全、
 provider 配色走 `providerMeta`、prefers-reduced-motion 停动画、
 hover 提示 (`data-model`/`data-prov`) 或 pointer 交互。
+
+
+---
+
+## 25. 第二批视图 (v1.10.129+, 350→354)
+
+| 视图 | 数据源 | 隐喻 |
+|---|---|---|
+| ledger | logs.tokens | 账本栏 |
+| astrolabe | logs.ttft/sessions | 星盘 |
+| weathervane | sessions.provider | 风向箭 |
+| beacon | sessions+logs.tokens | 烽火 |
+| clocktower | quotas.windows+resetsIn | 表盘+铃 |
+
+新发现：`smoke-views.py` 加了 `els >= 10` 断言——之前 `empty stage`
+只抓 els<3，字段名错导致的 20–200 els 假阳性。现在
+`els>=10 && <3-svg/no-canvas/no-text` 才算"非空"，`els<10` 直接标
+`too few els` 暴露给 `--errors-only`。
+
+**字段名经验教训**（本批修复）：`data.js` logs → `{id, at, agent, session,
+provider, model, status, tokens, ttft, ms, out, tps, cost}`，sessions →
+`{id, provider, model, startedAgo, ttft, tps, tokens, status, title, ...}`。
+新视图统一用这两个 shape；不写 `l.t`/`l.tok_in`/`s.since`。
