@@ -1202,3 +1202,13 @@ decision/palette）+ 复制/跳转/过滤/记忆/导出 全覆盖。审计完毕
 4. **tour 收藏池**：巡游只走收藏视图（tourPool 已支持，缺 UI 入口）。
 5. **digest 报告扩展**：昨日报告加"最耗时 provider"/"错误聚类"两行。
 6. **性能**：700 视图菜单首开的 DOM 构建时间测量与分批渲染（buildViewMenu 目前一次性 innerHTML）。
+
+## 下轮候选 v3（2026-11-15 · v2 全部落地后）
+
+v2 已落地：hero 空态引导（random/tour/views 入口）、vs 卡本周轨迹、fav:/unseen:/hot:/group: 搜索前缀、巡游收藏按钮（tourPool=fav）、digest 错误聚类格、菜单首开 ~140ms/702 项（content-visibility 兜底，无需分批）。
+
+1. **组筛选与 hero 切换一致性**：vmGroup 选中时 setHeroMode 切到组外视图，菜单再开时高亮仍指向旧组——可自动跟随 heroMode 所在组或给出"跳组"提示。
+2. **digest 周报可分享**：weeklyReport 已有 PNG 导出位，可把 digest-card 做成一键复制 markdown 摘要。
+3. **便签卡进化**：note-chip 支持双击编辑文本/拖到 session 卡关联（sessionNotes 已有基础设施）。
+4. **quota-pop 历史迷你图**：配额悬停卡加最近 N 点 sparkline（quotaHistory 数据已有）。
+5. **成就补齐**：trophies 与 app-plus ACHIEVEMENTS 双轨尚有差异项（如 cinema-1h/magpie-50 未进 trophies 架）。
