@@ -2249,10 +2249,17 @@ show(F.length-1);
           pop.className = "gwcmp-card frame-pop";
           const k = f.data.kpis || {};
           pop.innerHTML = `<div class="digest-head"><b>帧 ${idx}</b><span>${new Date(f.t).toTimeString().slice(0, 8)}</span></div><div class="cmp-r"><span>TOK</span><b>${fmtTokens(k.tokens)}</b><em></em><b>${k.tps != null ? k.tps.toFixed(1) : "—"}/s</b></div><div class="cmp-r"><span>调用</span><b>${k.calls || 0}</b><em></em><b>${k.errors || 0} 错</b></div><div class="cmp-r"><span>会话</span><b>${(f.data.sessions || []).length}</b><em></em><b>${fmtMoney(k.cost)}</b></div>`;
+          pop.innerHTML += `<div style="margin-top:6px"><button type="button" class="mini-btn snap-save" style="font-size:8.5px">存为记录</button></div>`;
           // Pin the pop just above the replay bar instead of the page centre.
           const barEl = $("#replay-bar");
           if (barEl) { const bb = barEl.getBoundingClientRect(); pop.style.top = "auto"; pop.style.left = bb.left + bb.width / 2 + "px"; pop.style.bottom = (innerHeight - bb.top + 8) + "px"; }
-          pop.addEventListener("click", () => pop.remove());
+          pop.addEventListener("click", e => {
+            if (e.target.closest(".snap-save")) {
+              try { const snaps = JSON.parse(localStorage.getItem("magpie.frameSnaps") || "[]"); snaps.push({ idx, t: f.t, k }); localStorage.setItem("magpie.frameSnaps", JSON.stringify(snaps.slice(-20))); toast(`帧 ${idx} 已存 (${snaps.length})`); } catch (_) {}
+              return;
+            }
+            pop.remove();
+          });
           document.body.appendChild(pop);
           setTimeout(() => pop.classList.add("in"), 10);
         }
@@ -2697,7 +2704,7 @@ ${quota || "| — | — | — |"}
       const hotDot = it.vid && ((() => { try { return (JSON.parse(localStorage.getItem("magpie.viewHeat") || "{}"))[it.vid] || 0; } catch (_) { return 0; } })() >= 3) ? `<i class="pal-hot" title="常用"></i>` : "";
       const numBadge = i < 9 ? `<i class="pal-num" title="⌘${i + 1} 直达">${i + 1}</i>` : "";
       const kindDot = `<i style="display:inline-block;width:4px;height:4px;border-radius:50%;margin-right:5px;vertical-align:middle;background:var(--kdot, var(--muted))"></i>`;
-      return head + `<button class="pal-item" data-idx="${i}" style="--kdot:${{ "视图": "var(--accent)", "页面": "var(--green)", "会话": "var(--amber)", "动作": "var(--cyan, var(--accent-strong))", "重跑": "var(--red)" }[it.kind] || "var(--muted)"}">${kindDot}<svg><use href="#${it.icon}"/></svg><span><b>${esc(it.title)}</b><small>${esc(it.sub)}</small></span><em>${esc(it.kind)}</em>${thumb}${hotDot}${numBadge}</button>`;
+      return head + `<button class="pal-item" data-idx="${i}" title="${it.vid ? "id: " + it.vid : ""}" style="--kdot:${{ "视图": "var(--accent)", "页面": "var(--green)", "会话": "var(--amber)", "动作": "var(--cyan, var(--accent-strong))", "重跑": "var(--red)" }[it.kind] || "var(--muted)"}">${kindDot}<svg><use href="#${it.icon}"/></svg><span><b>${esc(it.title)}</b><small>${esc(it.sub)}</small></span><em>${esc(it.kind)}</em>${thumb}${hotDot}${numBadge}</button>`;
     }).join("");
     if (!list.innerHTML.trim()) {
       list.innerHTML = `<div class="pal-kind">提示</div><div class="pal-empty" style="padding:10px 14px;font-size:9.5px;color:var(--muted)">没有匹配项 · 试试 ⌘1-9 直达 · → 预览 · 视图名/orrery · agent名/claude · 命令/导出/回放</div>`;
