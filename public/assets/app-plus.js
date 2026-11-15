@@ -2296,13 +2296,18 @@ show(F.length-1);
           pop.className = "gwcmp-card frame-pop";
           const k = f.data.kpis || {};
           pop.innerHTML = `<div class="digest-head"><b>帧 ${idx}</b><span>${new Date(f.t).toTimeString().slice(0, 8)}</span></div><div class="cmp-r"><span>TOK</span><b>${fmtTokens(k.tokens)}</b><em></em><b>${k.tps != null ? k.tps.toFixed(1) : "—"}/s</b></div><div class="cmp-r"><span>调用</span><b>${k.calls || 0}</b><em></em><b>${k.errors || 0} 错</b></div><div class="cmp-r"><span>会话</span><b>${(f.data.sessions || []).length}</b><em></em><b>${fmtMoney(k.cost)}</b></div>`;
-          pop.innerHTML += `<div style="margin-top:6px"><button type="button" class="mini-btn snap-save" style="font-size:8.5px">存为记录</button></div>`;
+          pop.innerHTML += `<div style="margin-top:6px"><button type="button" class="mini-btn snap-save" style="font-size:8.5px">存为记录</button><button type="button" class="mini-btn snap-dl" style="font-size:8.5px;margin-left:4px">导出此帧</button></div>`;
           // Pin the pop just above the replay bar instead of the page centre.
           const barEl = $("#replay-bar");
           if (barEl) { const bb = barEl.getBoundingClientRect(); pop.style.top = "auto"; pop.style.left = bb.left + bb.width / 2 + "px"; pop.style.bottom = (innerHeight - bb.top + 8) + "px"; }
           pop.addEventListener("click", e => {
             if (e.target.closest(".snap-save")) {
               try { const snaps = JSON.parse(localStorage.getItem("magpie.frameSnaps") || "[]"); snaps.push({ idx, t: f.t, k }); localStorage.setItem("magpie.frameSnaps", JSON.stringify(snaps.slice(-20))); toast(`帧 ${idx} 已存 (${snaps.length})`); } catch (_) {}
+              return;
+            }
+            if (e.target.closest(".snap-dl")) {
+              const blob = new Blob([JSON.stringify({ idx, t: f.t, k, sessions: (f.data.sessions || []).length }, null, 2)], { type: "application/json" });
+              const a2 = document.createElement("a"); a2.href = URL.createObjectURL(blob); a2.download = `magpie-frame-${idx}.json`; a2.click(); setTimeout(() => URL.revokeObjectURL(a2.href), 2000);
               return;
             }
             pop.remove();
