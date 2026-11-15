@@ -1406,6 +1406,60 @@ show(F.length-1);
     });
   }
 
+  /* ======================================================== scratch notes ==== */
+  // KPI 卡拖进 note-card → 钉住当前值;magpie.scratchNotes 持久。
+  function scratch() {
+    try { return JSON.parse(localStorage.getItem("magpie.scratchNotes") || "[]"); } catch (_) { return []; }
+  }
+  function renderScratch() {
+    const host = $("#note-list"), card = $("#note-card");
+    if (!host || !card) return;
+    const list = scratch();
+    card.hidden = list.length === 0 && !card.classList.contains("note-arm");
+    host.innerHTML = list.map((n, i) => `<div class="note-chip"><b>${esc(n.label)}</b><span>${esc(n.value)}</span><small>${esc(n.at)}</small><button type="button" data-note-rm="${i}" aria-label="移除">×</button></div>`).join("");
+  }
+  function bindScratch() {
+    const card = $("#note-card"), row = $("#kpi-row");
+    if (!card || !row) return;
+    row.addEventListener("dragstart", e => {
+      const kpi = e.target.closest(".kpi");
+      if (!kpi || (state() && state().layoutEdit)) return;
+      e.dataTransfer.setData("text/plain", JSON.stringify({ label: kpi.dataset.kpiLabel || "KPI", value: kpi.dataset.kpiValue || "" }));
+      e.dataTransfer.effectAllowed = "copy";
+      card.hidden = false;
+      card.classList.add("note-arm");
+    });
+    row.addEventListener("dragend", () => card.classList.remove("note-arm"));
+    card.addEventListener("dragover", e => { e.preventDefault(); e.dataTransfer.dropEffect = "copy"; card.classList.add("note-over"); });
+    card.addEventListener("dragleave", () => card.classList.remove("note-over"));
+    card.addEventListener("drop", e => {
+      e.preventDefault();
+      card.classList.remove("note-over", "note-arm");
+      let payload = null;
+      try { payload = JSON.parse(e.dataTransfer.getData("text/plain")); } catch (_) {}
+      if (!payload || !payload.label) return;
+      const list = scratch();
+      list.push({ label: payload.label, value: payload.value, at: new Date().toLocaleTimeString("zh-CN", { hour12: false, hour: "2-digit", minute: "2-digit" }) });
+      try { localStorage.setItem("magpie.scratchNotes", JSON.stringify(list.slice(-24))); } catch (_) {}
+      renderScratch();
+      toast(`已钉：${payload.label} ${payload.value}`);
+    });
+    $("#note-clear")?.addEventListener("click", () => {
+      try { localStorage.removeItem("magpie.scratchNotes"); } catch (_) {}
+      renderScratch();
+      toast("便签已清空");
+    });
+    card.addEventListener("click", e => {
+      const rm = e.target.closest("[data-note-rm]");
+      if (!rm) return;
+      const list = scratch();
+      list.splice(+rm.dataset.noteRm, 1);
+      try { localStorage.setItem("magpie.scratchNotes", JSON.stringify(list)); } catch (_) {}
+      renderScratch();
+    });
+    renderScratch();
+  }
+
   /* ========================================================= extras ======= */
   function applyExtra(name) {
     const s = state();
@@ -1555,6 +1609,7 @@ show(F.length-1);
     state().attract = false; state().ambient = false; state()._prevSessions = new Set();
     loadLayout();
     bindLayoutEdit();
+    bindScratch();
     bindHeatPop();
     bindHeatMonth();
     bindHeatDay();

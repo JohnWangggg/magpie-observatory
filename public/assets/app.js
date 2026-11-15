@@ -1340,7 +1340,7 @@
       const ring = it.key === "tokens" && goalPct != null
         ? `<span class="kpi-goal" title="今日目标 · 昨日 ${fmtTokens(goal)} · 已达成 ${goalPct}%"><svg viewBox="0 0 18 18"><circle cx="9" cy="9" r="7" fill="none" stroke="var(--line)" stroke-width="2.4"/><circle cx="9" cy="9" r="7" fill="none" stroke="${it.color}" stroke-width="2.4" stroke-linecap="round" stroke-dasharray="${(goalPct / 100 * 44).toFixed(1)} 44" transform="rotate(-90 9 9)"/></svg><em>${goalPct}%</em></span>`
         : "";
-      return `<article class="kpi" data-kpi-jump="${it.key}" style="--k-c:${it.color}" title="点击跳到相关视图">
+      return `<article class="kpi" draggable="true" data-kpi-jump="${it.key}" data-kpi-label="${esc(it.label)}" data-kpi-value="${esc(it.value)}${esc(it.unit)}" style="--k-c:${it.color}" title="点击跳到相关视图 · 可拖到便签卡">
         <div class="kpi-label"><span>${it.label}</span><svg><use href="#${it.icon}"/></svg></div>
         <div class="kpi-value"><b>${esc(it.value)}</b><span>${esc(it.unit)}</span>${ring}</div>
         <div class="kpi-foot"><span class="kpi-delta ${deltaCls}">${deltaText}</span>${it.key === "requests" && streakN >= 2 ? `<span class="kpi-streak" title="连续活跃 ${streakN} 天"><svg viewBox="0 0 12 12"><path d="M6 1c1 2 3 3 3 5.5a3 3 0 0 1-6 0C3 4.5 4 3 6 1Z" fill="#fbbf24"/><path d="M6 4c.5 1 1.5 1.5 1.5 3a1.5 1.5 0 0 1-3 0C4.5 6 5 5 6 4Z" fill="#f59e0b"/></svg>${streakN}</span>` : ""}${spark}</div>
