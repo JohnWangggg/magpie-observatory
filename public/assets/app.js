@@ -2462,7 +2462,11 @@
     $("#active-count").textContent = String(live.length);
     const scroll = host.scrollTop;
     host.dataset.tab = state.sessionTab;
-    let html = list.map(sessionCard).join("");
+    // Recent tab: group long lists by provider (divider when provider changes).
+    const seq = (state.sessionTab === "recent" && list.length > 4)
+      ? list.map((s, i) => (i && s.provider === list[i-1].provider ? "" : `<div class="list-divider"><span>${esc(D.providerMeta(s.provider)?.name || s.provider)}</span></div>`) + sessionCard(s))
+      : list.map(sessionCard);
+    let html = seq.join("");
     if (state.sessionTab === "active") {
       // A quiet live gateway can have two active sessions; showing the last
       // completed ones keeps the rail informative instead of half empty.
