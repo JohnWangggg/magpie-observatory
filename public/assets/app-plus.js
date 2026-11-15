@@ -1918,6 +1918,11 @@ show(F.length-1);
           return tpsMax > 0 ? `<div><small>TPS 峰值</small><b>${tpsMax.toFixed(1)}/s</b></div>` : "";
         })()}
         ${(() => {
+          const all = (s.data.sessions || []).concat(s.data.recent || []);
+          const tot = all.reduce((a, x) => a + (x.tokens || 0), 0);
+          return all.length ? `<div><small>均会话</small><b>${fmtTokens(Math.round(tot / all.length))} <em class="dig">tok</em></b></div>` : "";
+        })()}
+        ${(() => {
           try {
             const bag = JSON.parse(localStorage.getItem("magpie.badges") || "{}");
             const yd = y.date || "";

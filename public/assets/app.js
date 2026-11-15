@@ -2496,7 +2496,7 @@
         <button class="session-pin${pinned ? " on" : ""}" data-pin="${esc(s.id)}" title="${pinned ? "取消置顶" : "置顶会话"}" aria-label="pin">${pinned ? "★" : "☆"}</button>
         <span class="session-state ${st}" data-status="${esc(s.status)}" title="点击按此状态过滤">${STATUS_TEXT[s.status] || s.status}</span>
       </div>
-      <div class="session-meta"><span class="session-model" data-model="${esc(s.model)}" title="点击过滤此模型日志 · ${esc(D.providerMeta(s.provider || s.tries?.[0]?.provider)?.name || s.provider || s.tries?.[0]?.provider || "?")}/${esc(s.model)}" style="border-left:2px solid ${esc(D.providerMeta(s.provider || s.tries?.[0]?.provider)?.color || "transparent")};padding-left:5px">${esc(s.model)}</span><span class="session-route" data-group="${esc(s.group || "direct")}" title="点击过滤此路由会话">→ ${s.group === "最近完成" ? "最近完成" : "group/" + esc(s.group || "direct")}</span></div>
+      <div class="session-meta"><span class="session-model" data-model="${esc(s.model)}" title="点击过滤此模型日志 · ${esc(D.providerMeta(s.provider || s.tries?.[0]?.provider)?.name || s.provider || s.tries?.[0]?.provider || "?")}/${esc(s.model)}" style="border-left:2px solid ${esc(D.providerMeta(s.provider || s.tries?.[0]?.provider)?.color || "transparent")};padding-left:5px;border-right:2px solid ${esc(D.agentMeta(s.agent)?.color || "transparent")};padding-right:4px">${esc(s.model)}</span><span class="session-route" data-group="${esc(s.group || "direct")}" title="点击过滤此路由会话">→ ${s.group === "最近完成" ? "最近完成" : "group/" + esc(s.group || "direct")}</span></div>
       <div class="session-bottom">
         <span><b ${s.tokens > 50000 ? "style=\"color:var(--amber)\"" : ""}>${s.tokens ? fmtTokens(s.tokens) : "—"}</b> TOK</span>
         ${(() => { const pk = s.provider || s.tries?.[0]?.provider; return pk && D.providerMeta(pk) ? `<img src="${providerIcon(pk)}" alt="" style="width:10px;height:10px;border-radius:50%;vertical-align:middle">` : ""; })()}
@@ -2592,6 +2592,8 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
     const pinN = (state.pinnedSessions || []).length;
     const selEl = $("#session-sel-n");
     if (selEl) { const parts = []; if (selN) parts.push(`已选 ${selN}`); if (pinN) parts.push(`置顶 ${pinN}`); selEl.textContent = parts.join(" · "); selEl.hidden = !parts.length; }
+    const cntEl = $("#session-cnt");
+    if (cntEl) cntEl.textContent = `${live.length} 活跃 · ${(state.data.sessions || []).length + (state.data.recent || []).length} 会话`;
     buildSessionMap(list.concat(extra));
   }
 
