@@ -1,0 +1,7 @@
+/* soapboiler view */
+@keyframes sobstir { 0%,100% { transform: rotate(0); } 50% { transform: rotate(5deg); } }
+.sob-svg { display: block; width: 100%; height: 100%; }
+.sob-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.sob-man { animation: sobstir ease-in-out infinite; transform-origin: 0 12px; }
+.sob-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .sob-man { animation: none; } }
