@@ -1393,3 +1393,13 @@ v20 已落地：Shift+D重显digest、回放marks刻度条、vm-filters吸顶、
 3. **session 卡子代理展开**:subagents>0 的卡加展开指示(已有subagent-row,补▾点击切)。
 4. **view-menu 空态**:搜索无结果时显示图鉴进度+随机视图按钮。
 5. **回放标记导出**:replay-marks 一键复制为 JSON。
+
+## 下轮候选 v22（2026-11-15 · v21 全落地后）
+
+v21 已落地：digest最常用点击过滤、子代理计数badge、回放书签JSON导出、view-menu空态(图鉴进度+🎲随机视图)。跳过：replay时间轴session完成点(需比对log时间↔帧)。
+
+1. **回放时间轴会话点**:replay-range下叠加sessions完成点(按时间归一到帧)。
+2. **便签卡mini导出**:note-card加"复制JSON"按钮。
+3. **session卡改道明细**:fallbacks chip点击→显示tries列表(triesDetail已有,补非selected也能看)。
+4. **view-menu随机键**:打开后按 G 随机切视图(lucky按钮的键版)。
+5. **digest子代理汇总**:digest加"昨日top子代理"格。
