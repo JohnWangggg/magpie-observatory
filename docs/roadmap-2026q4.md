@@ -1725,3 +1725,13 @@ v53 已落地：model provider回退、刻度帧号title。跳过：键位卡(?h
 3. **digest格目标环比**:dig-goal加今日vs昨日目标达成。
 4. **palette折叠计数**:pal-kind头折叠后显"(N)"。
 5. **回放strip光标帧号**:rep-now cursor title=当前帧号。
+
+## 下轮候选 v55（2026-11-15 · v54 落地后）
+
+v54 已落地：帧窗span、光标帧号、折叠(N)计数、子代理名。跳过：dig-goal环比(attn delta已)。
+
+1. **回放AB端点标**:strip上A/B帧位加小A/B字标。
+2. **session卡pin原因**:pin title含置顶时间。
+3. **digest格图鉴热区**:图鉴格旁加本日新视图id标。
+4. **palette数字直达**:⌘数字->打开第N个视图(非组内)。
+5. **回放strip标记密度**:mark>10时收拢为小点簇。
