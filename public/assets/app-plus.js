@@ -101,7 +101,19 @@
         const a = Math.min(+i, now), b = Math.max(+i, now);
         s.replayAB = s.replayAB && s.replayAB[0] === a && s.replayAB[1] === b ? null : [a, b];
         toast(s.replayAB ? `A-B 循环 · ${a}→${b}` : "A-B 循环已取消");
+        // Repaint the A-B band immediately (strip only renders on start).
+        strip.querySelectorAll(".rep-ab").forEach(x => x.remove());
+        if (s.replayAB) {
+          const l = s.replayAB[0] / max * 100, w = (s.replayAB[1] - s.replayAB[0]) / max * 100;
+          strip.insertAdjacentHTML("beforeend", `<i class="rep-ab" style="position:absolute;left:${l.toFixed(1)}%;width:${w.toFixed(1)}%;top:0;height:100%;background:color-mix(in srgb,var(--red) 18%,transparent);pointer-events:none" title="A-B循环 ${s.replayAB[0]}→${s.replayAB[1]}"></i>`);
+        }
       };
+      // (start-time A-B band uses .rep-ab too so contextmenu can clear it)
+      // A-B loop highlight: a red band over the looped stretch.
+      if (s.replayAB) {
+        const l = s.replayAB[0] / max * 100, w = (s.replayAB[1] - s.replayAB[0]) / max * 100;
+        strip.innerHTML += `<i class="rep-ab" style="position:absolute;left:${l.toFixed(1)}%;width:${w.toFixed(1)}%;top:0;height:100%;background:color-mix(in srgb,var(--red) 18%,transparent);pointer-events:none" title="A-B循环 ${s.replayAB[0]}→${s.replayAB[1]}"></i>`;
+      }
     }
     // Session-start dots on the same strip: startedAt → position over the
     // buffer span (completion time isn't recorded; start is the marker).
@@ -2458,7 +2470,8 @@ ${quota || "| — | — | — |"}
       const head = it.kind !== lastKind ? `<div class="pal-kind">${esc(it.kind)}</div>` : "";
       lastKind = it.kind;
       const hotDot = it.vid && ((() => { try { return (JSON.parse(localStorage.getItem("magpie.viewHeat") || "{}"))[it.vid] || 0; } catch (_) { return 0; } })() >= 3) ? `<i class="pal-hot" title="常用"></i>` : "";
-      return head + `<button class="pal-item" data-idx="${i}"><svg><use href="#${it.icon}"/></svg><span><b>${esc(it.title)}</b><small>${esc(it.sub)}</small></span><em>${esc(it.kind)}</em>${thumb}${hotDot}</button>`;
+      const numBadge = i < 9 ? `<i class="pal-num" title="⌘${i + 1} 直达">${i + 1}</i>` : "";
+      return head + `<button class="pal-item" data-idx="${i}"><svg><use href="#${it.icon}"/></svg><span><b>${esc(it.title)}</b><small>${esc(it.sub)}</small></span><em>${esc(it.kind)}</em>${thumb}${hotDot}${numBadge}</button>`;
     }).join("");
     if (!list.innerHTML.trim()) {
       list.innerHTML = `<div class="pal-kind">提示</div><div class="pal-empty" style="padding:10px 14px;font-size:9.5px;color:var(--muted)">没有匹配项 · 试试 ⌘1-9 直达 · → 键预览详情</div>`;

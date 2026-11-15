@@ -3189,3 +3189,4 @@ body.mini .route-stage { min-height: 0 !important; }
 .pal-item { position: relative; }
 .subagent-row { cursor: pointer; }
 .subagent-row:hover { color: var(--accent); }
+.pal-num { position: absolute; left: 4px; top: 4px; font: 700 7px var(--num); color: var(--faint); font-style: normal; }
