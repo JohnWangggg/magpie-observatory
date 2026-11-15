@@ -118,6 +118,9 @@
       strip.innerHTML += `<button type="button" class="rep-edge" data-jump="0" style="position:absolute;left:0;top:0;height:100%;width:10px;border:0;background:color-mix(in srgb,var(--accent) 12%,transparent);cursor:pointer" title="跳到首帧"></button>`;
       strip.innerHTML += `<button type="button" class="rep-edge" data-jump="${s.replayBuf.length - 1}" style="position:absolute;right:0;top:0;height:100%;width:10px;border:0;background:color-mix(in srgb,var(--accent) 12%,transparent);cursor:pointer" title="跳到末帧"></button>`;
     }
+      // Frame-number scale: 3 ticks (start / mid / end) so the strip reads
+      // as an axis instead of an anonymous bar.
+      strip.innerHTML += `<div style="position:absolute;left:0;right:0;bottom:-2px;display:flex;justify-content:space-between;pointer-events:none;font:7px var(--num);color:var(--faint)"><span>0</span><span>${Math.round(max / 2)}</span><span>${s.replayBuf.length - 1}</span></div>`;
     // Session-start dots on the same strip: startedAt → position over the
     // buffer span (completion time isn't recorded; start is the marker).
     try {
@@ -327,10 +330,18 @@
       const d = (va != null && vb != null) ? vb - va : null;
       return `<div class="cmp-r"><span>${label}</span><b>${fmt ? fmt(va) : va}</b><em class="${d > 0 ? "up" : d < 0 ? "down" : ""}">${d != null ? (d > 0 ? "+" : "") + (k === "cost" ? d.toFixed(3) : k === "tps" || k === "cache" ? d.toFixed(1) : d) : "—"}</em><b>${fmt ? fmt(vb) : vb}</b></div>`;
     }).join("");
-    card.innerHTML = `<div class="digest-head"><b>帧对比</b><span>A=${a} → B=${b}</span></div>${rows}<small style="opacity:.55">A→B 区间 ${b - a} 帧 · <button type="button" class="mini-btn cmp-copy">复制对比</button></small>`;
+    card.innerHTML = `<div class="digest-head"><b>帧对比</b><span>A=${a} → B=${b}</span></div>${rows}<small style="opacity:.55">A→B 区间 ${b - a} 帧 · <button type="button" class="mini-btn cmp-copy">复制对比</button> <button type="button" class="mini-btn cmp-goto" data-f="${a}">去A</button><button type="button" class="mini-btn cmp-goto" data-f="${b}">去B</button></small>`;
     card.addEventListener("click", e => {
       if (e.target.closest(".cmp-copy")) {
         navigator.clipboard?.writeText(`回放帧对比 A=${a} → B=${b}(区间 ${b - a} 帧)\n` + K.map(([k, label, fmt]) => `${label}: ${fmt ? fmt(fa.data.kpis?.[k]) : fa.data.kpis?.[k]} → ${fmt ? fmt(fb.data.kpis?.[k]) : fb.data.kpis?.[k]}`).join("\n")).then(() => toast("对比已复制"));
+        return;
+      }
+      const go = e.target.closest(".cmp-goto");
+      if (go) {
+        const idx = +go.dataset.f;
+        const r = $("#replay-range");
+        if (r && s.replay) { r.value = idx; scrubReplay(idx); }
+        card.remove();
         return;
       }
       card.remove();
