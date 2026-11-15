@@ -166,6 +166,7 @@
     { id: "cadence", title: "节奏", eyebrow: "QUOTA CADENCE", group: "配额", icon: "i-clock", hint: "钟=配额窗 摆=用量 亮=会话 裂=错" },
     { id: "faultline", title: "断层", eyebrow: "PROVIDER FAULTLINE", group: "用量", icon: "i-magpie", hint: "迹=provider 错=token 震=会话 带=错" },
     { id: "cloister", title: "回廊", eyebrow: "PROVIDER CLOISTER", group: "用量", icon: "i-magpie", hint: "拱=provider 深=token 烛=会话 坠=错" },
+    { id: "crucible", title: "熔杯", eyebrow: "QUOTA CRUCIBLE", group: "配额", icon: "i-flame", hint: "杯=配额窗 液=余量 勺=会话 裂=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
