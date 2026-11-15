@@ -1,4 +1,4 @@
-# Magpie Observatory · 视图图鉴 (350)
+# Magpie Observatory · 视图图鉴 (351)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
@@ -7,7 +7,7 @@
 |---|---|
 | [实时](#实时) | 12 |
 | [配额](#配额) | 6 |
-| [延迟](#延迟) | 1 |
+| [延迟](#延迟) | 2 |
 | [氛围](#氛围) | 3 |
 | [场景](#场景) | 232 |
 | [用量](#用量) | 14 |
@@ -49,11 +49,12 @@
 | `tapestry` | 织锦 | TAPESTRY | 经=配额 纬=会话 | ![tapestry](../public/shots/tapestry.png) |
 | `winery` | 酒庄 | WINERY | 桶=配额窗 滴=会话 | ![winery](../public/shots/winery.png) |
 
-## 延迟 (1)
+## 延迟 (2)
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
 | `sextant` | 六分仪 | LATITUDE OF LATENCY | 慢=高角 快=贴地平线 | ![sextant](../public/shots/sextant.png) |
+| `astrolabe` | 星盘 | ASTROLABE | model=纬圈 provider=指针 | — |
 
 ## 氛围 (3)
 
