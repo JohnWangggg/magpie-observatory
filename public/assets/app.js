@@ -3686,6 +3686,17 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
       toast(dx < 0 ? "← 下一视图" : "→ 上一视图");
     }, { passive: true });
 
+    // Pull-down-to-close on the view menu (touch UIs).
+    let vmSwipeY = null;
+    $("#view-menu").addEventListener("touchstart", e => { if (e.touches.length === 1) vmSwipeY = e.touches[0].clientY; }, { passive: true });
+    $("#view-menu").addEventListener("touchend", e => {
+      if (vmSwipeY == null || e.changedTouches.length !== 1) return;
+      const dy = e.changedTouches[0].clientY - vmSwipeY;
+      vmSwipeY = null;
+      const top = $("#view-menu").scrollTop || e.target.closest(".vm-groups")?.scrollTop || 0;
+      if (dy > 70 && top <= 0) closeViewMenu(true);
+    }, { passive: true });
+
     // Double-click the decision strip title → copy the session title.
     $("#decision-title").addEventListener("dblclick", e => {
       e.stopPropagation();
