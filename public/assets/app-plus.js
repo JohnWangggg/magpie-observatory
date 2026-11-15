@@ -122,6 +122,12 @@
       const poly = pts.filter((_, i) => i % step === 0).map(p => `${p.x.toFixed(1)},${(10 - p.y / maxY * 9).toFixed(1)}`).join(" ");
       if (strip) strip.innerHTML += `<svg style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none" viewBox="0 0 100 10" preserveAspectRatio="none"><polyline points="${poly}" fill="none" stroke="var(--accent)" stroke-width=".8" opacity=".5"/></svg>`;
     } catch (_) {}
+    // Cumulative cost at the last frame, as a tiny caption on the strip.
+    try {
+      const lastF = s.replayBuf[s.replayBuf.length - 1];
+      const cost = lastF && lastF.data.kpis ? lastF.data.kpis.cost || lastF.data.kpis.spend || 0 : 0;
+      if (strip && cost) strip.innerHTML += `<span style="position:absolute;right:2px;top:0;font-size:8px;color:var(--muted);pointer-events:none">$${(+cost).toFixed(3)}</span>`;
+    } catch (_) {}
   }
   function scrubReplay(idx) {
     const s = state();
@@ -1503,7 +1509,7 @@ show(F.length-1);
           const subN = {};
           (s.data.sessions || []).concat(s.data.recent || []).forEach(x => (x.subagents || []).forEach(a => { subN[a.name] = (subN[a.name] || 0) + 1; }));
           const topSub = Object.entries(subN).sort((a, b) => b[1] - a[1])[0];
-          return topSub ? `<div><small>子代理</small><b>${esc(topSub[0])} ×${topSub[1]}</b></div>` : "";
+          return topSub ? `<div class="dig-sub" data-sub="${esc(topSub[0])}" style="cursor:pointer" title="点击 → 过滤含此子代理的会话"><small>子代理</small><b>${esc(topSub[0])} ×${topSub[1]}</b></div>` : "";
         })()}
         ${(() => {
           try {
@@ -1617,6 +1623,14 @@ show(F.length-1);
       }
       else if (e.target.closest(".dig-dex")) {
         $("#view-picker")?.click();
+        card.remove();
+        return;
+      }
+      else if (e.target.closest(".dig-sub")) {
+        const name = e.target.closest(".dig-sub").dataset.sub;
+        state().filter = { type: "subagent", value: name };
+        Obs.api.renderAll && Obs.api.renderAll();
+        toast(`已过滤含子代理 ${name} 的会话`);
         card.remove();
         return;
       }
@@ -2399,6 +2413,16 @@ ${quota || "| — | — | — |"}
       }
       if (it && it.vid && e.target.closest(".pal-thumb") && Obs.showVlight) Obs.showVlight(it.vid);
       closePalette();
+    }));
+    $$(".pal-item", list).forEach(b => b.addEventListener("contextmenu", e => {
+      // Right-click a view item → pin it as the default hero.
+      const it = items[+b.dataset.idx];
+      if (it && it.vid) {
+        e.preventDefault();
+        localStorage.setItem("magpie.defaultView", it.vid);
+        toast("默认视图:" + ((Obs.api.viewMeta(it.vid) || {}).title || it.title));
+        closePalette();
+      }
     }));
   }
   // palette input listeners — bound lazily on first open

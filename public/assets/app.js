@@ -1273,6 +1273,8 @@
         [s.title, s.agent, s.provider, s.model, s.group].filter(Boolean)
           .some(v => String(v).toLowerCase().includes(q)));
     }
+    // TPS click-sort: a session card's tps cell toggles tps-desc ordering.
+    if (state.sessionSort === "tps") list = list.slice().sort((a, b) => (b.tps || 0) - (a.tps || 0));
     return list;
   }
 
@@ -2500,7 +2502,7 @@
         ${s.fallbacks ? `<span class="chip amber">${s.fallbacks} 改道</span>` : ""}
         ${(s.subagents || []).length ? `<span class="chip accent" title="子代理数">${s.subagents.length} 子代理</span>` : ""}
         ${(s.tries || []).length > 1 ? `<span class="chip accent" title="尝试次数">${s.tries.length} 试</span>` : ""}
-        <span class="tps ${tpsClass(s.tps)}">${tps}</span>
+        <span class="tps ${tpsClass(s.tps)}" data-sort-tps="1" title="点击按 TPS 排序会话">${tps}</span>
       </div>
       ${subs}
       ${triesDetail}
@@ -2511,6 +2513,7 @@
     if (!state.filter) return true;
     if (state.filter.type === "group") return (s.group || "direct") === state.filter.value;
     if (state.filter.type === "status") return s.status === state.filter.value;
+    if (state.filter.type === "subagent") return (s.subagents || []).some(a => a.name === state.filter.value);
     return state.filter.type === "agent" ? s.agent === state.filter.value : s.provider === state.filter.value;
   }
 
@@ -3708,6 +3711,15 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
         state.filter = { type: "status", value: stateEl.dataset.status };
         renderSessions();
         toast(`已过滤 ${stateEl.textContent.trim()} 会话`);
+        return;
+      }
+      // Click the tps cell → toggle tps-desc ordering of the rail.
+      const tpsEl = e.target.closest(".tps[data-sort-tps]");
+      if (tpsEl) {
+        e.stopPropagation();
+        state.sessionSort = state.sessionSort === "tps" ? null : "tps";
+        renderSessions();
+        toast(state.sessionSort ? "按 TPS 排序" : "恢复默认排序");
         return;
       }
       const id = card.dataset.session;
