@@ -197,7 +197,7 @@
       if (s.replayAB) {
         const l = s.replayAB[0] / max * 100, w = (s.replayAB[1] - s.replayAB[0]) / max * 100;
         strip.innerHTML += `<i class="rep-ab" data-pan="1" style="position:absolute;left:${l.toFixed(1)}%;width:${w.toFixed(1)}%;top:0;height:100%;background:color-mix(in srgb,var(--amber) 20%,transparent);cursor:grab" title="A-B循环 ${s.replayAB[0]}→${s.replayAB[1]} · 拖动平移"></i>`;
-        strip.innerHTML += `<i class="rep-ab-end" data-end="0" style="position:absolute;left:${l.toFixed(1)}%;top:-3px;font:700 7px var(--num);color:var(--amber);cursor:ew-resize" title="拖动调 A 端">A</i><i class="rep-ab-end" data-end="1" style="position:absolute;left:calc(${l.toFixed(1)}% + ${w.toFixed(1)}% - 6px);top:-3px;font:700 7px var(--num);color:var(--amber);cursor:ew-resize" title="拖动调 B 端">B</i>`;
+        strip.innerHTML += `<i class="rep-ab-end" data-end="0" style="position:absolute;left:${l.toFixed(1)}%;top:-3px;font:700 7px var(--num);color:var(--amber);cursor:ew-resize" title="A端 帧${s.replayAB[0]} · ${s.replayBuf[s.replayAB[0]] ? new Date(s.replayBuf[s.replayAB[0]].t).toTimeString().slice(0, 5) : ""}">A</i><i class="rep-ab-end" data-end="1" style="position:absolute;left:calc(${l.toFixed(1)}% + ${w.toFixed(1)}% - 6px);top:-3px;font:700 7px var(--num);color:var(--amber);cursor:ew-resize" title="B端 帧${s.replayAB[1]} · ${s.replayBuf[s.replayAB[1]] ? new Date(s.replayBuf[s.replayAB[1]].t).toTimeString().slice(0, 5) : ""}">B</i>`;
       }
       // First/last frame quick-jump paddles at the strip edges.
       strip.innerHTML += `<button type="button" class="rep-edge" data-jump="0" style="position:absolute;left:0;top:0;height:100%;width:10px;border:0;background:color-mix(in srgb,var(--accent) 12%,transparent);cursor:pointer" title="跳到首帧"></button>`;
@@ -2313,7 +2313,7 @@ show(F.length-1);
           const topAg = Object.entries(agC).sort((a, b) => b[1] - a[1])[0];
           if (topAg) pop.innerHTML += `<div class="cmp-r"><span>主导</span><b>${esc(topAg[0])}</b><em></em><b>${topAg[1]} 会话</b></div>`;
           pop.innerHTML += `<div style="display:flex;gap:6px;margin-top:4px;font-size:8px">${idx > 0 ? `<button type="button" class="mini-btn fr-prev" style="font-size:8px">← 帧${idx - 1}</button>` : ""}${idx < st.replayBuf.length - 1 ? `<button type="button" class="mini-btn fr-next" style="font-size:8px">帧${idx + 1} →</button>` : ""}</div>`;
-          pop.innerHTML += `<div style="margin-top:6px"><button type="button" class="mini-btn snap-save" style="font-size:8.5px">存为记录</button><button type="button" class="mini-btn snap-dl" style="font-size:8.5px;margin-left:4px">导出此帧</button></div>`;
+          pop.innerHTML += `<div style="margin-top:6px"><button type="button" class="mini-btn snap-save" style="font-size:8.5px">存为记录</button><button type="button" class="mini-btn snap-dl" style="font-size:8.5px;margin-left:4px">导出</button><button type="button" class="mini-btn snap-copy" style="font-size:8.5px;margin-left:4px">复制</button></div>`;
           // Pin the pop just above the replay bar instead of the page centre.
           const barEl = $("#replay-bar");
           if (barEl) { const bb = barEl.getBoundingClientRect(); pop.style.top = "auto"; pop.style.left = bb.left + bb.width / 2 + "px"; pop.style.bottom = (innerHeight - bb.top + 8) + "px"; }
@@ -2327,6 +2327,7 @@ show(F.length-1);
               const a2 = document.createElement("a"); a2.href = URL.createObjectURL(blob); a2.download = `magpie-frame-${idx}.json`; a2.click(); setTimeout(() => URL.revokeObjectURL(a2.href), 2000);
               return;
             }
+            if (e.target.closest(".snap-copy")) { navigator.clipboard?.writeText(`帧${idx} TOK=${fmtTokens(k.tokens)} tps=${k.tps != null ? k.tps.toFixed(1) : "—"} 调用=${k.calls || 0} 错=${k.errors || 0} 会话=${(f.data.sessions || []).length} 成本=${fmtMoney(k.cost)}`).then(() => toast("帧已复制")); return; }
             const sRow = e.target.closest("[data-sid]");
             if (sRow && sRow.dataset.sid) { const sel = document.querySelector(`.qp-item[data-ri="${sRow.dataset.sid}"]`); if (sel) sel.click(); pop.remove(); return; }
             if (e.target.closest(".fr-prev, .fr-next")) { const nx = e.target.closest(".fr-prev") ? idx - 1 : idx + 1; pop.remove(); const r = $("#replay-range"); if (r) { r.value = nx; scrubReplay(nx); } setTimeout(() => { const ev = new KeyboardEvent("keydown", { key: "?" }); document.dispatchEvent(ev); }, 30); return; }
