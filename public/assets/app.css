@@ -3204,3 +3204,4 @@ body.mini .route-stage { min-height: 0 !important; }
 .session-card.st-queued::before { background: var(--amber); }
 .session-card.st-streaming::before { background: var(--accent); }
 .session-card.multi { background: color-mix(in srgb, var(--accent) 7%, var(--card)); }
+.session-pin.on { color: var(--amber); text-shadow: 0 0 6px color-mix(in srgb, var(--amber) 60%, transparent); }

@@ -72,7 +72,7 @@
     scrubReplay(s.replay.idx);
     toast("回放模式 · 拖动时间轴 · R 或 × 退出");
     const hint = bar && bar.querySelector(".rep-hint");
-    if (bar && !hint) bar.insertAdjacentHTML("beforeend", `<span class="rep-hint" title="空格 播放 · ←→ 步进 · Home/End 首末 · A/B 设循环端 · C 帧对比 · R 退出" style="font:8px var(--font);color:var(--faint);margin-left:auto;cursor:help">?键位</span>`);
+    if (bar && !hint) bar.insertAdjacentHTML("beforeend", `<span class="rep-hint" title="空格 播放 · ←→ 步进 · Shift+←→ 10帧 · Home/End 首末 · A/B 设循环端 · Shift+A/B 微调 · X 清循环 · C 对比 · D diff · ? 帧KPI · R 退出" style="font:8px var(--font);color:var(--faint);margin-left:auto;cursor:help">?键位</span>`);
     const hintEl = bar && bar.querySelector(".rep-hint");
     if (hintEl && !hintEl.dataset.bound) { hintEl.dataset.bound = "1"; hintEl.addEventListener("click", () => {
       $(".keys-card")?.remove();
