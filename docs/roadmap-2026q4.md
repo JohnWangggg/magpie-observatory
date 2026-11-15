@@ -1302,3 +1302,13 @@ v11 已落地：夜间自适应(19-7 auto dark+soft,手动戳覆盖至次日黎�
 3. **digestLog 回看 UI**:palette 命令"历史摘要"列出 7 条 digestLog。
 4. **view-menu 最近使用置顶**:vm-recent 区可折叠+显示次序号。
 5. **性能门**:viewPerf 平均>50ms 的视图自动建议降档动效提示。
+
+## 下轮候选 v13（2026-11-15 · v12 基本落地后）
+
+v12 已落地：回放帧导出JSON、palette历史摘要浮卡、view-menu组头全折叠。跳过：vm-recent序号(价值低)。
+
+1. **tries 纵向甘特**:tries-detail 各try按累加offset纵向排条,标相对起点(仅ms可近似)。
+2. **性能门提示**:某视图 viewPerf 均值>50ms 时菜单标出"建议轻柔动效"。
+3. **session 卡虚拟化**:recent>50 条时 IntersectionObserver 分块渲染。
+4. **digestLog 导出**:历史摘要卡加"复制全部"按钮。
+5. **多时区**:digest/heat date 显示同时区切换(local/UTC)。
