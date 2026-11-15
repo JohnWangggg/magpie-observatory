@@ -277,6 +277,7 @@
     { id: "ashlaryard", title: "琢石场", eyebrow: "PROVIDER ASHLARYARD", group: "用量", icon: "i-magpie", hint: "台=provider 块=token 匠=会话 崩=错" },
     { id: "saggaryard", title: "匣钵堆场", eyebrow: "PROVIDER SAGGARYARD", group: "用量", icon: "i-magpie", hint: "堆=provider 坯=token 工=会话 裂=错" },
     { id: "dyehouse", title: "染坊", eyebrow: "PROVIDER DYEHOUSE", group: "用量", icon: "i-magpie", hint: "缸=provider 绞=token 工=会话 渍=错" },
+    { id: "coopery", title: "箍桶铺", eyebrow: "PROVIDER COOPERY", group: "用量", icon: "i-magpie", hint: "桶=provider 板=token 匠=会话 脱=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
