@@ -1,4 +1,4 @@
-# Magpie Observatory · 视图图鉴 (404)
+# Magpie Observatory · 视图图鉴 (405)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
@@ -6,7 +6,7 @@
 | 分组 | 数量 |
 |---|---|
 | [实时](#实时) | 16 |
-| [配额](#配额) | 37 |
+| [配额](#配额) | 38 |
 | [延迟](#延迟) | 2 |
 | [氛围](#氛围) | 3 |
 | [场景](#场景) | 233 |
@@ -42,7 +42,7 @@
 | `lighthouse` | 灯塔 | LIGHTHOUSE | 塔=配额 光束=会话 | ![lighthouse](../public/shots/lighthouse.png) |
 | `harbor` | 港口 | HARBOR | 船=agent 箱=tries 浮标=配额 | ![harbor](../public/shots/harbor.png) |
 
-## 配额 (37)
+## 配额 (38)
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
@@ -78,7 +78,8 @@
 | `ferry` | 渡口 | QUOTA FERRY | 渡=配额窗 程=用量 客=会话 绳=错 | ![ferry](../public/shots/ferry.png) |
 | `shottower` | 弹塔 | QUOTA SHOTTOWER | 塔=配额窗 高=用量 丸=会话 裂=错 | ![shottower](../public/shots/shottower.png) |
 | `lockgate` | 船闸 | QUOTA LOCKGATE | 闸=配额窗 水=余量 船=会话 闸=错 | ![lockgate](../public/shots/lockgate.png) |
-| `pergola` | 藤架 | QUOTA PERGOLA | 拱=配额窗 藤=用量 凳=会话 折=错 | — |
+| `pergola` | 藤架 | QUOTA PERGOLA | 拱=配额窗 藤=用量 凳=会话 折=错 | ![pergola](../public/shots/pergola.png) |
+| `rigging` | 索具 | QUOTA RIGGING | 桅=配额窗 帆=用量 旗=会话 绳=错 | — |
 | `rosetta` | 罗塞塔 | ROSETTA | 环带=配额 刻痕=会话 | ![rosetta](../public/shots/rosetta.png) |
 | `eclipse` | 日蚀 | ECLIPSE | 暗盘=量 冕=会话 沿=窗 | ![eclipse](../public/shots/eclipse.png) |
 | `tapestry` | 织锦 | TAPESTRY | 经=配额 纬=会话 | ![tapestry](../public/shots/tapestry.png) |
