@@ -27,7 +27,7 @@
     view: null,
     wireSig: "",
     unseenOnly: false,
-    vmGroup: null,
+    vmGroup: (() => { try { const g = localStorage.getItem("magpie.vmGroup"); return g || null; } catch (_) { return null; } })(),
     events: 0,
     tickerIndex: 0,
     lastTick: Date.now(),
@@ -3240,6 +3240,7 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
       if (!chip) return;
       state.vmGroup = chip.dataset.vg || null;
       $$(".vm-chip", vmFilters).forEach(c => c.classList.toggle("on", (c.dataset.vg || null) === state.vmGroup));
+      try { state.vmGroup ? localStorage.setItem("magpie.vmGroup", state.vmGroup) : localStorage.removeItem("magpie.vmGroup"); } catch (_) {}
       filterViewMenu($("#view-search") ? $("#view-search").value : "");
     });
     if (vmFilters) vmFilters.addEventListener("wheel", e => {
