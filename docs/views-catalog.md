@@ -1,4 +1,4 @@
-# Magpie Observatory · 视图图鉴 (346)
+# Magpie Observatory · 视图图鉴 (347)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
@@ -10,7 +10,7 @@
 | [延迟](#延迟) | 1 |
 | [氛围](#氛围) | 2 |
 | [场景](#场景) | 232 |
-| [用量](#用量) | 13 |
+| [用量](#用量) | 14 |
 | [结构](#结构) | 6 |
 | [几何](#几何) | 11 |
 | [趣味](#趣味) | 6 |
@@ -60,7 +60,7 @@
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
 | `darkroom` | 暗房 | DARKROOM | 聚光灯跟手 照亮日志 | ![darkroom](../public/shots/darkroom.png) |
-| `plankton` | 浮游群 | LOG PLANKTON | 点=日志 色=provider 漂 | — |
+| `plankton` | 浮游群 | LOG PLANKTON | 点=日志 色=provider 漂 | ![plankton](../public/shots/plankton.png) |
 
 ## 场景 (232)
 
@@ -299,11 +299,12 @@
 | `reserve2` | 保护区二号 | RESERVE II | 观测=配额窗 隙=用量 栖枝=过热 守护=会话 | ![reserve2](../public/shots/reserve2.png) |
 | `desert` | 沙丘 | DESERT | 丘=配额窗 高=用量 驼=会话 | ![desert](../public/shots/desert.png) |
 
-## 用量 (13)
+## 用量 (14)
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
 | `warehouse` | 仓库 | TOKEN WAREHOUSE | 架=provider 箱=token 灯=会话 | ![warehouse](../public/shots/warehouse.png) |
+| `cartographer` | 地图师 | USAGE CARTOGRAPHY | 峰=provider 等高线=token | — |
 | `rings` | Token 年轮 | YEAR IN RINGS | 26 周极坐标日历 | ![rings](../public/shots/rings.png) |
 | `latency` | 延迟热力 | LATENCY HEATMAP | 时间 × 延迟 | ![latency](../public/shots/latency.png) |
 | `stream` | 流量河流 | STREAMGRAPH | Provider 增量 | ![stream](../public/shots/stream.png) |
