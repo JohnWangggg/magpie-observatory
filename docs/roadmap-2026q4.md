@@ -2473,3 +2473,13 @@ v127 已落地:首试ms、pal会话agent图标。跳过:B-mark数(已在title)�
 3. **回放条B-mark计数**:书签卡已有。
 4. **pal跳转项图标**:已有i-flame等。
 5. **session卡多选数**:multiSel状态显。
+
+## 下轮候选 v129（2026-11-15 · v128 落地后）
+
+v128 已落地:昨日会话格。跳过:吞吐title/计数(已有)。
+
+1. **session卡multiSel数**:已选N显。
+2. **digest格最长会话**:dur最久。
+3. **回放条err聚类**:err帧段标。
+4. **pal跳转prov名**:sub已有。
+5. **agent卡总tok**:节点已有。
