@@ -4205,6 +4205,13 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
           toast(`今日切视图 ${n} 次 · 累计 ${vc} 次`);
         } catch (_) {}
       }
+      // Shift+D → re-show the daily digest (clears the once-a-day latch).
+      if (e.key.toLowerCase() === "d" && e.shiftKey && !e.metaKey && !e.ctrlKey && !e.altKey) {
+        e.preventDefault();
+        try { localStorage.removeItem("magpie.digest"); } catch (_) {}
+        if (window.Obs && Obs.showDigestNow) Obs.showDigestNow();
+        else toast("摘要需 app-plus");
+      }
       if (e.key.toLowerCase() === "b" && !e.metaKey && !e.ctrlKey && !e.altKey) {
         e.preventDefault();
         const CYCLE = ["burn", "rhythm", "quota", "loom"];

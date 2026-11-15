@@ -69,6 +69,21 @@
     range.value = s.replay.idx;
     scrubReplay(s.replay.idx);
     toast("回放模式 · 拖动时间轴 · R 或 × 退出");
+    // Tick strip under the scrubber: one dot per B-key mark, click to jump.
+    let strip = $("#replay-marks");
+    if (!strip) {
+      strip = document.createElement("div");
+      strip.id = "replay-marks";
+      strip.style.cssText = "position:relative;height:8px;margin-top:2px";
+      if (bar) bar.appendChild(strip);
+    }
+    if (strip) {
+      let marks = [];
+      try { marks = JSON.parse(localStorage.getItem("magpie.replayMarks") || "[]"); } catch (_) {}
+      const max = Math.max(1, s.replayBuf.length - 1);
+      strip.innerHTML = marks.map(m => `<i style="position:absolute;left:${(m.idx / max * 100).toFixed(1)}%;top:0;width:4px;height:8px;background:var(--amber);border-radius:1px;cursor:pointer" data-mi="${m.idx}" title="跳到第 ${m.idx} 帧"></i>`).join("");
+      strip.onclick = e => { const i = e.target.dataset.mi; if (i != null) { range.value = i; scrubReplay(+i); } };
+    }
   }
   function scrubReplay(idx) {
     const s = state();
@@ -428,6 +443,7 @@ show(F.length-1);
   Obs.shareStateLink = shareStateLink;
   Obs.copyReceipt = copyReceipt;
   Obs.weeklyReport = weeklyReport;
+  Obs.showDigestNow = () => { const s = state(); if (s) { s._digestShown = false; try { localStorage.removeItem("magpie.digest"); } catch (_) {} maybeShowDigest(); } };
   function updateCinemaStats() {
     const el = $("#ch-stats");
     const s = state();
