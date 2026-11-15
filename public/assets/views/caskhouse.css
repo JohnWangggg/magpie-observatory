@@ -1,0 +1,7 @@
+/* caskhouse view */
+@keyframes ckdrop { 0% { opacity: 0; transform: translateY(0); } 40% { opacity: 1; } 100% { opacity: 0; transform: translateY(6px); } }
+.ck-svg { display: block; width: 100%; height: 100%; }
+.ck-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.ck-drip { animation: ckdrop ease-in-out infinite; }
+.ck-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .ck-drip { animation: none; opacity: .5; } }
