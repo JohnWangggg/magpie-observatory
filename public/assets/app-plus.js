@@ -270,6 +270,8 @@
       const step = Math.max(1, Math.floor(pts.length / 40));
       const poly = pts.filter((_, i) => i % step === 0).map(p => `${p.x.toFixed(1)},${(10 - p.y / maxY * 9).toFixed(1)}`).join(" ");
       if (strip) strip.innerHTML += `<svg style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none" viewBox="0 0 100 10" preserveAspectRatio="none"><polyline points="${poly}" fill="none" stroke="var(--accent)" stroke-width=".8" opacity=".5"/></svg>`;
+      const peak = pts.reduce((a, p) => p.y > a.y ? p : a, pts[0]);
+      if (peak && peak.y > 0 && strip) strip.innerHTML += `<svg style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none" viewBox="0 0 100 10" preserveAspectRatio="none"><circle cx="${peak.x.toFixed(1)}" cy="${(10 - peak.y / maxY * 9).toFixed(1)}" r="1.1" fill="var(--amber)"><title>tps 峰值 ${peak.y.toFixed(1)}/s</title></circle></svg>`;
     } catch (_) {}
     // Cumulative cost at the last frame, as a tiny caption on the strip.
     try {
@@ -2862,6 +2864,7 @@ ${quota || "| — | — | — |"}
     } else {
       const n = list.querySelectorAll(".pal-item").length;
       if (n > 0 && n <= 3) list.insertAdjacentHTML("afterbegin", `<div class="pal-empty" style="padding:6px 14px 0;font-size:8.5px;color:var(--faint)">仅 ${n} 项 · 按 Enter 直达首个</div>`);
+      list.querySelector(".pal-item")?.classList.add("kb-focus");
     }
     // Click a kind header to collapse/expand its group (persisted per kind).
     let collapsed = new Set();
