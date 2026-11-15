@@ -1,0 +1,7 @@
+/* confectioner view */
+@keyframes cnfpull { 0%,100% { transform: translateX(0); } 50% { transform: translateX(4px); } }
+.cnf-svg { display: block; width: 100%; height: 100%; }
+.cnf-empty { display: grid; place-items: center; height: 100%; color: var(--muted); font-size: 12px; }
+.cnf-man { animation: cnfpull ease-in-out infinite; }
+.cnf-lab { fill: var(--fg-2); font: 600 8px var(--mono); }
+@media (prefers-reduced-motion: reduce) { .cnf-man { animation: none; } }
