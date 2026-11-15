@@ -387,6 +387,7 @@
     { id: "salter", title: "腌坊", eyebrow: "PROVIDER SALTER", group: "用量", icon: "i-magpie", hint: "槽=provider 鱼=token 腌=会话 腐=错" },
     { id: "besom", title: "扫帚坊", eyebrow: "PROVIDER BESOM", group: "用量", icon: "i-magpie", hint: "凳=provider 帚=token 扎=会话 散=错" },
     { id: "confectioner", title: "糖果坊", eyebrow: "PROVIDER CONFECTIONER", group: "用量", icon: "i-magpie", hint: "案=provider 糖=token 拉=会话 焦=错" },
+    { id: "organbuilder", title: "管风琴坊", eyebrow: "PROVIDER ORGANBUILDER", group: "用量", icon: "i-magpie", hint: "架=provider 管=token 校=会话 凹=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
