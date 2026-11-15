@@ -93,6 +93,9 @@
       strip.style.cssText = "position:relative;height:14px;margin-top:2px";
       if (bar) bar.appendChild(strip);
     }
+      // Zebra backing: alternate 10-frame blocks get a faint wash so distance
+      // reads at a glance on long buffers.
+      strip.style.backgroundImage = "repeating-linear-gradient(90deg, transparent 0, transparent " + (10 / Math.max(1, s.replayBuf.length - 1) * 100).toFixed(2) + "%, color-mix(in srgb, var(--fg) 5%, transparent) " + (10 / Math.max(1, s.replayBuf.length - 1) * 100).toFixed(2) + "%, color-mix(in srgb, var(--fg) 5%, transparent) " + (20 / Math.max(1, s.replayBuf.length - 1) * 100).toFixed(2) + "%)";
     let marks = [];
     try { marks = JSON.parse(localStorage.getItem("magpie.replayMarks") || "[]"); } catch (_) {}
     const max = Math.max(1, s.replayBuf.length - 1);
@@ -1703,7 +1706,7 @@ show(F.length-1);
         if (tail.length < 2) return "";
         const pts = tail.map((d, i) => `${i * (70 / (tail.length - 1))},${(26 - (d.tokens || 0) / max * 22).toFixed(1)}`).join(" ");
         const avg = tail.reduce((a, d) => a + (d.tokens || 0), 0) / tail.length;
-        return `<svg class="dig-bars" viewBox="0 0 72 28" aria-hidden="true"><polyline points="${pts}" fill="none" stroke="var(--accent)" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>${tail.map((d, i) => { const spike = (d.tokens || 0) > avg * 2; return `<circle cx="${(i * (70 / (tail.length - 1))).toFixed(1)}" cy="${(26 - (d.tokens || 0) / max * 22).toFixed(1)}" r="${i === tail.length - 2 ? 2.6 : 1.6}" fill="${spike ? "var(--red)" : i === tail.length - 2 ? "var(--accent)" : "color-mix(in srgb, var(--accent) 45%, transparent)"}" stroke="${i === tail.length - 2 ? "#fff" : "none"}" stroke-width=".8"><title>${d.date} · ${d.tokens}${spike ? " · 尖峰" : ""}</title></circle>`; }).join("")}</svg>`;
+        return `<svg class="dig-bars" viewBox="0 0 72 28" aria-hidden="true"><polyline points="${pts}" fill="none" stroke="var(--accent)" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"/>${tail.map((d, i) => { const spike = (d.tokens || 0) > avg * 2; return `<circle cx="${(i * (70 / (tail.length - 1))).toFixed(1)}" cy="${(26 - (d.tokens || 0) / max * 22).toFixed(1)}" r="${i === tail.length - 2 ? 2.6 : 1.6}" fill="${spike ? "var(--red)" : i === tail.length - 2 ? "var(--accent)" : "color-mix(in srgb, var(--accent) 45%, transparent)"}" stroke="${i === tail.length - 2 ? "#fff" : "none"}" stroke-width=".8"><title>${d.date} · ${d.tokens}${spike ? " · 尖峰·超均值" + Math.round((d.tokens || 0) / Math.max(1, avg)) + "x" : ""}</title></circle>`; }).join("")}</svg>`;
       })()}
       <div class="digest-foot">连续使用 ${dayStreak()} 天 · ${dTok != null ? (dTok >= 0 ? "较前日 +" + dTok + "%" : "较前日 " + dTok + "%") : "保持热度"}
         <button class="mini-btn digest-week" type="button">看周报 →</button>
