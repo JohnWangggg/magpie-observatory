@@ -1,4 +1,4 @@
-# Magpie Observatory · 视图图鉴 (363)
+# Magpie Observatory · 视图图鉴 (364)
 
 按分组列出每个视图的名称、eyebrow 与一句话描述。视图目录由 `public/assets/app.js` 的 `VIEW_META` 维护；
 运行时 `window.ObservatoryManifest` + `document.write` 自动加载 `views/*.js/.css`。
@@ -6,7 +6,7 @@
 | 分组 | 数量 |
 |---|---|
 | [实时](#实时) | 15 |
-| [配额](#配额) | 14 |
+| [配额](#配额) | 15 |
 | [延迟](#延迟) | 2 |
 | [氛围](#氛围) | 3 |
 | [场景](#场景) | 233 |
@@ -34,14 +34,14 @@
 | `metronome` | 节拍器 | REQUEST METRONOME | 摆频=请求率 | ![metronome](../public/shots/metronome.png) |
 | `weathervane` | 风向标 | PROVIDER VANE | 箭=最热provider 摆 | ![weathervane](../public/shots/weathervane.png) |
 | `dockyard` | 船坞 | AGENT DOCKYARD | 船=agent 舱=token 旗=provider | ![dockyard](../public/shots/dockyard.png) |
-| `flotilla` | 船队 | AGENT FLOTILLA | 船=agent 舷=token 帆=provider 红帆=错 | — |
+| `flotilla` | 船队 | AGENT FLOTILLA | 船=agent 舷=token 帆=provider 红帆=错 | ![flotilla](../public/shots/flotilla.png) |
 | `burn` | 燃烧速率 | BURN RATE | 配额窗口烧速 / 预测重置 | ![burn](../public/shots/burn.png) |
 | `gauge` | 仪表盘 | GAUGE MATRIX | KPI/配额仪表 | ![gauge](../public/shots/gauge.png) |
 | `pinboard` | 钉板 | PINBOARD | KPI/配额/会话钉上墙 | ![pinboard](../public/shots/pinboard.png) |
 | `lighthouse` | 灯塔 | LIGHTHOUSE | 塔=配额 光束=会话 | ![lighthouse](../public/shots/lighthouse.png) |
 | `harbor` | 港口 | HARBOR | 船=agent 箱=tries 浮标=配额 | ![harbor](../public/shots/harbor.png) |
 
-## 配额 (14)
+## 配额 (15)
 
 | id | 标题 | eyebrow | 说明 | 预览 |
 |---|---|---|---|---|
@@ -55,6 +55,7 @@
 | `manor` | 庄园 | PROVIDER MANOR | 翼=配额窗 灯=会话 园=余量 烟=错 | ![manor](../public/shots/manor.png) |
 | `portcullis` | 闸门 | PORTCULLIS | 闸=燃速 人=会话 炬=错 | ![portcullis](../public/shots/portcullis.png) |
 | `strand` | 海岸 | QUOTA STRAND | 湾=配额窗 水=余量 鸥=会话 旗=错 | ![strand](../public/shots/strand.png) |
+| `ember` | 余烬 | QUOTA EMBERS | 炭=配额窗 光=燃速 灰=余量 火=会话 | — |
 | `rosetta` | 罗塞塔 | ROSETTA | 环带=配额 刻痕=会话 | ![rosetta](../public/shots/rosetta.png) |
 | `eclipse` | 日蚀 | ECLIPSE | 暗盘=量 冕=会话 沿=窗 | ![eclipse](../public/shots/eclipse.png) |
 | `tapestry` | 织锦 | TAPESTRY | 经=配额 纬=会话 | ![tapestry](../public/shots/tapestry.png) |
