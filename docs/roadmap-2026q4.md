@@ -1342,3 +1342,14 @@ v15 已落地：session左滑复制ID、view-menu大屏3列、digest 7天迷你�
 3. **view-menu 行高自适应**:按viewport密度调 vm-row padding。
 4. **session 卡批量**:多选模式(长按进多选,批量pin/复制)。
 5. **回放共享帧**:replay st链接含首帧预览图(URL过长则跳过)。
+
+## 下轮候选 v17（2026-11-15 · v16 消化后）
+
+v16 已落地：session 多选 Shift+click+批量条(置顶/复制/清除)、heat-cell点击过滤(发现已有855行+右键复制日期)。
+跳过：st QR码(需外链/违背local-first)、digest会话展开(已在digest内)、vm行高(密度档已有)。
+
+1. **多选持久 + 浮动条完善**:multiSel 渲染时保持(sig check 会清 .multi class——需在 renderSessions 后重标)。
+2. **digestLog 回看含趋势图**:历史摘要浮卡加 mini bar。
+3. **view-menu 列数自适应**:1700px 3列已有,补 2200px+ 4列。
+4. **回放书签**:回放中按 B 标记当前帧,加 magpie.replayMarks。
+5. **KPI 右键菜单**:单击跳/右键隐藏已有,补 palette 列出隐藏项。
