@@ -860,19 +860,29 @@
       .filter(v => v && !state.favorites.includes(v.id))
       .slice(0, 6);
     if (recent.length) {
-      sections.push(`<section class="vm-group vm-recent" data-group="recent"><h4 style="--vm-g:var(--green)"><i></i>最近<span>${recent.length}</span></h4>${recent.map(v => menuItem(v, "var(--green)")).join("")}</section>`);
+      sections.push(`<section class="vm-group vm-recent" data-group="recent"><h4 class="vm-h4-tog" style="--vm-g:var(--green)" data-toggle="recent" title="点击折叠/展开"><i></i>最近<span>${recent.length}</span><em class="vm-caret">▾</em></h4>${recent.map(v => menuItem(v, "var(--green)")).join("")}</section>`);
     }
     const favs = state.favorites
       .map(id => VIEW_META.find(v => v.id === id))
       .filter(Boolean);
     if (favs.length) {
-      sections.push(`<section class="vm-group vm-fav" data-group="fav"><h4 style="--vm-g:var(--amber)"><i></i>收藏<span>${favs.length}</span></h4>${favs.map(v => menuItem(v, "var(--amber)")).join("")}</section>`);
+      sections.push(`<section class="vm-group vm-fav" data-group="fav"><h4 class="vm-h4-tog" style="--vm-g:var(--amber)" title="点击折叠/展开"><i></i>收藏<span>${favs.length}</span><em class="vm-caret">▾</em></h4>${favs.map(v => menuItem(v, "var(--amber)")).join("")}</section>`);
     }
     VIEW_GROUPS.forEach(group => {
       const items = VIEW_META.filter(v => v.group === group).map(v => menuItem(v, GROUP_COLORS[group])).join("");
-      sections.push(`<section class="vm-group" data-group="${group}"><h4 style="--vm-g:${GROUP_COLORS[group]}"><i></i>${group}<span>${VIEW_META.filter(v => v.group === group).length}</span></h4>${items}</section>`);
+      sections.push(`<section class="vm-group" data-group="${group}"><h4 class="vm-h4-tog" style="--vm-g:${GROUP_COLORS[group]}" title="点击折叠/展开"><i></i>${group}<span>${VIEW_META.filter(v => v.group === group).length}</span><em class="vm-caret">▾</em></h4>${items}</section>`);
     });
     host.innerHTML = sections.join("");
+    // Group headers toggle their section's items (collapse keeps the catalog
+    // browsable at 700 items; state not persisted — reopen resets).
+    if (!host.dataset.togBound) {
+      host.dataset.togBound = "1";
+      host.addEventListener("click", e => {
+        const h4 = e.target.closest(".vm-h4-tog");
+        if (!h4) return;
+        h4.closest(".vm-group").classList.toggle("collapsed");
+      });
+    }
     // Group filter chips — one-tap scope of the 700-view catalog.
     const filt = $("#vm-filters");
     if (filt) {
