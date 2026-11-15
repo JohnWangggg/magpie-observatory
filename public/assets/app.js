@@ -317,6 +317,7 @@
     { id: "cordwain", title: "制鞋坊", eyebrow: "PROVIDER CORDWAIN", group: "用量", icon: "i-magpie", hint: "楦=provider 鞋=token 匠=会话 裂=错" },
     { id: "harnessmaker", title: "马具坊", eyebrow: "PROVIDER HARNESSMAKER", group: "用量", icon: "i-magpie", hint: "轭=provider 套=token 匠=会话 松=错" },
     { id: "tinsmith", title: "锡器坊", eyebrow: "PROVIDER TINSMITH", group: "用量", icon: "i-magpie", hint: "卷=provider 壶=token 工=会话 裂=错" },
+    { id: "pewterer", title: "白镴坊", eyebrow: "PROVIDER PEWTERER", group: "用量", icon: "i-magpie", hint: "埚=provider 罐=token 匠=会话 干=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
