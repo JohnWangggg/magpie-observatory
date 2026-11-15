@@ -1383,3 +1383,13 @@ v19 已落地：回放书签跳帧、vm关闭动画、便签chip拖拽排序(顺
 3. **digest 触发快捷键**:palette/键盘 D 强制重显 digest(清 magpie.digest 标记)。
 4. **session 卡多选拖拽**:multiSel 可整组拖到便签卡(批量钉值)。
 5. **view-menu 粘性搜索**:vm-filters chips 吸顶(与组头 sticky 一致)。
+
+## 下轮候选 v21（2026-11-15 · v20 全部落地后）
+
+v20 已落地：Shift+D重显digest、回放marks刻度条、vm-filters吸顶、multiSel拖到便签卡批量钉。跳过：session agent marker(--s-c已有)。
+
+1. **回放时间轴会话标记**:range 下再加 sessions 完成点(蓝点,非仅B书签)。
+2. **digest 昨日top provider**:digest 卡点击"最常用"格→过滤该provider会话。
+3. **session 卡子代理展开**:subagents>0 的卡加展开指示(已有subagent-row,补▾点击切)。
+4. **view-menu 空态**:搜索无结果时显示图鉴进度+随机视图按钮。
+5. **回放标记导出**:replay-marks 一键复制为 JSON。
