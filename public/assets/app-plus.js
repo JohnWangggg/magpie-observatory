@@ -84,6 +84,15 @@
       strip.innerHTML = marks.map(m => `<i style="position:absolute;left:${(m.idx / max * 100).toFixed(1)}%;top:0;width:4px;height:8px;background:var(--amber);border-radius:1px;cursor:pointer" data-mi="${m.idx}" title="跳到第 ${m.idx} 帧"></i>`).join("");
       strip.onclick = e => { const i = e.target.dataset.mi; if (i != null) { range.value = i; scrubReplay(+i); } };
     }
+    // Session-start dots on the same strip: startedAt → position over the
+    // buffer span (completion time isn't recorded; start is the marker).
+    try {
+      const t0 = s.replayBuf[0].t, tN = s.replayBuf[s.replayBuf.length - 1].t;
+      const span = Math.max(1, tN - t0);
+      const dots = (s.data.recent || []).filter(x => x.startedAt && x.startedAt >= t0 && x.startedAt <= tN)
+        .map(x => `<i style="position:absolute;left:${((x.startedAt - t0) / span * 100).toFixed(1)}%;top:6px;width:4px;height:4px;background:var(--accent);border-radius:50%;opacity:.6" title="${esc(x.title)} 开始"></i>`).join("");
+      if (strip) strip.innerHTML += `<div style="position:absolute;inset:0;pointer-events:none">${dots}</div>`;
+    } catch (_) {}
   }
   function scrubReplay(idx) {
     const s = state();
@@ -1461,6 +1470,13 @@ show(F.length-1);
         <div><small>连续使用</small><b>${dayStreak()} 天</b></div>
         <div class="dig-top" data-dig-prov="${topP ? esc(topP[0]) : ""}" style="${topP ? "cursor:pointer" : ""}" title="${topP ? "点击 → 过滤 " + esc(meta ? meta.name : topP[0]) + " 会话" : ""}"><small>最常用</small><b>${meta ? esc(meta.name) : "—"}</b></div>
         ${wk || ""}
+        ${(() => {
+          // Yesterday's busiest subagent across sessions (count, not tokens).
+          const subN = {};
+          (s.data.sessions || []).concat(s.data.recent || []).forEach(x => (x.subagents || []).forEach(a => { subN[a.name] = (subN[a.name] || 0) + 1; }));
+          const topSub = Object.entries(subN).sort((a, b) => b[1] - a[1])[0];
+          return topSub ? `<div><small>子代理</small><b>${esc(topSub[0])} ×${topSub[1]}</b></div>` : "";
+        })()}
         ${(() => {
           try {
             const seen = JSON.parse(localStorage.getItem("magpie.viewSeen") || "[]");
