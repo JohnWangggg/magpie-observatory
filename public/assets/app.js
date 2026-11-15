@@ -447,6 +447,7 @@
     { id: "sievemaker", title: "筛坊", eyebrow: "PROVIDER SIEVEMAKER", group: "用量", icon: "i-magpie", hint: "架=provider 筛=token 绷=会话 破=错" },
     { id: "gunsmith", title: "铳坊", eyebrow: "PROVIDER GUNSMITH", group: "用量", icon: "i-magpie", hint: "架=provider 管=token 锉=会话 炸=错" },
     { id: "soapboiler", title: "皂坊", eyebrow: "PROVIDER SOAPBOILER", group: "用量", icon: "i-magpie", hint: "锅=provider 块=token 搅=会话 裂=错" },
+    { id: "upholsterer", title: "软包坊", eyebrow: "PROVIDER UPHOLSTERER", group: "用量", icon: "i-magpie", hint: "架=provider 垫=token 钉=会话 绽=错" },
     { id: "rings", title: "Token 年轮", eyebrow: "YEAR IN RINGS", group: "用量", icon: "i-clock", hint: "26 周极坐标日历" },
     { id: "latency", title: "延迟热力", eyebrow: "LATENCY HEATMAP", group: "用量", icon: "i-pulse", hint: "时间 × 延迟" },
     { id: "stream", title: "流量河流", eyebrow: "STREAMGRAPH", group: "用量", icon: "i-chart", hint: "Provider 增量" },
