@@ -3301,6 +3301,15 @@ html += `<div class="session-ghost" title="点我"><span class="radar"></span><b
     });
     $("#vm-random").addEventListener("click", randomView);
     $("#vm-tour").addEventListener("click", () => { if (state.tour) { stopTour(); } else { startTour(); } closeViewMenu(); });
+    const tfav = $("#vm-tourfav");
+    if (tfav) tfav.addEventListener("click", () => {
+      const favs = state.favorites.filter(id => VIEW_META.some(v => v.id === id));
+      if (!favs.length) { toast("暂无收藏视图"); return; }
+      state.tourPool = favs;
+      if (state.tour) stopTour(true);
+      startTour();
+      closeViewMenu();
+    });
     $("#vm-help").addEventListener("click", () => { closeViewMenu(); openHelp(); });
     function updateDefBtn() {
       const b = $("#vm-defview"); if (!b) return;
