@@ -1604,3 +1604,13 @@ v41 已落地:C键帧对比、strip首末边、首try色点。跳过:digest可�
 3. **digest格sparkline提示**:曲线点 hover title已有->加最末点高亮。
 4. **palette视图分kind顺序**:视图>页面>会话>动作排序固定。
 5. **回放帧导出对比**:compareReplayFrames加"复制对比"钮。
+
+## 下轮候选 v43（2026-11-15 · v42 落地后）
+
+v42 已落地：对比卡复制钮、sparkline末点。跳过：对比URL(复制钮已导出)、provider首色(状态色更关键)、kind固定排序(search已分组)。
+
+1. **回放帧对比palette**:palette动作组加"最近对比"显示上次AB。
+2. **session卡首try provider**:色点chip title已含->加provider名文本。
+3. **digest格键盘**:digest卡 Tab 可聚焦各格回车跳。
+4. **palette视图未看数**:视图分段头加"N未看"。
+5. **回放AB导出**:AB区间帧导出为JSON片段。
