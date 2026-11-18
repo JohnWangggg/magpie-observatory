@@ -22,8 +22,10 @@ function start(options = {}) {
 
 export default {
   id: "magpie-observatory",
-  async server(_input, options) {
-    await start(options || {});
+  async server(_input, options = {}) {
+    // A page-only plugin does not start the host; this one has a page service,
+    // so the service can also keep the quota alert alive after the page closes.
+    await start({ ...options, monitor: options.notify !== false });
     return {};
   },
 };

@@ -10,7 +10,9 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createHash, randomBytes, timingSafeEqual } from "node:crypto";
+import { execFile } from "node:child_process";
 import os from "node:os";
+import vm from "node:vm";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const PUBLIC = path.join(HERE, "public");
@@ -27,7 +29,32 @@ const MAGPIE_KEY = (process.env.MAGPIE_KEY || "").trim();
 // `Origin: null` and a same-origin read is, to the browser, cross-origin.
 // Allow exactly that origin, with a token only the served index.html knows,
 // so other pages (a data: or sandboxed frame anywhere) can't read this.
-const PAGE_TOKEN = (process.env.MAGPIE_PAGE_TOKEN || "").trim() || randomBytes(32).toString("hex");
+const CONFIG_DIR = process.env.MAGPIE_CONFIG_DIR || path.join(os.homedir(), ".config", "magpie");
+const TOKEN_FILE = path.join(CONFIG_DIR, "observatory-page-token");
+// Stable across service restarts: an already-open sandboxed page keeps its
+// token. A random token per run made every plugin-host restart answer 403
+// until the reader reloaded the page.
+async function loadPageToken() {
+  const env = (process.env.MAGPIE_PAGE_TOKEN || "").trim();
+  if (env) return env;
+  for (let i = 0; i < 3; i++) {
+    try {
+      const t = (await fs.readFile(TOKEN_FILE, "utf8")).trim();
+      if (/^[a-f0-9]{64}$/.test(t)) return t;
+    } catch { /* first run */ }
+    const t = randomBytes(32).toString("hex");
+    try {
+      await fs.mkdir(CONFIG_DIR, { recursive: true });
+      await fs.writeFile(TOKEN_FILE, t, { mode: 0o600, flag: "wx" });
+      return t;
+    } catch (err) {
+      if (err?.code !== "EEXIST") return t;
+      // Another service won the race; loop and read its token.
+    }
+  }
+  return randomBytes(32).toString("hex");
+}
+const PAGE_TOKEN = await loadPageToken();
 
 function apiCors(req) {
   if (req.headers.origin !== "null") return null;
@@ -56,10 +83,7 @@ function apiAllowed(req) {
   return tokenMatches(req.headers["x-magpie-api-token"]);
 }
 
-const GATEWAY_FILE = path.join(
-  process.env.MAGPIE_CONFIG_DIR || path.join(os.homedir(), ".config", "magpie"),
-  "gateway.json"
-);
+const GATEWAY_FILE = path.join(CONFIG_DIR, "gateway.json");
 let gateway = { url: "", at: 0 };
 
 async function gatewayBase(force, override) {
@@ -82,8 +106,21 @@ async function gatewayBase(force, override) {
   gateway = { url, at: Date.now() };
   return url;
 }
-const PERIODS = new Set(["today", "week", "month", "all"]);
-const VERSION = "1.0.1";
+const PERIODS = new Set(["today", "7d", "30d", "all"]);
+// The gateway takes today/7d/30d/all. `week` and `month` used to be what the
+// page sent; the gateway silently answered 30d for both, so the 7-day tab was
+// really a 30-day tab. Accept the old names and normalize them.
+const PERIOD_ALIAS = { week: "7d", month: "30d", "7day": "7d", "30day": "30d" };
+function periodOf(value) {
+  const p = String(value || "");
+  const norm = PERIOD_ALIAS[p] || p;
+  return PERIODS.has(norm) ? norm : "today";
+}
+const VERSION = JSON.parse(await fs.readFile(path.join(HERE, "package.json"), "utf8")).version;
+// The page and the background alert share one forecast implementation.
+const quotaSandbox = { window: {} };
+vm.runInNewContext(await fs.readFile(path.join(PUBLIC, "assets", "quota.js"), "utf8"), quotaSandbox);
+const quotaRowsAt = quotaSandbox.window.ObservatoryQuota.rows;
 
 const TYPES = {
   ".html": "text/html; charset=utf-8",
@@ -135,7 +172,7 @@ async function usageHeatmap(base) {
   const days = (all.series || []).map(d => ({
     date: String(d.time || "").slice(0, 10),
     calls: d.calls || 0,
-    tokens: (d.input || 0) + (d.output || 0) + (d.cache_read || 0),
+    tokens: (d.input || 0) + (d.output || 0),
   })).filter(d => d.date);
   if (days.length) heatmapFallback = { at: Date.now(), days };
   return { days };
@@ -146,57 +183,73 @@ async function usageHeatmap(base) {
 // ~400 KB to a few tens of KB.
 function slimTrace(body) {
   if (!body || !Array.isArray(body.routes)) return body;
+  const groupOf = (g) => g ? {
+    id: g.id, ref: g.ref, name: g.name, routing: g.routing
+  } : null;
   return {
     ...body,
     routes: body.routes.map(r => ({
-      seq: r.seq, id: r.id, time: r.time, agent: r.agent, model: r.model,
-      provider: r.provider, session: r.session, folder: r.folder,
-      group: r.group, rule: r.rule, done: r.done, status: r.status,
-      served: r.served,
+      id: r.id, time: r.time, agent: r.agent, session: r.session,
+      folder: r.folder, provider: r.provider, done: r.done, status: r.status,
+      served: r.served, tokens: r.tokens, out: r.out, ms: r.ms, ttft: r.ttft,
+      group: groupOf(r.group),
+      usage: Array.isArray(r.usage) ? r.usage.map(u => ({
+        provider: u.provider, model: u.model, in: u.in, out: u.out, cache_read: u.cache_read
+      })) : [],
       tries: Array.isArray(r.tries) ? r.tries.map(t => ({
-        id: t.id, model: t.model, effort: t.effort, start: t.start,
-        done: t.done, status: t.status, ms: t.ms, ttft: t.ttft,
-        firstText: t.firstText, served: t.served
+        id: t.id, model: t.model, effort: t.effort,
+        done: t.done, status: t.status, ms: t.ms, ttft: t.ttft, firstText: t.firstText
       })) : []
     }))
   };
 }
 
-// The request ledger has more fields than the dashboard reads (URLs, byte
-// counts, response ids, stream details). Keep the fields the UI maps and drop
-// the rest before the 80-row page crosses the wire.
-function slimRequests(body) {
-  if (!body || !Array.isArray(body.rows)) return body;
-  return {
-    period: body.period, total: body.total, offset: body.offset,
-    rows: body.rows.map(r => ({
-      id: r.id, route_id: r.route_id, t: r.t, time: r.time,
-      agent: r.agent, agentName: r.agentName,
-      session: r.session, native_session: r.native_session,
-      provider: r.provider, served: r.served, model: r.model,
-      status: r.status, in: r.in, out: r.out, cache_read: r.cache_read,
-      cost: r.cost, ttft_ms: r.ttft_ms, first_text_ms: r.first_text_ms,
-      decode_ms: r.decode_ms, decode_out: r.decode_out, ms: r.ms
+function slimQuotas(body) {
+  if (!body || typeof body !== "object") return body;
+  const data = (body.data || body || []).map((x) => ({
+    provider: x.provider,
+    name: x.name,
+    user: x.user,
+    plan: x.plan,
+    kind: x.kind,
+    balance: x.balance,
+    windows: (x.windows || []).map((w) => ({
+      name: w.name,
+      used: w.used,
+      remaining: w.remaining,
+      resetsAt: w.resetsAt,
+      limit: w.limit,
+      display: w.display
     }))
-  };
+  }));
+  return { ...body, data };
 }
 
-// Requests are newest-first and immutable once logged, so a client that names
-// the newest row it already has only needs the rows above it.
-function requestKey(r) { return String((r && (r.route_id || r.t)) || ""); }
-
-function requestsDelta(body, cursor) {
-  const rows = Array.isArray(body && body.rows) ? body.rows : [];
-  if (!cursor || !rows.length) return null;
-  const at = rows.findIndex(r => requestKey(r) === cursor);
-  if (at < 0) return null;
-  const head = rows.slice(0, at);
-  return {
-    delta: true,
-    cursor: head.length ? requestKey(head[0]) : cursor,
-    head,
-    total: body.total, offset: body.offset, period: body.period
-  };
+// The focus page needs totals, models and accounts, not the per-agent /
+// per-session / per-key breakdowns or the hour/day series. The raw usage
+// response is 200–700 KB; this keeps the first snapshot small too.
+function pick(o, keys) {
+  const out = {};
+  for (const k of keys) if (o && o[k] !== undefined) out[k] = o[k];
+  return out;
+}
+function slimUsage(body) {
+  if (!body || typeof body !== "object") return body;
+  const usage = pick(body, [
+    "period", "since", "calls", "errors", "retried", "canceled",
+    "input", "output", "cache_read", "cache_write", "reasoning",
+    "cost", "unpriced", "credits", "credited", "timed",
+    "ttft_ms", "decode_ms", "decode_out", "decode_n", "bucket"
+  ]);
+  usage.models = (body.models || []).map((m) => pick(m, [
+    "provider", "model", "name", "input", "output", "cache_read",
+    "calls", "cost", "unpriced", "credits"
+  ]));
+  usage.accounts = (body.accounts || []).map((a) => pick(a, [
+    "id", "provider", "host", "name", "model", "sub",
+    "calls", "cost", "credits", "input", "output", "cache_read", "unpriced"
+  ]));
+  return usage;
 }
 
 // Quota history is a long point series; the burn-down needs the recent slope,
@@ -212,9 +265,16 @@ function slimQuotaHistory(body) {
         .map(l => {
           // Normalize first: a missing stamp and an explicit null must not be
           // confused once a dropped key means "same as the previous point".
-          const points = (Array.isArray(l.points) ? l.points.slice(-40) : []).map(p =>
+          // 20 points still covers 6 hours on a 30-day window and 30
+          // minutes on a 5-hour one; more is only weight on every first load.
+          const points = (Array.isArray(l.points) ? l.points.slice(-20) : []).map(p =>
             p && typeof p === "object"
-              ? { at: p.at, left: p.left, start: p.start ?? null, resetsAt: p.resetsAt ?? null }
+              ? {
+                  at: p.at,
+                  left: Number.isFinite(Number(p.left)) ? Math.round(Number(p.left) * 10) / 10 : p.left,
+                  start: p.start ?? null,
+                  resetsAt: p.resetsAt ?? null
+                }
               : p
           );
           let prev = null;
@@ -290,30 +350,25 @@ async function tracePayload(since, base) {
   return { seq, delta: true, routes: added };
 }
 
-export async function snapshot(period = "today", since = 0, qh = "", rq = "", gw = "") {
-  if (!PERIODS.has(period)) period = "today";
+export async function snapshot(period = "today", since = 0, qh = "", gw = "") {
+  period = periodOf(period);
   const base = gw ? await gatewayBase(false, gw) : null;
   const calls = {
     trace: "/v1/magpie/trace?after=0",
     quotas: "/v1/magpie/quotas?kept=1",
     usage: `/v1/magpie/usage?period=${period}`,
     concurrency: "/v1/magpie/concurrency",
-    requests: `/v1/magpie/usage/requests?period=${period}&limit=60`,
     heatmap: "/api/usage/heatmap?period=all",
     quotaHistory: "/v1/magpie/quotas/history",
   };
   const data = {};
   const errors = {};
-  let requestsBody = null;
   await Promise.all(Object.entries(calls).map(async ([name, endpoint]) => {
     try {
-      if (name === "requests") requestsBody = await magpieGet(endpoint, 2500, base);
       data[name] = name === "quotaHistory" ? await quotaHistory(qh, base)
         : name === "trace" ? await tracePayload(since, base)
-        : name === "requests" ? (() => {
-            const slim = slimRequests(requestsBody);
-            return requestsDelta(slim, rq) || { ...slim, cursor: slim.rows && slim.rows.length ? requestKey(slim.rows[0]) : "" };
-          })()
+        : name === "usage" ? slimUsage(await magpieGet(endpoint, 2500, base))
+        : name === "quotas" ? slimQuotas(await magpieGet(endpoint, 2500, base))
         : await magpieGet(endpoint, 2500, base);
     }
     catch (err) { errors[name] = err?.message || String(err); }
@@ -385,23 +440,43 @@ async function handler(req, res) {
     const period = url.searchParams.get("period") || "today";
     const since = Math.max(0, Number(url.searchParams.get("since")) || 0);
     const qh = String(url.searchParams.get("qh") || "").slice(0, 40);
-    const rq = String(url.searchParams.get("rq") || "").slice(0, 60);
     const gw = String(url.searchParams.get("gw") || "").slice(0, 80);
-    try { return sent(200, await snapshot(period, since, qh, rq, gw)); }
+    try { return sent(200, await snapshot(period, since, qh, gw)); }
     catch (err) { return sent(502, { ok: false, error: err?.message || String(err) }); }
+  }
+  // The quiet view's baseline: one usage read, no trace, no ledger. Kept
+  // separate so a today page can compare against the previous day without
+  // pulling a second full snapshot.
+  if (pathname === "/api/usage") {
+    const period = periodOf(url.searchParams.get("period"));
+    const gw = String(url.searchParams.get("gw") || "").slice(0, 80);
+    try {
+      const base = gw ? await gatewayBase(false, gw) : null;
+      const usage = await magpieGet(`/v1/magpie/usage?period=${period}`, 4000, base);
+      return sent(200, { ok: true, usage });
+    } catch (err) {
+      return sent(502, { ok: false, error: err?.message || String(err) });
+    }
   }
   if (pathname === "/api/version") {
     return sent(200, { name: "magpie-observatory", version: VERSION });
   }
 
-  let rel = pathname === "/" ? "index.html" : pathname.replace(/^\/+/, "");
+  // The quiet view is the product; the old 25-view dashboard stays on disk
+  // as legacy and is not linked from anywhere.
+  if (pathname === "/index.html") {
+    res.writeHead(302, { Location: "/" });
+    res.end();
+    return;
+  }
+  let rel = pathname === "/" ? "focus.html" : pathname.replace(/^\/+/, "");
   const file = path.resolve(PUBLIC, rel);
   if (!file.startsWith(PUBLIC + path.sep)) { res.writeHead(403); return res.end("Forbidden"); }
   try {
     const stat = await fs.stat(file);
     if (stat.isDirectory()) return handler({ ...req, url: rel.replace(/\/?$/, "/index.html") }, res);
     let body = await fs.readFile(file);
-    if (rel === "index.html") {
+    if (rel === "index.html" || rel === "focus.html") {
       // the sandboxed frame's fetch proves it read this page
       body = Buffer.from(
         body.toString("utf8").replace("</head>", `<meta name="magpie-api-token" content="${PAGE_TOKEN}"></head>`),
@@ -425,9 +500,102 @@ async function handler(req, res) {
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
+// ---------------------------------------------------------------- alerts ---
+// The page tells you what is risky; this keeps the one thing that matters
+// after it is closed: a local OS notification when an allowance will run out
+// before it resets. It uses the same quota.js as the page, so there is one
+// forecast implementation, not two. Cooldown is six hours per window; the
+// first check runs 20 s after the service starts.
+let monitorStarted = false;
+function maskUser(v) {
+  let s = String(v == null ? "" : v).trim();
+  if (!s) return "";
+  if (s.includes("****")) return s;
+  if (s.includes("@")) {
+    const [user, domain] = s.split("@");
+    return (user.length <= 2 ? user.slice(0, 1) + "***" : user.slice(0, 2) + "***") + "@" + domain;
+  }
+  if (/^\d{5,}$/.test(s)) return s.slice(0, 3) + "****" + s.slice(-4);
+  if (s.length > 24) return s.slice(0, 8) + "…";
+  return s;
+}
+function fmtDur(min) {
+  if (min == null || !Number.isFinite(min)) return "—";
+  min = Math.max(0, min);
+  if (min < 1) return "不到 1 分钟";
+  if (min < 60) return `${Math.round(min)} 分钟`;
+  const h = Math.floor(min / 60), m = Math.round(min % 60);
+  if (h < 24) return m ? `${h} 小时 ${m} 分` : `${h} 小时`;
+  const d = Math.floor(h / 24);
+  return `${d} 天${h % 24 ? ` ${h % 24} 小时` : ""}`;
+}
+function notifyOS(title, body) {
+  if (process.env.OBSERVATORY_ALERT_DRY === "1") {
+    console.log(`[observatory] alert: ${title} · ${body}`);
+    return;
+  }
+  if (process.platform === "darwin") {
+    const script = "on run argv\n display notification (item 1 of argv) with title (item 2 of argv)\nend run";
+    execFile("osascript", ["-e", script, "--", body, title], (err) => {
+      if (err) console.error("[observatory] notification failed:", err.message);
+    });
+  } else if (process.platform === "linux") {
+    execFile("notify-send", [title, body], (err) => {
+      if (err) console.error("[observatory] notification failed:", err.message);
+    });
+  } else {
+    console.log(`[observatory] alert: ${title} · ${body}`);
+  }
+}
+function startMonitor() {
+  if (monitorStarted) return;
+  monitorStarted = true;
+  const seen = new Map();
+  const COOLDOWN = 6 * 60 * 60 * 1000;
+  async function check() {
+    try {
+      const base = await gatewayBase();
+      const [quotasRaw, historyRaw] = await Promise.all([
+        magpieGet("/v1/magpie/quotas?kept=1", 5000, base),
+        magpieGet("/v1/magpie/quotas/history", 5000, base)
+      ]);
+      const now = Date.now();
+      const quotas = (quotasRaw.data || quotasRaw || []).map(q => ({
+        ...q,
+        windows: (q.windows || []).map(w => ({
+          ...w,
+          resetsIn: w.resetsAt ? Math.max(0, Math.round((Date.parse(w.resetsAt) - now) / 60000)) : null
+        }))
+      }));
+      const rows = quotaRowsAt(quotas, historyRaw.data || historyRaw || [], now);
+      const bad = rows.filter(r => r.sev === "bad" && r.eta != null && r.reset != null && r.eta < r.reset);
+      const pending = [];
+      for (const r of bad) {
+        const key = `${r.q.provider}|${r.q.user || ""}|${r.w.name || ""}`;
+        if (now - (seen.get(key) || 0) < COOLDOWN) continue;
+        seen.set(key, now);
+        const who = r.q.user ? `${r.q.name || r.q.provider} · ${maskUser(r.q.user)}` : (r.q.name || r.q.provider);
+        pending.push(`${who} ${r.w.name || ""}：约 ${fmtDur(r.eta)} 后耗尽，${fmtDur(r.reset)} 后重置`);
+      }
+      if (pending.length) {
+        const lines = pending.slice(0, 3);
+        if (pending.length > 3) lines.push(`另有 ${pending.length - 3} 个窗口`);
+        notifyOS(
+          `Magpie 额度预警${pending.length > 1 ? ` · ${pending.length} 个` : ""}`,
+          lines.join("\n")
+        );
+      }
+    } catch (err) {
+      console.error("[observatory] alert check failed:", err?.message || String(err));
+    }
+  }
+  setTimeout(check, 20000).unref?.();
+  setInterval(check, 5 * 60 * 1000).unref?.();
+}
+
 export async function startServer(options = {}) {
   const port = Number(options.port) > 0 ? Number(options.port) : DEFAULT_PORT;
-  for (let attempt = 0; attempt < 50; attempt++) {
+  for (let attempt = 0; attempt < 150; attempt++) {
     try {
       const server = await new Promise((resolve, reject) => {
         const s = http.createServer((req, res) => {
@@ -439,10 +607,14 @@ export async function startServer(options = {}) {
         s.listen(port, "127.0.0.1", () => resolve(s));
       });
       const url = `http://127.0.0.1:${port}`;
+      if (options.monitor) startMonitor();
       console.log(`[magpie-observatory] ${url}`);
       return { server, port, url };
     } catch (err) {
       if (err?.code !== "EADDRINUSE") throw err;
+      // Another Magpie window may hold the port. Wait for it instead of
+      // reusing it once: a short-lived host can release the port right after
+      // the page has already pointed at it.
       await sleep(200);
     }
   }

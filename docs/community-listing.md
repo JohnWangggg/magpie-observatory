@@ -22,15 +22,16 @@ package has to be on npm before the pull request is useful.
   "kind": "page",
   "icon": "https://raw.githubusercontent.com/JohnWangggg/magpie-observatory/main/docs/icon.png",
   "summary": {
-    "en": "A live cockpit for Magpie: two-way magpie routes, quotas, usage, twenty-one views and seven style packs. Runs its own local service on 127.0.0.1.",
-    "zh": "Magpie 的实时监看驾驶舱：双向喜鹊路由、账号额度、用量、二十一种视图和七套风格。通过本机 127.0.0.1 上的服务提供。"
+    "en": "A quiet one-screen observatory: requests in flight, today's tokens and cost, and the allowance that will run out before it resets. Runs a read-only local service on 127.0.0.1, and adds a Today panel to Magpie's Usage page.",
+    "zh": "一屏观测台：现在在跑什么、今天花了多少、哪个额度会在重置前耗尽。通过本机 127.0.0.1 上的只读服务提供，并在 Magpie 的 Usage 页加一块「今日一眼」。"
   }
 }
 ```
 
 Fields the registry checker accepts: `package`, `name`, `icon`, `providers`,
 `community`, `replaces`, `kind`, `summary`. A page has `kind` and no
-`providers`.
+`providers`. The panel and its `usage:summary` permission live in
+`package.json`, not in the registry entry.
 
 ## Steps
 

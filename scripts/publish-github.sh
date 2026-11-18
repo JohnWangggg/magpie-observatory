@@ -8,7 +8,7 @@ set -euo pipefail
 
 REPO="${REPO:-JohnWangggg/magpie-observatory}"
 BRANCH="${BRANCH:-main}"
-TAG="${TAG:-v1.10.130}"
+TAG="${TAG:-v2.0.0}"
 GIT_NAME="${GIT_NAME:-JohnWangggg}"
 GIT_EMAIL="${GIT_EMAIL:-JohnWangggg@users.noreply.github.com}"
 
@@ -22,8 +22,8 @@ TOPICS=(
   magpie-page
   magpie
   observatory
-  dashboard
-  monitoring
+  quota
+  usage
   llm-gateway
 )
 
@@ -66,7 +66,7 @@ if repo_exists; then
 else
   gh repo create "$REPO" \
     --public \
-    --description "A live monitoring cockpit for Magpie: routing, quotas, usage and rhythm." \
+    --description "A quiet one-screen observatory for Magpie: what is running now, what today cost, and which allowance runs out before it resets." \
     --source=. \
     --remote=origin \
     --push

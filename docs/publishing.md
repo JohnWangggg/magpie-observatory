@@ -1,13 +1,10 @@
-# Publishing & store discovery · 发布与商店检索
+# Publishing · 发布
 
 This repository is prepared for `github.com/JohnWangggg/magpie-observatory`.
-It uses the GitHub handle everywhere; no real name or personal email belongs in
-the tree, the screenshots or the commit history.
+No real name, personal mailbox, provider key or prompt belongs in the tree,
+the screenshots or the commit history.
 
-本仓库按 `github.com/JohnWangggg/magpie-observatory` 准备。全仓库只使用 GitHub
-账号名，不在文件、截图或提交历史里放真实姓名和个人邮箱。
-
-## 1. Identity · 身份
+## 1. Identity
 
 | Where | Value |
 | --- | --- |
@@ -16,151 +13,107 @@ the tree, the screenshots or the commit history.
 | Git author | `JohnWangggg <JohnWangggg@users.noreply.github.com>` |
 | Repository | `https://github.com/JohnWangggg/magpie-observatory` |
 
-GitHub's noreply address keeps a personal email out of public commits. The
-publish script sets it locally; it never writes a global Git config.
+The publish script sets the noreply identity locally; it never writes a
+global Git config.
 
-GitHub 的 noreply 地址可以避免个人邮箱进入公开提交。发布脚本只在当前仓库设置它，
-不会改全局 Git 配置。
-
-## 2. Privacy checklist · 隐私检查
+## 2. Privacy checklist
 
 Run before every push:
 
 ```bash
 # Real names, personal mailboxes, local home paths, tokens
 rg -n "gmail|163\.com|qq\.com|/Users/|/home/|api[_-]?key|secret|password|bearer|ghp_|sk-" \
-  --glob '!docs/*.png' --glob '!*.svg' .
+  --glob '!*.svg' .
 
 # Every address outside example.com and GitHub's noreply domain is suspicious
 rg -nP "[A-Za-z0-9._%+-]+@(?!example\.com|users\.noreply\.github\.com)[A-Za-z0-9.-]+\.[A-Za-z]{2,}" \
-  --glob '!docs/*.png' .
+  --glob '!*.svg' .
 
 npm run check
 ```
 
-Rules:
-
-- Screenshots: demo mode only; quotas must show `demo-…@example.com`.
+- Screenshots: demo mode only (`?demo=1`); quotas show `demo-…@example.com`.
 - Never commit `MAGPIE_KEY`, gateway keys, provider keys, cookies or `.env`.
-- Docs may mention `~/.config/magpie/usage.jsonl` as a product path, never a
-  personal absolute path.
-- The live service reads only documented Magpie APIs and stores no prompts,
+- The service reads only documented Magpie APIs; it stores no prompts,
   replies, credentials or model-call keys.
 
-## 3. What the Magpie store looks for · Magpie 商店如何发现插件
+## 3. What Magpie needs
 
-Magpie's Discover reads a GitHub repository and checks:
+- `magpie.page.file` → `page/index.html`, a launcher that navigates to the
+  local service.
+- `magpie.page.service` → `{ "port": 3488, "option": "port" }`. The service
+  is read-only and binds loopback.
+- `magpie.permissions` → `["usage:summary"]`, used only by the Usage panel.
+- `magpie.panels` → one `usage` panel at `panels/usage.html`.
+- `magpie.name` / `magpie.summary.en` / `.zh` for the card.
 
-1. the repository has the **`magpie-plugin`** topic;
-2. `package.json` has a `magpie.page` object with a committed `file`
-   (`page/index.html` here);
-3. `magpie.page` has a `service` when the page needs a local service
-   (`{ "port": 3488, "option": "port" }` here);
-4. the listing text comes from `magpie.name`, `magpie.summary.en` /
-   `magpie.summary.zh`, and the page title in `magpie.page.titles`.
+A page that also runs a host service is classified as a **provider** by the
+GitHub half of Discover (`main`/`exports` present). That is why this
+repository does **not** carry the `magpie-plugin` topic; the community
+registry entry with `"kind": "page"` is the page listing.
 
-Topics configured for this repository:
+GitHub topics used here:
 
 ```text
-magpie-plugin  magpie-page  magpie  observatory  dashboard  monitoring
-llm-gateway
+magpie-page  magpie  observatory  quota  usage  llm-gateway
 ```
 
-`magpie-plugin` is the mandatory one. The others are search aids. This is a
-deliberately small set: across the 100 most-starred repositories tagged
-`magpie-plugin`, the median is 4 topics; `magpie` appears on 49%, `magpie-page`
-on the page plugins, and feature tags such as `quota` or `routing` are uncommon.
-The same list lives in `package.json` under `topics`; `keywords` keeps the
-feature words for npm-style search.
+## 4. npm
 
-`package.json` 里的 `magpie.page.file` 必须已提交，`magpie.page.service`
-声明本地服务端口；GitHub 仓库必须带 `magpie-plugin` topic。其余 topic 只帮助搜索。
-这里刻意收敛到 7 个：同类仓库 topic 中位数约为 4 个，`magpie` 出现在约一半仓库，
-`magpie-page` 用于页面插件，`quota` / `routing` 这类功能词并不常见。
-`topics` 与脚本里的列表保持一致，功能词放在 `keywords`。
-
-## 4. One-command release · 一键发布
-
-Review the tree first, then run:
+The registry entry must name an installable npm package. From this repo:
 
 ```bash
+npm login                     # an account that can publish magpie-observatory
 npm run check
-bash scripts/publish-github.sh
+npm pack --dry-run            # confirm the file list and size
+npm publish --access public
+npm view magpie-observatory version
 ```
 
-The script:
+The package is `magpie-observatory` (unscoped). If the name is taken, change
+`name` in `package.json` and the registry entry together. Bump `version`
+first; `files` already lists `index.mjs`, `server.mjs`, `page`, `panels`,
+`public/focus.html`, the focus/quota assets and icons.
 
-1. sets the local Git identity to the handle + GitHub noreply address;
-2. initializes `main` if needed, commits the working tree;
-3. creates the public repository if it does not exist, otherwise pushes;
-4. adds all store topics with `gh repo edit --add-topic`;
-5. creates the annotated tag `v0.18.0` and pushes it.
+## 5. Registry entry
 
-Manual equivalent:
+Add to `registry.json` in
+[`magpie-community/plugins`](https://github.com/magpie-community/plugins):
+
+```json
+{
+  "package": "magpie-observatory",
+  "name": "Observatory",
+  "kind": "page",
+  "icon": "https://raw.githubusercontent.com/JohnWangggg/magpie-observatory/main/docs/icon.png",
+  "summary": {
+    "en": "A quiet one-screen observatory: requests in flight, today's tokens and cost, and the allowance that will run out before it resets. Runs a read-only local service on 127.0.0.1, and adds a Today panel to Magpie's Usage page.",
+    "zh": "一屏观测台：现在在跑什么、今天花了多少、哪个额度会在重置前耗尽。通过本机 127.0.0.1 上的只读服务提供，并在 Magpie 的 Usage 页加一块「今日一眼」。"
+  }
+}
+```
+
+Then:
 
 ```bash
-git init -b main
-git config user.name "JohnWangggg"
-git config user.email "JohnWangggg@users.noreply.github.com"
-git add -A
-git commit -m "release: Magpie Observatory v0.18.0"
-gh repo create JohnWangggg/magpie-observatory --public --source=. --remote=origin --push
-gh api --method PUT repos/JohnWangggg/magpie-observatory/topics \
-  -f 'names[]=magpie-plugin' \
-  -f 'names[]=magpie-page' \
-  -f 'names[]=magpie' \
-  -f 'names[]=observatory' \
-  -f 'names[]=dashboard' \
-  -f 'names[]=monitoring' \
-  -f 'names[]=llm-gateway'
-git tag -a v0.18.0 -m "Magpie Observatory v0.18.0"
-git push -u origin main --tags
+gh repo fork magpie-community/plugins --clone --remote
+cd plugins
+# edit registry.json
+bun scripts/check.mjs
+git checkout -b add-magpie-observatory
+git commit -am "add magpie-observatory (page)"
+gh pr create --repo magpie-community/plugins --fill
 ```
 
-## 5. Verify · 验证
+## 6. GitHub
+
+`scripts/publish-github.sh` is explicit: it commits, pushes, sets topics and
+creates a tag. Review `git status` and this document first. It uses
+`TAG=v2.0.0` by default and keeps the GitHub noreply identity.
 
 ```bash
-gh repo view JohnWangggg/magpie-observatory \
-  --json url,repositoryTopics \
-  --jq '{url, topics: [.repositoryTopics[].name]}'
-
-# Install exactly as a user would
-magpie plugin add github:JohnWangggg/magpie-observatory
+TAG=v2.0.0 bash scripts/publish-github.sh
 ```
 
-Expected: `magpie-plugin` appears in the topic list and the plugin installs
-under **Plugins → Installed** with an **Observatory** tab.
-
-预期：topic 列表里出现 `magpie-plugin`，插件安装后侧边栏出现 **观测台**。
-
-## 6. Version tags · 版本标签
-
-Release tags are annotated and match `package.json`:
-
-```bash
-git tag -a v0.18.0 -m "Magpie Observatory v0.18.0"
-git push origin v0.18.0
-```
-
-For the next release, bump `package.json`, update the tag in
-`scripts/publish-github.sh` (or pass `TAG=v0.18.0`), and repeat.
-
-发布标签使用 annotated tag，并与 `package.json` 版本一致。下一次发布时提升版本号，
-再用 `TAG=v0.18.0 bash scripts/publish-github.sh` 或手动打标签。
-
----
-
-## 发版前检查
-
-```bash
-npm run check          # lint-data + sync-views — the fast pre-flight
-npm run smoke          # 336 视图 route-stage 渲染冒烟（空 DOM / 页面错误）
-npm run thumbs         # 刷新 public/shots/*.png（可选，费时；--ids a,b 只重截指定视图）
-```
-
-`npm run check` 已在 `.github/workflows/check.yml` 的 CI 里跑：
-`lint-data` 校验 `data.js` 的 provider/session/quota/series/heatmap 形状和
-缺失图标，`sync-views` 保持 `manifest.js` 与 `views-catalog.md` 与 `VIEW_META`
-一致。`smoke` 报告三类：`ok` / `empty stage` / `page error`。新增视图务必
-先跑 `check` + `smoke`。
-
+Do not run it until the release contents are reviewed. It does not publish to
+npm.

@@ -1,333 +1,200 @@
 # Magpie Observatory · 喜鹊观测台
 
-**Magpie 的实时监看驾驶舱。** 双向喜鹊把请求带向供应商、再把回答带回来；
-周围是额度、用量、会话和 53 周节奏。
+**Magpie 的一屏观测台。** 打开只看三件事：现在在跑什么、今天花了多少、
+哪个额度会在重置前耗尽。
 
 [English](README.md) · **简体中文** · [更新日志](CHANGELOG.md)
 
-![Magpie Observatory](docs/preview-dark.png)
+![Magpie Observatory](docs/focus-dark.webp)
 
-## 是什么
+<sub>截图使用演示数据（左上角为「演示数据」时不是你的真实用量）。</sub>
 
-Magpie 已经知道每个请求走的是哪个 provider、账号和模型。Observatory 把这股
-数据流变成可以“看”的东西：
+## 三个问题
 
-- **实时路由**：Agent → Magpie → Provider/Account；实心喜鹊带请求飞出去，
-  镜像描边喜鹊带回答飞回来；失败改道保留“已改道”标记。
-- **八种视图**：路由、会话、延迟、漏斗、额度、用量、构成、年轮。原先分开的图收成同一视图里的标签。
-- **七套风格**：`控制室` / `像素` / `纸感` / `霓虹` / `终端` / `蓝图` / `拼贴`，
-  每套都有明暗两版；明暗和风格互相独立。
-- **布局设置**：自动 / 一屏 / 舒展；密度 紧凑 / 标准 / 宽松；动效 全部 / 轻柔 / 关闭。
-- **额度**：每个账号的最短窗口，3 列环形卡片（≤1400px 两列，手机单列），
-  带重置倒计时和余额。
-- **用量**：24h/7d/30d Token + 费用、模型环图、53 周热力图（窄屏压缩）、可搜索请求账本。
-- **会话**：活跃请求、子 Agent、TPS、改道次数；最近完成的会话留在侧栏。
-- **响应式**：桌面一屏，手机单列 + 紧凑侧栏；同一份数据，没有单独的移动端构建。
-- **影院模式**：`O` 让当前视图占满全屏，只留一条漂浮 HUD；配合 `G` 巡游
-  就是一块可以挂在副屏上的氛围屏。
-- **命令面板**：`⌘K` 一个搜索框跳转任意视图、风格或动作。
-- **每日摘要**：每天首次打开出昨日报告（tokens / 调用 / 连续天数 / 最常用
-  Agent），关闭当日不再弹。
-- **成就系统**：8 枚徽章（连续天数 / 单日 1M、10M tokens / 三路并发 /
-  夜航人），解锁时 toast，localStorage 记达成日期。
-- **注意力条**：英雄卡左下角一排安静的小胶囊：配额告急、错误突增、
-  连续天数、今日一句话。
-- **收藏夹常驻**：收藏的视图（F）变成左侧 rail 的常驻图标，一点即切。
-- **Mini 模式**：`?mode=mini&view=burn` 把页面缩成画中画可用的挂件。
-- **PWA**：`manifest.webmanifest` + 最小 service worker，可安装到主屏；
-  网络优先、API 不缓存。
-- **回放**：`R` 冻结成 3 分钟可拖时间轴；`▶` 自动播放、`⤴` 复制
-  `#replay=` 链接，命令面板可导出自足 HTML 播放器（帧内嵌）。
-- **分享卡**：`⌘K` 导出 1200×630 PNG——今日 / 本周 / 近30天 / 今日vs昨日
-  对比；`⌘K` 复制页面链接（恢复视图/区间/影院）。
-- **周报卡**：`⌘K` → 本周报告出 7 天柱状 + 峰值日 + 最热路由。
-- **网关对比**：`⌘K` → 网关对比并列默认与锁定网关的四指标。
-- **等级与成就**：请求攒 XP 进顶栏等级胶囊；8 枚徽章 + 个人战绩跨
-  会话持久。
+| 现在 | 今天 | 额度 |
+| --- | --- | --- |
+| 在飞会话、Agent、实际服务商与模型、TTFT、tok/s、改道次数 | Token、费用、调用、错误、缓存命中，以及近 14 天走势 | 每个账号的窗口（按风险排序）：余量、重置倒计时、按最近消耗速度推算的耗尽时间 |
 
-## 图标
+Token 按**输入 + 输出**统计，和 Magpie 自己的 Usage 页一致；缓存读取单独显示
+为「缓存命中」，不混进 Token 大字。
 
-<img src="docs/icon.png" width="88" alt="Magpie Observatory 图标">
+额度按「账号 + 窗口」显示，所以同一个 provider 的多个账号能区分；「构成」
+默认按账号费用排序，账号前的红点表示该账号有额度会在重置前耗尽。额度行的
+颜色：红=会在重置前耗尽或余量 ≤10%，黄=刚好/接近或余量 ≤20%，绿=撑得到重置，灰=数据不足。
 
-一只在轨道上的喜鹊：白色鸟身是请求/回答的双向路径，虚线环是观测台，
-青色眼睛代表实时网关。
+额度这一栏是重点：它不只知道「用了 73%」，还会把**最近的消耗速度**和
+**重置时间**放在一起比较。撑得到重置的显示绿色；会在重置前烧完的显示红色
+和预计耗尽时间。为了不拿 18 分钟的突发去外推 30 天窗口，预测优先用最近
+90 分钟，历史不够时用本窗口平均，仍不够就写「数据不足」。
 
-## 作为 Magpie 插件安装
+## 安装
 
-需要较新的 Magpie，支持 **plugin page** 和 **page service**
-（`magpie.page.service`）：
+需要支持 plugin page / page service 的 Magpie：
 
 ```bash
 magpie plugin add github:JohnWangggg/magpie-observatory
 ```
 
-或在 Magpie 中打开 **Plugins → Add plugin**，粘贴 GitHub 地址或搜索
-**Magpie Observatory**。在 **Plugins → Installed** 打开后，侧边栏 Plugins
-组会出现 **观测台 / Observatory** 标签。
-
-插件会在 `127.0.0.1:3488` 启动一个只读本地服务（可在插件设置里改端口）。
-Magpie 里看到的页面只是启动器；真正的仪表板由这个服务提供，因此可以读取
-Magpie 的实时接口，而不需要放宽页面的 `connect-src 'none'` 沙箱。Magpie
-用 `sandbox="allow-scripts"` 装载页面，因此服务会对框架的 `Origin: null`
-返回 CORS 和一个每次运行生成的口令（只有它发出的 HTML 里才有）；其他页面
-读不到数据。
-
-### 从本地目录安装
+装好后在 **Plugins → Installed** 打开「观测台」，或在侧边栏 Plugins 组点
+**观测台**。也可以从本地目录安装：
 
 ```bash
 git clone https://github.com/JohnWangggg/magpie-observatory.git
 magpie plugin add ./magpie-observatory
 ```
 
-### 商店发现
+### Magpie 的 Usage 页里还有一块
 
-`package.json` 声明了页面（`magpie.page.file` → `page/index.html`），安装后
-在 Magpie 里就是页面类型（`magpie plugin list` 显示 `page`）。**插件市场的
-卡片**来自社区注册表（`magpie-community/plugins/registry.json`，`"kind":
-"page"`）；本仓库尚未列入，且需要先发布到 npm 才能提交。具体条目和 PR 步骤
-见 [`docs/community-listing.md`](docs/community-listing.md)。仓库刻意不带
-GitHub 的 **`magpie-plugin`** 主题：该主题供 Discover 的「供应商」半边使用，
-而带本地服务（需要 `main`/`exports`）的页面会因此被标成供应商。
+装上后，Magpie 自己的 **Usage** 页底部会多一块「今日一眼」：今日 Token、
+费用、调用、错误，对比近 7 天日均，以及今天最多的模型。它用 Magpie 原生
+bridge，只读 `usage:summary`，不经过本地服务。
 
-列表文案来自 `magpie.name` 与 `magpie.summary.en` / `.zh`；搜索关键词在
-`package.json`，主题列表和发布命令见 [`docs/publishing.md`](docs/publishing.md)。
+## 和 Magpie 自带页面的区别
 
-## 不装 Magpie 也能预览
+Magpie 的 Routing/Usage 是完整的控制台：实时路由舞台、逐账号额度卡和走势、
+请求账本、按 Agent/模型/账号拆分。Observatory 不重复这些深挖，只做一件事：
+**把「现在、今天、额度风险」并成一屏，并跨账号排序。**
 
-需要 Node.js 18+：
+| 问题 | Magpie 自带 | Observatory |
+| --- | --- | --- |
+| 现在谁在跑、为什么改道 | Routing 舞台，最详细 | 一屏 3–4 行，带账号、路由组和失败码 |
+| 今天花了多少 | Usage 概览，最详细 | 一屏数字 + 较昨日全天/日均 |
+| 哪个账号会先没额度 | 额度卡墙，逐卡走势 | **跨账号风险排序**，直接标出「会在重置前耗尽」 |
+| 今天谁在花钱 | 账号拆分，在页面下方 | **同屏 Top 4 账号**（可切模型；红点=该账号有额度风险） |
+| 深挖一条请求 | Routing 的最近请求/重放 | 不做，留给 Magpie |
 
-```bash
-node preview.mjs
-# → http://127.0.0.1:8777
-```
+它不替代 Magpie 的页面；它是打开 Magpie 后的第一眼。需要逐请求账本、
+额度走势图或签到，仍然去 Magpie 自带的 Usage/Routing。
 
-默认是演示模式。点右上角 **演示数据 / 实时连接** 可以尝试连接本机 Magpie
-（`http://127.0.0.1:3425`）：
+## 为什么只有一屏
 
-```bash
-MAGPIE_URL=http://127.0.0.1:3425 MAGPIE_KEY=... node preview.mjs
-```
+原来的版本有 25 个视图、7 套风格、等级/徽章/回放/分享卡/每日摘要弹窗。
+数据没错，但每天打开要学、要翻、要关弹窗。对长期使用来说，这些是噪声。
 
-预览只用于开发；插件内部使用同一个服务。
+这一版只做 Magpie 自带页面**没有放在一起**的三件事：
 
-## 视图
+- Magpie 的 Usage 页有逐账号额度卡和「按此速度」预测，但要在多列卡片里
+  逐个扫；我们把所有账号的窗口按风险排成一张表，先看最可能先耗尽的；
+- Magpie 的 Routing 页有实时舞台，但一屏同时看「在飞 + 今天花费 + 额度风险」
+  需要来回切页；
+- 其余深挖（逐请求账本、额度走势图、签到、延迟分布）留在 Magpie 自己的
+  页面里，不在这里重复。
 
-八种。相关的图是同一视图里的标签，不再各占一个菜单项。
+完整的功能评估、竞品调研和删除清单见 [`docs/product-review-v2.md`](docs/product-review-v2.md)。
 
-| 路由 · 双向喜鹊 | 雷达 · Provider 环与额度 |
-| --- | --- |
-| ![route](docs/preview-dark.png) | ![radar](docs/mode-radar.png) |
-
-| 织机 · 请求织成条带 | 节奏 · Provider 分轨 |
-| --- | --- |
-| ![loom](docs/mode-loom.png) | ![rhythm](docs/mode-rhythm.png) |
-
-| 年轮 · 半年极坐标 | 额度 · 燃尽与配速 |
-| --- | --- |
-| ![rings](docs/mode-rings.png) | ![quota](docs/mode-quota.png) |
-
-| 瀑布 · 会话在时间轴上 | 蜂群 · 各 Provider 的 TTFT |
-| --- | --- |
-| ![waterfall](docs/mode-waterfall.png) | ![swarm](docs/mode-swarm.png) |
-
-| 成本 · Provider 与模型 | 流向 · Agent → Provider → 模型 |
-| --- | --- |
-| ![treemap](docs/mode-treemap.png) | ![sankey](docs/mode-sankey.png) |
-
-| 漏斗 · 请求到成功 | 热力 · 时间 × 延迟 |
-| --- | --- |
-| ![funnel](docs/mode-funnel.png) | ![latency](docs/mode-latency.png) |
-
-| 预算 · 阈值与配速 | 结构 · Provider × 模型 |
-| --- | --- |
-| ![budget](docs/mode-budget.png) | ![marimekko](docs/mode-marimekko.png) |
-
-![和弦 · Agent ↔ Provider](docs/mode-chord.png)
-
-| 网络 · Agent ↔ Provider | 河流 · Provider 流量随时间 |
-| --- | --- |
-| ![network](docs/mode-network.png) | ![stream](docs/mode-stream.png) |
-
-| 燃烧 · 配额窗口配速 | K线 · 每小时吞吐 |
-| --- | --- |
-| ![burn](docs/mode-burn.png) | ![candle](docs/mode-candle.png) |
-
-![仪表盘 · KPI 与配额表盘](docs/mode-gauge.png)
-
-## 切换视图
-
-英雄卡头部不再是平铺按钮，而是一个视图选择器。按 **V**（或点击）打开，
-输入名称 / 英文 eyebrow / 分组即可过滤，Enter 切换；也可以点 **随机一个**。
-8 个视图按用途分组，英雄卡强调色跟着分组变化。
-**G** 开启/停止巡游（间隔在设置里可选 5 / 10 / 30 秒），**R** 随机视图，
-**F** 收藏当前视图（收藏会置顶并跨刷新保留），**?** 打开快捷键表，**Esc** 关闭。
-按 **O** 进入**影院模式**：英雄视图占满整个窗口，只留漂浮 HUD（视图名、
-实时 tokens/费用、Esc 提示）——配合 **G** 巡游就是一块可以挂着看的氛围屏。
-**⌘K** 打开命令面板，一键跳转任意视图、任意风格、开关影院/巡游/明暗。
-英雄卡左下角还有一条**注意力条**：配额告急、错误突增、连续使用天数、
-今日一句话摘要——第一眼就知道该看哪里。
-
-| 视图选择器 | 快捷键 |
-| --- | --- |
-| ![view menu](docs/view-menu.png) | ![shortcuts](docs/help.png) |
-
-## 每个面都是活的
-
-除了切视图，卡片本身全是交互：
-
-- **单击**——燃烧行展开 sparkline、会话卡选中并过滤日志、热力格按日过滤、
-  注意力条跳对应视图。
-- **右键**——消除 chip、复制 id / 模型名 / CSV、取消收藏轨、在英雄卡收藏视图。
-- **双击**——复制会话尝试摘要、复制 Provider key、按月过滤日志、
-  把收藏设为默认视图、复制视图名。
-- **键盘**——↑↓/←→ 走每条列表（燃烧行/会话/日志/配额/收藏/面板），
-  Enter 激活、Esc 收起；`/` 聚焦日志搜索。
-- **悬停**——sparkline 显 `left% · at`、燃烧 bar 显配速 tooltip、
-  配额项翻面显 `已用/剩余`、热力格显 `N 次 · Tok`。
-- **状态**——每视图滚动位置、日志查询、燃烧选中、收藏、默认视图全部跨刷新保留。
-
-## 风格与明暗
-
-| 控制室 | 像素 |
-| --- | --- |
-| ![control](docs/preview-dark.png) | ![pixel](docs/style-pixel.png) |
-
-| 纸感 | 霓虹 |
-| --- | --- |
-| ![paper](docs/style-paper.png) | ![neon](docs/style-neon.png) |
-
-| 终端 | 蓝图 |
-| --- | --- |
-| ![terminal](docs/style-terminal.png) | ![blueprint](docs/style-blueprint.png) |
-
-| 拼贴 | Game Boy（像素浅色） |
-| --- | --- |
-| ![zine](docs/style-zine.png) | ![game boy](docs/style-pixel-light.png) |
-
-- **控制室**：玻璃卡片、紫青强调，密度和可读性最均衡。
-- **像素**：8-bit 主机感——2px 粗框、硬偏移阴影、抖动网点、分段仪表、
-  全大写等宽字、重扫描线；浅色版是 Game Boy DMG 屏幕。
-- **纸感**：米白、衬线、棕色墨迹、纸张纹理；深色版是午夜纸张。
-- **霓虹**：赛博朋克黑玻璃——品红/青色对切光、HUD 角标、透视网格地面、
-  色差标题。
-- **终端**：磷光 CRT——数字辉光、卡片标题块光标、重栅格、全等宽；
-  浅色版是白天终端。
-- **蓝图**：制图桌——深蓝图纸、24px 方格、虚线内框、刻度尺、无辉光；
-  浅色版是晒白图。
-- **拼贴**：丝网印剪贴——新闻纸网点、2px 墨框、硬投影、单一红色、
-  荧光笔标题；深色版是黑墨新闻纸。
-
-左侧栏 **明暗** 切昼夜，**风格** 切七套艺术方向；两项分别记忆。
-
-同一套「控制室」的浅色版：
-
-![控制室浅色](docs/preview-light.png)
-
-| 风格菜单 | 布局与动效 |
-| --- | --- |
-| ![style menu](docs/style-menu.png) | ![layout settings](docs/settings-menu.png) |
-
-## 布局与动效
-
-点左侧栏 **设置**：
-
-| 设置 | 选项 |
-| --- | --- |
-| 布局 | `自动` · `一屏` · `舒展` |
-| 密度 | `紧凑` · `标准` · `宽松` |
-| 动效 | `全部` · `轻柔` · `关闭` |
-| 巡游 | `5 秒` · `10 秒` · `30 秒` |
-| 主色 | `极光` · `熔金` · `薄荷` · `蔷薇` · `石墨` |
-
-**一屏** 在 ≥1200×900 时把整个面板压进视口，列表在卡片内部滚动；
-更小的窗口自动回退到滚动并提示。**舒展** 始终使用自然高度。
-**主色** 只换强调色不动风格包——熔金会把折线、热力、火花线、成就、
-粒子全部调成琥珀。关闭动效后，喜鹊停在路径中点，雷达扫描、织机梭子、
-节奏播放头和背景星尘全部停止。
-
-桌面右下角还有一层**环境粒子**：~20–160 粒光点缓慢上浮，密度跟着活跃
-会话数走、颜色跟主色走；页面切后台自动暂停。
-
-## 手机上的样子
-
-宽度小于 680px 时，侧栏只留图标，额度卡改为单列，请求账本隐藏次要列，
-四种路由视图纵向重排。仍然是同一份 HTML，没有单独的移动端应用。
-
-![手机布局](docs/preview-mobile.png)
-
-## 数据来源
+## 它读什么
 
 本地服务只代理 Magpie 文档里的只读接口：
 
 | Magpie 接口 | 用途 |
 | --- | --- |
-| `GET /v1/magpie/trace?after=0` | 路由、尝试、规则、会话 |
-| `GET /v1/magpie/quotas?kept=1` | 账号额度窗口和余额 |
-| `GET /v1/magpie/usage?period=…` | USD 估值、序列、模型 |
-| `GET /v1/magpie/concurrency` | 在飞/排队请求 |
-| `GET /v1/magpie/usage/requests?period=…` | 请求账本 |
-| `GET /api/usage/heatmap?period=all` | 热力图（GUI / `magpie web`） |
+| `GET /v1/magpie/trace?after=…` | 在飞/最近完成的路由、尝试、改道 |
+| `GET /v1/magpie/quotas?kept=1` | 账号额度窗口与重置时间 |
+| `GET /v1/magpie/quotas/history` | 额度消耗曲线（算速度） |
+| `GET /v1/magpie/usage?period=today\|7d\|30d` | Token、费用、调用、错误、模型 |
+| `GET /v1/magpie/concurrency` | 在飞与排队 |
 
-如果 GUI 的热力图路由不存在（headless / tray 网关会返回 404），服务会用
-`/v1/magpie/usage?period=all` 的每日序列补齐同样的日期格子，并缓存 5 分钟；
-不读取 prompt 或回复正文。
+「今日一眼」panel 走 Magpie 原生 bridge，只读 `usage:summary`，不经过这个
+服务；主页面才用上面的接口。
 
-不保存 prompt、回复、凭据或模型调用密钥。服务只监听 loopback；插件页面通过
-自己的 origin 访问它。
+- **只读。** 不写 Magpie，不调用供应商 API。
+- **不读 prompt 或回复正文。** 只保留渲染所需的计数和元数据。
+- **只绑 loopback。** 服务监听 `127.0.0.1:3488`（可在插件选项里改端口）。
+- **沙箱口令。** 页面在 Magpie 的 sandbox 里以 `Origin: null` 访问服务，服务用
+  `~/.config/magpie/observatory-page-token`（权限 600）里的随机口令认证；
+  它不是 Magpie 凭据，也不离开本机。
+- **3 秒刷新。** 首帧之后只发增量路由、增量账本和额度历史哈希；页面切后台
+  自动停轮询。
+- **跟随 Magpie 明暗。** 页面读 `?hostTheme=` 和 `--magpie-*` 变量，不另做
+  一套主题系统。
+- **跟随 Magpie 语言。** 页面和 Usage panel 自动切换中文 / English（启动页把
+  宿主的 `lang` 带过来）；系统告警文案目前固定中文。
 
-实时轮询是增量的：首帧之后，服务只发新增的 trace 路由、新增的请求行和配额历史的哈希，
-2.5 秒一次轮询约 23 KB，而不是 150 KB。
+## 开发
 
-### 隐私
+需要 Node.js 18+：
 
-- **截图全部使用演示数据。** README 里的账号都是合成的
-  （`demo-…@example.com`），不包含真实 provider 账号、密钥或个人邮箱。
-- **只读。** 服务只对上面六个文档化接口发 `GET`，不写 Magpie，也不写供应商 API。
-- **不留 prompt。** 请求、回复、模型调用密钥和网关密钥只经过 Magpie；
-  Observatory 只保留它渲染所需的计数和元数据。
-- **只绑 loopback。** 服务监听 `127.0.0.1`，插件页面也从同一 origin 提供。
+```bash
+npm run preview
+# → http://127.0.0.1:8777
+```
 
-## 项目结构
+预览默认连本机 Magpie（`127.0.0.1:3425`）；连不上时回退到演示数据。
+加上 `?demo=1` 可以强制演示数据；`?lang=zh` / `?lang=en` 切换语言：
+
+```
+http://127.0.0.1:8777/?demo=1&lang=zh
+```
+
+检查语法和额度预测：
+
+```bash
+npm run check   # 包含 npm test
+```
+
+## 结构
 
 ```text
 index.mjs              Magpie 插件入口；启动本地服务
 server.mjs             只读 Magpie 代理 + 静态服务
 preview.mjs            独立预览（node preview.mjs）
-page/index.html        Magpie 插件启动页
-page/boot.js           读取 magpie.service / port 并导航
-page/icon.svg          插件图标
-public/                仪表板（index.html、assets/）
-public/assets/views/   独立 hero 视图模块
-docs/research.md       调研与设计（简体中文）
-docs/research.en.md    调研与设计（English）
-docs/publishing.md     GitHub 发布 + Magpie 商店 topics
-docs/visual-forms.md   展现形式调研（中文）
-docs/visual-forms.en.md 展现形式调研（English）
-scripts/               发布脚本
+page/index.html        Magpie 插件启动页（导航到服务）
+page/boot.js           读取 magpie.service / port 后导航
+public/focus.html      一屏观测台
+public/assets/focus.js 数据、额度预测、渲染
+public/assets/quota.js 额度预测（可单测）
+public/assets/focus.css
+public/assets/data.js  只读快照适配与演示数据
+panels/usage.html      Magpie Usage 页里的「今日一眼」
+panels/usage.js
+panels/usage.css
+scripts/test-quota.mjs 额度预测回归测试
 ```
 
-## 开发
+## 额度告警
+
+装上并在 Magpie 里打开过一次后，本地服务会每 5 分钟检查一次。某个窗口按
+当前速度会在重置前耗尽时，用系统通知提醒：macOS 走 `osascript`，Linux 走
+`notify-send`；同一窗口 6 小时内最多一次，一次检查最多合并成一条（前 3 个
+窗口 + “另有 N 个”）。服务启动 20 秒后做第一次检查。
+
+关闭：
 
 ```bash
-npm run check          # node --check 入口、服务和浏览器脚本
-node preview.mjs        # 演示 + 可选真实网关
+magpie plugin options magpie-observatory '{"notify":false}'
 ```
 
-仪表板是纯 HTML/CSS/JS，没有构建步骤，也没有运行时依赖；插件宿主用 Bun 运行，
-预览用 Node 18+。
+告警只读 `/v1/magpie/quotas` 与 `/v1/magpie/quotas/history`，只发本机系统
+通知，不联网、不写 Magpie。Windows 目前只写服务日志，不弹系统通知。
 
-## 链接
+## 遇到 snapshot 403
 
-- Magpie: https://github.com/yetone/magpie
-- 插件文档: https://github.com/yetone/magpie/blob/main/docs/subsystems/plugin-runtime.md
-- 调研笔记: [`docs/research.md`](docs/research.md)（中文）·
-  [`docs/research.en.md`](docs/research.en.md)（English）
-- 展现形式调研: [`docs/visual-forms.md`](docs/visual-forms.md)（中文）·
-  [`docs/visual-forms.en.md`](docs/visual-forms.en.md)（English）
-- 发布与商店 topics: [`docs/publishing.md`](docs/publishing.md)
-- Issues: https://github.com/JohnWangggg/magpie-observatory/issues
+403 来自服务的沙箱口令校验：页面 HTML 带一个口令，`Origin: null` 的请求必须
+带同一个口令。插件宿主重启（更新、开关插件、Magpie 重启）后，旧页面可能还
+拿着上一个口令。
 
-## 许可
+- 新版口令持久化在 `~/.config/magpie/observatory-page-token`，服务重启不再换；
+- 页面收到 403 会自动带 `tokenReload=1` 刷新一次，重新拿口令；
+- 如果仍看到 403，手动刷新页面一次即可。
 
-MIT © 2026 JohnWangggg。图标来自 Magpie 与 LobeHub Icons（MIT）；
-见 [`public/assets/icons/LICENSE`](public/assets/icons/LICENSE)。
+## 已知边界
+
+- **「较昨日全天」不是同期比较。** 今天只过了一半时，跟昨天全天比会偏低；
+  所以这一行写「较昨日全天」，并且不用红绿误导。7 天/30 天显示日均。
+- **额度预测是线性的。** 用最近消耗斜率或本窗口平均外推，突发流量、限流
+  和额度重置会改变结果；数据不足时明确写「数据不足」，不硬给预测。
+- **费用是 Magpie 的官方估值。** 没有定价的请求不会被编造成费用。
+- **只适用于单网关。** 多网关切换留在 Magpie 自己的配置里；这里不重复做。
+- **告警依赖本地服务。** 服务随插件宿主启动；如果 Magpie 从未打开过插件，
+  第一次告警可能要等页面打开后才会开始检查。
+
+## 旧版本
+
+v1 的 25 视图仪表板已从仓库删除，也不再打进 npm 包；`/index.html` 会重定向
+到一屏观测台。评估与删除原因、完整的旧版清点在
+[`docs/product-review-v2.md`](docs/product-review-v2.md)（文件路径指 v2 删除前的
+v1.10.130 树）。
+
+## License
+
+MIT

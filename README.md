@@ -1,373 +1,228 @@
 # Magpie Observatory
 
-**A live monitoring cockpit for [Magpie](https://github.com/yetone/magpie).**
-Two-way magpies carry requests to providers and answers back; quotas, usage,
-sessions and a 53-week rhythm sit around them.
+**One quiet screen for Magpie.** Open it and see three things: what is running
+now, what today cost, and which allowance will run out before it resets.
 
-[简体中文](README.zh-CN.md) · **English** · [Changelog](CHANGELOG.md)
+**English** · [简体中文](README.zh-CN.md) · [Changelog](CHANGELOG.md)
 
-![Magpie Observatory](docs/preview-dark.png)
+![Magpie Observatory](docs/focus-en.webp)
 
-## What it is
+<sub>The screenshot uses demo data. When the dot next to the title is amber,
+the numbers are not yours.</sub>
 
-Magpie already knows which provider, account and model every request uses.
-Observatory turns that stream into something you can *watch*:
+## The three questions
 
-- **Live routing** — Agent → Magpie → Provider/Account, with a filled magpie
-  carrying the request out and a mirrored outlined magpie bringing the answer
-  back. Failed attempts stay visible as “rerouted”.
-- **Eight views** — route, sessions, latency, funnel, quota, usage, mix, and the year-in-rings. Related charts are tabs inside one view.
-- **Seven style packs** — `Control`, `Pixel`, `Paper`, `Neon`, `Terminal`,
-  `Blueprint`, `Zine`; each with a light and dark variant. Light/dark and
-  style are independent.
-- **Layout settings** — Auto / One screen / Comfort, density Compact / Standard /
-  Spacious, motion Full / Soft / Off.
-- **Quotas** — the shortest window per account in a 3-column ring-card grid
-  (2 columns below 1400 px, 1 on phones), with reset countdowns and balances.
-- **Usage** — 24h/7d/30d Token + cost, model donut, a 53-week heatmap that
-  compresses on narrow screens, and a searchable request ledger.
-- **Sessions** — active requests, subagents, TPS and reroute counts; recent
-  completed requests stay in the rail.
-- **Responsive** — one screen at desktop sizes, a single column with a compact
-  rail on phones; the same data, no separate mobile build.
-- **Cinema mode** — `O` fills the window with the current view behind a slim
-  HUD; pair with `G` for a rotating ambient screen on a spare monitor.
-- **Command palette** — `⌘K` jumps to any view, style or action in one box.
-- **Daily digest** — the first open of the day shows yesterday's tokens,
-  calls, streak and top agent; dismissed dates are remembered.
-- **Achievements** — eight badges (streak days, 1M/10M token days, parallel
-  sessions, night owl) unlock with a toast and persist in localStorage.
-- **Attention strip** — a quiet chip rail over the hero's lower edge: quota
-  burn ≥80%, error bursts, your streak and a one-line "today".
-- **Favorites rail** — starred views (`F`) become permanent icons on the left
-  rail, one click to switch.
-- **Mini mode** — `?mode=mini&view=burn` shrinks the page into a
-  picture-in-picture-ready widget (see `docs/mode-mini.png`).
-- **PWA** — installable to the home screen via `manifest.webmanifest` +
-  a minimal service worker (network-first, API uncached).
-- **Replay** — `R` freezes the feed into a 3-minute scrubbable timeline;
-  `▶` auto-plays, `⤴` copies a `#replay=` link, and the palette exports a
-  standalone HTML player with the frames embedded.
-- **Share cards** — `⌘K` → 1200×630 PNG exports for today, this week,
-  30 days, and a today-vs-yesterday compare card; `⌘K` → copy a page link
-  that restores view/range/cinema on open.
-- **Weekly report** — `⌘K` → 本周报告 drops a 7-day card with bars,
-  peak day and hottest route.
-- **Gateway compare** — `⌘K` → 网关对比 pulls two `/api/snapshot`s
-  (auto-detected vs locked `magpie.gw`) side by side.
-- **XP & achievements** — requests earn XP into a topbar level chip;
-  eight badges + personal records persist across sessions.
+| Now | Today | Allowances |
+| --- | --- | --- |
+| In-flight sessions, agent, actual provider and model, TTFT, tok/s, fallbacks | Tokens, cost, calls, errors, cache hit, and a 14-day sparkline | Every account's windows, sorted by risk: remaining, reset countdown, and when it runs out at the recent burn rate |
 
-## The mark
+Tokens are **input + output**, the same definition Magpie's Usage page uses;
+cache reads are shown separately as cache hit rate, not folded into the
+headline number.
 
-<img src="docs/icon.png" width="88" alt="Magpie Observatory icon">
+Allowance rows are per account and window, so two WorkBuddy accounts are
+distinguishable. The mix card defaults to account spend; a red dot beside an
+account means one of its windows runs out before it resets. Rows are red when
+the window runs out before its reset or has 10% left, amber when it is tight
+or has 20% left, green when it lasts, gray when there is not enough history.
 
-A magpie in orbit: the white bird is the request/response pair, the dashed ring
-is the observatory, and the cyan eye is the live gateway.
+The allowance card is the point. It does not stop at "73% used": it compares
+the recent burn rate with the reset time. Green means it lasts until the
+reset; red means it will burn out first, with an estimated time. It prefers
+the last 90 minutes, falls back to the current window's average, and says
+"not enough data" rather than extrapolating a 30-day window from an 18-minute
+burst.
 
-## Install as a Magpie plugin
+## Install
 
-Requires a recent Magpie build with **plugin pages** and **page services**
-(`magpie.page.service`). Then:
+Requires a Magpie with plugin pages and page services:
 
 ```bash
 magpie plugin add github:JohnWangggg/magpie-observatory
 ```
 
-Or in Magpie: **Plugins → Add plugin**, paste the GitHub URL or search for
-**Magpie Observatory**. Enable it under **Plugins → Installed**; an
-**Observatory** tab appears in the sidebar's Plugins group.
-
-The plugin starts a local read-only service on `127.0.0.1:3488` (configurable in
-the plugin's options). The Magpie page is a launcher; the dashboard is served by
-that service so it can read all of Magpie's live APIs without relaxing the
-page's `connect-src 'none'` sandbox. Magpie frames the launched page with
-`sandbox="allow-scripts"`, so the service answers the frame's `Origin: null`
-with CORS plus a per-run token that only the HTML it served carries; other
-pages get nothing.
-
-### Install from a local checkout
+Open **Plugins → Installed → Observatory**, or the **Observatory** tab under
+Plugins in the sidebar. From a local folder:
 
 ```bash
 git clone https://github.com/JohnWangggg/magpie-observatory.git
 magpie plugin add ./magpie-observatory
 ```
 
-### Discovery
+### One more block inside Magpie's Usage page
 
-`package.json` declares the page (`magpie.page.file` → `page/index.html`), so
-an installed copy is a page in Magpie (`magpie plugin list` says `page`). The
-**Plugins market card** comes from the community registry
-(`magpie-community/plugins/registry.json`, `"kind": "page"`); this repository
-is not listed there yet and cannot be until the package is on npm. See
-[`docs/community-listing.md`](docs/community-listing.md) for the exact entry
-and the pull request steps. The repository deliberately does **not** carry
-GitHub's **`magpie-plugin`** topic: that topic feeds the provider half of
-Discover, and a page that runs a local service (it needs `main`/`exports`)
-would be shown there as a provider.
+After install, Magpie's own **Usage** page gets a "Today" panel at the bottom:
+today's tokens, cost, calls and errors against the 7-day average, plus the
+top model. It reads only `usage:summary` through Magpie's native bridge; no local
+service.
 
-## Preview without Magpie
+## How it differs from Magpie's own pages
+
+Magpie's Routing and Usage pages are the full console: the live route stage,
+per-account quota cards and charts, the request ledger, and Agent/model/account
+breakdowns. Observatory does not repeat those deep views; it puts the three
+things you need right now on one screen and ranks allowances across accounts.
+
+| Question | Magpie's own pages | Observatory |
+| --- | --- | --- |
+| What is running, and why did it fall back? | Routing stage, most detailed | 3–4 rows with account, route group and failure code |
+| What did today cost? | Usage overview, most detailed | One-screen numbers + vs yesterday/7-day average |
+| Which allowance runs out first? | Quota card wall, per-card charts | **Cross-account risk ranking**, with "runs out before reset" |
+| Which account is spending? | Account breakdown, lower on the page | **Top 4 accounts on the same screen** (toggle to models; a red dot means that account has a quota risk) |
+| Inspect one request | Routing's recent request/replay | Not here; leave it to Magpie |
+
+It is not a replacement for Magpie's pages. It is the first look after opening
+Magpie. For the request ledger, quota charts or check-in, use Magpie's own
+Usage/Routing.
+
+## Why one screen
+
+The previous version had 25 views, 7 style packs, levels, badges, replay,
+share cards and a daily digest modal. The data was right, but opening it every
+day meant learning, navigating and closing a modal. For long-term use that is
+noise.
+
+This version only puts together what Magpie's own pages keep apart:
+
+- Magpie's Usage page has per-account quota cards and a pace forecast, but you
+  scan a wall of cards. We rank every window across accounts, so the one that
+  runs out first is at the top.
+- Magpie's Routing page has the live stage, but seeing "in flight + today's
+  spend + allowance risk" together means moving between pages.
+- Deep dives (the request ledger, quota charts, check-in, latency
+  distribution) stay in Magpie's own pages. They are not duplicated here.
+
+The full feature audit, competitive research and removal list are in
+[`docs/product-review-v2.md`](docs/product-review-v2.md).
+
+## What it reads
+
+The local service proxies only Magpie's documented read-only APIs:
+
+| Magpie API | Used for |
+| --- | --- |
+| `GET /v1/magpie/trace?after=…` | in-flight and recently finished routes, tries, fallbacks |
+| `GET /v1/magpie/quotas?kept=1` | account windows and reset times |
+| `GET /v1/magpie/quotas/history` | the burn curve used by the forecast |
+| `GET /v1/magpie/usage?period=today\|7d\|30d` | tokens, cost, calls, errors, models |
+| `GET /v1/magpie/concurrency` | in-flight and queued requests |
+
+The "Today" panel uses Magpie's native bridge and only `usage:summary`; the
+main page uses the service above.
+
+- **Read-only.** It never writes to Magpie and never calls a provider API.
+- **No prompts or replies.** Only the counters and metadata needed to draw.
+- **Loopback only.** The service listens on `127.0.0.1:3488` (the port is a
+  plugin option).
+- **Sandbox token.** The page runs in Magpie's sandbox (`Origin: null`); the
+  service authenticates it with a random token persisted at
+  `~/.config/magpie/observatory-page-token` (mode 600). It is not a Magpie
+  credential and never leaves the machine.
+- **3-second refresh.** After the first frame it sends only new routes, the
+  request-ledger tail and a quota-history hash; polling stops when the page is
+  hidden.
+- **Follows Magpie's theme.** It reads `?hostTheme=` and `--magpie-*`; there is
+  no second theme system.
+- **Follows Magpie's language.** The page and Usage panel switch between
+  Chinese and English from the host's `lang`; OS alert copy is currently
+  Chinese.
+
+## Development
 
 Node.js 18+:
 
 ```bash
-node preview.mjs
+npm run preview
 # → http://127.0.0.1:8777
 ```
 
-The dashboard starts in demo mode. Click **演示数据 / 实时连接** to try the local
-Magpie gateway (`http://127.0.0.1:3425`). Override it with:
+The preview connects to a local Magpie at `127.0.0.1:3425`, and falls back to
+demo data when it cannot. Force demo data or a language with:
 
-```bash
-MAGPIE_URL=http://127.0.0.1:3425 MAGPIE_KEY=... node preview.mjs
+```
+http://127.0.0.1:8777/?demo=1&lang=en
 ```
 
-The preview is for development only; the plugin uses the same service internally.
+Syntax and forecast checks:
 
-## Views
+```bash
+npm run check   # includes npm test
+```
 
-Eight views. Related charts are tabs on the same view, not separate menu entries.
-
-| Route · two-way magpies | Radar · provider ring and quotas |
-| --- | --- |
-| ![route](docs/preview-dark.png) | ![radar](docs/mode-radar.png) |
-
-| Loom · requests woven into bands | Rhythm · provider lanes and beats |
-| --- | --- |
-| ![loom](docs/mode-loom.png) | ![rhythm](docs/mode-rhythm.png) |
-
-| Rings · half a year as a polar calendar | Quota · burn-down and pace |
-| --- | --- |
-| ![rings](docs/mode-rings.png) | ![quota](docs/mode-quota.png) |
-
-| Waterfall · sessions on a time axis | Swarm · TTFT per provider |
-| --- | --- |
-| ![waterfall](docs/mode-waterfall.png) | ![swarm](docs/mode-swarm.png) |
-
-| Treemap · cost by provider and model | Sankey · agent → provider → model |
-| --- | --- |
-| ![treemap](docs/mode-treemap.png) | ![sankey](docs/mode-sankey.png) |
-
-| Funnel · requests to success | Latency · time × bucket |
-| --- | --- |
-| ![funnel](docs/mode-funnel.png) | ![latency](docs/mode-latency.png) |
-
-| Budget · thresholds and pace | Marimekko · provider × model |
-| --- | --- |
-| ![budget](docs/mode-budget.png) | ![marimekko](docs/mode-marimekko.png) |
-
-![Chord · agent ↔ provider ribbons](docs/mode-chord.png)
-
-| Network · agent ↔ provider graph | Stream · provider flow over time |
-| --- | --- |
-| ![network](docs/mode-network.png) | ![stream](docs/mode-stream.png) |
-
-| Burn · quota windows at pace | Candle · hourly throughput |
-| --- | --- |
-| ![burn](docs/mode-burn.png) | ![candle](docs/mode-candle.png) |
-
-![Gauge · KPI and quota dials](docs/mode-gauge.png)
-
-## Switching views
-
-The hero header has a view picker instead of a wall of tabs. Press **V** (or
-click it), type to filter by name / eyebrow / group, press Enter to switch, or
-hit **随机一个** for a random view. The 8 views are grouped by what they answer, and the hero accent follows the group.
-**G** starts or stops an auto tour (5 / 10 / 30-second interval in settings),
-**R** picks a random view, **F** stars the current view (favourites pin to the
-top of the picker and survive reloads), **?** opens the shortcut sheet, and
-**Esc** closes the picker.
-Press **O** for **cinema mode**: the hero expands to fill the whole window
-with only a floating HUD (view name, live tokens/cost, Esc hint) — pair it
-with **G** for a rotating ambient screen on a spare monitor or tablet.
-**⌘K** opens a command palette that jumps to any view, any style pack, or
-toggles cinema/tour/theme in one keystroke. A quiet **attention strip** sits
-above the hero: quota burn warnings, error bursts, your daily streak and a
-one-line "today" summary, so the first glance tells you where to look.
-
-Hovering a row in the picker floats a **live thumbnail** of that view's hero card
-(generated by `npm run thumbs` into `public/shots/`), so the remaining entries stay
-navigable without leaving the menu. Hold the hover ~0.4 s and the thumbnail
-grows for a closer look; click it to pop the full shot in a lightbox while the
-view loads underneath. The same thumbnails ride the rail favourites, the ⌘K
-palette rows and the picker button itself.
-
-
-| View picker | Keyboard shortcuts |
-| --- | --- |
-| ![view menu](docs/view-menu.png) | ![shortcuts](docs/help.png) |
-
-## Every surface is live
-
-Beyond switching views, the cards themselves are wired:
-
-- **Click** — burn rows expand a sparkline, session cards select and filter the
-  log, heatmap cells filter by day, attention chips jump to their view.
-- **Right-click** — dismiss chips, copy ids / model names / CSV exports, un-fav
-  rail icons, favourite a view from its hero.
-- **Double-click** — copy session tries, copy provider key, filter by month,
-  set a rail icon as the default view, copy the view name.
-- **Keyboard** — `↑↓`/`←→` walk every list (burn rows, sessions, log, quotas,
-  favs, palette), `Enter` activates, `Esc` collapses; `/` focuses the log search.
-- **Hover** — sparklines show `left% · at`, burn bars show the pace tooltip,
-  quota items flip to `已用/剩余`, heatmap cells show `N 次 · Tok`.
-- **State** — scroll position per view, log query, burn selection, favourites,
-  and the default view all persist across reloads.
-
-## Styles and themes
-
-| Control | Pixel |
-| --- | --- |
-| ![control](docs/preview-dark.png) | ![pixel](docs/style-pixel.png) |
-
-| Paper | Neon |
-| --- | --- |
-| ![paper](docs/style-paper.png) | ![neon](docs/style-neon.png) |
-
-| Terminal | Blueprint |
-| --- | --- |
-| ![terminal](docs/style-terminal.png) | ![blueprint](docs/style-blueprint.png) |
-
-| Zine | Game Boy (pixel light) |
-| --- | --- |
-| ![zine](docs/style-zine.png) | ![game boy](docs/style-pixel-light.png) |
-
-- **Control**: glass cards, iris/cyan accents, balanced density.
-- **Pixel**: 8-bit console — 2 px frames, offset block shadows, dither pattern,
-  segmented meters, uppercase mono, heavy CRT raster; the light variant is a
-  Game Boy DMG screen.
-- **Paper**: cream, serif, brown ink, paper grain; a report-like dark variant.
-- **Neon**: cyberpunk black glass — magenta/cyan split lighting, HUD corner
-  brackets, a perspective grid floor and chromatic-aberration titles.
-- **Terminal**: phosphor CRT — green bloom on numbers, block cursor on card
-  heads, hard raster, monospace everywhere; light variant is a day terminal.
-- **Blueprint**: drafting table — navy vellum, 24 px graph grid, dashed inner
-  frames, ruler ticks, no glow; light variant is a day print.
-- **Zine**: risograph cut-out — newsprint with halftone dots, 2 px ink borders,
-  hard offset shadows, one spot red, highlighter titles; dark variant is
-  black-ink newsprint.
-
-Use the **明暗** button for light/dark and the **风格** button for a pack. Both
-choices persist separately.
-
-The same Control pack in light mode:
-
-![Control light](docs/preview-light.png)
-
-| Style menu | Layout & motion |
-| --- | --- |
-| ![style menu](docs/style-menu.png) | ![layout settings](docs/settings-menu.png) |
-
-## Layout and motion
-
-The **设置** button opens:
-
-| Setting | Options |
-| --- | --- |
-| Layout | `Auto` · `One screen` · `Comfort` |
-| Density | `Compact` · `Standard` · `Spacious` |
-| Motion | `Full` · `Soft` · `Off` |
-| Tour | `5s` · `10s` · `30s` |
-| Accent | `Aurora` · `Ember` · `Mint` · `Rose` · `Mono` |
-
-One-screen mode forces the whole dashboard into the viewport at ≥1200×900, with
-lists scrolling inside their cards. Smaller windows fall back to scrolling and
-say so. Comfort always uses natural heights. **Accent** swaps only the accent
-colour — Ember tints every line, heat cell, sparkline, achievement and
-particle amber without touching the style pack. Motion off leaves the magpies
-at the midpoint of their paths and stops radar sweep, loom shuttle, the
-rhythm playhead and the ambient starfield.
-
-An **ambient particle layer** drifts behind the whole page: ~20–160 motes
-climb slowly, their density follows the live-session count and their colour
-follows the accent; the canvas pauses when the tab is hidden.
-
-## On a phone
-
-Below 680 px the rail becomes icon-only, the quota cards stack, the request
-ledger drops secondary columns and the hero views reflow vertically. The
-dashboard is still the same document; there is no separate mobile app.
-
-![Mobile layout](docs/preview-mobile.png)
-
-## Data sources
-
-The local service proxies only documented read APIs:
-
-| Magpie endpoint | Used for |
-| --- | --- |
-| `GET /v1/magpie/trace?after=0` | routes, attempts, rules, sessions |
-| `GET /v1/magpie/quotas?kept=1` | account windows and balances |
-| `GET /v1/magpie/usage?period=…` | USD estimate, series, models |
-| `GET /v1/magpie/concurrency` | in-flight and queued requests |
-| `GET /v1/magpie/usage/requests?period=…` | request ledger |
-| `GET /api/usage/heatmap?period=all` | heatmap (GUI / `magpie web` only) |
-
-When the GUI heatmap route is absent (a headless/tray gateway answers 404), the
-service builds the same day cells from `/v1/magpie/usage?period=all` and caches
-them for five minutes. No prompt or response body is read.
-
-No prompts, replies, credentials or model-call keys are stored. The service
-listens on loopback; the plugin page reaches it through its own origin.
-
-Steady-state polling is incremental: after the first snapshot, the service sends
-only the new trace routes, the new ledger rows and a quota-history hash, so a
-2.5-second poll is ~23 KB instead of ~150 KB.
-
-### Privacy
-
-- **Screenshots use demo data.** Every account shown in this README is
-  synthetic (`demo-…@example.com`); no provider account, key or personal email
-  is published.
-- **Read-only by design.** The service only issues `GET` requests to the six
-  documented endpoints above. It never writes to Magpie or to provider APIs.
-- **No prompt storage.** Requests, responses, model-call keys and gateway keys
-  pass through Magpie; Observatory keeps only the counters and metadata it
-  renders.
-- **Loopback only.** The service binds `127.0.0.1`, and the plugin page is
-  served from that same origin.
-
-## Project layout
+## Layout
 
 ```text
-index.mjs              plugin entry; starts the local service
-server.mjs             read-only Magpie proxy + static server
+index.mjs              Magpie plugin entry; starts the local service
+server.mjs             read-only Magpie proxy + static service
 preview.mjs            standalone preview (node preview.mjs)
-page/index.html        Magpie plugin launcher page
-page/boot.js           reads magpie.service / port and navigates the frame
-page/icon.svg          plugin icon
-public/                the dashboard (index.html, assets/)
-public/assets/views/   standalone hero-view modules
-docs/research.md       research & design notes (简体中文)
-docs/research.en.md    research & design notes (English)
-docs/publishing.md     GitHub release + Magpie store topics
-docs/visual-forms.md   visual-form research (中文)
-docs/visual-forms.en.md visual-form research (English)
-scripts/               publish helper
+page/index.html        plugin launcher (navigates to the service)
+page/boot.js           reads magpie.service / port, then navigates
+public/focus.html      the one-screen view
+public/assets/focus.js data, rendering
+public/assets/quota.js allowance forecast (unit-tested)
+public/assets/focus.css
+public/assets/data.js  snapshot adapter and demo data
+panels/usage.html      the "Today" panel in Magpie's Usage page
+panels/usage.js
+panels/usage.css
+scripts/test-quota.mjs forecast regression test
 ```
 
-## Development
+## Allowance alerts
+
+After the plugin has been opened once, the local service checks every five
+minutes. When an allowance will run out before it resets, it sends a local
+system notification: `osascript` on macOS, `notify-send` on Linux. One alert at
+most per window per six hours; several windows are merged into one notification
+(the first three plus "N more"). The first check runs 20 seconds after the
+service starts.
+
+Turn it off:
 
 ```bash
-npm run check          # node --check on entry, server and browser scripts
-node preview.mjs        # demo + optional live gateway
+magpie plugin options magpie-observatory '{"notify":false}'
 ```
 
-The dashboard is plain HTML/CSS/JS — no build step, no runtime dependencies.
-The plugin host runs it on Bun; the preview runs on Node 18+.
+The alert reads only `/v1/magpie/quotas` and `/v1/magpie/quotas/history`, sends
+only a local OS notification, and never writes to Magpie. On Windows it logs to
+the service console instead of a toast.
 
-## Links
+## If you see snapshot 403
 
-- Magpie: https://github.com/yetone/magpie
-- Plugin docs: https://github.com/yetone/magpie/blob/main/docs/subsystems/plugin-runtime.md
-- Research notes: [`docs/research.md`](docs/research.md) (中文) ·
-  [`docs/research.en.md`](docs/research.en.md) (English)
-- Visual forms research: [`docs/visual-forms.md`](docs/visual-forms.md) (中文) ·
-  [`docs/visual-forms.en.md`](docs/visual-forms.en.md) (English)
-- Publishing & store topics: [`docs/publishing.md`](docs/publishing.md)
-- Issues: https://github.com/JohnWangggg/magpie-observatory/issues
+403 is the sandbox-token check: the page carries a token, and an
+`Origin: null` request must present the same token. A plugin-host restart
+(update, on/off, Magpie restart) could leave an open page holding the old
+token.
+
+- New versions persist the token at
+  `~/.config/magpie/observatory-page-token`, so a restart keeps it.
+- A 403 makes the page reload once with `tokenReload=1` to pick up the token.
+- If it still happens, refresh the page once by hand.
+
+## Known limits
+
+- **"vs yesterday" is full-day.** A partial today compared with yesterday's
+  full day is not like-for-like, so the line says so and stays neutral. 7-day
+  and 30-day views show a daily average.
+- **The forecast is linear.** It extrapolates the recent rate or the current
+  window's average; bursts, throttling and resets change the outcome. It says
+  "not enough data" instead of inventing one.
+- **Cost is Magpie's own estimate.** Unpriced requests are not invented into
+  dollars.
+- **Single gateway.** Multi-gateway switching stays in Magpie's own settings;
+  it is not duplicated here.
+- **Alerts need the local service.** It starts with the plugin host; if Magpie
+  has never opened the plugin, the first check may wait until the page is
+  opened once.
+
+## Previous version
+
+The v1 25-view dashboard has been removed from the repository and is no
+longer published in the npm package; `/index.html` redirects to the quiet
+view. The evaluation and the reasons are in
+[`docs/product-review-v2.md`](docs/product-review-v2.md) (file paths refer to
+the v1.10.130 tree before the v2 removal).
 
 ## License
 
-MIT © 2026 JohnWangggg. Icons are bundled from Magpie and LobeHub Icons (MIT);
-see [`public/assets/icons/LICENSE`](public/assets/icons/LICENSE).
+MIT

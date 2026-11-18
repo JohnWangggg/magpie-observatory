@@ -26,14 +26,17 @@
     cursor:     { name: "Cursor",     icon: "cursor.svg",           color: "#cbd5e1" },
     copilot:    { name: "Copilot",    icon: "copilot-color.svg",    color: "#22d3ee" },
     "opencode-go":     { name: "OpenCode Go",  icon: "opencode.svg",      color: "#8b7cf6" },
-    workbuddy:         { name: "WorkBuddy",    icon: "magpie.svg",        color: "#22d3ee" },
-    "workbuddy-ai":    { name: "WorkBuddy AI", icon: "magpie.svg",        color: "#22d3ee" },
-    zcode:             { name: "ZCode",        icon: "zhipu-color.svg",   color: "#3b82f6" },
-    "commandcode-plan":{ name: "Command Code", icon: "magpie.svg",        color: "#f59e0b" },
-    "mimo-app":        { name: "Xiaomi MiMo",  icon: "magpie.svg",        color: "#f97316" },
-    raccoon:           { name: "Raccoon",      icon: "magpie.svg",        color: "#22d3ee" },
-    "muse-web":        { name: "Muse Web",     icon: "magpie.svg",        color: "#e2549a" },
-    "agy-cli":         { name: "agy-cli",      icon: "magpie.svg",        color: "#8b7cf6" },
+    workbuddy:         { name: "WorkBuddy",    icon: "workbuddy-color.svg", color: "#22d3ee" },
+    "workbuddy-ai":    { name: "WorkBuddy AI", icon: "workbuddy-color.svg", color: "#22d3ee" },
+    zcode:             { name: "ZCode",        icon: "zcode.png",           color: "#3b82f6" },
+    "commandcode-plan":{ name: "Command Code", icon: "commandcode.svg",     color: "#f59e0b" },
+    "mimo-app":        { name: "Xiaomi MiMo",  icon: "mimocode.svg",        color: "#f97316" },
+    raccoon:           { name: "Raccoon",      icon: "sensenova-color.svg", color: "#22d3ee" },
+    "muse-web":        { name: "Muse Web",     icon: "meta-color.svg",      color: "#e2549a" },
+    "agy-cli":         { name: "agy-cli",      icon: "antigravity-color.svg", color: "#8b7cf6" },
+    dumate:             { name: "百度搭子 DuMate", icon: "dumate.svg",      color: "#4f8cff" },
+    devin:              { name: "Devin",       icon: "devin.svg",          color: "#8b7cf6" },
+    "session-unknown": { name: "本地会话",      icon: "magpie.svg",        color: "#94a3b8" },
     unknown:    { name: "Magpie",     icon: "magpie.svg",           color: "#8b7cf6" }
   };
 
@@ -48,9 +51,13 @@
     "opencode-go":   { name: "OpenCode Go",  icon: "opencode.svg",         color: "#8b7cf6" },
     "cursor":        { name: "Cursor",       icon: "cursor.svg",           color: "#cbd5e1" },
     "copilot":       { name: "Copilot",      icon: "copilot-color.svg",    color: "#22d3ee" },
-    "alma":          { name: "Alma",         icon: "magpie.svg",           color: "#d97757" },
-    "omp":           { name: "OMP",          icon: "magpie.svg",           color: "#8b7cf6" },
-    "workbuddy":     { name: "WorkBuddy",    icon: "magpie.svg",           color: "#22d3ee" },
+    "alma":          { name: "Alma",         icon: "alma.png",             color: "#d97757" },
+    "omp":           { name: "OMP",          icon: "omp.svg",              color: "#8b7cf6" },
+    "devin":         { name: "Devin",        icon: "devin.svg",            color: "#8b7cf6" },
+    "workbuddy":     { name: "WorkBuddy",    icon: "workbuddy-color.svg",  color: "#22d3ee" },
+    "agy-cli":       { name: "agy-cli",      icon: "antigravity-color.svg", color: "#8b7cf6" },
+    "qwen":          { name: "Qwen Code",    icon: "qwen-color.svg",       color: "#8b5cf6" },
+    "kimi":          { name: "Kimi Code",    icon: "kimi.svg",             color: "#8b7cf6" },
     "unknown":       { name: "Agent",        icon: "magpie.svg",           color: "#8b7cf6" }
   };
 
@@ -58,6 +65,25 @@
 
   function prettyName(key) {
     return String(key || "").trim().replace(/[-_]+/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+  }
+
+  function colorFor(key) {
+    let h = 0;
+    const s = String(key || "");
+    for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0;
+    return MODEL_COLORS[h % MODEL_COLORS.length];
+  }
+  function xml(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, c => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    }[c]));
+  }
+  function letterIcon(name) {
+    const words = String(name || "?").trim().split(/[^A-Za-z0-9\u4e00-\u9fa5]+/).filter(Boolean);
+    const label = (words.map(w => Array.from(w)[0]).join("").slice(0, 2) || "?").toUpperCase();
+    const color = colorFor(name);
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="${color}"/><text x="16" y="21" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif" font-size="12" font-weight="600" fill="#fff">${xml(label)}</text></svg>`;
+    return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
   }
 
   function providerMeta(key) {
@@ -77,7 +103,7 @@
     if (k.includes("cursor")) return PROVIDERS.cursor;
     if (k.includes("copilot")) return PROVIDERS.copilot;
     const name = prettyName(key);
-    return name ? { name, icon: "magpie.svg", color: "#8b7cf6" } : PROVIDERS.unknown;
+    return name ? { name, icon: letterIcon(name), color: colorFor(key) } : PROVIDERS.unknown;
   }
 
   function agentMeta(key) {
@@ -90,10 +116,10 @@
     if (k.includes("cursor")) return AGENTS.cursor;
     if (k.includes("copilot")) return AGENTS.copilot;
     const name = prettyName(key);
-    return name ? { name, icon: "magpie.svg", color: "#8b7cf6" } : AGENTS.unknown;
+    return name ? { name, icon: letterIcon(name), color: colorFor(key) } : AGENTS.unknown;
   }
 
-  function iconUrl(file) { return ICON_BASE + file; }
+  function iconUrl(file) { return /^(data:|https?:)/.test(file) ? file : ICON_BASE + file; }
   function trimZeros(s) {
     // Only decimals lose trailing zeros: "500" stays 500, "1.20" becomes 1.2.
     return s.indexOf(".") >= 0 ? s.replace(/0+$/, "").replace(/\.$/, "") : s;
@@ -210,10 +236,10 @@
   ];
 
   const QUOTA_SEEDS = [
-    { provider: "anthropic", name: "Claude Max", user: "demo-claude@example.com", plan: "Max 20x", windows: [{ name: "5h", used: 62, resetsIn: 133 }, { name: "7d", used: 41, resetsIn: 4380 }] },
-    { provider: "openai", name: "ChatGPT Pro", user: "demo-openai@example.com", plan: "Pro", windows: [{ name: "5h", used: 18, resetsIn: 214 }, { name: "7d", used: 73, resetsIn: 6300 }] },
-    { provider: "google", name: "Google AI Pro", user: "demo-google@example.com", plan: "AI Pro", windows: [{ name: "5h", used: 35, resetsIn: 88 }, { name: "7d", used: 12, resetsIn: 5000 }] },
-    { provider: "moonshot", name: "Kimi 会员", user: "demo-moonshot@example.com", plan: "Andante", windows: [{ name: "5h", used: 80, resetsIn: 42 }, { name: "7d", used: 55, resetsIn: 3900 }] },
+    { provider: "anthropic", name: "Claude Max", user: "demo-claude", plan: "Max 20x", windows: [{ name: "5h", used: 62, resetsIn: 133 }, { name: "7d", used: 41, resetsIn: 4380 }] },
+    { provider: "openai", name: "ChatGPT Pro", user: "demo-openai", plan: "Pro", windows: [{ name: "5h", used: 18, resetsIn: 214 }, { name: "7d", used: 73, resetsIn: 6300 }] },
+    { provider: "google", name: "Google AI Pro", user: "demo-google", plan: "AI Pro", windows: [{ name: "5h", used: 35, resetsIn: 88 }, { name: "7d", used: 12, resetsIn: 5000 }] },
+    { provider: "moonshot", name: "Kimi 会员", user: "demo-moonshot", plan: "Andante", windows: [{ name: "5h", used: 80, resetsIn: 42 }, { name: "7d", used: 55, resetsIn: 3900 }] },
     { provider: "openrouter", name: "OpenRouter", user: "demo-credits", plan: "Credits", balance: "$23.75", windows: [{ name: "额度", used: 64, resetsIn: null }] },
     { provider: "deepseek", name: "DeepSeek", user: "demo-balance", plan: "Balance", balance: "¥86.40", windows: [{ name: "额度", used: 22, resetsIn: null }] }
   ];
@@ -314,6 +340,13 @@
       { name: "kimi-k2.5", provider: "moonshot", tokens: 1.4e6, share: 6 },
       { name: "glm-5", provider: "zhipu", tokens: 0.94e6, share: 4 }
     ];
+    const accounts = [
+      { id: "anthropic/claude-opus-4-5 @ demo-claude", provider: "anthropic", host: "demo-claude", model: "claude-opus-4-5", calls: 412, cost: 12.4, tokens: 8.1e6, credits: 0, cacheRead: 21e6, priced: true },
+      { id: "openai/gpt-5.2-codex @ demo-openai", provider: "openai", host: "demo-openai", model: "gpt-5.2-codex", calls: 286, cost: 8.6, tokens: 5.3e6, credits: 0, cacheRead: 12e6, priced: true },
+      { id: "deepseek/deepseek-v4 @ demo-deepseek", provider: "deepseek", host: "demo-deepseek", model: "deepseek-v4", calls: 341, cost: 3.9, tokens: 3.6e6, credits: 0, cacheRead: 9e6, priced: true },
+      { id: "google/gemini-3-pro @ demo-google", provider: "google", host: "demo-google", model: "gemini-3-pro", calls: 158, cost: 2.9, tokens: 2.7e6, credits: 0, cacheRead: 7e6, priced: true },
+      { id: "moonshot/kimi-k2.5 @ demo-moonshot", provider: "moonshot", host: "demo-moonshot", model: "kimi-k2.5", calls: 87, cost: 1.4, tokens: 1.3e6, credits: 0, cacheRead: 4e6, priced: true }
+    ];
 
     const logs = [];
     const logTemplates = [
@@ -349,6 +382,8 @@
       kpis: {
         requests: 1284, requestsDelta: 12.4,
         calls: 1284, canceled: 7, errors: 3, retried: 12, timed: 1200,
+        input: series.reduce((a, x) => a + Math.round(x.tokens * 0.82), 0),
+        output: series.reduce((a, x) => a + Math.round(x.tokens * 0.18), 0),
         tokens: totalTokens, tokensDelta: 8.1,
         cost: +totalCost.toFixed(2), costDelta: -3.2,
         cache: 88.6, cacheDelta: 2.2,
@@ -357,11 +392,18 @@
       },
       quotas: QUOTA_SEEDS.map(q => ({ ...q })),
       quotaHistory: mockQuotaHistory(),
-      sessions: SESSION_SEEDS.map(s => ({ ...s, startedAt: NOW - s.startedAgo })),
+      sessions: SESSION_SEEDS.map(s => ({
+        ...s,
+        startedAt: NOW - s.startedAgo,
+        turn: s.tokens,
+        cacheRead: Math.round(s.tokens * 2.4),
+        sessionTokens: s.tokens
+      })),
       recent: RECENT_SEEDS.map(s => ({ ...s, startedAt: NOW - s.startedAgo })),
       series,
       heatmap,
       models,
+      accounts,
       logs,
       decision: {
         session: SESSION_SEEDS[0],
@@ -397,7 +439,6 @@
   // Merge here so normalizeLive keeps seeing one complete window.
   let liveTrace = { seq: 0, routes: [] };
   let liveQuota = { token: "", body: null };
-  let liveRequests = { cursor: "", rows: [] };
   let livePeriod = "";
 
   function mergeTrace(rawTrace) {
@@ -423,34 +464,19 @@
     liveQuota = { token: String(raw.token || ""), body: raw };
   }
 
-  // The ledger is newest-first: a delta is the rows above the cursor the
-  // client names, and the tail is trimmed so the window keeps its 60 rows.
-  function requestKey(r) { return String((r && (r.route_id || r.t)) || ""); }
-
-  function mergeRequests(raw) {
-    if (!raw || typeof raw !== "object") return;
-    if (raw.delta) {
-      if (Array.isArray(raw.head) && raw.head.length && liveRequests.rows.length) {
-        liveRequests.rows = raw.head.concat(liveRequests.rows).slice(0, 60);
-      }
-      if (raw.cursor) liveRequests.cursor = raw.cursor;
-      return;
-    }
-    liveRequests = { cursor: String(raw.cursor || ""), rows: (raw.rows || []).slice(0, 60) };
-  }
-
   async function fetchLive(period) {
     if (period && period !== livePeriod) {
       livePeriod = period;
-      liveRequests = { cursor: "", rows: [] };
       liveQuota = { token: "", body: null };
     }
     const params = new URLSearchParams();
     if (period) params.set("period", period);
     if (liveTrace.seq) params.set("since", String(liveTrace.seq));
     if (liveQuota.token) params.set("qh", liveQuota.token);
-    if (liveRequests.cursor) params.set("rq", liveRequests.cursor);
-    const gw = (typeof localStorage !== "undefined") && localStorage.getItem("magpie.gw");
+    // A sandboxed frame has an opaque origin: touching localStorage throws
+    // "The operation is insecure" instead of returning null.
+    let gw = "";
+    try { gw = localStorage.getItem("magpie.gw") || ""; } catch (_) {}
     if (gw) params.set("gw", gw);
     const qs = params.toString();
     const ctrl = new AbortController();
@@ -467,9 +493,6 @@
       data.trace = { routes: liveTrace.routes, seq: liveTrace.seq };
       mergeQuotaHistory(data.quotaHistory);
       data.quotaHistory = liveQuota.body;
-      const reqTotal = data.requests && data.requests.total;
-      mergeRequests(data.requests);
-      data.requests = { rows: liveRequests.rows, cursor: liveRequests.cursor, total: reqTotal };
       return normalizeLive(data);
     } finally {
       clearTimeout(timer);
@@ -484,17 +507,21 @@
     const routes = trace.routes || [];
     const now = Date.now();
 
-    const sessions = routes.map(r => {
+    const routeSessions = routes.map(r => {
       const agentKey = r.agent || "unknown";
       const tries = (r.tries || []).map(t => {
         // A try's id names the seat it ran on: `provider#key` for a key,
         // `provider@account` for an account. The route's provider is only
         // the final seat, so do not use it for every attempt.
         const seat = String(t.id || "");
+        const at = seat.indexOf("@");
+        const hash = seat.indexOf("#");
+        const account = at >= 0 ? seat.slice(at + 1) : hash >= 0 ? seat.slice(hash + 1) : "";
         const tryProvider = t.provider || seat.split("#")[0].split("@")[0] || r.provider || "";
         return {
           provider: providerOfModel(t.model, tryProvider),
           model: t.model || r.served || "—",
+          account,
           state: t.done ? (t.status >= 200 && t.status < 300 ? "ok" : "fail") : "pending",
           ms: t.ttft || t.firstText || t.ms || 0,
           why: t.status ? String(t.status) : (t.done ? "done" : "in flight")
@@ -506,9 +533,10 @@
       return {
         id: String(r.session || r.id),
         routeId: r.id,
-        title: (r.group && (r.group.name || r.group.ref)) || r.folder || ("会话 " + String(r.session || r.id).slice(0, 8)),
+        title: r.folder || (r.group && (r.group.name || r.group.ref)) || ("会话 " + String(r.session || r.id).slice(0, 8)),
         agent: agentKey,
         provider: finalTry.provider || (r.provider ? providerOfModel("", r.provider) : "unknown"),
+        account: finalTry.account || firstTry.account || "",
         requested: firstTry.model || "",
         model: finalTry.model || r.served || firstTry.model || "—",
         served: r.served || "",
@@ -519,36 +547,50 @@
         confidence: r.rule && r.rule.classified && r.rule.classified.sure != null ? r.rule.classified.sure : null,
         effort: last.effort || "",
         status: r.done ? (r.status >= 200 && r.status < 300 ? "done" : "error") : (active.some(a => a.session === r.session) ? "streaming" : "queued"),
-        tokens: 0,
-        tps: 0,
+        // The route's `tokens` includes cache_read; for a turn, in + out is
+        // what the request actually generated and is comparable across
+        // providers. Keep both: `tokens` is the route total, `turn` is
+        // input + output, `cacheRead` is the cached part.
+        tokens: Number(r.tokens) || 0,
+        turn: turnTokens(r),
+        cacheRead: turnCache(r),
+        out: Number(r.out) || 0,
+        // Generated tokens per second after the first token, when known.
+        tps: (() => {
+          const out = Number(r.out) || 0;
+          const ms = Number(r.ms) || 0;
+          const ttft = Number(r.ttft) || 0;
+          const span = ms - ttft;
+          return out > 0 && span > 250 ? Math.round(out / (span / 1000)) : 0;
+        })(),
         startedAt: r.time ? Date.parse(r.time) : now,
-        ttft: tries[0] ? tries[0].ms : 0,
+        ttft: (finalTry && finalTry.ms) || (tries[0] && tries[0].ms) || 0,
         tries,
         fallbacks: Math.max(0, tries.filter(t => t.state === "fail").length),
         subagents: []
       };
     });
+    // A session can produce several routes (one per turn). The Now card is
+    // one row per session: keep the active one, else the latest.
+    const bySession = new Map();
+    const rankOf = (s) => s.status === "streaming" ? 2 : s.status === "queued" ? 1 : 0;
+    for (const s of routeSessions) {
+      const prev = bySession.get(s.id);
+      if (!prev || rankOf(s) > rankOf(prev) ||
+          (rankOf(s) === rankOf(prev) && (s.startedAt || 0) >= (prev.startedAt || 0))) {
+        bySession.set(s.id, s);
+      }
+    }
+    const sessions = [...bySession.values()].sort((a, b) => (b.startedAt || 0) - (a.startedAt || 0));
 
     const totals = usage.totals || usage.Totals || usage;
-    let series = (usage.series || []).map(p => {
-      const labelHour = p.label && /^\d{1,2}:/.test(p.label) ? Number(String(p.label).slice(0, 2)) : null;
-      return {
-        hour: p.time ? new Date(p.time).getHours() : (labelHour != null ? labelHour : 0),
-        label: p.label || "",
-        tokens: (p.input || 0) + (p.output || 0) + (p.cache_read || 0),
-        cost: p.cost || 0
-      };
-    });
-    // The gateway may return only the hours that had calls. A 24-hour chart
-    // reads better with the empty hours kept, so fill them for "today".
-    if ((raw.period || usage.period || "today") === "today" && series.length && series.length < 24) {
-      const byHour = new Map(series.map(p => [p.hour, p]));
-      series = Array.from({ length: 24 }, (_, h) => byHour.get(h) || { hour: h, label: String(h).padStart(2, "0") + ":00", tokens: 0, cost: 0 });
-    }
     const modelList = (usage.models || []).map(m => {
-      const tokens = m.tokens != null
-        ? m.tokens
-        : (m.input || 0) + (m.output || 0) + (m.cache_read || 0);
+      // Match Magpie's Usage page: "Token" is input + output, cache is
+      // reported separately. Adding cache here made the headline number
+      // incomparable with the host's own totals.
+      const tokens = (m.input != null || m.output != null)
+        ? (m.input || 0) + (m.output || 0)
+        : (Number(m.tokens) || 0);
       return {
         name: m.name || m.model || "—",
         provider: m.provider || m.providerName || m.sub || "unknown",
@@ -559,49 +601,21 @@
     const modelTokens = modelList.reduce((a, m) => a + m.tokens, 0);
     modelList.forEach(m => { m.share = modelTokens ? Math.round(m.tokens / modelTokens * 100) : 0; });
     const models = modelList.sort((a, b) => b.tokens - a.tokens).slice(0, 6);
-    const totalTokens = (totals.input || 0) + (totals.output || 0) + (totals.cache_read || 0);
+    const accounts = (Array.isArray(usage.accounts) ? usage.accounts : []).map(a => ({
+      id: String(a.id || ""),
+      provider: providerOfModel("", a.provider),
+      host: String(a.name || a.host || (a.id && a.id.includes("@") ? a.id.split("@").pop() : "") || ""),
+      plan: String(a.sub || ""),
+      model: String(a.model || ""),
+      calls: Number(a.calls) || 0,
+      cost: Number(a.cost) || 0,
+      credits: Number(a.credits) || 0,
+      tokens: (Number(a.input) || 0) + (Number(a.output) || 0),
+      cacheRead: Number(a.cache_read) || 0,
+      priced: !a.unpriced
+    })).filter(a => a.tokens || a.calls || a.cost).sort((a, b) => (b.cost || b.tokens) - (a.cost || a.tokens));
+    const totalTokens = (totals.input || 0) + (totals.output || 0);
     const cacheRate = totals.cache_read && (totals.input + totals.cache_read) ? totals.cache_read / (totals.input + totals.cache_read) * 100 : 0;
-
-    const rows = (raw.requests && raw.requests.rows) || [];
-    const logs = rows.map((r, i) => {
-      const tokens = (r.in || 0) + (r.out || 0) + (r.cache_read || 0);
-      const status = r.status >= 400 ? "err" : r.status === 0 || r.status == null ? "run" : "ok";
-      const tps = r.decode_ms && r.decode_out
-        ? Math.round(r.decode_out / (r.decode_ms / 1000))
-        : (r.out && r.ms ? Math.round(r.out / (r.ms / 1000)) : 0);
-      return {
-        id: r.id || ("r-" + i),
-        at: r.t || r.time || new Date(now).toISOString(),
-        agent: r.agent || r.agentName || "unknown",
-        session: r.session || r.native_session || "—",
-        provider: providerOfModel(r.served || r.model || "", r.provider),
-        model: r.served || r.model || "—",
-        status,
-        tokens,
-        ttft: r.ttft_ms != null ? Number(r.ttft_ms)
-          : r.first_text_ms != null ? Number(r.first_text_ms) : null,
-        ms: Number(r.ms) || 0,
-        out: Number(r.out) || 0,
-        tps,
-        cost: r.cost || 0
-      };
-    });
-    // The ledger is the only place with per-request tokens; fold it back onto
-    // the route sessions so active cards do not show a misleading 0 TOK.
-    const sessionTotals = new Map();
-    logs.forEach(l => {
-      if (!l.session || l.session === "—") return;
-      const t = sessionTotals.get(l.session) || { tokens: 0, tps: 0, n: 0 };
-      t.tokens += l.tokens || 0;
-      if (l.tps > 0) { t.tps += l.tps; t.n++; }
-      sessionTotals.set(l.session, t);
-    });
-    sessions.forEach(s => {
-      const t = sessionTotals.get(s.id);
-      if (!t) return;
-      s.tokens = t.tokens;
-      s.tps = t.n ? t.tps / t.n : 0;
-    });
 
     let heatmap = ((raw.heatmap && raw.heatmap.days) || []).map(d => ({
       date: d.date, tokens: d.tokens || 0, calls: d.calls || 0
@@ -635,12 +649,15 @@
         user: x.user || "",
         plan: x.plan || x.kind || "",
         balance: x.balance || null,
-        windows: rawWins.slice().sort((a, b) => (a.resetsAt || "").localeCompare(b.resetsAt || "")).slice(0, 2).map(w => ({
+        // Keep every window. Magpie can return 3–5 per account, and the one
+        // that runs out first is not always one of the first two.
+        windows: rawWins.slice().sort((a, b) => (a.resetsAt || "").localeCompare(b.resetsAt || "")).map(w => ({
           name: w.name || "额度",
           used: w.used != null
             ? (asFraction ? w.used * 100 : w.used)
             : (w.remaining != null && w.limit ? (1 - w.remaining / w.limit) * 100 : 0),
-          resetsIn: w.resetsAt ? Math.max(0, Math.round((Date.parse(w.resetsAt) - now) / 60000)) : null
+          resetsIn: w.resetsAt ? Math.max(0, Math.round((Date.parse(w.resetsAt) - now) / 60000)) : null,
+          display: w.display || ""
         }))
       };
     }).filter(x => x.windows.length || x.balance);
@@ -673,20 +690,6 @@
       };
     }).filter(x => x.lines.length);
 
-    const activeIds = new Set(sessions.map(s => s.id));
-    const recentMap = new Map();
-    logs.forEach(l => {
-      if (!l.session || l.session === "—" || activeIds.has(l.session) || recentMap.has(l.session)) return;
-      recentMap.set(l.session, {
-        id: l.session, title: `${agentMeta(l.agent).name} · ${l.model}`, agent: l.agent, provider: l.provider,
-        model: l.model, group: "最近完成", mode: "—", rule: "—", intent: "—",
-        confidence: null, effort: "", status: l.status === "err" ? "error" : "done",
-        tokens: l.tokens, tps: l.tps, startedAt: Date.parse(l.at) || now, ttft: l.ttft,
-        tries: [{ provider: l.provider, model: l.model, state: l.status === "err" ? "fail" : "ok", ms: l.ttft, why: l.status === "err" ? "error" : "200" }],
-        fallbacks: 0, subagents: []
-      });
-    });
-
     return {
       mode: "live",
       fetchedAt: now,
@@ -699,6 +702,8 @@
         retried: totals.retried || 0,
         timed: totals.timed || 0,
         requestsDelta: 0,
+        input: totals.input || 0,
+        output: totals.output || 0,
         tokens: totalTokens,
         tokensDelta: 0,
         cost: totals.cost || 0,
@@ -712,24 +717,24 @@
       quotas: q,
       quotaHistory,
       sessions,
-      recent: Array.from(recentMap.values()).slice(0, 5),
-      series,
       heatmap,
       models,
-      logs,
-      decision: sessions[0] ? {
-        session: sessions[0],
-        title: sessions[0].title,
-        group: sessions[0].group,
-        rule: sessions[0].rule,
-        intent: sessions[0].intent,
-        confidence: sessions[0].confidence,
-        classifierMs: 0,
-        effort: sessions[0].effort,
-        tries: sessions[0].tries,
-        narrative: sessions[0].tries.map(t => `${t.provider} · ${t.model} ${t.why}`).join(" → ")
-      } : null
+      accounts
     };
+  }
+
+  function lastUsage(r) {
+    const list = Array.isArray(r && r.usage) ? r.usage : [];
+    return list.length ? list[list.length - 1] : null;
+  }
+  function turnTokens(r) {
+    const u = lastUsage(r);
+    if (u) return (Number(u.in) || 0) + (Number(u.out) || 0);
+    return Number(r && r.out) || 0;
+  }
+  function turnCache(r) {
+    const u = lastUsage(r);
+    return u ? Number(u.cache_read) || 0 : 0;
   }
 
   function providerOfModel(model, provider) {

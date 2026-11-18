@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>观测台 · 专注</title>
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/focus.css">
+</head>
+<body>
+  <header class="bar">
+    <div class="brand">
+      <img src="assets/icon.svg" alt="">
+      <b data-l="brand">观测台</b>
+      <span class="dot" id="dot"></span>
+      <span class="conn" id="conn">连接中</span>
+    </div>
+    <div class="bar-mid">
+      <code id="gw">127.0.0.1:3425</code>
+      <span id="updated">—</span>
+    </div>
+    <div class="bar-right">
+      <div class="seg" id="periods" role="group" aria-label="时间范围">
+        <button data-period="today" class="on" type="button" data-l="pToday">今天</button>
+        <button data-period="7d" type="button" data-l="p7">7 天</button>
+        <button data-period="30d" type="button" data-l="p30">30 天</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="board">
+    <section class="card now" aria-labelledby="now-title">
+      <header class="card-head">
+        <h2 id="now-title" data-l="now">现在</h2>
+        <span id="now-meta" class="sub">—</span>
+      </header>
+      <div class="now-list" id="now-list"></div>
+      <footer class="card-foot" id="now-foot"></footer>
+    </section>
+
+    <section class="card today" aria-labelledby="today-title">
+      <header class="card-head">
+        <h2 id="today-title" data-l="today">今天</h2>
+        <span id="today-sub" class="sub">—</span>
+      </header>
+      <div class="big" id="big-tokens">—</div>
+      <div class="big-label" id="big-label">TOKENS</div>
+      <div class="kpis" id="kpis"></div>
+      <div class="spark-head"><span id="spark-title">近 14 天</span><span id="spark-note"></span></div>
+      <div class="spark" id="spark" aria-hidden="true"></div>
+    </section>
+
+    <section class="card quota" aria-labelledby="quota-title">
+      <header class="card-head">
+        <h2 id="quota-title" data-l="quota">额度</h2>
+        <span class="sub" data-l="quotaSub">跨账号排序 · 最近窗口</span>
+      </header>
+      <div class="quota-list" id="quota-list"></div>
+      <footer class="card-foot" id="quota-foot"></footer>
+    </section>
+
+    <section class="card mix" aria-labelledby="mix-title">
+      <header class="card-head mix-head">
+        <h2 id="mix-title" data-l="mix">构成</h2>
+        <div class="seg tiny" id="mix-seg" role="group" aria-label="构成维度">
+          <button data-mix="account" type="button" data-l="account">账号</button>
+          <button data-mix="model" type="button" data-l="model">模型</button>
+        </div>
+        <span class="sub" id="mix-sub">今日</span>
+      </header>
+      <div class="mix-list" id="mix-list"></div>
+      <footer class="card-foot" id="mix-foot"></footer>
+    </section>
+  </main>
+
+  <div class="banner" id="banner" hidden></div>
+
+  <footer class="foot">
+    <span id="mode">—</span>
+    <span id="errs"></span>
+    <span class="grow"></span>
+    <span data-l="readonly">只读 · 本机</span>
+  </footer>
+
+  <script src="assets/data.js"></script>
+  <script src="assets/quota.js"></script>
+  <script src="assets/focus.js"></script>
+</body>
+</html>
