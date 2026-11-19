@@ -5,6 +5,8 @@ now, what today cost, and which allowance will run out before it resets.
 
 **English** · [简体中文](README.zh-CN.md) · [Changelog](CHANGELOG.md)
 
+[![npm](https://img.shields.io/npm/v/magpie-observatory.svg)](https://www.npmjs.com/package/magpie-observatory)
+
 ![Magpie Observatory](docs/focus-en.webp)
 
 <sub>The screenshot uses demo data. When the dot next to the title is amber,
@@ -35,7 +37,13 @@ burst.
 
 ## Install
 
-Requires a Magpie with plugin pages and page services:
+Requires a Magpie with plugin pages and page services. From npm:
+
+```bash
+magpie plugin add npm:magpie-observatory
+```
+
+or straight from GitHub:
 
 ```bash
 magpie plugin add github:JohnWangggg/magpie-observatory

@@ -112,11 +112,30 @@ gh pr create --repo magpie-community/plugins --fill
 
 `scripts/publish-github.sh` is explicit: it commits, pushes, sets topics and
 creates a tag. Review `git status` and this document first. It uses
-`TAG=v2.0.1` by default and keeps the GitHub noreply identity.
+`TAG=v2.0.2` by default and keeps the GitHub noreply identity.
 
 ```bash
-TAG=v2.0.1 bash scripts/publish-github.sh
+TAG=v2.0.2 bash scripts/publish-github.sh
 ```
 
 Do not run it until the release contents are reviewed. It does not publish to
 npm.
+
+## 7. npm
+
+The package is published unscoped as `magpie-observatory`. `publishConfig`
+pins the public registry, because Magpie's `plugin registry` may point
+`~/.npmrc` at a mirror:
+
+```bash
+npm publish
+```
+
+`prepublishOnly` runs `npm run check`, and Magpie installs it with
+`magpie plugin add npm:magpie-observatory`. Bump `package.json` and add a
+CHANGELOG entry before publishing; npm versions are immutable.
+
+The first publish of a brand-new name creates a temporary `0.0.0-stage`
+placeholder while npm validates it; the packument can lag for a minute, then
+`latest` points at the real version. `npm publish` is enough — do not run
+`npm stage publish` for a normal release.

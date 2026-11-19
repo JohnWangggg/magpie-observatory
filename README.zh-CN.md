@@ -5,6 +5,8 @@
 
 [English](README.md) · **简体中文** · [更新日志](CHANGELOG.md)
 
+[![npm](https://img.shields.io/npm/v/magpie-observatory.svg)](https://www.npmjs.com/package/magpie-observatory)
+
 ![Magpie Observatory](docs/focus-dark.webp)
 
 <sub>截图使用演示数据（左上角为「演示数据」时不是你的真实用量）。</sub>
@@ -29,7 +31,13 @@ Token 按**输入 + 输出**统计，和 Magpie 自己的 Usage 页一致；缓�
 
 ## 安装
 
-需要支持 plugin page / page service 的 Magpie：
+需要支持 plugin page / page service 的 Magpie。从 npm 安装：
+
+```bash
+magpie plugin add npm:magpie-observatory
+```
+
+或直接从 GitHub 安装：
 
 ```bash
 magpie plugin add github:JohnWangggg/magpie-observatory

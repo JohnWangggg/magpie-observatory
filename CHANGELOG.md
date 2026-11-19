@@ -2,6 +2,23 @@
 
 All notable changes to Magpie Observatory.
 
+## [2.0.2] — 2026-11-19
+
+On npm.
+
+### Added
+
+- **npm package** `magpie-observatory`, installed with
+  `magpie plugin add npm:magpie-observatory`. `publishConfig` pins
+  `https://registry.npmjs.org/` so a local mirror setting does not send the
+  publish elsewhere; `prepublishOnly` runs `npm run check`.
+- A short npm section in `docs/publishing.md`.
+
+### Fixed
+
+- The tarball now ships `preview.mjs` and `scripts/test-service.mjs`, so
+  `npm run preview` and `npm test` work from an installed copy.
+
 ## [2.0.1] — 2026-11-19
 
 A page that sometimes did not open, and the port races behind it.
