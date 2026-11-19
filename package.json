@@ -1,6 +1,6 @@
 {
   "name": "magpie-observatory",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A quiet one-screen observatory for Magpie: what is running now, what today cost, whether an allowance runs out before it resets, with a Today panel and local system alerts. Chinese/English.",
   "type": "module",
   "main": "./index.mjs",
@@ -32,7 +32,7 @@
     "preview": "node preview.mjs",
     "check": "node --check index.mjs && node --check server.mjs && node --check preview.mjs && node --check page/boot.js && node --check public/assets/focus.js && node --check public/assets/quota.js && node --check public/assets/data.js && node --check panels/usage.js && npm test",
     "publish:github": "bash scripts/publish-github.sh",
-    "test": "node scripts/test-quota.mjs && node scripts/test-structure.mjs"
+    "test": "node scripts/test-quota.mjs && node scripts/test-structure.mjs && node scripts/test-service.mjs"
   },
   "keywords": [
     "magpie",

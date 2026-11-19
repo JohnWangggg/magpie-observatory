@@ -116,11 +116,26 @@ function periodOf(value) {
   const norm = PERIOD_ALIAS[p] || p;
   return PERIODS.has(norm) ? norm : "today";
 }
-const VERSION = JSON.parse(await fs.readFile(path.join(HERE, "package.json"), "utf8")).version;
+// Nothing at module scope may take the whole plugin down: a missing
+// quota.js or package.json should disable a feature, not the service.
+let VERSION = "0.0.0";
+try {
+  VERSION = JSON.parse(await fs.readFile(path.join(HERE, "package.json"), "utf8")).version;
+} catch (err) {
+  console.error("[magpie-observatory] version unreadable:", err?.message || err);
+}
+const STARTED_AT = Date.now();
 // The page and the background alert share one forecast implementation.
-const quotaSandbox = { window: {} };
-vm.runInNewContext(await fs.readFile(path.join(PUBLIC, "assets", "quota.js"), "utf8"), quotaSandbox);
-const quotaRowsAt = quotaSandbox.window.ObservatoryQuota.rows;
+let quotaRowsAt = () => [];
+try {
+  const quotaSandbox = { window: {} };
+  vm.runInNewContext(await fs.readFile(path.join(PUBLIC, "assets", "quota.js"), "utf8"), quotaSandbox);
+  const api = quotaSandbox.window.ObservatoryQuota;
+  if (api && typeof api.rows === "function") quotaRowsAt = api.rows;
+  else throw new Error("quota.js did not export rows");
+} catch (err) {
+  console.error("[magpie-observatory] forecast disabled:", err?.message || err);
+}
 
 const TYPES = {
   ".html": "text/html; charset=utf-8",
@@ -415,7 +430,8 @@ async function handler(req, res) {
     res.end();
     return;
   }
-  if (req.method !== "GET" && req.method !== "HEAD") {
+  const handover = pathname === "/api/handover" && req.method === "POST";
+  if (!handover && req.method !== "GET" && req.method !== "HEAD") {
     res.writeHead(405, { "Content-Type": "text/plain; charset=utf-8", "Allow": "GET, HEAD, OPTIONS" });
     res.end("Method not allowed");
     return;
@@ -457,6 +473,26 @@ async function handler(req, res) {
     } catch (err) {
       return sent(502, { ok: false, error: err?.message || String(err) });
     }
+  }
+  // A newer copy of this plugin asks an older one to step aside so the port
+  // can move to the version the reader just installed. Loopback only and
+  // never from a framed page (Origin: null) or a website.
+  if (handover) {
+    // Only a local process (no Origin header) may retire this service. A
+    // framed page sends Origin: null; a website sends its own origin.
+    if (req.headers.origin !== undefined) return sent(403, { ok: false, error: "forbidden" });
+    sent(200, { ok: true, name: "magpie-observatory", version: VERSION, pid: process.pid });
+    console.log("[magpie-observatory] handing the port over to a newer copy");
+    setTimeout(() => process.exit(0), 120).unref?.();
+    return;
+  }
+  // A cheap liveness answer for the launcher: it must not wait on Magpie.
+  if (pathname === "/api/ready") {
+    return sent(200, {
+      ok: true, name: "magpie-observatory", version: VERSION,
+      pid: process.pid, startedAt: STARTED_AT,
+      instance: req.socket.server?.observatoryId || 0
+    });
   }
   if (pathname === "/api/version") {
     return sent(200, { name: "magpie-observatory", version: VERSION });
@@ -593,30 +629,142 @@ function startMonitor() {
   setInterval(check, 5 * 60 * 1000).unref?.();
 }
 
+// Binding can lose a race with a previous host (update, on/off, another
+// Magpie window). Wait, then adopt a live copy of this service; if that copy
+// goes away, take the port over. `started` is cached by the plugin entry, so
+// this loop runs for the life of the host once a service is up.
+async function probeExisting(port) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 800);
+  try {
+    const res = await fetch(`http://127.0.0.1:${port}/api/ready`, { signal: ctrl.signal });
+    if (!res.ok) return null;
+    const body = await res.json();
+    return body && body.name === "magpie-observatory" ? body : null;
+  } catch {
+    return null;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+async function probeStable(port) {
+  const first = await probeExisting(port);
+  if (!first) return null;
+  await sleep(350);
+  const second = await probeExisting(port);
+  if (!second) return null;
+  return first.instance && second.instance && first.instance !== second.instance ? second : first;
+}
+
+async function askHandover(port) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 1200);
+  try {
+    const res = await fetch(`http://127.0.0.1:${port}/api/handover`, {
+      method: "POST", signal: ctrl.signal
+    });
+    return res.ok;
+  } catch {
+    return false;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+const openServers = new Set();
+let instanceSeq = 0;
+
+export function stopAll() {
+  for (const s of openServers) {
+    try { s.close(); } catch { /* already closed */ }
+  }
+  openServers.clear();
+}
+
+function listenOnce(port) {
+  return new Promise((resolve, reject) => {
+    const s = http.createServer((req, res) => {
+      handler(req, res).catch((err) => {
+        try { json(res, 500, { ok: false, error: err?.message || String(err) }); } catch { /* gone */ }
+      });
+    });
+    s.once("error", reject);
+    s.observatoryId = ++instanceSeq;
+    s.once("close", () => openServers.delete(s));
+    s.listen(port, "127.0.0.1", () => { openServers.add(s); resolve(s); });
+  });
+}
+
 export async function startServer(options = {}) {
   const port = Number(options.port) > 0 ? Number(options.port) : DEFAULT_PORT;
-  for (let attempt = 0; attempt < 150; attempt++) {
+  // Magpie warms the host for up to ~7 s before it opens the page. A start
+  // that waits longer than that produces exactly the "plugin did not load"
+  // page: nothing is listening when the browser navigates. So: bind at once,
+  // adopt a live copy of this service after ~1 s, and give up on a foreign
+  // port quickly enough that Magpie can still show a useful error.
+  const waitMs = Number(options.waitMs) > 0 ? Number(options.waitMs) : 3000;
+  const deadline = Date.now() + waitMs;
+  let firstBusyAt = 0;
+
+  while (Date.now() < deadline) {
     try {
-      const server = await new Promise((resolve, reject) => {
-        const s = http.createServer((req, res) => {
-          handler(req, res).catch((err) => {
-            try { json(res, 500, { ok: false, error: err?.message || String(err) }); } catch { /* gone */ }
-          });
-        });
-        s.once("error", reject);
-        s.listen(port, "127.0.0.1", () => resolve(s));
-      });
+      const server = await listenOnce(port);
       const url = `http://127.0.0.1:${port}`;
       if (options.monitor) startMonitor();
       console.log(`[magpie-observatory] ${url}`);
-      return { server, port, url };
+      return { server, port, url, owned: true };
     } catch (err) {
       if (err?.code !== "EADDRINUSE") throw err;
-      // Another Magpie window may hold the port. Wait for it instead of
-      // reusing it once: a short-lived host can release the port right after
-      // the page has already pointed at it.
-      await sleep(200);
+      // Adopt quickly: the usual holder is the plugin host this one replaces
+      // (update, on/off, or a second Magpie window). A long wait here makes
+      // Magpie open the page before there is anything to serve it.
+      if (!firstBusyAt) firstBusyAt = Date.now();
+      if (Date.now() - firstBusyAt >= 800) {
+        // Two probes: a host that is shutting down still answers for a
+        // moment. Adopting it means the page opens against a service that
+        // is about to vanish.
+        const existing = await probeStable(port);
+        if (existing && existing.version && existing.version !== VERSION) {
+          // An older copy is serving a page nobody can update. Ask it to
+          // close; the loop then binds the new version.
+          if (await askHandover(port)) {
+            for (let i = 0; i < 40; i++) {
+              await sleep(100);
+              if (!(await probeExisting(port))) break;
+            }
+            continue;
+          }
+        }
+        if (existing) return adopt(port, options);
+      }
+      await sleep(150);
     }
   }
-  throw new Error(`port ${port} is still in use`);
+
+  // The port stayed busy and never answered as this service.
+  const existing = await probeStable(port);
+  if (existing) return adopt(port, options);
+  throw new Error(`port ${port} is in use by another program`);
+}
+
+function adopt(port, options) {
+  const url = `http://127.0.0.1:${port}`;
+  console.log(`[magpie-observatory] using the running service on ${port}; will take over when it stops`);
+  (async function takeover() {
+    // Bounded: several windows may adopt the same service, and every one of
+    // them would otherwise poll this port for the life of the app.
+    const until = Date.now() + 10 * 60 * 1000;
+    while (Date.now() < until) {
+      await sleep(2500);
+      if (await probeExisting(port)) continue;
+      try {
+        await listenOnce(port);
+        console.log(`[magpie-observatory] took over ${url}`);
+        if (options.monitor) startMonitor();
+        return;
+      } catch { /* another window won, or the port just closed; recheck */ }
+    }
+  })().catch((err) => console.error("[magpie-observatory] takeover failed:", err?.message || err));
+  return { server: null, port, url, owned: false };
 }

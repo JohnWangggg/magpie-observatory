@@ -56,6 +56,18 @@ today's tokens, cost, calls and errors against the 7-day average, plus the
 top model. It reads only `usage:summary` through Magpie's native bridge; no local
 service.
 
+### If the page does not open
+
+Magpie's plugin page is only a launcher; the dashboard is served by the local
+service on `127.0.0.1:3488`. If you get a blank frame or a connection error:
+
+1. Turn Observatory off and on in **Plugins → Installed**;
+2. or run `magpie plugin off magpie-observatory && magpie plugin on magpie-observatory`;
+3. check that nothing else owns 3488: `lsof -nP -iTCP:3488 -sTCP:LISTEN`.
+
+The service now takes over a port held by the previous copy, and an older
+copy steps aside for a newer one, so an update does not need a manual kill.
+
 ## How it differs from Magpie's own pages
 
 Magpie's Routing and Usage pages are the full console: the live route stage,

@@ -49,6 +49,18 @@ magpie plugin add ./magpie-observatory
 费用、调用、错误，对比近 7 天日均，以及今天最多的模型。它用 Magpie 原生
 bridge，只读 `usage:summary`，不经过本地服务。
 
+### 打不开时
+
+页面先由 Magpie 的插件页导航到本地服务（`127.0.0.1:3488`）。如果看到空白
+或「无法连接」：
+
+1. 在 Magpie 的 **Plugins → Installed** 里把「观测台」关掉再打开；
+2. 仍不行就 `magpie plugin off magpie-observatory && magpie plugin on magpie-observatory`；
+3. 确认 3488 没有被别的程序占用：`lsof -nP -iTCP:3488 -sTCP:LISTEN`。
+
+新版服务会在端口被上一次的进程占着时直接接管，旧版本会主动让出端口，
+所以更新后不需要手动结束进程。
+
 ## 和 Magpie 自带页面的区别
 
 Magpie 的 Routing/Usage 是完整的控制台：实时路由舞台、逐账号额度卡和走势、

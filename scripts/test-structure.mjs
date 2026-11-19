@@ -52,12 +52,13 @@ assert.ok(panel.includes("_magpie/bridge.js"), "panel uses the bridge");
 assert.ok(panel.includes("usage.js") && panel.includes("usage.css"), "panel assets");
 
 const server = read("server.mjs");
-for (const route of ["/api/snapshot", "/api/usage", "/api/health"]) {
+for (const route of ["/api/snapshot", "/api/usage", "/api/health", "/api/ready", "/api/handover"]) {
   assert.ok(server.includes(route), `server has ${route}`);
 }
 assert.ok(!server.includes("/v1/magpie/usage/requests"), "snapshot no longer fetches the ledger");
 assert.ok(server.includes("OBSERVATORY_ALERT_DRY"), "alert dry-run switch");
 assert.ok(server.includes("observatory-page-token"), "stable sandbox token");
 assert.ok(read("public/assets/focus.js").includes("tokenReload"), "403 auto-reload");
+assert.ok(read("scripts/test-service.mjs").includes("takeover"), "service test covers takeover");
 
 console.log("structure: all checks passed");

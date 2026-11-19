@@ -2,6 +2,39 @@
 
 All notable changes to Magpie Observatory.
 
+## [2.0.1] — 2026-11-19
+
+A page that sometimes did not open, and the port races behind it.
+
+### Fixed
+
+- **"The plugin did not load"**: Magpie opens the page before the service is
+  listening, so the frame navigated to a refused port. A second copy now
+  adopts a live service (~1.2 s) instead of failing, and the launcher never
+  blocks on the bridge: `magpie.ready` and `options.get()` each get a 1.5 s
+  deadline, then the page navigates anyway.
+- **Failed starts are retried**: `index.mjs` used to cache a rejected start,
+  so one busy port disabled the plugin until the host restarted. The cache
+  now holds only a successful service.
+- **Updates hand the port over**: a newer copy asks an older one to exit via
+  `POST /api/handover` (loopback only, no Origin), then binds, so the page
+  never stays on the previous version.
+- **Port held by a foreign program** fails in ~2 s instead of 15 s, while a
+  service that is shutting down is probed twice before being adopted.
+- **Module-load hardening**: an unreadable `package.json` or `quota.js`
+  disables the forecast instead of taking the whole plugin down.
+- `/api/ready` answers without touching the gateway; the launcher and tests
+  use it.
+- **Adopted copies no longer start a second alert monitor**, and a takeover
+  is bounded to ten minutes instead of polling forever.
+
+### Added
+
+- `scripts/test-service.mjs`: start, adopt, and takeover are tested (wired
+  into `npm test`); `/api/ready` and `/api/handover` are in the structure
+  test.
+- README troubleshooting for a page that does not open.
+
 ## [2.0.0] — 2026-11-18
 
 The product is now one quiet screen. Everything that duplicated Magpie's own

@@ -3,21 +3,26 @@
 
 import { startServer } from "./server.mjs";
 
-let started = null;
+// A failed start must not be cached: the usual cause is a port still held by
+// the previous host, and the next call (after the host retries) succeeds.
+let starting = null;
+let service = null;
 
 function start(options = {}) {
-  if (!started) {
-    started = startServer(options)
-      .then((info) => {
-        console.log(`[magpie-observatory] listening on ${info.url}`);
-        return info;
-      })
-      .catch((err) => {
-        console.error("[magpie-observatory] could not start:", err?.message || err);
-        return null;
-      });
-  }
-  return started;
+  if (service) return Promise.resolve(service);
+  if (starting) return starting;
+  starting = startServer(options)
+    .then((info) => {
+      service = info;
+      console.log(`[magpie-observatory] listening on ${info.url}${info.owned === false ? " (adopted)" : ""}`);
+      return info;
+    })
+    .catch((err) => {
+      console.error("[magpie-observatory] could not start:", err?.message || err);
+      return null;
+    })
+    .finally(() => { starting = null; });
+  return starting;
 }
 
 export default {

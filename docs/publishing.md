@@ -42,7 +42,10 @@ npm run check
 - `magpie.page.file` → `page/index.html`, a launcher that navigates to the
   local service.
 - `magpie.page.service` → `{ "port": 3488, "option": "port" }`. The service
-  is read-only and binds loopback.
+  is read-only and binds loopback. If another copy already holds the port it
+  adopts that copy and takes over when it stops; if the holder is an older
+  version it asks it to hand the port over, so an update never leaves the
+  browser on a dead page.
 - `magpie.permissions` → `["usage:summary"]`, used only by the Usage panel.
 - `magpie.panels` → one `usage` panel at `panels/usage.html`.
 - `magpie.name` / `magpie.summary.en` / `.zh` for the card.
@@ -109,10 +112,10 @@ gh pr create --repo magpie-community/plugins --fill
 
 `scripts/publish-github.sh` is explicit: it commits, pushes, sets topics and
 creates a tag. Review `git status` and this document first. It uses
-`TAG=v2.0.0` by default and keeps the GitHub noreply identity.
+`TAG=v2.0.1` by default and keeps the GitHub noreply identity.
 
 ```bash
-TAG=v2.0.0 bash scripts/publish-github.sh
+TAG=v2.0.1 bash scripts/publish-github.sh
 ```
 
 Do not run it until the release contents are reviewed. It does not publish to
